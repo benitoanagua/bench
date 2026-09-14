@@ -1,0 +1,7 @@
+:host { display: block; }
+.field { display: grid; gap: var(--bch-space-2); color: var(--bch-color-text); font-family: var(--bch-font-family-sans); }
+.label { font-size: var(--bch-font-size-sm); font-weight: var(--bch-font-weight-semibold); }
+.field input, .field textarea, .field select { width: 100%; border: var(--bch-border-width-control) solid var(--bch-color-border-control); border-radius: var(--bch-radius-md); padding: var(--bch-space-3); background: var(--bch-color-background); color: inherit; transition: border-color var(--bch-motion-fast) var(--bch-ease-standard); }
+.field input:focus, .field textarea:focus, .field select:focus { outline: none; border-color: var(--bch-color-action); box-shadow: var(--bch-focus-ring); }
+.message { font-size: var(--bch-font-size-xs); color: var(--bch-color-text-muted); }
+.error { color: var(--bch-color-danger); }

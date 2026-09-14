@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bench — Demo 6: Autenticación &amp; Sesiones</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --primary:#1F5C4E; --primary-strong:#143F35; --primary-soft:#E3EEEA;
+    --danger:#A23B2E; --danger-soft:#F5E7E4;
+    --warning:#9A6B12; --warning-soft:#F3EBD8;
+    --pending:#2B5FAD; --pending-soft:#E4ECF8;
+    --security:#146B5C; --security-soft:#DCEEEA;
+    --mono:'IBM Plex Mono', ui-monospace, monospace;
+    --sans:'IBM Plex Sans', system-ui, sans-serif;
+    --b1-width:1px; --b1-radius:1px; --b1-color:#C3C9D1;
+    --b2-width:1px; --b2-radius:2px; --b2-color:#9AA3AF;
+    --b3-width:1.5px; --b3-radius:4px; --b3-color:#6B7480;
+    --b4-width:2px; --b4-radius:6px; --b4-color:#4B5563;
+    --elev-1: 0 1px 3px rgba(15,20,25,.10), 0 1px 2px rgba(15,20,25,.06);
+    --elev-2: 0 6px 16px rgba(15,20,25,.16), 0 2px 4px rgba(15,20,25,.08);
+    --bg:#E7EAEE; --surface:#FFFFFF; --text:#1B2430; --muted:#626C7A;
+    --state-hover: color-mix(in srgb, var(--surface) 92%, var(--text));
+  }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; height:100%; background:var(--bg); color:var(--text); font-family:var(--sans); font-size:13px; -webkit-font-smoothing:antialiased; }
+  button{ font-family:var(--sans); cursor:pointer; }
+  :focus-visible{ outline:2px solid var(--primary); outline-offset:1px; }
+  .icon{ width:15px; height:15px; flex-shrink:0; display:inline-flex; }
+  .icon svg{ display:block; width:100%; height:100%; }
+  .tnum{ font-variant-numeric: tabular-nums; }
+
+  .shell{ display:flex; flex-direction:column; height:100vh; min-height:640px; }
+  .hint-banner{ padding:7px 12px; background:var(--surface); border-bottom:var(--b3-width) solid var(--b3-color); font-size:11px; color:var(--muted); flex-shrink:0; }
+  .hint-banner kbd{ font-family:var(--mono); background:var(--bg); border:var(--b1-width) solid var(--b1-color); border-radius:var(--b1-radius); padding:1px 5px; font-size:10px; }
+
+  .center{ flex:1; display:flex; align-items:center; justify-content:center; padding:20px; }
+  .auth-card{ width:380px; background:var(--surface); border:var(--b3-width) solid var(--b3-color); border-radius:var(--b3-radius); box-shadow:var(--elev-1); padding:26px 28px; }
+  .auth-brand{ display:flex; align-items:center; gap:8px; margin-bottom:18px; }
+  .auth-brand-title{ font-weight:600; font-size:15px; }
+  .auth-title{ font-size:16px; font-weight:600; margin:0 0 4px; }
+  .auth-sub{ font-size:12px; color:var(--muted); margin:0 0 18px; line-height:1.5; }
+
+  .field-group{ margin-bottom:14px; position:relative; }
+  .field-label{ font-size:11px; color:var(--muted); margin-bottom:4px; display:block; }
+  .field-input{ width:100%; padding:8px 10px; border:var(--b2-width) solid var(--b2-color); border-radius:var(--b2-radius); font-family:var(--sans); font-size:13px; background:var(--surface); color:var(--text); }
+  .field-input:focus{ border-color:var(--primary); outline:none; }
+  .field-input.invalid{ border-color:var(--danger); background:var(--danger-soft); }
+  .field-error{ font-size:11px; color:var(--danger); margin-top:4px; display:none; }
+  .field-error.show{ display:block; }
+  .pw-wrap{ position:relative; }
+  .pw-toggle{ position:absolute; right:8px; top:50%; transform:translateY(-50%); border:none; background:none; color:var(--muted); padding:2px; }
+  .pw-toggle:hover{ color:var(--text); }
+
+  /* Indicador de modo persistente (Bench 4.4) reaplicado: aviso de Bloq Mayús */
+  .capslock-warn{ display:none; align-items:center; gap:6px; font-size:11px; color:var(--warning); background:var(--warning-soft); padding:5px 8px; border-radius:var(--b2-radius); margin-top:6px; }
+  .capslock-warn.show{ display:flex; }
+
+  .btn{ border:var(--b2-width) solid var(--b2-color); border-radius:var(--b2-radius); background:var(--surface); color:var(--text); padding:9px 12px; font-size:13px; display:flex; align-items:center; justify-content:center; gap:6px; width:100%; }
+  .btn:hover{ background:var(--state-hover); }
+  .btn.primary{ background:var(--primary); border-color:var(--primary); color:#fff; }
+  .btn.primary:hover{ background:var(--primary-strong); }
+  .btn.small{ width:auto; padding:6px 10px; font-size:11.5px; }
+  .divider{ display:flex; align-items:center; gap:10px; margin:16px 0; font-size:11px; color:var(--muted); }
+  .divider::before, .divider::after{ content:''; flex:1; height:1px; background:var(--b1-color); }
+  .auth-footer{ text-align:center; font-size:11.5px; color:var(--muted); margin-top:16px; }
+  .auth-footer a{ color:var(--primary); text-decoration:none; cursor:pointer; }
+  .auth-hint{ font-size:10.5px; color:var(--muted); background:var(--bg); border:var(--b1-width) solid var(--b1-color); border-radius:var(--b2-radius); padding:6px 8px; margin-bottom:14px; font-family:var(--mono); }
+
+  /* 2FA */
+  .code-input{ font-family:var(--mono); font-size:20px; letter-spacing:6px; text-align:center; }
+  .resend-row{ display:flex; justify-content:space-between; align-items:center; font-size:11.5px; margin-top:10px; }
+  .resend-row button{ border:none; background:none; color:var(--primary); font-size:11.5px; padding:0; }
+  .resend-row button:disabled{ color:var(--muted); cursor:default; }
+  .security-badge{ display:inline-flex; align-items:center; gap:5px; font-size:10.5px; padding:2px 8px; border-radius:8px; background:var(--security-soft); color:var(--security); font-weight:600; margin-bottom:12px; }
+
+  /* Workspace switcher (Bench 3.3.4) reutilizado a nivel de cuenta */
+  .org-list{ display:flex; flex-direction:column; gap:8px; margin-bottom:6px; }
+  .org-item{ display:flex; align-items:center; gap:10px; padding:10px 12px; border:var(--b2-width) solid var(--b2-color); border-radius:var(--b2-radius); cursor:pointer; text-align:left; background:var(--surface); }
+  .org-item:hover{ background:var(--state-hover); }
+  .org-avatar{ width:32px; height:32px; border-radius:var(--b2-radius); background:var(--primary-soft); color:var(--primary-strong); display:flex; align-items:center; justify-content:center; font-weight:600; font-size:13px; flex-shrink:0; }
+  .org-name{ font-size:13px; font-weight:600; }
+  .org-meta{ font-size:11px; color:var(--muted); }
+
+  /* App shell placeholder */
+  .app-shell{ display:none; flex:1; flex-direction:column; }
+  .app-shell.active{ display:flex; }
+  .app-topbar{ display:flex; align-items:center; gap:10px; padding:8px 12px; background:var(--surface); border-bottom:var(--b3-width) solid var(--b3-color); }
+  .app-brand{ font-weight:600; font-size:13px; }
+  .app-body{ flex:1; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:14px; color:var(--muted); font-size:13px; }
+
+  /* Modal de expiración de sesión — patrón nuevo, específico de sesiones de 8h */
+  .modal-overlay{ position:fixed; inset:0; background:rgba(10,14,18,.55); display:none; align-items:center; justify-content:center; z-index:300; }
+  .modal-overlay.open{ display:flex; }
+  .modal{ background:var(--surface); border:var(--b4-width) solid var(--b4-color); border-radius:var(--b4-radius); box-shadow:var(--elev-2); width:380px; }
+  .modal-header{ padding:18px 20px 6px; display:flex; align-items:center; gap:10px; }
+  .modal-header h3{ margin:0; font-size:15px; }
+  .modal-body{ padding:4px 20px 4px; font-size:12.5px; color:var(--muted); line-height:1.5; }
+  .countdown{ font-family:var(--mono); font-size:28px; font-weight:600; text-align:center; color:var(--warning); padding:12px 0 4px; }
+  .modal-footer{ padding:16px 20px 18px; display:flex; gap:8px; }
+  .modal-footer button{ flex:1; }
+
+  .toast{ position:fixed; bottom:44px; left:50%; transform:translateX(-50%) translateY(8px); background:var(--text); color:#fff; font-size:12px; padding:8px 14px; border-radius:var(--b2-radius); opacity:0; transition:opacity 150ms ease-out, transform 150ms ease-out; z-index:350; pointer-events:none; max-width:400px; text-align:center; }
+  .toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <div class="hint-banner">
+    <strong>Bench</strong> — demo 6: autenticación y sesiones largas. Credenciales de prueba: <kbd>demo@bench.dev</kbd> / <kbd>bench2026</kbd>. Escribí en mayúsculas para ver el aviso de Bloq Mayús (reaplica el patrón "indicador de modo persistente" de 4.4). Después de entrar, probá "Simular 8 horas de inactividad" para ver el modal de expiración de sesión.
+  </div>
+
+  <!-- ============ PASO 1: LOGIN ============ -->
+  <div class="center" id="stepLogin">
+    <div class="auth-card">
+      <div class="auth-brand"><span class="auth-brand-title">Bench</span></div>
+      <h2 class="auth-title">Iniciar sesión</h2>
+      <p class="auth-sub">Accedé a tu espacio de trabajo. Las sesiones en Bench están pensadas para durar toda la jornada, no solo unos minutos.</p>
+      <div class="auth-hint">demo@bench.dev · bench2026</div>
+
+      <div class="field-group">
+        <label class="field-label">Correo</label>
+        <input class="field-input" id="inpEmail" type="text" value="demo@bench.dev" autocomplete="username">
+        <div class="field-error" id="errEmail">Ingresá un correo válido</div>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Contraseña</label>
+        <div class="pw-wrap">
+          <input class="field-input" id="inpPassword" type="password" value="bench2026" autocomplete="current-password" style="padding-right:34px;">
+          <button class="pw-toggle" id="pwToggle" type="button" tabindex="-1"><span class="icon" data-icon="eye"></span></button>
+        </div>
+        <div class="capslock-warn" id="capsWarn"><span class="icon" data-icon="info"></span>Bloq Mayús está activado</div>
+        <div class="field-error" id="errPassword">Credenciales inválidas — probá con demo@bench.dev / bench2026</div>
+      </div>
+
+      <button class="btn primary" id="btnLogin">Iniciar sesión</button>
+      <div class="divider">o</div>
+      <button class="btn" id="btnSSO"><span class="icon" data-icon="building"></span>Continuar con SSO corporativo</button>
+      <div class="auth-footer">¿Olvidaste tu contraseña? <a id="linkForgot">Recuperarla</a></div>
+    </div>
+  </div>
+
+  <!-- ============ PASO 2: 2FA ============ -->
+  <div class="center" id="stepTwoFA" style="display:none;">
+    <div class="auth-card">
+      <span class="security-badge"><span class="icon" data-icon="shield"></span>Verificación en dos pasos</span>
+      <h2 class="auth-title">Ingresá el código</h2>
+      <p class="auth-sub">Enviamos un código de 6 dígitos a tu dispositivo verificado. Válido por 60 segundos.</p>
+      <div class="auth-hint">Código de prueba: 482913</div>
+      <div class="field-group">
+        <input class="field-input code-input" id="inpCode" maxlength="6" placeholder="000000">
+        <div class="field-error" id="errCode">Código incorrecto o expirado</div>
+      </div>
+      <button class="btn primary" id="btnVerify">Verificar</button>
+      <div class="resend-row">
+        <span id="resendTimer" style="color:var(--muted);">Reenviar en <span class="tnum" id="resendCount">45</span>s</span>
+        <button id="btnResend" disabled>Reenviar código</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ PASO 3: SELECCIÓN DE ORGANIZACIÓN (reutiliza 3.3.4) ============ -->
+  <div class="center" id="stepOrg" style="display:none;">
+    <div class="auth-card">
+      <h2 class="auth-title">Elegí tu espacio de trabajo</h2>
+      <p class="auth-sub">Mismo patrón que el selector de workspace de la barra superior (Bench 3.3.4) — acá, a nivel de cuenta.</p>
+      <div class="org-list">
+        <button class="org-item" data-org="Andina Textiles"><span class="org-avatar">AT</span><span><div class="org-name">Andina Textiles</div><div class="org-meta">Plan Enterprise · 24 usuarios</div></span></button>
+        <button class="org-item" data-org="Grupo Kallpa"><span class="org-avatar">GK</span><span><div class="org-name">Grupo Kallpa</div><div class="org-meta">Plan Pro · 8 usuarios</div></span></button>
+        <button class="org-item" data-org="Minera Sur SA"><span class="org-avatar">MS</span><span><div class="org-name">Minera Sur SA</div><div class="org-meta">Plan Enterprise · 56 usuarios</div></span></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ APP (placeholder post-login) ============ -->
+  <div class="app-shell" id="appShell">
+    <div class="app-topbar">
+      <span class="app-brand" id="appOrgName">Bench</span>
+      <span style="color:var(--muted); font-size:11.5px;">demo@bench.dev</span>
+      <button class="btn small" id="btnLogout" style="width:auto; margin-left:auto;">Cerrar sesión</button>
+    </div>
+    <div class="app-body">
+      <p>Sesión activa. En un producto real, acá viviría el resto de Bench (omnibar, grid, etc.).</p>
+      <button class="btn primary" id="btnSimulateIdle" style="width:auto; padding:10px 18px;">⏱ Simular 8 horas de inactividad</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: expiración de sesión -->
+<div class="modal-overlay" id="modalTimeout">
+  <div class="modal" role="dialog" aria-modal="true">
+    <div class="modal-header"><span class="icon" data-icon="clock" style="color:var(--warning);"></span><h3>Tu sesión está por expirar</h3></div>
+    <div class="modal-body">Sin actividad detectada. Si no hacés nada, vamos a cerrar la sesión para proteger tu cuenta — pero antes te avisamos, con tiempo de sobra para decidir.</div>
+    <div class="countdown tnum" id="countdownText">0:15</div>
+    <div class="modal-footer">
+      <button class="btn" id="btnLogoutNow">Cerrar sesión ahora</button>
+      <button class="btn primary" id="btnExtend">Mantener sesión activa</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  const ICONS = {
+    eye: '<svg viewBox="0 0 32 32" fill="currentColor"><path d="M16 8C7 8 2 16 2 16s5 8 14 8 14-8 14-8-5-8-14-8Zm0 13a5 5 0 1 1 5-5 5 5 0 0 1-5 5Z"/></svg>',
+    info: '<svg viewBox="0 0 32 32" fill="currentColor"><path d="M16 2a14 14 0 1 0 14 14A14 14 0 0 0 16 2Zm0 25a11 11 0 1 1 11-11 11 11 0 0 1-11 11Z"/><path d="M15 15h2v8h-2zM15 10h2v2h-2z"/></svg>',
+    building: '<svg viewBox="0 0 32 32" fill="currentColor"><path d="M20 4H8a1 1 0 0 0-1 1v22a1 1 0 0 0 1 1h20a1 1 0 0 0 1-1V12l-9-8Zm-8 20H9v-3h3Zm0-6H9v-3h3Zm0-6H9V9h3Zm6 12h-3v-3h3Zm0-6h-3v-3h3Zm0-6h-3V9h3Zm7 12h-4v-3h4Zm0-6h-4v-3h4Z"/></svg>',
+    shield: '<svg viewBox="0 0 32 32" fill="currentColor"><path d="M16 2 4 7v9c0 8 5.3 13.7 12 15 6.7-1.3 12-7 12-15V7Zm-2 20-5-5 1.4-1.4L14 19.2l8.6-8.6L24 12Z"/></svg>',
+    clock: '<svg viewBox="0 0 32 32" fill="currentColor"><path d="M16 2a14 14 0 1 0 14 14A14 14 0 0 0 16 2Zm5.7 19.3-6.7-4V9h2v7.4l6 3.6Z"/></svg>',
+  };
+  document.querySelectorAll('[data-icon]').forEach(el => el.innerHTML = ICONS[el.dataset.icon] || '');
+  const $ = (s,c)=>(c||document).querySelector(s);
+  const $$ = (s,c)=>Array.from((c||document).querySelectorAll(s));
+  let toastTimer=null;
+  function showToast(msg){ const t=$('#toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove('show'),2400); }
+  function goto(id){ ['stepLogin','stepTwoFA','stepOrg'].forEach(s=> $('#'+s).style.display = (s===id ? 'flex' : 'none')); }
+
+  // ---------------- Indicador de Bloq Mayús (Bench 4.4, reaplicado) ----------------
+  const pwInput = $('#inpPassword');
+  function checkCaps(e){
+    const on = e.getModifierState && e.getModifierState('CapsLock');
+    $('#capsWarn').classList.toggle('show', !!on);
+  }
+  pwInput.addEventListener('keydown', checkCaps);
+  pwInput.addEventListener('keyup', checkCaps);
+
+  // ---------------- Mostrar/ocultar contraseña ----------------
+  $('#pwToggle').addEventListener('click', ()=>{
+    pwInput.type = pwInput.type === 'password' ? 'text' : 'password';
+  });
+
+  // ---------------- Validación en blur (formato) ----------------
+  $('#inpEmail').addEventListener('blur', ()=>{
+    const v = $('#inpEmail').value.trim();
+    const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+    $('#inpEmail').classList.toggle('invalid', !valid);
+    $('#errEmail').classList.toggle('show', !valid);
+  });
+
+  // ---------------- Login (validación de credenciales: en submit, no en blur — no hay verdad de servidor hasta enviar) ----------------
+  $('#btnLogin').addEventListener('click', ()=>{
+    const email = $('#inpEmail').value.trim();
+    const pass = $('#inpPassword').value;
+    const ok = email === 'demo@bench.dev' && pass === 'bench2026';
+    $('#inpPassword').classList.toggle('invalid', !ok);
+    $('#errPassword').classList.toggle('show', !ok);
+    if(!ok){ showToast('Credenciales inválidas'); return; }
+    goto('stepTwoFA');
+    startResendTimer();
+  });
+  $('#btnSSO').addEventListener('click', ()=>{ showToast('Redirigiendo al proveedor SSO de tu organización…'); setTimeout(()=>goto('stepOrg'), 700); });
+  $('#linkForgot').addEventListener('click', ()=> showToast('Te enviaríamos un enlace de recuperación a tu correo'));
+
+  // ---------------- 2FA ----------------
+  let resendInterval = null;
+  function startResendTimer(){
+    let n = 45;
+    $('#btnResend').disabled = true;
+    $('#resendTimer').style.display = 'inline';
+    clearInterval(resendInterval);
+    resendInterval = setInterval(()=>{
+      n--; $('#resendCount').textContent = n;
+      if(n <= 0){ clearInterval(resendInterval); $('#btnResend').disabled = false; $('#resendTimer').style.display='none'; }
+    }, 1000);
+  }
+  $('#btnResend').addEventListener('click', ()=>{ showToast('Código reenviado'); startResendTimer(); });
+  $('#btnVerify').addEventListener('click', ()=>{
+    const code = $('#inpCode').value.trim();
+    const ok = code === '482913';
+    $('#inpCode').classList.toggle('invalid', !ok);
+    $('#errCode').classList.toggle('show', !ok);
+    if(!ok) return;
+    clearInterval(resendInterval);
+    goto('stepOrg');
+  });
+
+  // ---------------- Selección de organización ----------------
+  $$('.org-item').forEach(item=>{
+    item.addEventListener('click', ()=>{
+      const org = item.dataset.org;
+      $('#appOrgName').textContent = 'Bench · ' + org;
+      $$('.center').forEach(c=>c.style.display='none');
+      $('#appShell').classList.add('active');
+      showToast('Sesión iniciada en ' + org);
+    });
+  });
+
+  // ---------------- Cerrar sesión ----------------
+  $('#btnLogout').addEventListener('click', ()=>{
+    $('#appShell').classList.remove('active');
+    goto('stepLogin');
+    showToast('Sesión cerrada');
+  });
+
+  // ---------------- Patrón nuevo: expiración de sesión de 8 horas ----------------
+  // En este demo, "8 horas" se simula con una cuenta regresiva corta y explícita —
+  // el patrón es el mismo: avisar con tiempo, nunca cerrar sesión sin aviso (Regla 2/3).
+  let countdownInterval = null;
+  function openTimeoutModal(){
+    let secs = 15;
+    $('#countdownText').textContent = '0:' + String(secs).padStart(2,'0');
+    $('#modalTimeout').classList.add('open');
+    clearInterval(countdownInterval);
+    countdownInterval = setInterval(()=>{
+      secs--;
+      $('#countdownText').textContent = '0:' + String(Math.max(secs,0)).padStart(2,'0');
+      if(secs <= 0){
+        clearInterval(countdownInterval);
+        $('#modalTimeout').classList.remove('open');
+        $('#appShell').classList.remove('active');
+        goto('stepLogin');
+        showToast('Sesión cerrada por inactividad — tus cambios ya estaban guardados (Bench 4.6)');
+      }
+    }, 1000);
+  }
+  $('#btnSimulateIdle').addEventListener('click', openTimeoutModal);
+  $('#btnExtend').addEventListener('click', ()=>{
+    clearInterval(countdownInterval);
+    $('#modalTimeout').classList.remove('open');
+    showToast('Sesión extendida — otras 8 horas sin volver a preguntar');
+  });
+  $('#btnLogoutNow').addEventListener('click', ()=>{
+    clearInterval(countdownInterval);
+    $('#modalTimeout').classList.remove('open');
+    $('#appShell').classList.remove('active');
+    goto('stepLogin');
+    showToast('Sesión cerrada');
+  });
+  // Trampa de foco básica también en este modal (mismo patrón que demo 4)
+  document.addEventListener('keydown', (e)=>{
+    if(!$('#modalTimeout').classList.contains('open')) return;
+    if(e.key === 'Tab'){
+      const f = $$('button', $('#modalTimeout')).filter(el=>el.offsetParent!==null);
+      const first=f[0], last=f[f.length-1];
+      if(e.shiftKey && document.activeElement===first){ e.preventDefault(); last.focus(); }
+      else if(!e.shiftKey && document.activeElement===last){ e.preventDefault(); first.focus(); }
+    }
+  });
+
+  goto('stepLogin');
+})();
+</script>
+</body>
+</html>

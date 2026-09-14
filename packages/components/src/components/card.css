@@ -1,0 +1,23 @@
+:host { display: block; }
+.card {
+  background: var(--bch-color-surface-raised);
+  border: var(--bch-border-width-container) solid var(--bch-color-border-container);
+  border-radius: var(--bch-radius-lg);
+  /* Elev-1 en reposo, elev-2 en hover si es interactivo — mismo patrón que
+     .record-card en las demos de Bench (bench-demo-definitiva.html §2.4). */
+  box-shadow: var(--bch-shadow-sm);
+  color: var(--bch-color-text);
+  overflow: hidden;
+  transition: box-shadow var(--bch-motion-fast) var(--bch-ease-standard);
+}
+.body { padding: var(--bch-space-5); }
+.card header:empty, .card footer:empty { display: none; }
+.card header, .card footer { padding: var(--bch-space-4) var(--bch-space-5); }
+.card header { border-bottom: 1px solid var(--bch-color-border); }
+.card footer { border-top: 1px solid var(--bch-color-border); }
+.interactive {
+  cursor: pointer;
+  transition: transform var(--bch-motion-fast) var(--bch-ease-standard), box-shadow var(--bch-motion-fast) var(--bch-ease-standard), border-color var(--bch-motion-fast) var(--bch-ease-standard);
+}
+.interactive:hover { transform: translateY(-2px); box-shadow: var(--bch-shadow-md); }
+.interactive:focus-visible { outline: none; border-color: var(--bch-color-action); box-shadow: var(--bch-focus-ring); }

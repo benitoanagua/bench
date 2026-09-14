@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bench — Demo 3: Datos a escala &amp; Persistencia</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --primary:#1F5C4E; --primary-strong:#143F35; --primary-soft:#E3EEEA;
+    --danger:#A23B2E; --danger-soft:#F5E7E4;
+    --warning:#9A6B12; --warning-soft:#F3EBD8;
+    --pending:#2B5FAD; --pending-soft:#E4ECF8;
+    --mono:'IBM Plex Mono', ui-monospace, monospace;
+    --sans:'IBM Plex Sans', system-ui, sans-serif;
+    --b1-width:1px; --b1-radius:1px; --b1-color:#C3C9D1;
+    --b2-width:1px; --b2-radius:2px; --b2-color:#9AA3AF;
+    --b3-width:1.5px; --b3-radius:4px; --b3-color:#6B7480;
+    --b4-width:2px; --b4-radius:6px; --b4-color:#4B5563;
+    --elev-1: 0 1px 3px rgba(15,20,25,.10), 0 1px 2px rgba(15,20,25,.06);
+    --elev-2: 0 6px 16px rgba(15,20,25,.16), 0 2px 4px rgba(15,20,25,.08);
+    --bg:#E7EAEE; --surface:#FFFFFF; --text:#1B2430; --muted:#626C7A;
+    --select:#2B5FAD; --select-soft:#E4ECF8;
+    --state-hover: color-mix(in srgb, var(--surface) 92%, var(--text));
+  }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; height:100%; background:var(--bg); color:var(--text); font-family:var(--sans); font-size:13px; -webkit-font-smoothing:antialiased; }
+  button{ font-family:var(--sans); cursor:pointer; }
+  :focus-visible{ outline:2px solid var(--primary); outline-offset:1px; }
+  .icon{ width:15px; height:15px; flex-shrink:0; display:inline-flex; }
+  .icon svg{ display:block; width:100%; height:100%; }
+  .tnum{ font-variant-numeric: tabular-nums; }
+
+  .shell{ display:flex; flex-direction:column; height:100vh; min-height:640px; }
+  .hint-banner{ padding:7px 12px; background:var(--surface); border-bottom:var(--b3-width) solid var(--b3-color); font-size:11px; color:var(--muted); flex-shrink:0; }
+  .hint-banner kbd{ font-family:var(--mono); background:var(--bg); border:var(--b1-width) solid var(--b1-color); border-radius:var(--b1-radius); padding:1px 5px; font-size:10px; }
+
+  .topbar{ display:flex; align-items:center; gap:10px; padding:8px 12px; background:var(--surface); border-bottom:var(--b3-width) solid var(--b3-color); flex-shrink:0; flex-wrap:wrap; }
+  .brand{ font-weight:600; font-size:13px; }
+  .tabs{ display:flex; gap:2px; background:var(--bg); border:var(--b2-width) solid var(--b2-color); border-radius:var(--b2-radius); padding:2px; margin-left:8px; }
+  .tabs button{ border:none; background:transparent; padding:6px 12px; font-size:12px; color:var(--muted); border-radius:var(--b2-radius); }
+  .tabs button.active{ background:var(--surface); color:var(--text); font-weight:600; box-shadow:var(--elev-1); }
+  .persist-badge{ margin-left:auto; display:flex; align-items:center; gap:6px; font-size:11.5px; color:var(--muted); padding:5px 10px; border:var(--b1-width) solid var(--b1-color); border-radius:10px; background:var(--bg); }
+  .persist-dot{ width:7px; height:7px; border-radius:50%; background:var(--primary); }
+  .persist-dot.dirty{ background:var(--warning); animation:pulse 1s infinite; }
+  @keyframes pulse{ 0%,100%{opacity:1;} 50%{opacity:.3;} }
+
+  .toolbar{ display:flex; align-items:center; gap:8px; padding:8px 12px; background:var(--surface); border-bottom:var(--b3-width) solid var(--b3-color); flex-shrink:0; flex-wrap:wrap; }
+  .btn{ border:var(--b2-width) solid var(--b2-color); border-radius:var(--b2-radius); background:var(--surface); color:var(--text); padding:6px 11px; font-size:12px; display:flex; align-items:center; gap:6px; }
+  .btn:hover{ background:var(--state-hover); }
+  .btn.primary{ background:var(--primary); border-color:var(--primary); color:#fff; }
+  .btn.primary:hover{ background:var(--primary-strong); }
+  .btn.danger{ border-color:var(--danger); color:var(--danger); }
+  .btn.danger:hover{ background:var(--danger-soft); }
+  .toolbar-sep{ width:1px; height:20px; background:var(--b1-color); margin:0 2px; }
+
+  .view{ display:none; flex:1; overflow:hidden; flex-direction:column; }
+  .view.active{ display:flex; }
+
+  /* ---------- Grid virtualizado ---------- */
+  .vgrid-wrap{ flex:1; overflow:auto; position:relative; background:var(--surface); }
+  .vgrid-header{ position:sticky; top:0; z-index:5; display:grid; grid-template-columns: 70px 110px 1.4fr 110px 120px 110px; background:var(--bg); border-bottom:var(--b2-width) solid var(--b2-color); font-size:11.5px; color:var(--muted); font-weight:600; }
+  .vgrid-header > div{ padding:7px 10px; border-right:var(--b1-width) solid var(--b1-color); }
+  .vgrid-spacer{ position:relative; }
+  .vgrid-row{ position:absolute; left:0; right:0; display:grid; grid-template-columns: 70px 110px 1.4fr 110px 120px 110px; font-family:var(--mono); font-size:12px; border-bottom:var(--b1-width) solid var(--b1-color); }
+  .vgrid-row > div{ padding:6px 10px; border-right:var(--b1-width) solid var(--b1-color); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .vgrid-row:hover{ background:var(--state-hover); }
+  .vgrid-row.selected{ background:var(--select-soft); }
+  .vgrid-row .estado-ok{ color:var(--primary-strong); }
+  .vgrid-row .estado-warn{ color:var(--warning); }
+  .vgrid-row .estado-bad{ color:var(--danger); }
+
+  .vgrid-footer{ padding:6px 12px; font-size:11px; color:var(--muted); border-top:var(--b2-width) solid var(--b2-color); background:var(--bg); display:flex; gap:16px; }
+
+  /* ---------- Pegado masivo ---------- */
+  .paste-zone{ margin:14px; padding:16px; border:2px dashed var(--b2-color); border-radius:var(--b3-radius); background:var(--surface); font-size:12px; color:var(--muted); text-align:center; }
+  .paste-zone.armed{ border-color:var(--primary); background:var(--primary-soft); color:var(--primary-strong); }
+  .paste-preview{ margin:0 14px 14px; }
+  .paste-table{ width:100%; border-collapse:collapse; font-family:var(--mono); font-size:11.5px; background:var(--surface); border:var(--b3-width) solid var(--b3-color); border-radius:var(--b3-radius); overflow:hidden; }
+  .paste-table th{ background:var(--bg); text-align:left; padding:6px 8px; border-bottom:var(--b2-width) solid var(--b2-color); font-family:var(--sans); font-size:11px; }
+  .paste-table td{ padding:5px 8px; border-bottom:var(--b1-width) solid var(--b1-color); }
+  .type-badge{ font-size:9.5px; padding:1px 5px; border-radius:6px; margin-left:5px; font-family:var(--sans); font-weight:600; }
+  .type-badge.numero{ background:var(--pending-soft); color:var(--pending); }
+  .type-badge.texto{ background:var(--bg); color:var(--muted); }
+  .type-badge.fecha{ background:var(--primary-soft); color:var(--primary-strong); }
+  .paste-actions{ margin:0 14px 14px; display:flex; gap:8px; }
+
+  /* ---------- Persistencia ---------- */
+  .persist-view{ padding:20px; overflow-y:auto; }
+  .persist-card{ max-width:560px; background:var(--surface); border:var(--b3-width) solid var(--b3-color); border-radius:var(--b3-radius); box-shadow:var(--elev-1); padding:18px 20px; margin-bottom:16px; }
+  .persist-card h3{ margin:0 0 6px; font-size:14px; }
+  .persist-card p{ margin:0 0 12px; font-size:12.5px; color:var(--muted); line-height:1.5; }
+  .snapshot-row{ display:flex; justify-content:space-between; padding:7px 0; border-bottom:1px solid var(--bg); font-size:12.5px; }
+  .snapshot-row .k{ color:var(--muted); }
+  .snapshot-row .v{ font-family:var(--mono); }
+  .crash-btn{ margin-top:10px; }
+  .timeline{ display:flex; flex-direction:column; gap:2px; }
+  .timeline-item{ display:flex; justify-content:space-between; padding:6px 8px; border-radius:var(--b2-radius); font-size:11.5px; }
+  .timeline-item.now{ background:var(--warning-soft); color:var(--warning); font-weight:600; }
+
+  .toast{ position:fixed; bottom:44px; left:50%; transform:translateX(-50%) translateY(8px); background:var(--text); color:#fff; font-size:12px; padding:8px 14px; border-radius:var(--b2-radius); opacity:0; transition:opacity 150ms ease-out, transform 150ms ease-out; z-index:250; pointer-events:none; max-width:400px; text-align:center; }
+  .toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+
+  .help-overlay{ position:fixed; inset:0; background:rgba(10,14,18,.5); display:none; align-items:center; justify-content:center; z-index:300; }
+  .help-overlay.open{ display:flex; }
+  .help-card{ background:var(--surface); border:var(--b4-width) solid var(--b4-color); border-radius:var(--b4-radius); box-shadow:var(--elev-2); width:460px; max-height:76vh; overflow-y:auto; }
+  .help-header{ padding:14px 16px; border-bottom:var(--b2-width) solid var(--b2-color); display:flex; justify-content:space-between; align-items:center; }
+  .help-header h3{ margin:0; font-size:14px; }
+  .help-close{ border:none; background:none; font-size:16px; color:var(--muted); cursor:pointer; }
+  .help-body{ padding:4px 16px 16px; }
+  .help-group-label{ font-size:10.5px; color:var(--muted); padding:10px 0 4px; }
+  .help-row{ display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid var(--bg); font-size:12px; gap:10px; }
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <div class="hint-banner">
+    <strong>Bench</strong> — demo 3, cierra los dos patrones pendientes de la tabla 4.7. Pestaña <strong>Grid a escala</strong>: 20,000 filas con scroll fluido, solo se renderiza lo visible. <strong>Pegado masivo</strong>: pegá texto tabulado (Ctrl+V) y mirá la detección de tipo por columna. <strong>Persistencia</strong>: simulá un cierre accidental de pestaña y comprobá qué sobrevive.
+  </div>
+
+  <div class="topbar">
+    <span class="brand">Bench · Datos a escala</span>
+    <div class="tabs" id="tabs">
+      <button class="active" data-view="grid">Grid a escala</button>
+      <button data-view="paste">Pegado masivo</button>
+      <button data-view="persist">Persistencia</button>
+    </div>
+    <div class="persist-badge" id="persistBadge"><span class="persist-dot" id="persistDot"></span><span id="persistText">Guardado automático</span></div>
+  </div>
+
+  <div class="toolbar" id="toolbarGrid">
+    <button class="btn" id="btnJumpTop">⤒ Ir al inicio</button>
+    <button class="btn" id="btnJumpMid">Ir a fila 10,000</button>
+    <button class="btn" id="btnJumpEnd">Ir al final ⤓</button>
+    <div class="toolbar-sep"></div>
+    <span style="font-size:11px; color:var(--muted);">Renderizando solo filas visibles + buffer — nunca las 20,000 en el DOM</span>
+  </div>
+
+  <!-- ============ VISTA: GRID A ESCALA ============ -->
+  <div class="view active" id="view-grid">
+    <div class="vgrid-wrap" id="vgridWrap">
+      <div class="vgrid-header">
+        <div>#</div><div>ID</div><div>Descripción</div><div>Monto</div><div>Fecha</div><div>Estado</div>
+      </div>
+      <div class="vgrid-spacer" id="vgridSpacer">
+        <div id="vgridRows"></div>
+      </div>
+    </div>
+    <div class="vgrid-footer">
+      <span id="vgridInfo">20,000 filas totales</span>
+      <span id="vgridRendered">0 nodos DOM activos</span>
+    </div>
+  </div>
+
+  <!-- ============ VISTA: PEGADO MASIVO ============ -->
+  <div class="view" id="view-paste">
+    <div class="paste-zone" id="pasteZone" tabindex="0">
+      Hacé clic acá y pegá (<kbd>Ctrl</kbd>+<kbd>V</kbd>) datos copiados desde Excel o Google Sheets — o probá con el botón de ejemplo.
+      <div style="margin-top:10px;"><button class="btn primary" id="btnPasteSample">Pegar datos de ejemplo</button></div>
+    </div>
+    <div class="paste-preview" id="pastePreview" style="display:none;">
+      <table class="paste-table" id="pasteTable"></table>
+    </div>
+    <div class="paste-actions" id="pasteActions" style="display:none;">
+      <button class="btn primary" id="btnConfirmPaste">Confirmar e insertar en el grid</button>
+      <button class="btn" id="btnDiscardPaste">Descartar</button>
+    </div>
+  </div>
+
+  <!-- ============ VISTA: PERSISTENCIA ============ -->
+  <div class="view" id="view-persist">
+    <div class="persist-view">
+      <div class="persist-card">
+        <h3>Estado actual de la sesión</h3>
+        <p>Lo que Bench guarda no es solo el dato — también la selección activa y la pila de deshacer (4.6), para que "minimizar la pestaña" y "cerrarla por error" sean indistinguibles al volver.</p>
+        <div class="snapshot-row"><span class="k">Fila seleccionada</span><span class="v" id="snapRow">F-00142</span></div>
+        <div class="snapshot-row"><span class="k">Filtro activo</span><span class="v" id="snapFilter">estado:pendiente</span></div>
+        <div class="snapshot-row"><span class="k">Pasos en historial (undo)</span><span class="v tnum" id="snapHistory">4</span></div>
+        <div class="snapshot-row"><span class="k">Última escritura</span><span class="v" id="snapTime">—</span></div>
+        <button class="btn danger crash-btn" id="btnCrash">💥 Simular cierre accidental de la pestaña</button>
+      </div>
+
+      <div class="persist-card">
+        <h3>Línea de tiempo de guardado</h3>
+        <p>Cada cambio se escribiría en un Web Worker hacia IndexedDB, sin bloquear el hilo principal — acá lo simulamos en memoria porque este archivo no depende de almacenamiento real del navegador (mismo motivo por el que la tipografía y los íconos tampoco dependen de un CDN en runtime).</p>
+        <div class="timeline" id="timeline"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="help-overlay" id="helpOverlay">
+  <div class="help-card">
+    <div class="help-header"><h3>Ayuda — Demo 3</h3><button class="help-close" id="helpClose">✕</button></div>
+    <div class="help-body">
+      <div class="help-group-label">Grid a escala (Bench 4.2)</div>
+      <div class="help-row"><span>Filas totales</span><span>20,000</span></div>
+      <div class="help-row"><span>Nodos DOM activos</span><span>~25-30, siempre</span></div>
+      <div class="help-group-label">Pegado masivo (Bench 4.2)</div>
+      <div class="help-row"><span>Detección de tipo</span><span>Automática por columna</span></div>
+      <div class="help-group-label">Persistencia (Bench 4.6)</div>
+      <div class="help-row"><span>Qué sobrevive a un cierre accidental</span><span>Dato + selección + historial</span></div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const $ = (s,c)=>(c||document).querySelector(s);
+  const $$ = (s,c)=>Array.from((c||document).querySelectorAll(s));
+  function nowStr(){ return new Date().toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit',second:'2-digit'}); }
+  let toastTimer=null;
+  function showToast(msg){ const t=$('#toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove('show'),2400); }
+
+  // ---------------- Tabs ----------------
+  $$('#tabs button').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      $$('#tabs button').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      $$('.view').forEach(v=>v.classList.remove('active'));
+      $('#view-'+btn.dataset.view).classList.add('active');
+      $('#toolbarGrid').style.display = btn.dataset.view === 'grid' ? 'flex' : 'none';
+    });
+  });
+
+  // ================= GRID VIRTUALIZADO =================
+  const TOTAL_ROWS = 20000;
+  const ROW_HEIGHT = 30;
+  const estados = ['Pendiente','Pagada','Vencida'];
+  function genRow(i){
+    const estado = estados[i % 7 === 0 ? 2 : (i % 3 === 0 ? 1 : 0)];
+    const monto = (50 + (i * 37) % 9000 + (i % 100)/100).toFixed(2);
+    const d = new Date(2026, 0, 1 + (i % 340));
+    return {
+      idx: i+1,
+      id: 'F-' + String(10000+i),
+      desc: ['Servicio de consultoría','Venta de insumos','Licencia anual','Mantenimiento equipo','Transporte de carga'][i % 5] + ' #' + (i % 500),
+      monto, fecha: d.toISOString().slice(0,10), estado
+    };
+  }
+  const wrap = $('#vgridWrap');
+  const spacer = $('#vgridSpacer');
+  const rowsContainer = $('#vgridRows');
+  spacer.style.height = (TOTAL_ROWS * ROW_HEIGHT) + 'px';
+
+  let selectedIdx = 142;
+
+  function renderVisible(){
+    const scrollTop = wrap.scrollTop;
+    const viewportH = wrap.clientHeight;
+    const buffer = 8;
+    const first = Math.max(0, Math.floor(scrollTop / ROW_HEIGHT) - buffer);
+    const last = Math.min(TOTAL_ROWS - 1, Math.ceil((scrollTop + viewportH) / ROW_HEIGHT) + buffer);
+
+    let html = '';
+    for(let i = first; i <= last; i++){
+      const r = genRow(i);
+      const estClass = r.estado === 'Pagada' ? 'estado-ok' : (r.estado === 'Vencida' ? 'estado-bad' : 'estado-warn');
+      html += `<div class="vgrid-row ${r.idx===selectedIdx?'selected':''}" style="top:${i*ROW_HEIGHT}px; height:${ROW_HEIGHT}px;" data-idx="${r.idx}">
+        <div>${r.idx}</div><div>${r.id}</div><div>${r.desc}</div><div class="tnum">${r.monto}</div><div>${r.fecha}</div><div class="${estClass}">${r.estado}</div>
+      </div>`;
+    }
+    rowsContainer.innerHTML = html;
+    $('#vgridRendered').textContent = (last - first + 1) + ' nodos DOM activos (de ' + TOTAL_ROWS.toLocaleString() + ' filas totales)';
+    $$('.vgrid-row', rowsContainer).forEach(el=>{
+      el.addEventListener('click', ()=>{
+        selectedIdx = +el.dataset.idx;
+        $('#snapRow').textContent = 'F-' + String(10000 + selectedIdx - 1);
+        renderVisible();
+        markDirty();
+      });
+    });
+  }
+  wrap.addEventListener('scroll', ()=> requestAnimationFrame(renderVisible));
+  renderVisible();
+
+  $('#btnJumpTop').addEventListener('click', ()=>{ wrap.scrollTop = 0; showToast('Fila 1'); });
+  $('#btnJumpMid').addEventListener('click', ()=>{ wrap.scrollTop = 10000*ROW_HEIGHT - 100; showToast('Fila 10,000'); });
+  $('#btnJumpEnd').addEventListener('click', ()=>{ wrap.scrollTop = TOTAL_ROWS*ROW_HEIGHT; showToast('Fila 20,000'); });
+
+  // ================= PEGADO MASIVO =================
+  const sampleTSV = "F-9001\tCliente Andina\t1250.50\t2026-09-01\nF-9002\tGrupo Kallpa\t890\t2026-09-03\nF-9003\tMinera Sur\t15300.75\t2026-08-28\nF-9004\tDistribuidora LP\t430\t2026-09-05";
+
+  function detectType(values){
+    const allNum = values.every(v => /^-?[0-9]+([.,][0-9]+)?$/.test(v.trim()));
+    if(allNum) return 'numero';
+    const allDate = values.every(v => /^\d{4}-\d{2}-\d{2}$/.test(v.trim()));
+    if(allDate) return 'fecha';
+    return 'texto';
+  }
+
+  function processPaste(text){
+    const rows = text.trim().split('\n').map(r => r.split('\t'));
+    if(rows.length === 0) return;
+    const colCount = rows[0].length;
+    const colTypes = [];
+    for(let c=0; c<colCount; c++){
+      colTypes.push(detectType(rows.map(r => r[c] || '')));
+    }
+    const headers = ['Factura','Cliente','Monto','Fecha'].slice(0, colCount);
+    let html = '<thead><tr>' + headers.map((h,i)=>`<th>${h}<span class="type-badge ${colTypes[i]}">${colTypes[i]}</span></th>`).join('') + '</tr></thead><tbody>';
+    rows.forEach(r=>{
+      html += '<tr>' + r.map(v=>`<td>${v}</td>`).join('') + '</tr>';
+    });
+    html += '</tbody>';
+    $('#pasteTable').innerHTML = html;
+    $('#pastePreview').style.display = 'block';
+    $('#pasteActions').style.display = 'flex';
+    $('#pasteZone').classList.add('armed');
+    showToast('Detectadas ' + rows.length + ' filas, ' + colCount + ' columnas — revisá los tipos antes de confirmar');
+  }
+
+  $('#pasteZone').addEventListener('paste', (e)=>{
+    e.preventDefault();
+    const text = (e.clipboardData || window.clipboardData).getData('text');
+    if(text) processPaste(text);
+  });
+  $('#btnPasteSample').addEventListener('click', ()=> processPaste(sampleTSV));
+  $('#btnConfirmPaste').addEventListener('click', ()=>{
+    showToast('Filas insertadas en el grid — auditoría de tipo ya confirmada por el usuario');
+    $('#pastePreview').style.display='none'; $('#pasteActions').style.display='none'; $('#pasteZone').classList.remove('armed');
+    markDirty();
+  });
+  $('#btnDiscardPaste').addEventListener('click', ()=>{
+    $('#pastePreview').style.display='none'; $('#pasteActions').style.display='none'; $('#pasteZone').classList.remove('armed');
+    showToast('Pegado descartado — nada se insertó en el grid');
+  });
+
+  // ================= PERSISTENCIA (simulada, sin localStorage real) =================
+  let historyStack = [
+    { label:'Estado inicial', time: nowStr() },
+    { label:'Editado monto en F-00089', time: nowStr() },
+    { label:'Filtro aplicado: estado:pendiente', time: nowStr() },
+    { label:'Fila F-00142 seleccionada', time: nowStr() },
+  ];
+  let dirty = false;
+  function renderTimeline(){
+    $('#timeline').innerHTML = historyStack.map((h,i)=>
+      `<div class="timeline-item ${i===historyStack.length-1?'now':''}"><span>${h.label}</span><span>${h.time}</span></div>`
+    ).join('');
+    $('#snapHistory').textContent = historyStack.length;
+    $('#snapTime').textContent = historyStack[historyStack.length-1].time;
+  }
+  renderTimeline();
+
+  function markDirty(){
+    dirty = true;
+    $('#persistDot').classList.add('dirty');
+    $('#persistText').textContent = 'Guardando…';
+    clearTimeout(markDirty._t);
+    markDirty._t = setTimeout(()=>{
+      historyStack.push({ label:'Selección actualizada', time: nowStr() });
+      if(historyStack.length > 8) historyStack.shift();
+      renderTimeline();
+      dirty = false;
+      $('#persistDot').classList.remove('dirty');
+      $('#persistText').textContent = 'Guardado automático';
+    }, 500);
+  }
+
+  $('#btnCrash').addEventListener('click', ()=>{
+    // Simulación in-memory de "cerrar y reabrir la pestaña" — nunca localStorage/IndexedDB real
+    // en este archivo autocontenido; en producción esto es exactamente lo que persiste el
+    // Web Worker (Bench 4.6): dato + selección + historial, todo en el mismo snapshot.
+    const preservedRow = $('#snapRow').textContent;
+    const preservedFilter = $('#snapFilter').textContent;
+    const preservedHistoryLen = historyStack.length;
+    showToast('💥 Pestaña "cerrada" — reabriendo desde el snapshot…');
+    setTimeout(()=>{
+      $('#snapRow').textContent = preservedRow;
+      $('#snapFilter').textContent = preservedFilter;
+      historyStack.push({ label:'Sesión restaurada tras cierre accidental', time: nowStr() });
+      renderTimeline();
+      showToast('Restaurado: fila ' + preservedRow + ', filtro "' + preservedFilter + '", ' + preservedHistoryLen + ' pasos de historial — nada se perdió');
+    }, 900);
+  });
+
+  // ---------------- Ayuda ----------------
+  const helpOverlay = $('#helpOverlay');
+  $('#helpClose').addEventListener('click', ()=> helpOverlay.classList.remove('open'));
+  document.addEventListener('keydown', (e)=>{
+    if(e.key === '?' && (e.target.tagName||'').toLowerCase() !== 'input') helpOverlay.classList.add('open');
+    if(e.key === 'Escape') helpOverlay.classList.remove('open');
+  });
+  helpOverlay.addEventListener('click', (e)=>{ if(e.target===helpOverlay) helpOverlay.classList.remove('open'); });
+})();
+</script>
+</body>
+</html>

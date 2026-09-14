@@ -1,0 +1,17 @@
+.bch-skeleton {
+  display: block;
+  background: var(--bch-color-surface);
+  background-image: linear-gradient(90deg, var(--bch-color-surface) 0%, var(--bch-color-neutral-100) 50%, var(--bch-color-surface) 100%);
+  background-size: 200% 100%;
+}
+.bch-skeleton.is-text { width: 100%; height: 1em; border-radius: var(--bch-radius-sm); }
+.bch-skeleton.is-circle { width: 2.5rem; height: 2.5rem; border-radius: 50%; }
+.bch-skeleton.is-rect { width: 100%; height: 6rem; border-radius: var(--bch-radius-md); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .bch-skeleton { animation: bch-skeleton-shimmer 1.6s linear infinite; }
+}
+@keyframes bch-skeleton-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}

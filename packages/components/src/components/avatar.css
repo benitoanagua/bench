@@ -1,0 +1,31 @@
+.bch-avatar {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  overflow: hidden;
+  background: var(--bch-color-action-soft);
+  color: var(--bch-color-action);
+  font-weight: var(--bch-font-weight-semibold);
+  flex-shrink: 0;
+}
+.bch-avatar.is-circle { border-radius: var(--bch-radius-pill); }
+.bch-avatar.is-square { border-radius: var(--bch-radius-md); }
+.bch-avatar.is-small { width: 1.75rem; height: 1.75rem; font-size: var(--bch-font-size-xs); }
+.bch-avatar.is-medium { width: 2.5rem; height: 2.5rem; font-size: var(--bch-font-size-sm); }
+.bch-avatar.is-large { width: 3.5rem; height: 3.5rem; font-size: var(--bch-font-size-lg); }
+.bch-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.bch-avatar__initials { display: grid; place-items: center; width: 100%; height: 100%; }
+.bch-avatar__initials bch-icon { width: 60%; height: 60%; }
+.bch-avatar__status {
+  position: absolute;
+  inset-inline-end: -1px;
+  bottom: -1px;
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  border: 2px solid var(--bch-color-surface-raised);
+}
+.bch-avatar__status.is-online { background: var(--bch-color-success); }
+.bch-avatar__status.is-busy { background: var(--bch-color-danger); }
+.bch-avatar__status.is-away { background: var(--bch-color-warning); }
+.bch-avatar__status.is-offline { background: var(--bch-color-neutral-500); }

@@ -1,0 +1,19 @@
+{
+  "name": "@bench/storybook",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
+  "dependencies": {
+    "@bench/components": "workspace:*",
+    "@bench/primitives": "workspace:*",
+    "@bench/tokens": "workspace:*"
+  },
+  "devDependencies": {
+    "storybook": "^10.5.10",
+    "@stencil/storybook-plugin": "^0.7.0",
+    "@stencil/core": "^4.44.2"
+  }
+}

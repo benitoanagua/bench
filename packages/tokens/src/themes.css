@@ -1,0 +1,57 @@
+/* Temas — Bench trata el modo oscuro como ciudadano de primera clase (§2.1),
+   no como una inversión automática del claro: superficies, bordes y los
+   colores "soft" de estado tienen su propio set de valores, no un filtro. */
+:root,
+[data-bch-theme='light'] {
+  color-scheme: light;
+  --bch-color-background: var(--bch-color-neutral-50);
+  --bch-color-surface: var(--bch-color-neutral-0);
+  --bch-color-surface-raised: var(--bch-color-neutral-0);
+  --bch-color-text: var(--bch-color-neutral-900);
+  --bch-color-text-muted: var(--bch-color-neutral-700);
+  --bch-color-text-disabled: color-mix(in srgb, var(--bch-color-neutral-700) 55%, var(--bch-color-neutral-50));
+
+  --bch-color-border-micro: #C3C9D1;
+  --bch-color-border-control: #9AA3AF;
+  --bch-color-border-container: #6B7480;
+  --bch-color-border-floating: #4B5563;
+  --bch-color-border: var(--bch-color-border-micro);
+  --bch-color-border-strong: var(--bch-color-border-control);
+
+  --bch-state-hover: color-mix(in srgb, var(--bch-color-surface) 92%, var(--bch-color-text));
+  --bch-state-active: color-mix(in srgb, var(--bch-color-surface) 85%, var(--bch-color-text));
+  --bch-material-acento-bg: color-mix(in srgb, var(--bch-color-surface) 88%, transparent);
+}
+
+[data-bch-theme='dark'] {
+  color-scheme: dark;
+  --bch-color-background: #0F1417;
+  --bch-color-surface: #171C21;
+  --bch-color-surface-raised: #22282e;
+  --bch-color-text: #E8EBEE;
+  --bch-color-text-muted: #8A94A0;
+  --bch-color-text-disabled: color-mix(in srgb, #8A94A0 55%, #0F1417);
+
+  --bch-color-border-micro: #2A3138;
+  --bch-color-border-control: #3D4650;
+  --bch-color-border-container: #55606B;
+  --bch-color-border-floating: #77828C;
+  --bch-color-border: var(--bch-color-border-micro);
+  --bch-color-border-strong: var(--bch-color-border-control);
+
+  /* Colores "soft" de estado — valores propios en oscuro, no el mismo tono
+     claro con opacidad reducida (eso se ve sucio sobre fondo oscuro). */
+  --bch-color-primary-soft: #16342C;
+  --bch-color-danger-soft: #3A211D;
+  --bch-color-warning-soft: #3A2E14;
+  --bch-color-pending-soft: #182236;
+  --bch-color-success-soft: var(--bch-color-primary-soft);
+  --bch-color-risk-soft: #3A2029;
+  --bch-color-security-soft: #143028;
+
+  --bch-state-hover: color-mix(in srgb, var(--bch-color-surface) 88%, white);
+  --bch-state-active: color-mix(in srgb, var(--bch-color-surface) 78%, white);
+  /* El blur sobre fondo oscuro necesita más transparencia para leerse como capa
+     flotante y no como panel sólido con blur decorativo — 80% en vez de 88% (§2.6). */
+  --bch-material-acento-bg: color-mix(in srgb, var(--bch-color-surface) 80%, transparent);
+}

@@ -1,0 +1,16 @@
+{
+  "name": "@bench/testing",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "test": "playwright test",
+    "test:visual": "playwright test visual",
+    "test:a11y": "playwright test visual/a11y.spec.ts",
+    "lint": "node ../../tooling/lint/package-rules.mjs testing"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.55.0"
+  }
+}

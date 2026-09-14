@@ -1,0 +1,11 @@
+:host { display: inline-flex; }
+.bch-spinner {
+  width: 1em;
+  height: 1em;
+  border: 2px solid currentColor;
+  border-inline-end-color: transparent;
+  border-radius: 50%;
+  animation: bch-spin var(--bch-motion-normal) linear infinite;
+}
+@keyframes bch-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .bch-spinner { animation: none; opacity: .7; } }

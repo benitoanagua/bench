@@ -1,0 +1,7 @@
+:host { display: inline-block; }
+.choice { display: inline-flex; align-items: center; gap: var(--bch-space-2); color: var(--bch-color-text); cursor: pointer; font-family: var(--bch-font-family-sans); }.choice input { accent-color: var(--bch-color-action); width: 1rem; height: 1rem; }.choice input:disabled { cursor: not-allowed; }.choice:has(input:disabled) { opacity: .55; cursor: not-allowed; }
+.choice input[role="switch"] { appearance: none; -webkit-appearance: none; position: relative; width: 2.25rem; height: 1.25rem; border-radius: var(--bch-radius-full, 999px); background: var(--bch-color-border); transition: background var(--bch-motion-fast) var(--bch-ease-standard); }
+.choice input[role="switch"]::before { content: ''; position: absolute; top: 2px; left: 2px; width: calc(1.25rem - 4px); height: calc(1.25rem - 4px); border-radius: 50%; background: var(--bch-color-background); box-shadow: 0 1px 2px rgba(0, 0, 0, .25); transition: transform var(--bch-motion-fast) var(--bch-ease-standard); }
+.choice input[role="switch"]:checked { background: var(--bch-color-action); }
+.choice input[role="switch"]:checked::before { transform: translateX(1rem); }
+.choice input[role="switch"]:focus-visible { outline: none; box-shadow: var(--bch-focus-ring); }

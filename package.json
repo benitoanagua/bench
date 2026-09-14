@@ -1,19 +1,40 @@
 {
-  "name": "headless-wp-admin",
+  "name": "bench-design-system",
+  "description": "Bench — a design system for power users who have this software open 8 hours a day. Stencil + Web Components.",
   "version": "0.1.0",
-  "description": "Administración headless para WordPress con interfaz moderna",
-  "main": "index.js",
-  "type": "module",
+  "private": true,
+  "packageManager": "pnpm@10.26.0",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "typecheck": "turbo typecheck",
+    "test": "turbo test",
+    "lint": "node tooling/lint/design-rules.mjs && turbo lint",
+    "storybook": "pnpm --filter @bench/storybook storybook",
+    "build:storybook": "pnpm --filter @bench/storybook build-storybook",
+    "showcase": "pnpm --filter @bench/showcase dev",
+    "build:showcase": "pnpm --filter @bench/showcase build",
+    "test:showcase": "pnpm --filter @bench/showcase test",
+    "test:visual": "pnpm --filter @bench/testing test:visual",
+    "test:visual:update": "pnpm --filter @bench/testing test:visual -- --update-snapshots",
+    "check": "pnpm check:icons && pnpm check:framework && pnpm check:api && pnpm check:dependencies && pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && pnpm build && pnpm build:storybook",
+    "release": "changeset publish",
+    "format:check": "prettier --check .",
+    "format": "prettier --write .",
+    "check:icons": "node tooling/validation/no-legacy-icons.mjs",
+    "test:contracts": "pnpm --filter @bench/testing test:contracts",
+    "test:a11y": "pnpm --filter @bench/testing test:a11y",
+    "format:repair": "prettier --write .",
+    "check:framework": "node tooling/validation/no-lit.mjs",
+    "check:dependencies": "node tooling/validation/dependency-consistency.mjs",
+    "check:api": "node tooling/validation/public-api.mjs"
   },
   "devDependencies": {
-    "@tailwindcss/vite": "^4.1.13",
-    "tailwindcss": "^4.1.13",
-    "tslib": "^2.8.1",
-    "typescript": "^5.9.2",
-    "vite": "^7.1.5"
+    "@changesets/cli": "^2.29.0",
+    "@playwright/test": "^1.55.0",
+    "@types/node": "^22.0.0",
+    "prettier": "^3.5.0",
+    "turbo": "^2.5.0",
+    "typescript": "^5.7.0"
   }
 }

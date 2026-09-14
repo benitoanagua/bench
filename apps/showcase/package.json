@@ -1,0 +1,19 @@
+{
+  "name": "@bench/showcase",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "vite build",
+    "preview": "vite preview --host 0.0.0.0",
+    "test": "playwright test"
+  },
+  "dependencies": {
+    "@bench/components": "workspace:*",
+    "@bench/tokens": "workspace:*"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.54.2",
+    "vite": "^7.1.3"
+  }
+}

@@ -1,0 +1,69 @@
+/*
+ * Utility classes for the type scale defined in tokens.css.
+ * Optional — components/products can also reference --bch-type-*-size etc.
+ * directly, but these classes give product teams a documented, Material
+ * Type Scale / Carbon Type–style scale they can reach for without
+ * re-deriving font-size + line-height + weight + letter-spacing by hand.
+ */
+.bch-type-display {
+  font-size: var(--bch-type-display-size);
+  line-height: var(--bch-type-display-line-height);
+  font-weight: var(--bch-type-display-weight);
+  letter-spacing: var(--bch-type-display-letter-spacing);
+}
+.bch-type-h1 {
+  font-size: var(--bch-type-h1-size);
+  line-height: var(--bch-type-h1-line-height);
+  font-weight: var(--bch-type-h1-weight);
+  letter-spacing: var(--bch-type-h1-letter-spacing);
+}
+.bch-type-h2 {
+  font-size: var(--bch-type-h2-size);
+  line-height: var(--bch-type-h2-line-height);
+  font-weight: var(--bch-type-h2-weight);
+  letter-spacing: var(--bch-type-h2-letter-spacing);
+}
+.bch-type-h3 {
+  font-size: var(--bch-type-h3-size);
+  line-height: var(--bch-type-h3-line-height);
+  font-weight: var(--bch-type-h3-weight);
+  letter-spacing: var(--bch-type-h3-letter-spacing);
+}
+.bch-type-h4 {
+  font-size: var(--bch-type-h4-size);
+  line-height: var(--bch-type-h4-line-height);
+  font-weight: var(--bch-type-h4-weight);
+  letter-spacing: var(--bch-type-h4-letter-spacing);
+}
+.bch-type-body-lg {
+  font-size: var(--bch-type-body-lg-size);
+  line-height: var(--bch-type-body-lg-line-height);
+  font-weight: var(--bch-type-body-lg-weight);
+}
+.bch-type-body-md {
+  font-size: var(--bch-type-body-md-size);
+  line-height: var(--bch-type-body-md-line-height);
+  font-weight: var(--bch-type-body-md-weight);
+}
+.bch-type-body-sm {
+  font-size: var(--bch-type-body-sm-size);
+  line-height: var(--bch-type-body-sm-line-height);
+  font-weight: var(--bch-type-body-sm-weight);
+}
+.bch-type-label {
+  font-size: var(--bch-type-label-size);
+  line-height: var(--bch-type-label-line-height);
+  font-weight: var(--bch-type-label-weight);
+}
+.bch-type-caption {
+  font-size: var(--bch-type-caption-size);
+  line-height: var(--bch-type-caption-line-height);
+  font-weight: var(--bch-type-caption-weight);
+}
+.bch-type-overline {
+  font-size: var(--bch-type-overline-size);
+  line-height: var(--bch-type-overline-line-height);
+  font-weight: var(--bch-type-overline-weight);
+  letter-spacing: var(--bch-type-overline-letter-spacing);
+  text-transform: uppercase;
+}

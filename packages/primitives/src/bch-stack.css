@@ -1,0 +1,7 @@
+:host { display: block; }
+.bch-stack {
+  display: flex;
+  flex-direction: var(--bch-stack-direction, column);
+  gap: var(--bch-stack-gap, var(--bch-space-4));
+  align-items: var(--bch-stack-align, stretch);
+}

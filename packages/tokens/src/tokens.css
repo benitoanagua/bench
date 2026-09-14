@@ -1,0 +1,291 @@
+:root {
+  /* Primitive color scale — BENCH-owned values (bench-design-system.md §2.1). */
+  --bch-color-neutral-0: #ffffff;
+  --bch-color-neutral-50: #E7EAEE;
+  --bch-color-neutral-100: #eef0f2;
+  --bch-color-neutral-200: #dfe3e6;
+  --bch-color-neutral-300: #C3C9D1;
+  --bch-color-neutral-500: #9AA3AF;
+  --bch-color-neutral-700: #626C7A;
+  --bch-color-neutral-900: #1B2430;
+  --bch-color-primary-600: #1F5C4E;
+  --bch-color-red-600: #A23B2E;
+  --bch-color-green-600: #1F5C4E;
+  --bch-color-yellow-500: #9A6B12;
+  --bch-color-blue-600: #2B5FAD;
+
+  /* Semantic color. */
+  --bch-color-background: var(--bch-color-neutral-50);
+  --bch-color-surface: var(--bch-color-neutral-0);
+  --bch-color-surface-raised: var(--bch-color-neutral-0);
+  --bch-color-text: var(--bch-color-neutral-900);
+  --bch-color-text-muted: var(--bch-color-neutral-700);
+  --bch-color-text-disabled: color-mix(in srgb, var(--bch-color-text-muted) 55%, var(--bch-color-background));
+
+  /* Escala de borde de 4 niveles (Regla inviolable 7 — bench-design-system.md §2.2).
+     Micro/Control/Contenedor/Flotante: a menor tamaño de elemento, borde más fino,
+     más sutil y radio menor; a mayor tamaño, borde más grueso, más oscuro y radio
+     mayor. Nunca se introduce un valor de borde fuera de esta escala. */
+  --bch-color-border-micro: #C3C9D1;      /* Nivel 1 — badges, chips, checkboxes */
+  --bch-color-border-control: #9AA3AF;     /* Nivel 2 — inputs, botones, celdas */
+  --bch-color-border-container: #6B7480;   /* Nivel 3 — paneles, tarjetas, toolbar */
+  --bch-color-border-floating: #4B5563;    /* Nivel 4 — tarjetas flotantes, modales */
+  /* Alias retrocompatibles: el código de componentes existente referencia estos dos
+     nombres; se mantienen apuntando a los niveles 1 y 2 para no romper nada. */
+  --bch-color-border: var(--bch-color-border-micro);
+  --bch-color-border-strong: var(--bch-color-border-control);
+
+  --bch-border-width-micro: 1px;
+  --bch-border-width-control: 1px;
+  --bch-border-width-container: 1.5px;
+  --bch-border-width-floating: 2px;
+
+  --bch-color-primary: var(--bch-color-primary-600);
+  --bch-color-primary-strong: #143F35;
+  --bch-color-primary-soft: #E3EEEA;
+  --bch-color-action: var(--bch-color-primary);
+  --bch-color-action-soft: var(--bch-color-primary-soft);
+  --bch-color-danger: var(--bch-color-red-600);
+  --bch-color-danger-soft: #F5E7E4;
+  --bch-color-success: var(--bch-color-green-600);
+  --bch-color-success-soft: var(--bch-color-primary-soft);
+  --bch-color-warning: var(--bch-color-yellow-500);
+  --bch-color-warning-soft: #F3EBD8;
+  --bch-color-pending: var(--bch-color-blue-600);
+  --bch-color-pending-soft: #E4ECF8;
+
+  /* Extensión financiera — opt-in, solo módulos que califican (bench-design-system.md §2.10).
+     Disponible como token en todo el sistema; se activa por convención de producto,
+     no por defecto en ningún componente base. */
+  --bch-color-risk: #8B2942;
+  --bch-color-risk-soft: #F2E1E6;
+  --bch-color-security: #146B5C;
+  --bch-color-security-soft: #DCEEEA;
+
+  /* Estados de interacción — hover/active cambian luminosidad ±6-8%, nunca de familia. */
+  --bch-state-hover: color-mix(in srgb, var(--bch-color-surface) 92%, var(--bch-color-text));
+  --bch-state-active: color-mix(in srgb, var(--bch-color-surface) 85%, var(--bch-color-text));
+
+  /* Space / sizing. */
+  --bch-space-0: 0;
+  --bch-space-1: 0.25rem;
+  --bch-space-2: 0.5rem;
+  --bch-space-3: 0.75rem;
+  --bch-space-4: 1rem;
+  --bch-space-5: 1.25rem;
+  --bch-space-6: 1.5rem;
+  --bch-space-8: 2rem;
+  --bch-space-10: 2.5rem;
+  --bch-space-12: 3rem;
+  --bch-space-16: 4rem;
+
+  --bch-size-control-sm: 2rem;
+  --bch-size-control-md: 2.5rem;
+  --bch-size-control-lg: 3rem;
+
+  /* Shape — radios de la escala de borde de 4 niveles (§2.2). Se conserva --bch-radius-pill
+     como excepción documentada (badges/chips de estado: forma pill intencional, no
+     contradice la regla de proporcionalidad porque no es un contenedor rectangular). */
+  --bch-radius-sm: 1px;    /* Nivel 1 — micro */
+  --bch-radius-md: 2px;    /* Nivel 2 — control */
+  --bch-radius-lg: 4px;    /* Nivel 3 — contenedor */
+  --bch-radius-xl: 6px;    /* Nivel 4 — flotante */
+  --bch-radius-pill: 999px;
+
+  /* Typography — IBM Plex Sans/Mono (§2.7). Nombre de familia "Fallback" reservado
+     para el @font-face de métricas ajustadas definido en styles/global.css. */
+  --bch-font-family-sans: 'IBM Plex Sans', 'IBM Plex Sans Fallback', 'Helvetica Neue', Arial, sans-serif;
+  --bch-font-family-mono: 'IBM Plex Mono', 'IBM Plex Mono Fallback', Menlo, 'DejaVu Sans Mono', Courier, monospace;
+  --bch-font-size-xs: 0.75rem;
+  --bch-font-size-sm: 0.875rem;
+  --bch-font-size-md: 1rem;
+  --bch-font-size-lg: 1.125rem;
+  --bch-font-size-xl: 1.5rem;
+  --bch-font-size-2xl: 2rem;
+  /* Regla de pesos (§2.7): rango de trabajo 400-600, nunca 700+. "medium" y "semibold"
+     colapsan al mismo peso de énfasis (600) — dos nombres de token por compatibilidad
+     de API, un solo valor real, para no forzar a reescribir cada componente que ya
+     referencia --bch-font-weight-medium o -semibold por su nombre semántico. */
+  --bch-font-weight-regular: 400;
+  --bch-font-weight-medium: 600;
+  --bch-font-weight-semibold: 600;
+  --bch-font-weight-bold: 600;
+  --bch-line-height-tight: 1.2;
+  --bch-line-height-normal: 1.5;
+  --bch-line-height-relaxed: 1.7;
+  --bch-line-height-data: 1.3;
+  --bch-letter-spacing-tight: -0.01em;
+  --bch-letter-spacing-normal: 0;
+  --bch-letter-spacing-wide: 0.02em;
+  --bch-letter-spacing-overline: 0.08em;
+
+  /* Type scale — composed roles, not just raw sizes.
+     Use these (via the .bch-type-* utility classes in styles/type-scale.css,
+     or by referencing the -size/-line-height/-weight triplet directly)
+     instead of reaching for --bch-font-size-* in component/product code.
+     Esta escala es para CONTENIDO de producto (páginas, marketing, headings largos) —
+     para el chrome denso propio de Bench (grids, toolbars, status bars), usar la
+     escala ligada a densidad más abajo (--bch-density-*), no esta. */
+  --bch-type-display-size: 3rem;
+  --bch-type-display-line-height: 1.1;
+  --bch-type-display-weight: var(--bch-font-weight-bold);
+  --bch-type-display-letter-spacing: var(--bch-letter-spacing-tight);
+
+  --bch-type-h1-size: 2.25rem;
+  --bch-type-h1-line-height: 1.2;
+  --bch-type-h1-weight: var(--bch-font-weight-bold);
+  --bch-type-h1-letter-spacing: var(--bch-letter-spacing-tight);
+
+  --bch-type-h2-size: 1.75rem;
+  --bch-type-h2-line-height: 1.25;
+  --bch-type-h2-weight: var(--bch-font-weight-semibold);
+  --bch-type-h2-letter-spacing: var(--bch-letter-spacing-tight);
+
+  --bch-type-h3-size: 1.375rem;
+  --bch-type-h3-line-height: 1.3;
+  --bch-type-h3-weight: var(--bch-font-weight-semibold);
+  --bch-type-h3-letter-spacing: var(--bch-letter-spacing-normal);
+
+  --bch-type-h4-size: 1.125rem;
+  --bch-type-h4-line-height: 1.35;
+  --bch-type-h4-weight: var(--bch-font-weight-semibold);
+  --bch-type-h4-letter-spacing: var(--bch-letter-spacing-normal);
+
+  --bch-type-body-lg-size: 1.125rem;
+  --bch-type-body-lg-line-height: var(--bch-line-height-relaxed);
+  --bch-type-body-lg-weight: var(--bch-font-weight-regular);
+
+  --bch-type-body-md-size: 1rem;
+  --bch-type-body-md-line-height: var(--bch-line-height-normal);
+  --bch-type-body-md-weight: var(--bch-font-weight-regular);
+
+  --bch-type-body-sm-size: 0.875rem;
+  --bch-type-body-sm-line-height: var(--bch-line-height-normal);
+  --bch-type-body-sm-weight: var(--bch-font-weight-regular);
+
+  --bch-type-label-size: 0.875rem;
+  --bch-type-label-line-height: var(--bch-line-height-tight);
+  --bch-type-label-weight: var(--bch-font-weight-medium);
+
+  --bch-type-caption-size: 0.75rem;
+  --bch-type-caption-line-height: var(--bch-line-height-tight);
+  --bch-type-caption-weight: var(--bch-font-weight-regular);
+
+  --bch-type-overline-size: 0.75rem;
+  --bch-type-overline-line-height: var(--bch-line-height-tight);
+  --bch-type-overline-weight: var(--bch-font-weight-semibold);
+  --bch-type-overline-letter-spacing: var(--bch-letter-spacing-overline);
+
+  /* Escala ligada a densidad (§2.9) — 4 modos para el chrome denso de Bench:
+     grids, toolbars, status bars, celdas de dato. Activar con [data-bch-density]
+     en un contenedor raíz; el modo terminal se reserva a paneles marcados
+     explícitamente con [data-bch-panel="raw-data"], nunca como tema global. */
+  --bch-density-row-height: 2.25rem;    /* 36px, cómodo (default) */
+  --bch-density-cell-py: 0.5rem;         /* 8px */
+  --bch-density-cell-px: 0.75rem;        /* 12px */
+  --bch-density-fs-data: 0.8125rem;      /* 13px */
+  --bch-density-fs-ui: 0.8125rem;        /* 13px */
+
+  /* Movimiento — bandas convencionales (§2.5 de bench-design-system.md), nunca
+     valores inventados a mano. Regla madre: toda animación comunica un cambio
+     de estado real, nunca decora una interacción neutra. */
+  --bch-motion-fast: 80ms;      /* hover/focus — solo cambio de luminosidad */
+  --bch-motion-normal: 180ms;   /* confirmación de acción (guardado, edición) */
+  --bch-motion-panel: 140ms;    /* apertura de panel flotante/modal */
+  --bch-motion-badge: 220ms;    /* cambio de estado de badge/indicador */
+  --bch-motion-slow: 300ms;     /* techo del sistema: highlight de streaming/tiempo real */
+  --bch-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --bch-ease-in-out: cubic-bezier(0.45, 0, 0.55, 1);
+  --bch-ease-standard: var(--bch-ease-out);
+
+  /* Focus. Técnica: doble box-shadow (gap de superficie + anillo sólido) para
+     aproximar el "outline: 2px solid, offset 1px" nativo que usan las demos de
+     Bench, dentro de la arquitectura de focus-ring basada en box-shadow que ya
+     usan los componentes — ver docs/foundations/tokens.md para el porqué. */
+  --bch-focus-width: 2px;
+  --bch-focus-color: var(--bch-color-primary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --bch-motion-fast: 0ms;
+    --bch-motion-normal: 0ms;
+    --bch-motion-panel: 0ms;
+    --bch-motion-badge: 0ms;
+    --bch-motion-slow: 0ms;
+  }
+}
+
+/* Component semantics. */
+:root {
+  --bch-color-action-contrast: #ffffff;
+  --bch-color-danger-contrast: #ffffff;
+  --bch-focus-ring: 0 0 0 1px var(--bch-color-surface), 0 0 0 3px var(--bch-focus-color);
+}
+
+/* Profundidad — elevación (Regla inviolable 9, §2.4). Escala cerrada de 4 niveles
+   con la técnica de sombra doble estandarizada (sombra ajustada de "luz clave" +
+   una ambiental difusa). --bch-shadow-critical (elev-3) se reserva a la misma
+   situación que activa el borde triple — nunca se usa por "verse más importante". */
+:root {
+  --bch-elev-0: none;
+  --bch-elev-1: 0 1px 3px rgb(15 20 25 / 0.10), 0 1px 2px rgb(15 20 25 / 0.06);
+  --bch-elev-2: 0 6px 16px rgb(15 20 25 / 0.16), 0 2px 4px rgb(15 20 25 / 0.08);
+  --bch-elev-3: 0 12px 32px rgb(15 20 25 / 0.24), 0 0 0 1px var(--bch-color-danger);
+
+  /* Alias retrocompatibles — mapeo fiel a la elevación real de Bench, no a un
+     "más grande = más importante" arbitrario. shadow-md y shadow-lg colapsan al
+     mismo valor (elev-2) porque Bench no distingue "modal" de "menú" en elevación:
+     ambos son superficies flotantes del mismo nivel. Ver docs/foundations/tokens.md. */
+  --bch-shadow-sm: var(--bch-elev-1);
+  --bch-shadow-md: var(--bch-elev-2);
+  --bch-shadow-lg: var(--bch-elev-2);
+  --bch-shadow-critical: var(--bch-elev-3);
+}
+
+/* Material — máximo dos (§2.6): base sólido (default) y acento translúcido,
+   reservado a overlays informativos no editables (nunca sobre superficies con
+   datos editables — la transparencia introduce ambigüedad sobre qué es interactivo). */
+:root {
+  --bch-material-acento-bg: color-mix(in srgb, var(--bch-color-surface) 88%, transparent);
+  --bch-material-acento-blur: 8px;
+}
+
+/* Breakpoints / grid.
+   CSS custom properties cannot be interpolated inside @media conditions,
+   so these are also exported as plain numbers from @bench/tokens
+   (see src/breakpoints.ts) for use in JS (matchMedia, ResizeObserver
+   thresholds, etc). Treat the numeric values below and in breakpoints.ts
+   as the single source of truth — if one changes, change both.
+   Mismos breakpoints que exige la Regla inviolable 6 de Bench: convencionales,
+   nunca inventados por el equipo de turno. */
+:root {
+  --bch-breakpoint-xs: 0px;
+  --bch-breakpoint-sm: 640px;
+  --bch-breakpoint-md: 768px;
+  --bch-breakpoint-lg: 1024px;
+  --bch-breakpoint-xl: 1280px;
+  --bch-breakpoint-2xl: 1536px;
+
+  --bch-grid-columns: 12;
+  --bch-grid-gutter: var(--bch-space-4);
+  --bch-grid-margin-sm: var(--bch-space-4);
+  --bch-grid-margin-lg: var(--bch-space-8);
+  --bch-container-max-width: 1280px;
+}
+
+/* Z-index scale. Every stacking context in the system (dropdown, overlay,
+   drawer, modal, toast, tooltip) must reference one of these — never a
+   hardcoded number — so ordering stays centralized and predictable as
+   new layered components (menu, toast, combobox popover, ...) are added. */
+:root {
+  --bch-z-base: 0;
+  --bch-z-raised: 10;
+  --bch-z-sticky: 100;
+  --bch-z-dropdown: 500;
+  --bch-z-overlay: 800;
+  --bch-z-drawer: 900;
+  --bch-z-modal: 1000;
+  --bch-z-toast: 1100;
+  --bch-z-tooltip: 1200;
+}

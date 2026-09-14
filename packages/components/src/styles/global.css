@@ -1,0 +1,29 @@
+/* Bench §2.7 — variable font autohospedada por la aplicación consumidora
+   (nunca un CDN de terceros en runtime: mismo principio que la iconografía
+   embebida inline, §2.8). Este paquete provee el fallback dimensionado y el
+   token de familia; los archivos .woff2 de IBM Plex Sans/Mono var los agrega
+   la app consumidora — ver docs/foundations/tokens.md "Tipografía" para la
+   instrucción completa de autohospedaje. */
+@font-face {
+  font-family: 'IBM Plex Sans Fallback';
+  src: local('Arial'), local('Helvetica Neue');
+  ascent-override: 92%;
+  descent-override: 23%;
+  size-adjust: 105%;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'IBM Plex Mono Fallback';
+  src: local('Consolas'), local('Menlo'), local('Courier New');
+  ascent-override: 100%;
+  descent-override: 22%;
+  size-adjust: 100%;
+  font-display: swap;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+:root { font-family: var(--bch-font-family-sans); color: var(--bch-color-text); background: var(--bch-color-background); }
+:where(button, input, textarea, select) { font: inherit; }
+:where(button, input, textarea, select):focus-visible { outline: none; box-shadow: var(--bch-focus-ring); }
+:where(bch-icon) { color: inherit; }
+:where(.bch-font-mono) { font-family: var(--bch-font-family-mono); font-variant-numeric: tabular-nums; }

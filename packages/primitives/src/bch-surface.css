@@ -1,0 +1,3 @@
+:host { display: block; }
+.surface { background: var(--bch-color-surface); color: var(--bch-color-text); border: 1px solid var(--bch-color-border); border-radius: var(--bch-radius-md); padding: var(--bch-space-4); }
+.elevated { background: var(--bch-color-surface-raised); box-shadow: var(--bch-shadow-md); }

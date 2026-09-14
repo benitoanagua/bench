@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bench — Demo 2: Layout &amp; Interacción</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --primary: #1F5C4E; --primary-strong: #143F35; --primary-soft: #E3EEEA;
+    --danger: #A23B2E; --danger-soft: #F5E7E4;
+    --warning: #9A6B12; --warning-soft: #F3EBD8;
+    --pending: #2B5FAD; --pending-soft: #E4ECF8;
+    --mono: 'IBM Plex Mono', ui-monospace, monospace;
+    --sans: 'IBM Plex Sans', system-ui, sans-serif;
+    --b1-width:1px; --b1-radius:1px; --b1-color:#C3C9D1;
+    --b2-width:1px; --b2-radius:2px; --b2-color:#9AA3AF;
+    --b3-width:1.5px; --b3-radius:4px; --b3-color:#6B7480;
+    --b4-width:2px; --b4-radius:6px; --b4-color:#4B5563;
+    --elev-1: 0 1px 3px rgba(15,20,25,.10), 0 1px 2px rgba(15,20,25,.06);
+    --elev-2: 0 6px 16px rgba(15,20,25,.16), 0 2px 4px rgba(15,20,25,.08);
+    --bg:#E7EAEE; --surface:#FFFFFF; --text:#1B2430; --muted:#626C7A;
+    --select:#2B5FAD; --select-soft:#E4ECF8;
+    --state-hover: color-mix(in srgb, var(--surface) 92%, var(--text));
+  }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; height:100%; background:var(--bg); color:var(--text); font-family:var(--sans); font-size:13px; -webkit-font-smoothing:antialiased; }
+  button{ font-family:var(--sans); cursor:pointer; }
+  :focus-visible{ outline:2px solid var(--primary); outline-offset:1px; }
+  .icon{ width:15px; height:15px; flex-shrink:0; display:inline-flex; }
+  .icon svg{ display:block; width:100%; height:100%; }
+  .tnum{ font-variant-numeric: tabular-nums; }
+
+  .shell{ display:flex; flex-direction:column; height:100vh; min-height:640px; }
+  .hint-banner{ padding:7px 12px; background:var(--surface); border-bottom:var(--b3-width) solid var(--b3-color); font-size:11px; color:var(--muted); flex-shrink:0; }
+  .hint-banner kbd{ font-family:var(--mono); background:var(--bg); border:var(--b1-width) solid var(--b1-color); border-radius:var(--b1-radius); padding:1px 5px; font-size:10px; }
+
+  .topbar{ display:flex; align-items:center; gap:10px; padding:8px 12px; background:var(--surface); border-bottom:var(--b3-width) solid var(--b3-color); flex-shrink:0; flex-wrap:wrap; }
+  .brand{ font-weight:600; font-size:13px; letter-spacing:.01em; }
+  .btn{ border:var(--b2-width) solid var(--b2-color); border-radius:var(--b2-radius); background:var(--surface); color:var(--text); padding:6px 11px; font-size:12px; display:flex; align-items:center; gap:6px; }
+  .btn:hover{ background:var(--state-hover); }
+  .btn.primary{ background:var(--primary); border-color:var(--primary); color:#fff; }
+  .btn.primary:hover{ background:var(--primary-strong); }
+  .btn.on{ background:var(--primary-soft); border-color:var(--primary); color:var(--primary-strong); }
+  .toolbar-sep{ width:1px; height:20px; background:var(--b1-color); margin:0 2px; }
+
+  .leader-badge{ margin-left:auto; display:flex; align-items:center; gap:6px; font-family:var(--mono); font-size:11.5px; padding:5px 10px; border:var(--b1-width) solid var(--b1-color); border-radius:10px; background:var(--bg); color:var(--muted); opacity:0; transition:opacity 140ms ease-out; }
+  .leader-badge.show{ opacity:1; background:var(--pending-soft); border-color:var(--pending); color:var(--pending); }
+
+  .toolbar{ display:flex; align-items:center; gap:8px; padding:8px 12px; background:var(--surface); border-bottom:var(--b3-width) solid var(--b3-color); flex-shrink:0; flex-wrap:wrap; }
+
+  /* ---------- Tiling real, con splitters arrastrables ---------- */
+  .tiling{ flex:1; display:flex; overflow:hidden; position:relative; }
+  .tile-col{ display:flex; flex-direction:column; min-width:160px; }
+  .splitter-v{ width:6px; flex-shrink:0; cursor:col-resize; background:var(--bg); position:relative; }
+  .splitter-v::after{ content:''; position:absolute; left:50%; top:0; bottom:0; width:1px; background:var(--b3-color); transform:translateX(-50%); }
+  .splitter-v:hover::after, .splitter-v.dragging::after{ background:var(--primary); width:2px; }
+  .splitter-h{ height:6px; flex-shrink:0; cursor:row-resize; background:var(--bg); position:relative; }
+  .splitter-h::after{ content:''; position:absolute; top:50%; left:0; right:0; height:1px; background:var(--b3-color); transform:translateY(-50%); }
+  .splitter-h:hover::after, .splitter-h.dragging::after{ background:var(--primary); height:2px; }
+
+  .panel{ background:var(--surface); display:flex; flex-direction:column; overflow:hidden; min-height:100px; }
+  .panel-header{ display:flex; align-items:center; justify-content:space-between; padding:6px 10px; border-bottom:var(--b2-width) solid var(--b2-color); flex-shrink:0; }
+  .panel-title{ font-size:11.5px; color:var(--muted); display:flex; align-items:center; gap:6px; }
+  .panel-title .live-dot{ width:6px; height:6px; border-radius:50%; background:var(--primary); animation:pulse 1.6s infinite; }
+  .panel-title .live-dot.fast{ background:var(--danger); animation-duration:.8s; }
+  @keyframes pulse{ 0%,100%{opacity:1;} 50%{opacity:.3;} }
+  .panel-actions{ display:flex; gap:4px; }
+  .panel-actions button{ border:none; background:none; color:var(--muted); padding:2px; border-radius:2px; display:flex; }
+  .panel-actions button:hover{ background:var(--bg); color:var(--text); }
+  .panel-body{ flex:1; overflow-y:auto; padding:8px 10px; font-family:var(--mono); font-size:11.5px; }
+  .feed-line{ padding:3px 0; border-bottom:1px dashed var(--b1-color); display:flex; gap:8px; }
+  .feed-time{ color:var(--muted); flex-shrink:0; }
+  .feed-line.crit{ color:var(--danger); }
+  .metric-row{ display:flex; justify-content:space-between; padding:5px 0; border-bottom:var(--b1-width) solid var(--b1-color); }
+  .metric-label{ color:var(--muted); font-family:var(--sans); font-size:11.5px; }
+  .metric-value{ font-family:var(--mono); }
+
+  /* ---------- Leader-key hint ---------- */
+  .leader-overlay{ position:fixed; bottom:52px; left:50%; transform:translateX(-50%) translateY(6px); background:var(--text); color:#fff; font-family:var(--mono); font-size:12px; padding:8px 14px; border-radius:var(--b2-radius); opacity:0; transition:opacity 140ms ease-out, transform 140ms ease-out; z-index:260; pointer-events:none; }
+  .leader-overlay.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+  .leader-overlay kbd{ background:rgba(255,255,255,.15); padding:1px 5px; border-radius:2px; margin:0 2px; }
+
+  /* ---------- Balloon Help ---------- */
+  .balloon{ position:fixed; z-index:240; max-width:230px; background:var(--surface); border:var(--b3-width) solid var(--b3-color); border-radius:var(--b3-radius); box-shadow:var(--elev-2); padding:10px 12px; font-size:12px; line-height:1.5; opacity:0; transform:translateY(4px); transition:opacity 140ms ease-out, transform 140ms ease-out; pointer-events:none; }
+  .balloon.show{ opacity:1; transform:translateY(0); }
+  .balloon::before{ content:''; position:absolute; left:16px; top:-6px; width:10px; height:10px; background:var(--surface); border-left:var(--b3-width) solid var(--b3-color); border-top:var(--b3-width) solid var(--b3-color); transform:rotate(45deg); }
+  [data-balloon]{ position:relative; }
+  [data-balloon].balloon-armed{ outline:1px dashed var(--warning); outline-offset:2px; }
+
+  /* ---------- Panel "Aplicar" (config) ---------- */
+  .config-panel{ position:fixed; top:70px; right:18px; width:270px; background:var(--surface); border:var(--b4-width) solid var(--b4-color); border-radius:var(--b4-radius); box-shadow:var(--elev-2); z-index:200; display:none; flex-direction:column; }
+  .config-panel.open{ display:flex; }
+  .cfg-header{ display:flex; align-items:center; justify-content:space-between; padding:8px 10px; border-bottom:var(--b2-width) solid var(--b2-color); background:var(--bg); border-radius:calc(var(--b4-radius) - 1px) calc(var(--b4-radius) - 1px) 0 0; }
+  .cfg-title{ font-size:12px; font-weight:600; }
+  .cfg-body{ padding:10px 12px; display:flex; flex-direction:column; gap:8px; }
+  .cfg-row{ display:flex; align-items:center; gap:8px; font-size:12.5px; }
+  .cfg-row input[type="checkbox"]{ accent-color:var(--primary); }
+  .cfg-footer{ display:flex; gap:6px; padding:8px 10px; border-top:var(--b2-width) solid var(--b2-color); }
+  .cfg-footer button{ flex:1; border:var(--b2-width) solid var(--b2-color); border-radius:var(--b2-radius); padding:6px 0; font-size:12px; background:var(--surface); }
+  .cfg-footer button.primary{ background:var(--primary); border-color:var(--primary); color:#fff; }
+  .cfg-footer button:hover:not(.primary){ background:var(--bg); }
+  .cfg-note{ font-size:10.5px; color:var(--muted); padding:0 12px 10px; }
+
+  /* ---------- Tarjeta flotante / multi-monitor ---------- */
+  .floating-card{ position:fixed; width:250px; background:var(--surface); border:var(--b4-width) solid var(--b4-color); border-radius:var(--b4-radius); box-shadow:var(--elev-2); z-index:150; }
+  .fc-header{ display:flex; align-items:center; justify-content:space-between; padding:8px 10px; border-bottom:var(--b2-width) solid var(--b2-color); cursor:grab; background:var(--bg); border-radius:calc(var(--b4-radius) - 1px) calc(var(--b4-radius) - 1px) 0 0; }
+  .fc-header:active{ cursor:grabbing; }
+  .fc-title{ font-size:12px; font-weight:600; }
+  .fc-close{ border:none; background:none; color:var(--muted); padding:2px; border-radius:2px; }
+  .fc-close:hover{ background:var(--b1-color); color:var(--text); }
+  .fc-body{ padding:10px 12px; font-size:12px; display:flex; flex-direction:column; gap:8px; }
+  .fc-footer{ padding:8px 10px; border-top:1px dashed var(--b2-color); }
+  .fc-footer button{ width:100%; border:var(--b2-width) solid var(--b2-color); border-radius:var(--b2-radius); padding:6px 0; font-size:11.5px; display:flex; align-items:center; justify-content:center; gap:6px; background:var(--surface); }
+  .fc-footer button:hover{ background:var(--bg); }
+
+  .statusbar{ display:flex; align-items:center; gap:16px; padding:5px 12px; background:var(--bg); border-top:var(--b3-width) solid var(--b3-color); font-size:11.5px; color:var(--muted); flex-shrink:0; flex-wrap:wrap; }
+  .statusbar .spacer{ flex:1; }
+  .statusbar .slot{ display:flex; align-items:center; gap:5px; white-space:nowrap; }
+  .status-safe-zone{ width:210px; flex-shrink:0; }
+
+  .toast{ position:fixed; bottom:44px; left:50%; transform:translateX(-50%) translateY(8px); background:var(--text); color:#fff; font-size:12px; padding:8px 14px; border-radius:var(--b2-radius); opacity:0; transition:opacity 150ms ease-out, transform 150ms ease-out; z-index:250; pointer-events:none; max-width:380px; text-align:center; }
+  .toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+
+  .help-overlay{ position:fixed; inset:0; background:rgba(10,14,18,.5); display:none; align-items:center; justify-content:center; z-index:300; }
+  .help-overlay.open{ display:flex; }
+  .help-card{ background:var(--surface); border:var(--b4-width) solid var(--b4-color); border-radius:var(--b4-radius); box-shadow:var(--elev-2); width:480px; max-height:78vh; overflow-y:auto; }
+  .help-header{ padding:14px 16px; border-bottom:var(--b2-width) solid var(--b2-color); display:flex; justify-content:space-between; align-items:center; }
+  .help-header h3{ margin:0; font-size:14px; }
+  .help-close{ border:none; background:none; font-size:16px; color:var(--muted); cursor:pointer; }
+  .help-body{ padding:4px 16px 16px; }
+  .help-group-label{ font-size:10.5px; color:var(--muted); padding:10px 0 4px; }
+  .help-row{ display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid var(--bg); font-size:12px; gap:10px; }
+  .help-row kbd{ font-family:var(--mono); background:var(--bg); border:var(--b1-width) solid var(--b1-color); border-radius:var(--b1-radius); padding:1px 5px; font-size:11px; }
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <div class="hint-banner">
+    <strong>Bench</strong> — demo 2, mismos tokens/tipografía/iconografía que la anterior, patrones nuevos: arrastrá los <strong>separadores</strong> entre paneles, probá <kbd>g</kbd> luego <kbd>d</kbd>/<kbd>r</kbd>/<kbd>a</kbd> (secuencias sin modificador), activá <strong>Ayuda contextual</strong> y pasá el mouse por los campos marcados, o abrí <strong>Configurar</strong> para ver el patrón "Aplicar". <kbd>?</kbd> = leyenda.
+  </div>
+
+  <div class="topbar">
+    <span class="brand">Bench · Monitoreo</span>
+    <div class="toolbar-sep"></div>
+    <button class="btn" id="btnHelp"><span class="icon" data-icon="help"></span>Ayuda</button>
+    <button class="btn" id="btnBalloon" data-tip="Activar ayuda contextual (Balloon Help)"><span class="icon" data-icon="info"></span>Ayuda contextual</button>
+    <div class="leader-badge" id="leaderBadge"><span>g</span><span id="leaderText">_</span></div>
+  </div>
+
+  <div class="toolbar">
+    <button class="btn primary" id="btnConfig"><span class="icon" data-icon="settings"></span>Configurar panel</button>
+    <button class="btn" id="btnSecondScreen"><span class="icon" data-icon="send"></span>Tarjeta → 2º monitor</button>
+    <div class="toolbar-sep"></div>
+    <span style="font-size:11px; color:var(--muted);">Cuadrantes activos: <strong id="quadCount">3</strong></span>
+  </div>
+
+  <div class="tiling" id="tiling">
+    <div class="tile-col" id="colA" style="flex:0 0 38%;">
+      <div class="panel" id="panelDashboard" style="flex:1;">
+        <div class="panel-header">
+          <span class="panel-title"><span class="live-dot fast"></span> Dashboard — alertas críticas</span>
+          <div class="panel-actions"><button data-balloon="Este cuadrante se actualiza cada ~500ms porque son alertas críticas — la política de throttling (Bench 4.3) permite ventanas más cortas cuando la urgencia lo justifica."><span class="icon" data-icon="info"></span></button></div>
+        </div>
+        <div class="panel-body" id="feedDashboard"></div>
+      </div>
+    </div>
+
+    <div class="splitter-v" data-target="colA"></div>
+
+    <div class="tile-col" id="colB" style="flex:1;">
+      <div class="panel" id="panelReportes" style="flex:1 1 55%;">
+        <div class="panel-header">
+          <span class="panel-title"><span class="live-dot"></span> Reportes — resumen</span>
+          <div class="panel-actions"><button data-balloon="Métricas agregadas, sin necesidad de refresco en tiempo real — se recalculan cada vez que cambian los datos subyacentes, no en un intervalo fijo."><span class="icon" data-icon="info"></span></button></div>
+        </div>
+        <div class="panel-body" id="metricsReportes"></div>
+      </div>
+      <div class="splitter-h" data-target="panelReportes"></div>
+      <div class="panel" id="panelLogs" style="flex:1 1 45%;">
+        <div class="panel-header">
+          <span class="panel-title"><span class="live-dot"></span> Actividad — general</span>
+          <div class="panel-actions"><button data-balloon="Panel informativo: tolera una ventana de agregación de 2-3 segundos sin pérdida de utilidad — no necesita la urgencia del panel de alertas."><span class="icon" data-icon="info"></span></button></div>
+        </div>
+        <div class="panel-body" id="feedLogs"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="statusbar">
+    <div class="status-safe-zone"></div>
+    <div class="slot" id="statusMain">3 cuadrantes · throttling activo</div>
+    <div class="spacer"></div>
+    <div class="slot tnum" id="telFps">60 fps</div>
+  </div>
+</div>
+
+<!-- Panel de configuración — patrón "Aplicar" -->
+<div class="config-panel" id="configPanel">
+  <div class="cfg-header"><span class="cfg-title">Configurar: Reportes</span><button class="fc-close" id="cfgClose"><span class="icon" data-icon="close"></span></button></div>
+  <div class="cfg-body" id="cfgBody"></div>
+  <div class="cfg-note">Los cambios se ven en vivo en el panel. "Aplicar" los confirma sin cerrar; "Descartar" revierte el bloque completo.</div>
+  <div class="cfg-footer">
+    <button id="cfgDiscard">Descartar</button>
+    <button id="cfgApply">Aplicar</button>
+    <button class="primary" id="cfgAccept">Aceptar</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<div class="balloon" id="balloon"></div>
+<div class="leader-overlay" id="leaderOverlay"></div>
+
+<div class="help-overlay" id="helpOverlay">
+  <div class="help-card">
+    <div class="help-header"><h3>Ayuda — Demo 2: Layout &amp; Interacción</h3><button class="help-close" id="helpClose">✕</button></div>
+    <div class="help-body">
+      <div class="help-group-label">Tiling real (Bench 4.3)</div>
+      <div class="help-row"><span>Redimensionar panel</span><span>Arrastrar el separador</span></div>
+      <div class="help-group-label">Secuencias sin modificador (Bench 4.1 / 3.1.2)</div>
+      <div class="help-row"><span>Ir a Dashboard</span><span><kbd>g</kbd> luego <kbd>d</kbd></span></div>
+      <div class="help-row"><span>Ir a Reportes</span><span><kbd>g</kbd> luego <kbd>r</kbd></span></div>
+      <div class="help-row"><span>Abrir Configurar</span><span><kbd>g</kbd> luego <kbd>a</kbd></span></div>
+      <div class="help-row"><span>Cancelar secuencia armada</span><span><kbd>Esc</kbd></span></div>
+      <div class="help-group-label">Ayuda contextual (Balloon Help — Bench 4.4)</div>
+      <div class="help-row"><span>Activar/desactivar</span><span>Botón "Ayuda contextual"</span></div>
+      <div class="help-row"><span>Ver explicación extendida</span><span>Hover sobre íconos ⓘ con el modo activo</span></div>
+      <div class="help-group-label">Patrón "Aplicar" (Bench 4.6)</div>
+      <div class="help-row"><span>Ver efecto sin cerrar</span><span>Checkbox → cambio en vivo en el panel</span></div>
+      <div class="help-row"><span>Revertir todo el bloque</span><span>"Descartar"</span></div>
+      <div class="help-group-label">Multi-monitor progresivo (Bench 4.3)</div>
+      <div class="help-row"><span>Enviar tarjeta a 2º monitor</span><span>Sin permiso solicitado hasta el clic explícito</span></div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const ICONS = {
+    help: '<svg viewBox="0 0 32 32" fill="currentColor"><path d="M16 2a14 14 0 1 0 14 14A14 14 0 0 0 16 2Zm0 26a12 12 0 1 1 12-12 12 12 0 0 1-12 12Z"/><path d="M17 22h-2v-2h2Zm3.5-11.5a4.5 4.5 0 0 0-7.9-2.9l1.5 1.32A2.5 2.5 0 1 1 16 13.5h-1v4h2v-2.2a4.5 4.5 0 0 0 3.5-4.3Z"/></svg>',
+    info: '<svg viewBox="0 0 32 32" fill="currentColor"><path d="M16 2a14 14 0 1 0 14 14A14 14 0 0 0 16 2Zm0 25a11 11 0 1 1 11-11 11 11 0 0 1-11 11Z"/><path d="M15 15h2v8h-2zM15 10h2v2h-2z"/></svg>',
+    settings: '<svg viewBox="0 0 32 32" fill="currentColor"><path d="M27 16.76a7.4 7.4 0 0 0 0-1.52l2.17-1.63a1.05 1.05 0 0 0 .25-1.34l-2-3.46a1.06 1.06 0 0 0-1.27-.46l-2.55 1a7.7 7.7 0 0 0-1.32-.77L21.87 5.5a1.06 1.06 0 0 0-1.05-.9h-4a1.06 1.06 0 0 0-1.05.9l-.41 2.7a7.7 7.7 0 0 0-1.32.77l-2.55-1a1.06 1.06 0 0 0-1.27.46l-2 3.46a1.05 1.05 0 0 0 .25 1.34l2.17 1.63a7.4 7.4 0 0 0 0 1.52l-2.17 1.63a1.05 1.05 0 0 0-.25 1.34l2 3.46a1.06 1.06 0 0 0 1.27.46l2.55-1a7.7 7.7 0 0 0 1.32.77l.41 2.7a1.06 1.06 0 0 0 1.05.9h4a1.06 1.06 0 0 0 1.05-.9l.41-2.7a7.7 7.7 0 0 0 1.32-.77l2.55 1a1.06 1.06 0 0 0 1.27-.46l2-3.46a1.05 1.05 0 0 0-.25-1.34ZM16 21a5 5 0 1 1 5-5 5 5 0 0 1-5 5Z"/></svg>',
+    send: '<svg viewBox="0 0 32 32" fill="currentColor"><path d="M27 5 3 14.5l9 3.5 10-9-9 10 3.5 9Z"/></svg>',
+    close: '<svg viewBox="0 0 32 32" fill="currentColor"><path d="M24 9.4 22.6 8 16 14.6 9.4 8 8 9.4l6.6 6.6L8 22.6 9.4 24l6.6-6.6 6.6 6.6 1.4-1.4-6.6-6.6Z"/></svg>',
+  };
+  document.querySelectorAll('[data-icon]').forEach(el => el.innerHTML = ICONS[el.dataset.icon] || '');
+  const $ = (s,c)=> (c||document).querySelector(s);
+  const $$ = (s,c)=> Array.from((c||document).querySelectorAll(s));
+  function nowStr(){ return new Date().toLocaleTimeString('es-BO',{hour:'2-digit',minute:'2-digit',second:'2-digit'}); }
+
+  // ---------------- Toast ----------------
+  let toastTimer=null;
+  function showToast(msg){
+    const t=$('#toast'); t.textContent=msg; t.classList.add('show');
+    clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove('show'), 2200);
+  }
+
+  // ---------------- Splitters arrastrables (tiling real) ----------------
+  $$('.splitter-v').forEach(sp=>{
+    let dragging=false, startX=0, startFlexBasis=0, col=null;
+    sp.addEventListener('mousedown', (e)=>{
+      dragging=true; sp.classList.add('dragging');
+      col = document.getElementById(sp.dataset.target);
+      startX = e.clientX;
+      startFlexBasis = col.getBoundingClientRect().width;
+      document.body.style.cursor='col-resize';
+    });
+    document.addEventListener('mousemove', (e)=>{
+      if(!dragging) return;
+      const delta = e.clientX - startX;
+      const newWidth = Math.max(160, startFlexBasis + delta);
+      col.style.flex = `0 0 ${newWidth}px`;
+    });
+    document.addEventListener('mouseup', ()=>{
+      if(!dragging) return;
+      dragging=false; sp.classList.remove('dragging'); document.body.style.cursor='';
+    });
+  });
+  $$('.splitter-h').forEach(sp=>{
+    let dragging=false, startY=0, startHeight=0, panel=null;
+    sp.addEventListener('mousedown', (e)=>{
+      dragging=true; sp.classList.add('dragging');
+      panel = document.getElementById(sp.dataset.target);
+      startY = e.clientY;
+      startHeight = panel.getBoundingClientRect().height;
+      document.body.style.cursor='row-resize';
+    });
+    document.addEventListener('mousemove', (e)=>{
+      if(!dragging) return;
+      const delta = e.clientY - startY;
+      const newHeight = Math.max(80, startHeight + delta);
+      panel.style.flex = `0 0 ${newHeight}px`;
+    });
+    document.addEventListener('mouseup', ()=>{
+      if(!dragging) return;
+      dragging=false; sp.classList.remove('dragging'); document.body.style.cursor='';
+    });
+  });
+
+  // ---------------- Feeds throttled con distinta cadencia (Bench 4.3) ----------------
+  const dashMsgs = ['Latencia WS > umbral en nodo 3', 'Reintento de sincronización', 'Pico de CPU: 87%', 'Cola de trabajos creciendo'];
+  const logMsgs = ['Sincronización completada', 'Usuario admin inició sesión', 'Backup incremental OK', 'Cache actualizado'];
+  function pushLine(containerId, msgs, crit){
+    const body = $('#'+containerId);
+    const line = document.createElement('div');
+    line.className = 'feed-line' + (crit ? ' crit' : '');
+    line.innerHTML = `<span class="feed-time">${nowStr()}</span><span>${msgs[Math.floor(Math.random()*msgs.length)]}</span>`;
+    body.appendChild(line);
+    while(body.children.length > 30) body.removeChild(body.firstChild);
+    body.scrollTop = body.scrollHeight;
+  }
+  setInterval(()=> pushLine('feedDashboard', dashMsgs, true), 550);   // banda corta: alerta crítica
+  setInterval(()=> pushLine('feedLogs', logMsgs, false), 2600);        // banda larga: informativo
+
+  function renderMetrics(){
+    const cfg = window.__cfgLive || { ventas:true, latencia:true, errores:false, usuarios:true };
+    const all = {
+      ventas: ['Ventas del día', '$ ' + (12000+Math.random()*400).toFixed(2)],
+      latencia: ['Latencia p95', (30+Math.random()*20).toFixed(0)+' ms'],
+      errores: ['Errores últimas 24h', Math.floor(Math.random()*5)],
+      usuarios: ['Usuarios activos', Math.floor(180+Math.random()*20)],
+    };
+    const body = $('#metricsReportes');
+    body.innerHTML = Object.keys(all).filter(k=>cfg[k]).map(k=>
+      `<div class="metric-row"><span class="metric-label">${all[k][0]}</span><span class="metric-value tnum">${all[k][1]}</span></div>`
+    ).join('') || '<div style="color:var(--muted); padding:8px 0;">Sin métricas seleccionadas</div>';
+  }
+  window.__cfgLive = { ventas:true, latencia:true, errores:false, usuarios:true };
+  renderMetrics();
+  setInterval(renderMetrics, 3000);
+
+  // ---------------- Panel "Aplicar" ----------------
+  const cfgLabels = { ventas:'Ventas del día', latencia:'Latencia p95', errores:'Errores 24h', usuarios:'Usuarios activos' };
+  let cfgSnapshot = null;
+  function openConfig(){
+    cfgSnapshot = { ...window.__cfgLive };
+    const body = $('#cfgBody');
+    body.innerHTML = Object.keys(cfgLabels).map(k => `
+      <label class="cfg-row">
+        <input type="checkbox" data-k="${k}" ${window.__cfgLive[k] ? 'checked' : ''}>
+        ${cfgLabels[k]}
+      </label>`).join('');
+    $$('#cfgBody input').forEach(inp=>{
+      inp.addEventListener('change', ()=>{
+        window.__cfgLive[inp.dataset.k] = inp.checked;
+        renderMetrics(); // efecto visible antes de confirmar — Regla 3
+      });
+    });
+    $('#configPanel').classList.add('open');
+  }
+  function closeConfig(){ $('#configPanel').classList.remove('open'); }
+  $('#btnConfig').addEventListener('click', openConfig);
+  $('#cfgClose').addEventListener('click', closeConfig);
+  $('#cfgDiscard').addEventListener('click', ()=>{
+    window.__cfgLive = { ...cfgSnapshot };
+    renderMetrics();
+    openConfig();
+    showToast('Cambios descartados — bloque completo revertido');
+  });
+  $('#cfgApply').addEventListener('click', ()=>{
+    cfgSnapshot = { ...window.__cfgLive };
+    showToast('Aplicado — el panel sigue abierto para seguir ajustando');
+  });
+  $('#cfgAccept').addEventListener('click', ()=>{
+    cfgSnapshot = { ...window.__cfgLive };
+    closeConfig();
+    showToast('Configuración confirmada');
+  });
+
+  // ---------------- Balloon Help ----------------
+  let balloonMode = false;
+  const balloonEl = $('#balloon');
+  $('#btnBalloon').addEventListener('click', ()=>{
+    balloonMode = !balloonMode;
+    $('#btnBalloon').classList.toggle('on', balloonMode);
+    $$('[data-balloon]').forEach(el => el.classList.toggle('balloon-armed', balloonMode));
+    showToast(balloonMode ? 'Ayuda contextual activada' : 'Ayuda contextual desactivada');
+  });
+  $$('[data-balloon]').forEach(el=>{
+    el.addEventListener('mouseenter', ()=>{
+      if(!balloonMode) return;
+      const rect = el.getBoundingClientRect();
+      balloonEl.textContent = el.dataset.balloon;
+      balloonEl.style.left = rect.left + 'px';
+      balloonEl.style.top = (rect.bottom + 12) + 'px';
+      balloonEl.classList.add('show');
+    });
+    el.addEventListener('mouseleave', ()=> balloonEl.classList.remove('show'));
+  });
+
+  // ---------------- Secuencias sin modificador (leader key, estilo Gmail) ----------------
+  let leaderArmed = false, leaderTimer = null;
+  const leaderOverlay = $('#leaderOverlay');
+  function armLeader(){
+    leaderArmed = true;
+    $('#leaderBadge').classList.add('show');
+    leaderOverlay.innerHTML = 'Secuencia: <kbd>g</kbd> presionada — esperando <kbd>d</kbd> <kbd>r</kbd> <kbd>a</kbd>…';
+    leaderOverlay.classList.add('show');
+    clearTimeout(leaderTimer);
+    leaderTimer = setTimeout(disarmLeader, 1500);
+  }
+  function disarmLeader(){
+    leaderArmed = false;
+    $('#leaderBadge').classList.remove('show');
+    leaderOverlay.classList.remove('show');
+  }
+  function flashPanel(panelId){
+    const p = document.getElementById(panelId);
+    p.style.boxShadow = '0 0 0 2px var(--primary)';
+    setTimeout(()=> p.style.boxShadow = '', 500);
+    p.scrollIntoView({block:'nearest', inline:'nearest'});
+  }
+  document.addEventListener('keydown', (e)=>{
+    const tag = (e.target.tagName||'').toLowerCase();
+    if(tag === 'input' || tag === 'textarea') return;
+    if(e.key === 'Escape'){ if(leaderArmed) disarmLeader(); closeHelp(); return; }
+    if(!leaderArmed){
+      if(e.key === 'g'){ armLeader(); }
+      return;
+    }
+    // segunda tecla de la secuencia
+    disarmLeader();
+    if(e.key === 'd'){ flashPanel('panelDashboard'); showToast('Ir a: Dashboard (g d)'); }
+    else if(e.key === 'r'){ flashPanel('panelReportes'); showToast('Ir a: Reportes (g r)'); }
+    else if(e.key === 'a'){ openConfig(); showToast('Abrir: Configurar (g a)'); }
+  });
+
+  // ---------------- Multi-monitor progresivo (silencioso si no hay soporte) ----------------
+  $('#btnSecondScreen').addEventListener('click', async ()=>{
+    if(!('getScreenDetails' in window)){
+      // Degradación silenciosa (Bench 4.3): la tarjeta ya funciona flotando en la misma ventana.
+      showFloatingCard();
+      showToast('Este navegador no soporta multi-pantalla — la tarjeta sigue aquí');
+      return;
+    }
+    try{
+      const details = await window.getScreenDetails();
+      const secondScreen = details.screens.find(s => !s.isPrimary) || details.screens[0];
+      showFloatingCard();
+      showToast('Segunda pantalla detectada: ' + (secondScreen.label || 'disponible') + ' — tarjeta lista para anclar ahí');
+    } catch(err){
+      showFloatingCard();
+      showToast('Permiso no concedido — la tarjeta sigue flotando en esta ventana');
+    }
+  });
+  let floatingCardEl = null;
+  function showFloatingCard(){
+    if(floatingCardEl){ floatingCardEl.style.zIndex = 160; return; }
+    const card = document.createElement('div');
+    card.className = 'floating-card';
+    card.style.left = '120px'; card.style.top = '100px';
+    card.innerHTML = `
+      <div class="fc-header"><span class="fc-title">Resumen — Reportes</span><button class="fc-close">${ICONS.close}</button></div>
+      <div class="fc-body">
+        <div class="metric-row"><span class="metric-label">Ventas del día</span><span class="metric-value tnum">$ 12,340.00</span></div>
+        <div class="metric-row"><span class="metric-label">Usuarios activos</span><span class="metric-value tnum">193</span></div>
+      </div>
+      <div class="fc-footer"><button disabled style="opacity:.5; cursor:default;">${ICONS.send} Anclada en esta ventana</button></div>
+    `;
+    document.body.appendChild(card);
+    floatingCardEl = card;
+    const header = card.querySelector('.fc-header');
+    let dragging=false, offX=0, offY=0;
+    header.addEventListener('mousedown', (e)=>{
+      if(e.target.closest('button')) return;
+      dragging=true; offX=e.clientX-card.offsetLeft; offY=e.clientY-card.offsetTop;
+    });
+    document.addEventListener('mousemove', (e)=>{ if(!dragging) return; card.style.left=(e.clientX-offX)+'px'; card.style.top=(e.clientY-offY)+'px'; });
+    document.addEventListener('mouseup', ()=> dragging=false);
+    card.querySelector('.fc-close').addEventListener('click', ()=>{ card.remove(); floatingCardEl=null; });
+  }
+
+  // ---------------- Ayuda ----------------
+  const helpOverlay = $('#helpOverlay');
+  function openHelp(){ helpOverlay.classList.add('open'); }
+  function closeHelp(){ helpOverlay.classList.remove('open'); }
+  $('#btnHelp').addEventListener('click', openHelp);
+  $('#helpClose').addEventListener('click', closeHelp);
+  helpOverlay.addEventListener('click', (e)=>{ if(e.target===helpOverlay) closeHelp(); });
+  document.addEventListener('keydown', (e)=>{ if(e.key === '?' && (e.target.tagName||'').toLowerCase() !== 'input') openHelp(); });
+
+  // ---------------- Telemetría simple ----------------
+  let frames=0, lastFps=performance.now();
+  function fpsLoop(){
+    frames++; const now=performance.now();
+    if(now-lastFps>=1000){ $('#telFps').textContent = Math.round(frames*1000/(now-lastFps))+' fps'; frames=0; lastFps=now; }
+    requestAnimationFrame(fpsLoop);
+  }
+  requestAnimationFrame(fpsLoop);
+
+  // init
+  for(let i=0;i<3;i++){ pushLine('feedDashboard', dashMsgs, true); pushLine('feedLogs', logMsgs, false); }
+})();
+</script>
+</body>
+</html>

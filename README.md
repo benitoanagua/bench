@@ -1,133 +1,105 @@
-# Headless WordPress Admin 🚀
+# Bench Design System
 
-A WordPress plugin to transform your site into a headless platform with modern administration interface and complete configuration.
+*(Bench, short for "Workbench" — the surface where someone who's mastered a
+craft keeps their tools exactly where they need them, every day, for years.
+Built for the person who has this software open 8 hours a day, not the
+person opening it for the first time. Full philosophy and the 9 inviolable
+rules: [`docs/bench-design-system.md`](./docs/bench-design-system.md).)*
 
-## Plugin Information
+Bench is a design system built from scratch with Stencil, TypeScript and Web
+Components. Everything in it — colors, the 4-level border scale, elevation,
+motion timing, typography, iconography — exists to answer a specific,
+documented problem a power user actually has, not an aesthetic preference.
+See `docs/bench-design-system.md` §0.1 for the full problem→rule mapping.
 
-**Headless WordPress Admin**  
-**Version:** 0.1.0  
-**Author:** Benito Anagua  
-**Requires:** WordPress 6.0+, PHP 8.0+  
-**License:** GPL v2 or later
+## Principles
 
-## Interface Preview
+- STRATA is used only as a repository-organization reference.
+- No STRATA component logic, tokens, visual rules, APIs or behavior are
+  inherited. Bench's own visual DNA — colors, the border/elevation scales,
+  motion bands, typography — comes from `bench-design-system.md`, not from
+  STRATA.
+- Carbon Icons is the only icon family used by Bench, for the same design
+  lineage as its typography (IBM Plex) — see
+  `docs/architecture/adr-008-carbon-icons.md` for the migration record and
+  current (intentionally partial, honestly documented) coverage.
+- `bch-icon` has a deliberately minimal API: `name` and `aria-label`.
+- Native HTML semantics are preferred over custom behavior.
+- Components are framework-agnostic; React, Vue and Angular are adapters only.
+- No business logic belongs in Bench.
 
-### General Settings
+## The 9 inviolable rules, briefly
 
-![General Settings](https://i.ibb.co/R4dj948W/general.png)
+Category A (negotiable only through a documented exception): every function
+reachable by click/focus, not just a shortcut · no state is only momentary if
+it changes what the next action means · edits show before confirmation is
+asked, blocking confirmation only for the truly irreversible · one component,
+one behavior, everywhere · no two surfaces fight over the same gesture ·
+density/theme/open-behavior are configurable, never hardcoded.
 
-### API Configuration
+Category B (authorial, non-negotiable): the border scale (Rule 7), line-style
+semantics — solid/dashed/double/triple (Rule 8), and elevation/material
+following real convention, never an invented shadow or blur (Rule 9).
 
-![API Settings](https://i.ibb.co/S4C75mdR/apis.png)
+Full text, rationale, and token values: `docs/bench-design-system.md` §1–2.
 
-### Blocked Page Customization
+## Packages
 
-![Blocked Page Settings](https://i.ibb.co/W43HbMFk/blocked-page.png)
+- `@bench/tokens` — design tokens and themes.
+- `@bench/foundation` — shared DOM, focus and accessibility utilities.
+- `@bench/primitives` — small layout/surface primitives.
+- `@bench/icons` — the Carbon icon data used by `bch-icon`.
+- `@bench/components` — canonical Web Components.
+- `@bench/testing` — visual and accessibility test infrastructure.
 
-### Security Settings
+## Icon usage
 
-![Security Configuration](https://i.ibb.co/C5McxCFV/security.png)
-
-### Advanced Features
-
-![Advanced Settings](https://i.ibb.co/PGyrs8Gs/advanced.png)
-
-## Current Status
-
-**Work in Progress** - Core structure implemented but requires completion and testing.
-
-### Partially Implemented
-
--   **Admin Interface Structure**: Tab-based configuration UI
--   **Template System**: Component-based architecture
--   **Settings Management**: Configuration storage system
--   **API Endpoints**: REST configuration endpoint skeleton
-
-### Needs Completion
-
--   **Frontend Blocking**: Request validation implementation
--   **API Services**: GraphQL and REST integration
--   **Asset Management**: Vite build configuration
--   **Security**: Nonce verification and hardening
--   **Template Rendering**: Component system implementation
-
-## Technology Stack
-
-### Backend
-
--   PHP 8.0+ with type hints
--   PSR-4 autoloading
--   WordPress hooks system
--   Composer dependency management
-
-### Frontend
-
--   Tailwind CSS 4
--   Vite build system (needs configuration)
--   Modern ES6+ JavaScript
-
-### Development
-
--   PHPStan for static analysis
--   WordPress coding standards
--   Vite for asset bundling
-
-## 🔧 Installation & Setup
-
-```bash
-# Install dependencies
-composer install
-npm install  # or pnpm install
-
-# Development (needs Vite config)
-npm run dev
-
-# Build for production
-npm run build
-
-# Code analysis
-composer run phpstan
-composer run phpcs
+```html
+<bch-icon name="search"></bch-icon>
 ```
 
-## Roadmap
+Accessible icon:
 
-### Immediate Priorities
+```html
+<bch-icon name="search" aria-label="Search"></bch-icon>
+```
 
-1. Complete Vite build configuration
-2. Implement frontend blocking mechanism
-3. Fix admin interface functionality
-4. Add security hardening
+No other icon provider is supported. Current coverage is a curated subset,
+not Carbon's full catalog — see `docs/architecture/adr-008-carbon-icons.md`.
 
-### Next Phase
+## Quality gate
 
-5. GraphQL/REST API integration
-6. Template component system
-7. Comprehensive error handling
-8. Testing suite setup
+```bash
+pnpm install
+pnpm check
+pnpm test:visual
+```
 
-## Contributing
+Visual baselines cover 320×800, 375×812, 768×1024 and 1440×900.
 
-This project welcomes contributors to help complete:
+## Showcase
 
-**High Priority Needs:**
+Run the product-like Bench showcase with:
 
--   Vite build system configuration
--   WordPress hook integration
--   Frontend request validation
--   API service implementations
+```bash
+pnpm showcase
+```
 
-**Development Areas:**
+Build it with:
 
--   PHP backend development
--   JavaScript frontend functionality
--   WordPress integration
--   Security implementation
+```bash
+pnpm build:showcase
+```
 
-## License
+The showcase is intentionally domain-agnostic: it demonstrates the design
+system without introducing business logic.
 
-GPL v2 or later - See LICENSE file for details.
+## Reference material
 
----
-
-_This plugin provides a solid foundation for headless WordPress administration but requires additional development before production use. Contributors welcome!_
+- [`docs/bench-design-system.md`](./docs/bench-design-system.md) — the full
+  specification (unchanged, cited as-is).
+- [`docs/demos/`](./docs/demos/) — six executable HTML reference demos (open
+  directly in a browser, no build step) covering the omnibar/command
+  pattern, tiling layout, data-at-scale + persistence, generic components
+  (tree/accordion/offcanvas/modal), a second domain context (wallet/ledger),
+  and authentication/long-session handling.
