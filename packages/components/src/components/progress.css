@@ -23,7 +23,7 @@
   transition: none;
 }
 @media (prefers-reduced-motion: no-preference) {
-  .bch-progress__track.is-indeterminate .bch-progress__fill { animation: bch-progress-indeterminate 1.4s var(--bch-ease-standard) infinite; }
+  .bch-progress__track.is-indeterminate .bch-progress__fill { animation: bch-progress-indeterminate var(--bch-motion-loop) var(--bch-ease-standard) infinite; }
 }
 @media (prefers-reduced-motion: reduce) {
   .bch-progress__track.is-indeterminate .bch-progress__fill { opacity: 0.6; }

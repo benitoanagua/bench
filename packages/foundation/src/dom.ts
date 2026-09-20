@@ -6,6 +6,6 @@ export function getFocusableElements(root: ParentNode): HTMLElement[] {
   );
 }
 
-export function createId(prefix = 'hh'): string {
+export function createId(prefix = 'bch'): string {
   return `${prefix}-${Math.random().toString(36).slice(2, 10)}`;
 }

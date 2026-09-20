@@ -1,6 +1,15 @@
 import * as React from 'react';
 import '@bench/components';
 
+/**
+ * Coverage: every component in packages/components/src/components/*.tsx now
+ * has a typed React wrapper below (accordion/accordion-item, dialog, drawer,
+ * form-field, nav/nav-item, spinner, tab/tab-panel/tabs, tooltip were the
+ * last 12 added — `toast.tsx` implements the `bch-toast-region` tag, already
+ * covered by `BchToastRegion`, so it was never actually a 13th gap). The
+ * same 12 are still missing from @bench/vue — see that package's index.ts.
+ */
+
 export type BchButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & { variant?: 'primary'|'secondary'|'tertiary'|'danger'; size?: 'small'|'medium'|'large'; loading?: boolean; fullWidth?: boolean };
 export type BchInputProps = React.InputHTMLAttributes<HTMLInputElement> & { label?: string; hint?: string; error?: string };
 export type BchTextareaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement> & { label?: string; hint?: string; error?: string };
@@ -25,6 +34,18 @@ export type BchComboboxOptionProps = React.HTMLAttributes<HTMLElement> & { value
 export type BchDatePickerProps = React.HTMLAttributes<HTMLElement> & { label?: string; name?: string; value?: string; min?: string; max?: string; locale?: string; firstDayOfWeek?: 0|1; hint?: string; error?: string; required?: boolean; disabled?: boolean; placeholder?: string; onBchChange?: (e: CustomEvent<string>) => void; onBchInput?: (e: CustomEvent<string>) => void };
 export type BchTimePickerProps = React.HTMLAttributes<HTMLElement> & { label?: string; name?: string; value?: string; min?: string; max?: string; step?: number; hint?: string; error?: string; required?: boolean; disabled?: boolean; onBchChange?: (e: CustomEvent<string>) => void; onBchInput?: (e: CustomEvent<string>) => void };
 export type BchFileUploadProps = React.HTMLAttributes<HTMLElement> & { label?: string; name?: string; accept?: string; multiple?: boolean; disabled?: boolean; required?: boolean; hint?: string; error?: string; maxSizeBytes?: number; dropzoneText?: string; browseText?: string; onBchFilesChange?: (e: CustomEvent<File[]>) => void; onBchFileError?: (e: CustomEvent) => void };
+export type BchAccordionProps = React.HTMLAttributes<HTMLElement> & { multiple?: boolean; onBchChange?: (e: CustomEvent<string[]>) => void };
+export type BchAccordionItemProps = React.HTMLAttributes<HTMLElement> & { open?: boolean; value?: string; label?: string; onBchToggle?: (e: CustomEvent<boolean>) => void };
+export type BchDialogProps = React.HTMLAttributes<HTMLElement> & { open?: boolean; label?: string; closeOnEscape?: boolean; tone?: 'standard'|'critical'; onBchOpen?: (e: CustomEvent<void>) => void; onBchClose?: (e: CustomEvent<void>) => void };
+export type BchDrawerProps = React.HTMLAttributes<HTMLElement> & { open?: boolean; label?: string; side?: 'left'|'right'|'start'|'end'; closeOnEscape?: boolean; onBchOpen?: (e: CustomEvent<void>) => void; onBchClose?: (e: CustomEvent<void>) => void };
+export type BchFormFieldProps = React.HTMLAttributes<HTMLElement> & { label?: string; hint?: string; error?: string; required?: boolean };
+export type BchNavProps = React.HTMLAttributes<HTMLElement> & { orientation?: 'horizontal'|'vertical' };
+export type BchNavItemProps = React.HTMLAttributes<HTMLElement> & { href?: string; active?: boolean; disabled?: boolean; onBchNavigate?: (e: CustomEvent<string>) => void };
+export type BchSpinnerProps = React.HTMLAttributes<HTMLElement> & { label?: string };
+export type BchTabProps = React.HTMLAttributes<HTMLElement> & { value: string; active?: boolean; disabled?: boolean; onBchPress?: (e: CustomEvent<string>) => void };
+export type BchTabPanelProps = React.HTMLAttributes<HTMLElement> & { value: string };
+export type BchTabsProps = React.HTMLAttributes<HTMLElement> & { value?: string; onBchChange?: (e: CustomEvent<string>) => void };
+export type BchTooltipProps = React.HTMLAttributes<HTMLElement> & { text?: string; placement?: 'top'|'bottom' };
 
 export const BchButton = React.forwardRef<HTMLElement, BchButtonProps>((props, ref) => <bch-button ref={ref as React.Ref<any>} {...props} />);
 export const BchIcon = React.forwardRef<HTMLElement, BchIconProps>((props, ref) => <bch-icon ref={ref} {...props} />);
@@ -55,6 +76,18 @@ export const BchComboboxOption = React.forwardRef<HTMLElement, BchComboboxOption
 export const BchDatePicker = React.forwardRef<HTMLElement, BchDatePickerProps>((props, ref) => <bch-date-picker ref={ref} {...props} />);
 export const BchTimePicker = React.forwardRef<HTMLElement, BchTimePickerProps>((props, ref) => <bch-time-picker ref={ref} {...props} />);
 export const BchFileUpload = React.forwardRef<HTMLElement, BchFileUploadProps>((props, ref) => <bch-file-upload ref={ref} {...props} />);
+export const BchAccordion = React.forwardRef<HTMLElement, BchAccordionProps>((props, ref) => <bch-accordion ref={ref} {...props} />);
+export const BchAccordionItem = React.forwardRef<HTMLElement, BchAccordionItemProps>((props, ref) => <bch-accordion-item ref={ref} {...props} />);
+export const BchDialog = React.forwardRef<HTMLElement, BchDialogProps>((props, ref) => <bch-dialog ref={ref} {...props} />);
+export const BchDrawer = React.forwardRef<HTMLElement, BchDrawerProps>((props, ref) => <bch-drawer ref={ref} {...props} />);
+export const BchFormField = React.forwardRef<HTMLElement, BchFormFieldProps>((props, ref) => <bch-form-field ref={ref} {...props} />);
+export const BchNav = React.forwardRef<HTMLElement, BchNavProps>((props, ref) => <bch-nav ref={ref} {...props} />);
+export const BchNavItem = React.forwardRef<HTMLElement, BchNavItemProps>((props, ref) => <bch-nav-item ref={ref} {...props} />);
+export const BchSpinner = React.forwardRef<HTMLElement, BchSpinnerProps>((props, ref) => <bch-spinner ref={ref} {...props} />);
+export const BchTab = React.forwardRef<HTMLElement, BchTabProps>((props, ref) => <bch-tab ref={ref} {...props} />);
+export const BchTabPanel = React.forwardRef<HTMLElement, BchTabPanelProps>((props, ref) => <bch-tab-panel ref={ref} {...props} />);
+export const BchTabs = React.forwardRef<HTMLElement, BchTabsProps>((props, ref) => <bch-tabs ref={ref} {...props} />);
+export const BchTooltip = React.forwardRef<HTMLElement, BchTooltipProps>((props, ref) => <bch-tooltip ref={ref} {...props} />);
 
 declare global {
   namespace JSX {
@@ -87,6 +120,18 @@ declare global {
       'bch-date-picker': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & BchDatePickerProps;
       'bch-time-picker': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & BchTimePickerProps;
       'bch-file-upload': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & BchFileUploadProps;
+      'bch-accordion': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & BchAccordionProps;
+      'bch-accordion-item': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & BchAccordionItemProps;
+      'bch-dialog': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & BchDialogProps;
+      'bch-drawer': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & BchDrawerProps;
+      'bch-form-field': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & BchFormFieldProps;
+      'bch-nav': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & BchNavProps;
+      'bch-nav-item': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & BchNavItemProps;
+      'bch-spinner': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & BchSpinnerProps;
+      'bch-tab': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & BchTabProps;
+      'bch-tab-panel': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & BchTabPanelProps;
+      'bch-tabs': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & BchTabsProps;
+      'bch-tooltip': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & BchTooltipProps;
     }
   }
 }

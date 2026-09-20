@@ -34,7 +34,7 @@ limitations under the License.
 ```
 
 **Migration status** (see `docs/architecture/adr-008-carbon-icons.md`): as of
-this notice, `carbon-outline.json` ships a curated ~40-icon subset — the exact
+this notice, `carbon-outline.json` ships a curated ~54-icon subset — the exact
 set verified across the six Bench reference demos in `docs/demos/` — not
 Carbon's full catalog. A regeneration script that pulls the complete dataset
 from the real `@carbon/icons` npm package (mirroring exactly how this file's

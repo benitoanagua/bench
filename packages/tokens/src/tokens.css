@@ -194,6 +194,18 @@
   --bch-motion-panel: 140ms;    /* apertura de panel flotante/modal */
   --bch-motion-badge: 220ms;    /* cambio de estado de badge/indicador */
   --bch-motion-slow: 300ms;     /* techo del sistema: highlight de streaming/tiempo real */
+  /* Extensión de Bench, no en la tabla original: las 5 bandas de arriba son
+     para transiciones discretas de estado (algo cambió una vez). Spinner,
+     skeleton shimmer y la barra de progreso indeterminada son animaciones
+     CONTINUAS/infinitas — una categoría distinta que bench-design-system.md
+     §2.5 no cubre. Antes de este token, cada una improvisaba su propio valor
+     (spinner reutilizaba mal --bch-motion-normal, girando >5 veces/segundo;
+     skeleton usaba 1.6s hardcodeado; progress usaba 1.4s hardcodeado) — tres
+     valores distintos, uno de ellos activamente incorrecto. Un solo valor
+     compartido para todo lo que gira/repite en loop, documentado acá en vez
+     de en la especificación original porque es un caso que esta extiende,
+     no que contradice. */
+  --bch-motion-loop: 1.4s;
   --bch-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --bch-ease-in-out: cubic-bezier(0.45, 0, 0.55, 1);
   --bch-ease-standard: var(--bch-ease-out);
@@ -204,6 +216,39 @@
      usan los componentes — ver docs/foundations/tokens.md para el porqué. */
   --bch-focus-width: 2px;
   --bch-focus-color: var(--bch-color-primary);
+}
+
+/* Variantes de densidad (§2.9) — antes solo documentadas en un comentario,
+   ahora realmente cableadas. [data-bch-density] se aplica en un contenedor
+   raíz (la app, o un panel específico); "cómodo" es el default en :root y
+   no necesita su propio selector. El modo terminal se reserva a paneles
+   marcados explícitamente con [data-bch-panel="raw-data"] — nunca se activa
+   solo por [data-bch-density="terminal"] sin ese segundo marcador, para que
+   no se convierta por accidente en el tema de toda una pantalla (§4.4). */
+[data-bch-density='compact'] {
+  --bch-density-row-height: 1.625rem;    /* 26px */
+  --bch-density-cell-py: 0.25rem;         /* 4px */
+  --bch-density-cell-px: 0.5rem;          /* 8px */
+  --bch-density-fs-data: 0.75rem;         /* 12px */
+  --bch-density-fs-ui: 0.75rem;           /* 12px */
+}
+
+[data-bch-density='spacious'] {
+  --bch-density-row-height: 3rem;         /* 48px */
+  --bch-density-cell-py: 0.8125rem;       /* 13px */
+  --bch-density-cell-px: 1rem;            /* 16px */
+  --bch-density-fs-data: 0.875rem;        /* 14px */
+  --bch-density-fs-ui: 0.875rem;          /* 14px */
+}
+
+[data-bch-density='terminal'][data-bch-panel='raw-data'] {
+  --bch-density-row-height: 1.375rem;     /* 22px */
+  --bch-density-cell-py: 0.1875rem;       /* 3px */
+  --bch-density-cell-px: 0.5rem;          /* 8px */
+  --bch-density-fs-data: 0.75rem;         /* 12px */
+  --bch-density-fs-ui: 0.75rem;           /* 12px */
+  background: #0C1210;
+  color: #7FD9A0;
 }
 
 @media (prefers-reduced-motion: reduce) {

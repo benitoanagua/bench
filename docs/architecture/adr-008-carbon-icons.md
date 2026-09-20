@@ -34,7 +34,7 @@ done.
    `fill`/`stroke`/`fill-rule` attributes.
 2. Unlike the Tabler end-state, **this migration ships with a known,
    documented coverage gap, on purpose**: `carbon-outline.json` currently
-   contains ~40 icons — the set verified, one by one, across the six Bench
+   contains ~54 icons — the set verified, one by one, across the six Bench
    reference demos **and** every icon name actually referenced by
    `apps/showcase` in this repository — not
    Carbon's full ~2,200-icon catalog.
@@ -42,7 +42,7 @@ done.
    read before filing a confused bug report: `THIRD_PARTY_NOTICES.md`,
    `README.md`, and a migration-note comment at the top of `icon-names.ts`
    (whose ~180-name autocomplete union is inherited from the Tabler era and is
-   **not** yet verified against real Carbon names beyond the curated ~40).
+   **not** yet verified against real Carbon names beyond the curated ~54).
 
 ## Why not just ship the full Carbon dataset now
 
@@ -59,11 +59,11 @@ gap is safer than a large, falsely-confident one.
 ## Consequences
 
 - `resolveCarbonIcon(name)` returns `undefined` (no error, no console warning)
-  for any Carbon-valid name outside the curated ~40 — identical failure mode
+  for any Carbon-valid name outside the curated ~54 — identical failure mode
   to the pre-ADR-007 Tabler behavior, reintroduced on purpose and with the
   cause documented, not hidden.
 - Product teams building on Bench today should treat the icon registry as
-  "the ~40 names in `carbon-outline.json`" until the follow-up lands, not as
+  "the ~54 names in `carbon-outline.json`" until the follow-up lands, not as
   "anything Carbon ships."
 - Follow-up work (tracked, not yet scheduled): add `@carbon/icons` as an
   actual resolved build-time dependency, write the generation script

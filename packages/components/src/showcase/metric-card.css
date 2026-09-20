@@ -2,6 +2,6 @@
 .bch-metric-card__top { display:flex; align-items:center; justify-content:space-between; gap:12px; }
 .bch-metric-card__label { color:var(--bch-color-text-muted); font-size:.875rem; }
 .bch-metric-card__value { font-size:clamp(1.75rem,4vw,2.5rem); line-height:1; letter-spacing:-.03em; }
-.bch-metric-card__trend { font-size:.8125rem; font-weight:600; }
+.bch-metric-card__trend { font-size:.8125rem; font-weight:var(--bch-font-weight-medium); }
 .bch-metric-card--positive .bch-metric-card__trend { color:var(--bch-color-success); }
 .bch-metric-card--negative .bch-metric-card__trend { color:var(--bch-color-danger); }

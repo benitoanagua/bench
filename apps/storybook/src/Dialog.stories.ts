@@ -21,3 +21,15 @@ export const Default = {
       </span>
     </bch-dialog>`),
 };
+
+export const Critical = {
+  render: () => stencilContent(`
+    <bch-button variant="danger" onclick="document.querySelector('#critical-dialog').show()">Delete permanently</bch-button>
+    <bch-dialog id="critical-dialog" label="Delete permanently" tone="critical">
+      <p>This will delete the record and its full history. <strong>This action cannot be undone.</strong></p>
+      <span slot="footer">
+        <bch-button variant="secondary" onclick="document.querySelector('#critical-dialog').close()">Cancel</bch-button>
+        <bch-button variant="danger" onclick="document.querySelector('#critical-dialog').close()">Delete permanently</bch-button>
+      </span>
+    </bch-dialog>`),
+};

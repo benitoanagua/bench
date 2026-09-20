@@ -14,7 +14,7 @@ alternate icon families are supported.
 <bch-icon name="search"></bch-icon>
 ```
 
-**Coverage note:** the registry currently resolves a curated ~40-icon subset —
+**Coverage note:** the registry currently resolves a curated ~54-icon subset —
 exactly the icons used across the six reference demos in `docs/demos/` — not
 Carbon's full ~2,200-icon catalog. `resolveCarbonIcon()` / `isCarbonIconName()`
 return `undefined` / `false` for any Carbon-valid name outside that subset, with

@@ -10,7 +10,7 @@ app.innerHTML = `
   <div class="shell">
     <aside class="sidebar" aria-label="Primary navigation">
       <div class="brand">
-        <div class="brand-mark">H</div>
+        <div class="brand-mark">B</div>
         <div><strong>BENCH</strong><span>Showcase</span></div>
       </div>
       <nav class="sidebar-nav">

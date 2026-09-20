@@ -9,7 +9,7 @@
 .bch-skeleton.is-rect { width: 100%; height: 6rem; border-radius: var(--bch-radius-md); }
 
 @media (prefers-reduced-motion: no-preference) {
-  .bch-skeleton { animation: bch-skeleton-shimmer 1.6s linear infinite; }
+  .bch-skeleton { animation: bch-skeleton-shimmer var(--bch-motion-loop) linear infinite; }
 }
 @keyframes bch-skeleton-shimmer {
   0% { background-position: 200% 0; }

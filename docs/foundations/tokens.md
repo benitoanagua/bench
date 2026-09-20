@@ -52,6 +52,14 @@ There is no CSS custom property for "triple border" by itself — it's always
 paired with `--bch-shadow-critical` (elevation §below), because in Bench the
 border and the shadow escalate together, never separately.
 
+**Reference implementation:** `bch-dialog`'s `tone="critical"` prop
+(`packages/components/src/components/dialog.tsx`/`.css`) is the first real
+component wiring this — `.dialog--critical` applies
+`var(--bch-border-width-floating) solid var(--bch-color-danger)` +
+`var(--bch-shadow-critical)` together. Any new "are you sure" flow for a
+genuinely irreversible action should reach for this prop rather than
+reintroducing the escalation ad hoc.
+
 ## Elevation — 4 levels, double-shadow technique (Rule 9)
 
 ```css
@@ -107,17 +115,41 @@ value, so no component had to be rewritten to obey the rule.
 --bch-motion-slow: 300ms;     /* ceiling: streaming-data highlight */
 ```
 
-Nothing in Bench animates for longer than `--bch-motion-slow`. All motion
-tokens collapse to `0ms` under `prefers-reduced-motion: reduce`.
+Nothing that represents a **discrete state change** animates for longer than
+`--bch-motion-slow`, and those five tokens collapse to `0ms` under
+`prefers-reduced-motion: reduce`.
+
+**Continuous/infinite animations are a separate category**, not covered by
+`bench-design-system.md`'s original motion table (which is explicitly about
+one-shot transitions, not loops): `--bch-motion-loop` (1.4s) is the one
+token shared by every `infinite` animation in the system — spinner rotation,
+skeleton shimmer, indeterminate progress. Before this token existed, each of
+those three improvised its own value independently (one of them, the
+spinner, was actively wrong — reusing `--bch-motion-normal` made it spin
+more than five times a second). `--bch-motion-loop` deliberately does **not**
+collapse to `0ms` under reduced motion — an `infinite` animation with a
+`0ms` duration doesn't cleanly stop, it can still fire per-frame. Each
+consumer disables its own loop instead, the idiomatic way for its case:
+`spinner`/`progress` wrap the rule in an explicit
+`@media (prefers-reduced-motion: reduce) { animation: none; }`; `skeleton`
+wraps the animation declaration itself in
+`@media (prefers-reduced-motion: no-preference)` so it simply never applies
+under reduced motion. Both are correct; pick whichever reads more clearly
+for the component at hand.
 
 ## Density (§2.9)
 
 `--bch-density-*` tokens (row height, cell padding, data/UI font size) default
-to the "comfortable" mode. Compact, spacious, and terminal variants are
-documented in `bench-design-system.md` §2.9; wiring `[data-bch-density]`
-variants into `tokens.css` is tracked as follow-up (see the repo's open
-issues) rather than done blind in this pass, since it touches every dense
-component's CSS, not just the token file.
+to the "comfortable" mode in `:root`. `[data-bch-density="compact"]` and
+`[data-bch-density="spacious"]` variants are wired in `tokens.css` and can be
+applied on any container — the app root, or a single dense panel. The
+terminal variant requires **both** `[data-bch-density="terminal"]` **and**
+`[data-bch-panel="raw-data"]` on the same element — a single attribute is
+not enough on purpose, so a monospaced dark panel never becomes a whole
+screen's theme by accident (§4.4). Individual components consuming these
+tokens for row height/padding (grid, list, table-like components) is tracked
+per-component, not blocked on the token layer being ready — the tokens are
+the contract those components should read from as they adopt density.
 
 ## Financial extension (§2.10, opt-in)
 

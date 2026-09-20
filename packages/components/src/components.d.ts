@@ -350,6 +350,11 @@ export namespace Components {
          */
         "open": boolean;
         "show": () => Promise<void>;
+        /**
+          * 'critical' escalates border + elevation together (Bench Rule 8 / Rule 9): triple-strength border color + `--bch-shadow-critical` (elev-3). Reserve this for the same moments that would otherwise need a blocking confirm step for a genuinely irreversible action — never for "this dialog feels important." Overusing it is exactly what the rule warns against: it only keeps its meaning if it stays rare. See bench-design-system.md §1 Regla 8.
+          * @default 'standard'
+         */
+        "tone": 'standard' | 'critical';
     }
     interface BchDrawer {
         "close": () => Promise<void>;
@@ -2168,6 +2173,11 @@ declare namespace LocalJSX {
           * @default false
          */
         "open"?: boolean;
+        /**
+          * 'critical' escalates border + elevation together (Bench Rule 8 / Rule 9): triple-strength border color + `--bch-shadow-critical` (elev-3). Reserve this for the same moments that would otherwise need a blocking confirm step for a genuinely irreversible action — never for "this dialog feels important." Overusing it is exactly what the rule warns against: it only keeps its meaning if it stays rare. See bench-design-system.md §1 Regla 8.
+          * @default 'standard'
+         */
+        "tone"?: 'standard' | 'critical';
     }
     interface BchDrawer {
         /**

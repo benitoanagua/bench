@@ -1,0 +1,29 @@
+# Source files (ya están compilados en dist/)
+src/
+tests/
+
+# Config files
+tsconfig.json
+vitest.config.ts
+.gitignore
+
+# Development files
+*.test.ts
+*.spec.ts
+.vscode/
+.idea/
+
+# CI/CD
+.github/
+
+# Package managers
+node_modules/
+pnpm-lock.yaml
+yarn.lock
+package-lock.json
+
+# Logs and temp files
+*.log
+.DS_Store
+.env
+.env.local
