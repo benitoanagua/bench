@@ -9,5 +9,26 @@ export class BchCheckbox {
   @Prop() value = 'on';
   @Prop() required = false;
   @Event() bchChange!: EventEmitter<boolean>;
-  render() { return <label class="choice"><input type="checkbox" name={this.name || undefined} value={this.value} checked={this.checked} disabled={this.disabled} required={this.required} onChange={(event) => { this.checked = (event.target as HTMLInputElement).checked; this.bchChange.emit(this.checked); }} /><span>{this.label}<slot /></span></label>; }
+  render() {
+    return (
+      <label class="choice">
+        <input
+          type="checkbox"
+          name={this.name || undefined}
+          value={this.value}
+          checked={this.checked}
+          disabled={this.disabled}
+          required={this.required}
+          onChange={(event) => {
+            this.checked = (event.target as HTMLInputElement).checked;
+            this.bchChange.emit(this.checked);
+          }}
+        />
+        <span>
+          {this.label}
+          <slot />
+        </span>
+      </label>
+    );
+  }
 }

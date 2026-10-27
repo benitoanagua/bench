@@ -11,7 +11,8 @@ const meta = {
 export default meta;
 
 export const Default = {
-  render: () => stencilContent(`
+  render: () =>
+    stencilContent(`
     <bch-button onclick="document.querySelector('bch-drawer').show()">Open drawer</bch-button>
     <bch-drawer label="Navigation">
       <bch-nav>
@@ -21,7 +22,8 @@ export const Default = {
     </bch-drawer>`),
 };
 export const LeftSide = {
-  render: () => stencilContent(`
+  render: () =>
+    stencilContent(`
     <bch-button onclick="document.querySelector('bch-drawer').show()">Open drawer</bch-button>
     <bch-drawer label="Navigation" side="left">
       <bch-nav>

@@ -32,17 +32,27 @@ function walk(dir) {
         /LitElement/,
         /lit-html/,
         /@lit\//,
-        new RegExp(String.fromCharCode(105,99,111,110,105,102,121,45,105,99,111,110), 'i'),
-        new RegExp(String.fromCharCode(105,99,111,110,105,102,121,45,106,115,111,110), 'i'),
+        new RegExp(
+          String.fromCharCode(105, 99, 111, 110, 105, 102, 121, 45, 105, 99, 111, 110),
+          'i',
+        ),
+        new RegExp(
+          String.fromCharCode(105, 99, 111, 110, 105, 102, 121, 45, 106, 115, 111, 110),
+          'i',
+        ),
       ];
-      for (const pattern of banned) if (pattern.test(text)) violations.push(`${file}: forbidden dependency or legacy icon reference`);
+      for (const pattern of banned)
+        if (pattern.test(text))
+          violations.push(`${file}: forbidden dependency or legacy icon reference`);
     }
   }
 }
 
 walk(root);
 if (violations.length) {
-  console.error('BENCH architecture violation: forbidden framework or icon-provider dependency detected.');
+  console.error(
+    'BENCH architecture violation: forbidden framework or icon-provider dependency detected.',
+  );
   console.error(violations.join('\n'));
   process.exit(1);
 }

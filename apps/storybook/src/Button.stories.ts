@@ -18,11 +18,5 @@ export const Secondary = {
 };
 
 export const WithIcons = {
-  render: () =>
-    h(
-      'bch-button',
-      null,
-      h('bch-icon', { slot: 'start', name: 'plus' }),
-      'Create',
-    ),
+  render: () => h('bch-button', null, h('bch-icon', { slot: 'start', name: 'plus' }), 'Create'),
 };

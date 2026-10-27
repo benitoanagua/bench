@@ -6,6 +6,11 @@ export class BchStatus {
   @Prop() label = '';
 
   render() {
-    return <span class={`bch-status bch-status--${this.tone}`} role="status"><span class="bch-status__dot" aria-hidden="true" />{this.label || <slot />}</span>;
+    return (
+      <span class={`bch-status bch-status--${this.tone}`} role="status">
+        <span class="bch-status__dot" aria-hidden="true" />
+        {this.label || <slot />}
+      </span>
+    );
   }
 }

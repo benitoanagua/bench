@@ -7,9 +7,18 @@ export class BchAccordion {
   @Event() bchChange!: EventEmitter<string[]>;
   private openItems: string[] = [];
 
-  componentDidLoad() { this.refresh(); }
-  private refresh = () => Array.from(this.host.querySelectorAll(':scope > bch-accordion-item')).forEach((item) => item.addEventListener('bchToggle', this.onToggle as EventListener));
-  disconnectedCallback() { Array.from(this.host.querySelectorAll(':scope > bch-accordion-item')).forEach((item) => item.removeEventListener('bchToggle', this.onToggle as EventListener)); }
+  componentDidLoad() {
+    this.refresh();
+  }
+  private refresh = () =>
+    Array.from(this.host.querySelectorAll(':scope > bch-accordion-item')).forEach((item) =>
+      item.addEventListener('bchToggle', this.onToggle as EventListener),
+    );
+  disconnectedCallback() {
+    Array.from(this.host.querySelectorAll(':scope > bch-accordion-item')).forEach((item) =>
+      item.removeEventListener('bchToggle', this.onToggle as EventListener),
+    );
+  }
   private onToggle = (event: Event) => {
     const value = (event as CustomEvent<boolean>).detail;
     const item = event.target as HTMLElement;
@@ -19,7 +28,15 @@ export class BchAccordion {
     this.bchChange.emit(this.openItems);
     this.sync();
   };
-  private sync = () => Array.from(this.host.querySelectorAll(':scope > bch-accordion-item')).forEach((item) => item.setAttribute('open', String(this.openItems.includes(item.getAttribute('value') || ''))));
-  render() { return <div class="accordion"><slot /></div>; }
+  private sync = () =>
+    Array.from(this.host.querySelectorAll(':scope > bch-accordion-item')).forEach((item) =>
+      item.setAttribute('open', String(this.openItems.includes(item.getAttribute('value') || ''))),
+    );
+  render() {
+    return (
+      <div class="accordion">
+        <slot />
+      </div>
+    );
+  }
 }
-

@@ -10,11 +10,17 @@ export class BchBreadcrumbItem {
     return (
       <li class="bch-breadcrumbs__item">
         {this.current || !this.href ? (
-          <span aria-current={this.current ? 'page' : undefined}><slot /></span>
+          <span aria-current={this.current ? 'page' : undefined}>
+            <slot />
+          </span>
         ) : (
-          <a href={this.href}><slot /></a>
+          <a href={this.href}>
+            <slot />
+          </a>
         )}
-        {!this.current ? <bch-icon name="chevron-right" class="bch-breadcrumbs__sep" aria-hidden="true" /> : null}
+        {!this.current ? (
+          <bch-icon name="chevron-right" class="bch-breadcrumbs__sep" aria-hidden="true" />
+        ) : null}
       </li>
     );
   }

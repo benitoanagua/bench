@@ -3,7 +3,9 @@ import path from 'node:path';
 
 const root = process.cwd();
 const packagesDir = path.join(root, 'packages');
-const packages = fs.readdirSync(packagesDir).filter((name) => fs.existsSync(path.join(packagesDir, name, 'package.json')));
+const packages = fs
+  .readdirSync(packagesDir)
+  .filter((name) => fs.existsSync(path.join(packagesDir, name, 'package.json')));
 const errors = [];
 const forbidden = [
   /\bBchBadgeTone\b/,
@@ -24,11 +26,15 @@ for (const name of packages) {
         const dir = stack.pop();
         for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
           const file = path.join(dir, entry.name);
-          if (entry.isDirectory() && entry.name !== 'dist' && entry.name !== 'node_modules') stack.push(file);
+          if (entry.isDirectory() && entry.name !== 'dist' && entry.name !== 'node_modules')
+            stack.push(file);
           else if (entry.isFile() && /\.(ts|tsx|js|jsx)$/.test(entry.name)) {
             const text = fs.readFileSync(file, 'utf8');
             for (const rule of forbidden) {
-              if (rule.test(text)) errors.push(`${path.relative(root, file)} contains forbidden API/reference ${rule}`);
+              if (rule.test(text))
+                errors.push(
+                  `${path.relative(root, file)} contains forbidden API/reference ${rule}`,
+                );
             }
           }
         }

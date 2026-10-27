@@ -11,9 +11,37 @@ export class BchAccordionItem {
   render() {
     const panelId = `${this.id}-panel`;
     const buttonId = `${this.id}-button`;
-    return <section class="item">
-      <h3><button id={buttonId} type="button" class="trigger" aria-expanded={this.open ? 'true' : 'false'} aria-controls={panelId} onClick={() => { this.open = !this.open; this.bchToggle.emit(this.open); }}><span>{this.label}<slot name="label" /></span><bch-icon name={this.open ? 'chevron-up' : 'chevron-down'} /></button></h3>
-      <div id={panelId} class="panel" role="region" aria-labelledby={buttonId} hidden={!this.open}><slot /></div>
-    </section>;
+    return (
+      <section class="item">
+        <h3>
+          <button
+            id={buttonId}
+            type="button"
+            class="trigger"
+            aria-expanded={this.open ? 'true' : 'false'}
+            aria-controls={panelId}
+            onClick={() => {
+              this.open = !this.open;
+              this.bchToggle.emit(this.open);
+            }}
+          >
+            <span>
+              {this.label}
+              <slot name="label" />
+            </span>
+            <bch-icon name={this.open ? 'chevron-up' : 'chevron-down'} />
+          </button>
+        </h3>
+        <div
+          id={panelId}
+          class="panel"
+          role="region"
+          aria-labelledby={buttonId}
+          hidden={!this.open}
+        >
+          <slot />
+        </div>
+      </section>
+    );
   }
 }

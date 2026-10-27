@@ -1,18 +1,18 @@
 :root {
   /* Primitive color scale — BENCH-owned values (bench-design-system.md §2.1). */
   --bch-color-neutral-0: #ffffff;
-  --bch-color-neutral-50: #E7EAEE;
+  --bch-color-neutral-50: #e7eaee;
   --bch-color-neutral-100: #eef0f2;
   --bch-color-neutral-200: #dfe3e6;
-  --bch-color-neutral-300: #C3C9D1;
-  --bch-color-neutral-500: #9AA3AF;
-  --bch-color-neutral-700: #626C7A;
-  --bch-color-neutral-900: #1B2430;
-  --bch-color-primary-600: #1F5C4E;
-  --bch-color-red-600: #A23B2E;
-  --bch-color-green-600: #1F5C4E;
-  --bch-color-yellow-500: #9A6B12;
-  --bch-color-blue-600: #2B5FAD;
+  --bch-color-neutral-300: #c3c9d1;
+  --bch-color-neutral-500: #9aa3af;
+  --bch-color-neutral-700: #626c7a;
+  --bch-color-neutral-900: #1b2430;
+  --bch-color-primary-600: #1f5c4e;
+  --bch-color-red-600: #a23b2e;
+  --bch-color-green-600: #1f5c4e;
+  --bch-color-yellow-500: #9a6b12;
+  --bch-color-blue-600: #2b5fad;
 
   /* Semantic color. */
   --bch-color-background: var(--bch-color-neutral-50);
@@ -20,16 +20,20 @@
   --bch-color-surface-raised: var(--bch-color-neutral-0);
   --bch-color-text: var(--bch-color-neutral-900);
   --bch-color-text-muted: var(--bch-color-neutral-700);
-  --bch-color-text-disabled: color-mix(in srgb, var(--bch-color-text-muted) 55%, var(--bch-color-background));
+  --bch-color-text-disabled: color-mix(
+    in srgb,
+    var(--bch-color-text-muted) 55%,
+    var(--bch-color-background)
+  );
 
   /* Escala de borde de 4 niveles (Regla inviolable 7 — bench-design-system.md §2.2).
      Micro/Control/Contenedor/Flotante: a menor tamaño de elemento, borde más fino,
      más sutil y radio menor; a mayor tamaño, borde más grueso, más oscuro y radio
      mayor. Nunca se introduce un valor de borde fuera de esta escala. */
-  --bch-color-border-micro: #C3C9D1;      /* Nivel 1 — badges, chips, checkboxes */
-  --bch-color-border-control: #9AA3AF;     /* Nivel 2 — inputs, botones, celdas */
-  --bch-color-border-container: #6B7480;   /* Nivel 3 — paneles, tarjetas, toolbar */
-  --bch-color-border-floating: #4B5563;    /* Nivel 4 — tarjetas flotantes, modales */
+  --bch-color-border-micro: #c3c9d1; /* Nivel 1 — badges, chips, checkboxes */
+  --bch-color-border-control: #9aa3af; /* Nivel 2 — inputs, botones, celdas */
+  --bch-color-border-container: #6b7480; /* Nivel 3 — paneles, tarjetas, toolbar */
+  --bch-color-border-floating: #4b5563; /* Nivel 4 — tarjetas flotantes, modales */
   /* Alias retrocompatibles: el código de componentes existente referencia estos dos
      nombres; se mantienen apuntando a los niveles 1 y 2 para no romper nada. */
   --bch-color-border: var(--bch-color-border-micro);
@@ -41,26 +45,26 @@
   --bch-border-width-floating: 2px;
 
   --bch-color-primary: var(--bch-color-primary-600);
-  --bch-color-primary-strong: #143F35;
-  --bch-color-primary-soft: #E3EEEA;
+  --bch-color-primary-strong: #143f35;
+  --bch-color-primary-soft: #e3eeea;
   --bch-color-action: var(--bch-color-primary);
   --bch-color-action-soft: var(--bch-color-primary-soft);
   --bch-color-danger: var(--bch-color-red-600);
-  --bch-color-danger-soft: #F5E7E4;
+  --bch-color-danger-soft: #f5e7e4;
   --bch-color-success: var(--bch-color-green-600);
   --bch-color-success-soft: var(--bch-color-primary-soft);
   --bch-color-warning: var(--bch-color-yellow-500);
-  --bch-color-warning-soft: #F3EBD8;
+  --bch-color-warning-soft: #f3ebd8;
   --bch-color-pending: var(--bch-color-blue-600);
-  --bch-color-pending-soft: #E4ECF8;
+  --bch-color-pending-soft: #e4ecf8;
 
   /* Extensión financiera — opt-in, solo módulos que califican (bench-design-system.md §2.10).
      Disponible como token en todo el sistema; se activa por convención de producto,
      no por defecto en ningún componente base. */
-  --bch-color-risk: #8B2942;
-  --bch-color-risk-soft: #F2E1E6;
-  --bch-color-security: #146B5C;
-  --bch-color-security-soft: #DCEEEA;
+  --bch-color-risk: #8b2942;
+  --bch-color-risk-soft: #f2e1e6;
+  --bch-color-security: #146b5c;
+  --bch-color-security-soft: #dceeea;
 
   /* Estados de interacción — hover/active cambian luminosidad ±6-8%, nunca de familia. */
   --bch-state-hover: color-mix(in srgb, var(--bch-color-surface) 92%, var(--bch-color-text));
@@ -86,16 +90,18 @@
   /* Shape — radios de la escala de borde de 4 niveles (§2.2). Se conserva --bch-radius-pill
      como excepción documentada (badges/chips de estado: forma pill intencional, no
      contradice la regla de proporcionalidad porque no es un contenedor rectangular). */
-  --bch-radius-sm: 1px;    /* Nivel 1 — micro */
-  --bch-radius-md: 2px;    /* Nivel 2 — control */
-  --bch-radius-lg: 4px;    /* Nivel 3 — contenedor */
-  --bch-radius-xl: 6px;    /* Nivel 4 — flotante */
+  --bch-radius-sm: 1px; /* Nivel 1 — micro */
+  --bch-radius-md: 2px; /* Nivel 2 — control */
+  --bch-radius-lg: 4px; /* Nivel 3 — contenedor */
+  --bch-radius-xl: 6px; /* Nivel 4 — flotante */
   --bch-radius-pill: 999px;
 
   /* Typography — IBM Plex Sans/Mono (§2.7). Nombre de familia "Fallback" reservado
      para el @font-face de métricas ajustadas definido en styles/global.css. */
-  --bch-font-family-sans: 'IBM Plex Sans', 'IBM Plex Sans Fallback', 'Helvetica Neue', Arial, sans-serif;
-  --bch-font-family-mono: 'IBM Plex Mono', 'IBM Plex Mono Fallback', Menlo, 'DejaVu Sans Mono', Courier, monospace;
+  --bch-font-family-sans:
+    'IBM Plex Sans', 'IBM Plex Sans Fallback', 'Helvetica Neue', Arial, sans-serif;
+  --bch-font-family-mono:
+    'IBM Plex Mono', 'IBM Plex Mono Fallback', Menlo, 'DejaVu Sans Mono', Courier, monospace;
   --bch-font-size-xs: 0.75rem;
   --bch-font-size-sm: 0.875rem;
   --bch-font-size-md: 1rem;
@@ -180,20 +186,20 @@
      grids, toolbars, status bars, celdas de dato. Activar con [data-bch-density]
      en un contenedor raíz; el modo terminal se reserva a paneles marcados
      explícitamente con [data-bch-panel="raw-data"], nunca como tema global. */
-  --bch-density-row-height: 2.25rem;    /* 36px, cómodo (default) */
-  --bch-density-cell-py: 0.5rem;         /* 8px */
-  --bch-density-cell-px: 0.75rem;        /* 12px */
-  --bch-density-fs-data: 0.8125rem;      /* 13px */
-  --bch-density-fs-ui: 0.8125rem;        /* 13px */
+  --bch-density-row-height: 2.25rem; /* 36px, cómodo (default) */
+  --bch-density-cell-py: 0.5rem; /* 8px */
+  --bch-density-cell-px: 0.75rem; /* 12px */
+  --bch-density-fs-data: 0.8125rem; /* 13px */
+  --bch-density-fs-ui: 0.8125rem; /* 13px */
 
   /* Movimiento — bandas convencionales (§2.5 de bench-design-system.md), nunca
      valores inventados a mano. Regla madre: toda animación comunica un cambio
      de estado real, nunca decora una interacción neutra. */
-  --bch-motion-fast: 80ms;      /* hover/focus — solo cambio de luminosidad */
-  --bch-motion-normal: 180ms;   /* confirmación de acción (guardado, edición) */
-  --bch-motion-panel: 140ms;    /* apertura de panel flotante/modal */
-  --bch-motion-badge: 220ms;    /* cambio de estado de badge/indicador */
-  --bch-motion-slow: 300ms;     /* techo del sistema: highlight de streaming/tiempo real */
+  --bch-motion-fast: 80ms; /* hover/focus — solo cambio de luminosidad */
+  --bch-motion-normal: 180ms; /* confirmación de acción (guardado, edición) */
+  --bch-motion-panel: 140ms; /* apertura de panel flotante/modal */
+  --bch-motion-badge: 220ms; /* cambio de estado de badge/indicador */
+  --bch-motion-slow: 300ms; /* techo del sistema: highlight de streaming/tiempo real */
   /* Extensión de Bench, no en la tabla original: las 5 bandas de arriba son
      para transiciones discretas de estado (algo cambió una vez). Spinner,
      skeleton shimmer y la barra de progreso indeterminada son animaciones
@@ -226,29 +232,29 @@
    solo por [data-bch-density="terminal"] sin ese segundo marcador, para que
    no se convierta por accidente en el tema de toda una pantalla (§4.4). */
 [data-bch-density='compact'] {
-  --bch-density-row-height: 1.625rem;    /* 26px */
-  --bch-density-cell-py: 0.25rem;         /* 4px */
-  --bch-density-cell-px: 0.5rem;          /* 8px */
-  --bch-density-fs-data: 0.75rem;         /* 12px */
-  --bch-density-fs-ui: 0.75rem;           /* 12px */
+  --bch-density-row-height: 1.625rem; /* 26px */
+  --bch-density-cell-py: 0.25rem; /* 4px */
+  --bch-density-cell-px: 0.5rem; /* 8px */
+  --bch-density-fs-data: 0.75rem; /* 12px */
+  --bch-density-fs-ui: 0.75rem; /* 12px */
 }
 
 [data-bch-density='spacious'] {
-  --bch-density-row-height: 3rem;         /* 48px */
-  --bch-density-cell-py: 0.8125rem;       /* 13px */
-  --bch-density-cell-px: 1rem;            /* 16px */
-  --bch-density-fs-data: 0.875rem;        /* 14px */
-  --bch-density-fs-ui: 0.875rem;          /* 14px */
+  --bch-density-row-height: 3rem; /* 48px */
+  --bch-density-cell-py: 0.8125rem; /* 13px */
+  --bch-density-cell-px: 1rem; /* 16px */
+  --bch-density-fs-data: 0.875rem; /* 14px */
+  --bch-density-fs-ui: 0.875rem; /* 14px */
 }
 
 [data-bch-density='terminal'][data-bch-panel='raw-data'] {
-  --bch-density-row-height: 1.375rem;     /* 22px */
-  --bch-density-cell-py: 0.1875rem;       /* 3px */
-  --bch-density-cell-px: 0.5rem;          /* 8px */
-  --bch-density-fs-data: 0.75rem;         /* 12px */
-  --bch-density-fs-ui: 0.75rem;           /* 12px */
-  background: #0C1210;
-  color: #7FD9A0;
+  --bch-density-row-height: 1.375rem; /* 22px */
+  --bch-density-cell-py: 0.1875rem; /* 3px */
+  --bch-density-cell-px: 0.5rem; /* 8px */
+  --bch-density-fs-data: 0.75rem; /* 12px */
+  --bch-density-fs-ui: 0.75rem; /* 12px */
+  background: #0c1210;
+  color: #7fd9a0;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -274,7 +280,7 @@
    situación que activa el borde triple — nunca se usa por "verse más importante". */
 :root {
   --bch-elev-0: none;
-  --bch-elev-1: 0 1px 3px rgb(15 20 25 / 0.10), 0 1px 2px rgb(15 20 25 / 0.06);
+  --bch-elev-1: 0 1px 3px rgb(15 20 25 / 0.1), 0 1px 2px rgb(15 20 25 / 0.06);
   --bch-elev-2: 0 6px 16px rgb(15 20 25 / 0.16), 0 2px 4px rgb(15 20 25 / 0.08);
   --bch-elev-3: 0 12px 32px rgb(15 20 25 / 0.24), 0 0 0 1px var(--bch-color-danger);
 

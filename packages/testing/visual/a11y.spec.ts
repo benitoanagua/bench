@@ -9,18 +9,28 @@ async function assertAccessibleBasics(page: import('@playwright/test').Page) {
       if (!el.hasAttribute('alt')) problems.push('img without alt');
     });
     document.querySelectorAll('button').forEach((el) => {
-      if (!el.textContent?.trim() && !el.getAttribute('aria-label') && !el.getAttribute('aria-labelledby')) problems.push('button without accessible name');
+      if (
+        !el.textContent?.trim() &&
+        !el.getAttribute('aria-label') &&
+        !el.getAttribute('aria-labelledby')
+      )
+        problems.push('button without accessible name');
     });
     document.querySelectorAll('input, textarea, select').forEach((el) => {
-      const labelled = el.getAttribute('aria-label') || el.getAttribute('aria-labelledby') || (el.id && document.querySelector(`label[for="${CSS.escape(el.id)}"]`));
+      const labelled =
+        el.getAttribute('aria-label') ||
+        el.getAttribute('aria-labelledby') ||
+        (el.id && document.querySelector(`label[for="${CSS.escape(el.id)}"]`));
       if (!labelled) problems.push(`${el.tagName.toLowerCase()} without accessible name`);
     });
     document.querySelectorAll('[role="dialog"]').forEach((el) => {
-      if (!el.getAttribute('aria-label') && !el.getAttribute('aria-labelledby')) problems.push('dialog without accessible name');
+      if (!el.getAttribute('aria-label') && !el.getAttribute('aria-labelledby'))
+        problems.push('dialog without accessible name');
     });
     document.querySelectorAll('[aria-invalid="true"]').forEach((el) => {
       const described = el.getAttribute('aria-describedby');
-      if (!described || !described.split(/\s+/).some(id => document.getElementById(id))) problems.push('invalid control without described error/hint');
+      if (!described || !described.split(/\s+/).some((id) => document.getElementById(id)))
+        problems.push('invalid control without described error/hint');
     });
     return problems;
   });
@@ -60,7 +70,9 @@ test.describe('BENCH accessibility audit', () => {
   test('reduced motion disables animations', async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.goto('http://127.0.0.1:6006/?path=/story/bench-components');
-    const value = await page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue('--bch-motion-normal').trim());
+    const value = await page.evaluate(() =>
+      getComputedStyle(document.documentElement).getPropertyValue('--bch-motion-normal').trim(),
+    );
     expect(value).toBeTruthy();
   });
 });

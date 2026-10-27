@@ -1,5 +1,13 @@
-.bch-progress { display: flex; flex-direction: column; gap: var(--bch-space-1); width: 100%; }
-.bch-progress__label { font-size: var(--bch-type-caption-size); color: var(--bch-color-text-muted); }
+.bch-progress {
+  display: flex;
+  flex-direction: column;
+  gap: var(--bch-space-1);
+  width: 100%;
+}
+.bch-progress__label {
+  font-size: var(--bch-type-caption-size);
+  color: var(--bch-color-text-muted);
+}
 .bch-progress__track {
   position: relative;
   width: 100%;
@@ -14,21 +22,35 @@
   background: var(--bch-color-action);
   transition: width var(--bch-motion-normal) var(--bch-ease-standard);
 }
-.bch-progress__track.is-success .bch-progress__fill { background: var(--bch-color-success); }
-.bch-progress__track.is-danger .bch-progress__fill { background: var(--bch-color-danger); }
-.bch-progress__track.is-warning .bch-progress__fill { background: var(--bch-color-warning); }
+.bch-progress__track.is-success .bch-progress__fill {
+  background: var(--bch-color-success);
+}
+.bch-progress__track.is-danger .bch-progress__fill {
+  background: var(--bch-color-danger);
+}
+.bch-progress__track.is-warning .bch-progress__fill {
+  background: var(--bch-color-warning);
+}
 
 .bch-progress__track.is-indeterminate .bch-progress__fill {
   width: 40%;
   transition: none;
 }
 @media (prefers-reduced-motion: no-preference) {
-  .bch-progress__track.is-indeterminate .bch-progress__fill { animation: bch-progress-indeterminate var(--bch-motion-loop) var(--bch-ease-standard) infinite; }
+  .bch-progress__track.is-indeterminate .bch-progress__fill {
+    animation: bch-progress-indeterminate var(--bch-motion-loop) var(--bch-ease-standard) infinite;
+  }
 }
 @media (prefers-reduced-motion: reduce) {
-  .bch-progress__track.is-indeterminate .bch-progress__fill { opacity: 0.6; }
+  .bch-progress__track.is-indeterminate .bch-progress__fill {
+    opacity: 0.6;
+  }
 }
 @keyframes bch-progress-indeterminate {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(250%); }
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(250%);
+  }
 }

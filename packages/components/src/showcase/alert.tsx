@@ -9,17 +9,27 @@ export class BchAlert {
   @Prop() heading = '';
   @Prop() dismissible = false;
 
-  private dismiss = () => { this.visible = false; this.bchDismiss.emit(); };
+  private dismiss = () => {
+    this.visible = false;
+    this.bchDismiss.emit();
+  };
 
   render() {
     if (!this.visible) return null;
     return (
-      <section class={`bch-alert bch-alert--${this.tone}`} role={this.tone === 'danger' ? 'alert' : 'status'}>
+      <section
+        class={`bch-alert bch-alert--${this.tone}`}
+        role={this.tone === 'danger' ? 'alert' : 'status'}
+      >
         <div class="bch-alert__content">
           {this.heading ? <strong>{this.heading}</strong> : null}
-          <div><slot /></div>
+          <div>
+            <slot />
+          </div>
         </div>
-        {this.dismissible ? <bch-icon-button name="x" label="Dismiss" size="small" onBchPress={this.dismiss} /> : null}
+        {this.dismissible ? (
+          <bch-icon-button name="x" label="Dismiss" size="small" onBchPress={this.dismiss} />
+        ) : null}
       </section>
     );
   }

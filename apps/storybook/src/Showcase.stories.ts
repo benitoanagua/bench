@@ -3,7 +3,8 @@ import { stencilContent } from './story-helpers';
 export default { title: 'BENCH/Showcase' };
 
 export const ProductSurface = {
-  render: () => stencilContent(`
+  render: () =>
+    stencilContent(`
       <div style="display:grid;gap:24px;padding:32px;max-width:1100px;background:var(--bch-color-background);color:var(--bch-color-text)">
         <div style="display:grid;gap:8px">
           <span style="font-size:.75rem;color:var(--bch-color-text-muted);text-transform:uppercase;letter-spacing:.08em">Composable UI</span>
@@ -36,5 +37,8 @@ export const ProductSurface = {
 };
 
 export const Responsive = {
-  render: () => stencilContent(`<div style="padding:24px;max-width:720px"><bch-toolbar><span slot="start">Filters</span><bch-input placeholder="Search" aria-label="Search"></bch-input><div slot="end"><bch-button variant="secondary">Reset</bch-button><bch-button>Apply</bch-button></div></bch-toolbar></div>`),
+  render: () =>
+    stencilContent(
+      `<div style="padding:24px;max-width:720px"><bch-toolbar><span slot="start">Filters</span><bch-input placeholder="Search" aria-label="Search"></bch-input><div slot="end"><bch-button variant="secondary">Reset</bch-button><bch-button>Apply</bch-button></div></bch-toolbar></div>`,
+    ),
 };

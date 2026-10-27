@@ -22,13 +22,25 @@ export class BchAvatar {
     return (
       <span class={{ 'bch-avatar': true, [`is-${this.size}`]: true, [`is-${this.shape}`]: true }}>
         {showImage ? (
-          <img src={this.src} alt={this.name} onError={() => { this.imageFailed = true; }} />
+          <img
+            src={this.src}
+            alt={this.name}
+            onError={() => {
+              this.imageFailed = true;
+            }}
+          />
         ) : (
           <span class="bch-avatar__initials" aria-hidden={this.name ? undefined : 'true'}>
             {this.name ? initialsFrom(this.name) : <bch-icon name="user" aria-hidden="true" />}
           </span>
         )}
-        {this.status ? <span class={`bch-avatar__status is-${this.status}`} aria-label={`Status: ${this.status}`} role="img" /> : null}
+        {this.status ? (
+          <span
+            class={`bch-avatar__status is-${this.status}`}
+            aria-label={`Status: ${this.status}`}
+            role="img"
+          />
+        ) : null}
       </span>
     );
   }

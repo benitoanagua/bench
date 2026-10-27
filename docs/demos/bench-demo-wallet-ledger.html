@@ -1,282 +1,835 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es" data-theme="light">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bench — Demo 5: Wallet / Ledger</title>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --primary:#1F5C4E; --primary-strong:#143F35; --primary-soft:#E3EEEA;
-    --danger:#A23B2E; --danger-soft:#F5E7E4;
-    --warning:#9A6B12; --warning-soft:#F3EBD8;
-    --pending:#2B5FAD; --pending-soft:#E4ECF8;
-    --risk:#8B2942; --risk-soft:#F2E1E6;
-    --security:#146B5C; --security-soft:#DCEEEA;
-    --mono:'IBM Plex Mono', ui-monospace, monospace;
-    --sans:'IBM Plex Sans', system-ui, sans-serif;
-    --b1-width:1px; --b1-radius:1px; --b1-color:#C3C9D1;
-    --b2-width:1px; --b2-radius:2px; --b2-color:#9AA3AF;
-    --b3-width:1.5px; --b3-radius:4px; --b3-color:#6B7480;
-    --b4-width:2px; --b4-radius:6px; --b4-color:#4B5563;
-    --elev-1: 0 1px 3px rgba(15,20,25,.10), 0 1px 2px rgba(15,20,25,.06);
-    --elev-2: 0 6px 16px rgba(15,20,25,.16), 0 2px 4px rgba(15,20,25,.08);
-    --elev-3: 0 12px 32px rgba(15,20,25,.24), 0 0 0 1px var(--danger);
-    --bg:#E7EAEE; --surface:#FFFFFF; --text:#1B2430; --muted:#626C7A;
-    --state-hover: color-mix(in srgb, var(--surface) 92%, var(--text));
-  }
-  *{ box-sizing:border-box; }
-  html,body{ margin:0; padding:0; height:100%; background:var(--bg); color:var(--text); font-family:var(--sans); font-size:13px; -webkit-font-smoothing:antialiased; }
-  button{ font-family:var(--sans); cursor:pointer; }
-  :focus-visible{ outline:2px solid var(--primary); outline-offset:1px; }
-  .icon{ width:15px; height:15px; flex-shrink:0; display:inline-flex; }
-  .icon svg{ display:block; width:100%; height:100%; }
-  .tnum{ font-variant-numeric: tabular-nums; }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bench — Demo 5: Wallet / Ledger</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #1f5c4e;
+        --primary-strong: #143f35;
+        --primary-soft: #e3eeea;
+        --danger: #a23b2e;
+        --danger-soft: #f5e7e4;
+        --warning: #9a6b12;
+        --warning-soft: #f3ebd8;
+        --pending: #2b5fad;
+        --pending-soft: #e4ecf8;
+        --risk: #8b2942;
+        --risk-soft: #f2e1e6;
+        --security: #146b5c;
+        --security-soft: #dceeea;
+        --mono: 'IBM Plex Mono', ui-monospace, monospace;
+        --sans: 'IBM Plex Sans', system-ui, sans-serif;
+        --b1-width: 1px;
+        --b1-radius: 1px;
+        --b1-color: #c3c9d1;
+        --b2-width: 1px;
+        --b2-radius: 2px;
+        --b2-color: #9aa3af;
+        --b3-width: 1.5px;
+        --b3-radius: 4px;
+        --b3-color: #6b7480;
+        --b4-width: 2px;
+        --b4-radius: 6px;
+        --b4-color: #4b5563;
+        --elev-1: 0 1px 3px rgba(15, 20, 25, 0.1), 0 1px 2px rgba(15, 20, 25, 0.06);
+        --elev-2: 0 6px 16px rgba(15, 20, 25, 0.16), 0 2px 4px rgba(15, 20, 25, 0.08);
+        --elev-3: 0 12px 32px rgba(15, 20, 25, 0.24), 0 0 0 1px var(--danger);
+        --bg: #e7eaee;
+        --surface: #ffffff;
+        --text: #1b2430;
+        --muted: #626c7a;
+        --state-hover: color-mix(in srgb, var(--surface) 92%, var(--text));
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--sans);
+        font-size: 13px;
+        -webkit-font-smoothing: antialiased;
+      }
+      button {
+        font-family: var(--sans);
+        cursor: pointer;
+      }
+      :focus-visible {
+        outline: 2px solid var(--primary);
+        outline-offset: 1px;
+      }
+      .icon {
+        width: 15px;
+        height: 15px;
+        flex-shrink: 0;
+        display: inline-flex;
+      }
+      .icon svg {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+      .tnum {
+        font-variant-numeric: tabular-nums;
+      }
 
-  .shell{ display:flex; flex-direction:column; height:100vh; min-height:660px; }
-  .hint-banner{ padding:7px 12px; background:var(--surface); border-bottom:var(--b3-width) solid var(--b3-color); font-size:11px; color:var(--muted); flex-shrink:0; }
-  .hint-banner kbd{ font-family:var(--mono); background:var(--bg); border:var(--b1-width) solid var(--b1-color); border-radius:var(--b1-radius); padding:1px 5px; font-size:10px; }
+      .shell {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        min-height: 660px;
+      }
+      .hint-banner {
+        padding: 7px 12px;
+        background: var(--surface);
+        border-bottom: var(--b3-width) solid var(--b3-color);
+        font-size: 11px;
+        color: var(--muted);
+        flex-shrink: 0;
+      }
+      .hint-banner kbd {
+        font-family: var(--mono);
+        background: var(--bg);
+        border: var(--b1-width) solid var(--b1-color);
+        border-radius: var(--b1-radius);
+        padding: 1px 5px;
+        font-size: 10px;
+      }
 
-  .topbar{ display:flex; align-items:center; gap:10px; padding:8px 12px; background:var(--surface); border-bottom:var(--b3-width) solid var(--b3-color); flex-shrink:0; flex-wrap:wrap; }
-  .brand{ font-weight:600; font-size:13px; }
-  .btn{ border:var(--b2-width) solid var(--b2-color); border-radius:var(--b2-radius); background:var(--surface); color:var(--text); padding:6px 11px; font-size:12px; display:flex; align-items:center; gap:6px; }
-  .btn:hover{ background:var(--state-hover); }
-  .btn.primary{ background:var(--primary); border-color:var(--primary); color:#fff; }
-  .btn.primary:hover{ background:var(--primary-strong); }
-  .toolbar-sep{ width:1px; height:20px; background:var(--b1-color); margin:0 2px; }
+      .topbar {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 12px;
+        background: var(--surface);
+        border-bottom: var(--b3-width) solid var(--b3-color);
+        flex-shrink: 0;
+        flex-wrap: wrap;
+      }
+      .brand {
+        font-weight: 600;
+        font-size: 13px;
+      }
+      .btn {
+        border: var(--b2-width) solid var(--b2-color);
+        border-radius: var(--b2-radius);
+        background: var(--surface);
+        color: var(--text);
+        padding: 6px 11px;
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .btn:hover {
+        background: var(--state-hover);
+      }
+      .btn.primary {
+        background: var(--primary);
+        border-color: var(--primary);
+        color: #fff;
+      }
+      .btn.primary:hover {
+        background: var(--primary-strong);
+      }
+      .toolbar-sep {
+        width: 1px;
+        height: 20px;
+        background: var(--b1-color);
+        margin: 0 2px;
+      }
 
-  .body{ flex:1; display:flex; overflow:hidden; }
-  .main{ flex:1; overflow-y:auto; padding:16px; }
-  .side{ width:280px; flex-shrink:0; background:var(--surface); border-left:var(--b3-width) solid var(--b3-color); display:flex; flex-direction:column; }
+      .body {
+        flex: 1;
+        display: flex;
+        overflow: hidden;
+      }
+      .main {
+        flex: 1;
+        overflow-y: auto;
+        padding: 16px;
+      }
+      .side {
+        width: 280px;
+        flex-shrink: 0;
+        background: var(--surface);
+        border-left: var(--b3-width) solid var(--b3-color);
+        display: flex;
+        flex-direction: column;
+      }
 
-  /* ---------- Tarjeta de wallet — única excepción de escala tipográfica dramática (2.7) ---------- */
-  .wallet-card{ background:var(--surface); border:var(--b3-width) solid var(--b3-color); border-radius:var(--b3-radius); box-shadow:var(--elev-1); padding:18px 20px; margin-bottom:16px; display:flex; align-items:flex-end; justify-content:space-between; flex-wrap:wrap; gap:12px; }
-  .wallet-label{ font-size:11px; color:var(--muted); margin-bottom:4px; }
-  .wallet-balance{ font-family:var(--mono); font-size:30px; font-weight:600; letter-spacing:-.01em; }
-  .wallet-balance .unit{ font-size:15px; color:var(--muted); font-weight:400; margin-left:6px; }
-  .wallet-actions{ display:flex; gap:8px; }
+      /* ---------- Tarjeta de wallet — única excepción de escala tipográfica dramática (2.7) ---------- */
+      .wallet-card {
+        background: var(--surface);
+        border: var(--b3-width) solid var(--b3-color);
+        border-radius: var(--b3-radius);
+        box-shadow: var(--elev-1);
+        padding: 18px 20px;
+        margin-bottom: 16px;
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+      .wallet-label {
+        font-size: 11px;
+        color: var(--muted);
+        margin-bottom: 4px;
+      }
+      .wallet-balance {
+        font-family: var(--mono);
+        font-size: 30px;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+      }
+      .wallet-balance .unit {
+        font-size: 15px;
+        color: var(--muted);
+        font-weight: 400;
+        margin-left: 6px;
+      }
+      .wallet-actions {
+        display: flex;
+        gap: 8px;
+      }
 
-  /* ---------- Ticker en vivo ---------- */
-  .ticker{ display:flex; gap:0; border:var(--b3-width) solid var(--b3-color); border-radius:var(--b3-radius); background:var(--surface); box-shadow:var(--elev-1); margin-bottom:16px; overflow:hidden; }
-  .ticker-item{ flex:1; padding:10px 14px; border-right:var(--b1-width) solid var(--b1-color); }
-  .ticker-item:last-child{ border-right:none; }
-  .ticker-sym{ font-size:11px; color:var(--muted); }
-  .ticker-price{ font-family:var(--mono); font-size:15px; font-weight:600; }
-  .ticker-price.up{ color:var(--primary-strong); }
-  .ticker-price.down{ color:var(--danger); }
-  .tick-flash{ animation:tickFlash 300ms linear; }
-  @keyframes tickFlash{ 0%{ background:var(--primary-soft); } 100%{ background:transparent; } }
+      /* ---------- Ticker en vivo ---------- */
+      .ticker {
+        display: flex;
+        gap: 0;
+        border: var(--b3-width) solid var(--b3-color);
+        border-radius: var(--b3-radius);
+        background: var(--surface);
+        box-shadow: var(--elev-1);
+        margin-bottom: 16px;
+        overflow: hidden;
+      }
+      .ticker-item {
+        flex: 1;
+        padding: 10px 14px;
+        border-right: var(--b1-width) solid var(--b1-color);
+      }
+      .ticker-item:last-child {
+        border-right: none;
+      }
+      .ticker-sym {
+        font-size: 11px;
+        color: var(--muted);
+      }
+      .ticker-price {
+        font-family: var(--mono);
+        font-size: 15px;
+        font-weight: 600;
+      }
+      .ticker-price.up {
+        color: var(--primary-strong);
+      }
+      .ticker-price.down {
+        color: var(--danger);
+      }
+      .tick-flash {
+        animation: tickFlash 300ms linear;
+      }
+      @keyframes tickFlash {
+        0% {
+          background: var(--primary-soft);
+        }
+        100% {
+          background: transparent;
+        }
+      }
 
-  /* ---------- Ledger ---------- */
-  .section-title{ font-size:12px; font-weight:600; color:var(--muted); margin:0 0 8px; display:flex; align-items:center; justify-content:space-between; }
-  .ledger{ width:100%; border-collapse:collapse; font-family:var(--mono); font-size:12px; background:var(--surface); border:var(--b3-width) solid var(--b3-color); border-radius:var(--b3-radius); overflow:hidden; box-shadow:var(--elev-1); }
-  .ledger th{ background:var(--bg); text-align:left; padding:7px 10px; border-bottom:var(--b2-width) solid var(--b2-color); font-family:var(--sans); font-size:11px; font-weight:600; color:var(--muted); }
-  .ledger td{ padding:7px 10px; border-bottom:var(--b1-width) solid var(--b1-color); white-space:nowrap; }
-  .ledger tr:last-child td{ border-bottom:none; }
-  .addr{ cursor:pointer; text-decoration:underline dotted var(--b2-color); }
-  .addr:hover{ text-decoration-color:var(--primary); color:var(--primary); }
-  .sci{ cursor:help; border-bottom:1px dotted var(--muted); }
+      /* ---------- Ledger ---------- */
+      .section-title {
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--muted);
+        margin: 0 0 8px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .ledger {
+        width: 100%;
+        border-collapse: collapse;
+        font-family: var(--mono);
+        font-size: 12px;
+        background: var(--surface);
+        border: var(--b3-width) solid var(--b3-color);
+        border-radius: var(--b3-radius);
+        overflow: hidden;
+        box-shadow: var(--elev-1);
+      }
+      .ledger th {
+        background: var(--bg);
+        text-align: left;
+        padding: 7px 10px;
+        border-bottom: var(--b2-width) solid var(--b2-color);
+        font-family: var(--sans);
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--muted);
+      }
+      .ledger td {
+        padding: 7px 10px;
+        border-bottom: var(--b1-width) solid var(--b1-color);
+        white-space: nowrap;
+      }
+      .ledger tr:last-child td {
+        border-bottom: none;
+      }
+      .addr {
+        cursor: pointer;
+        text-decoration: underline dotted var(--b2-color);
+      }
+      .addr:hover {
+        text-decoration-color: var(--primary);
+        color: var(--primary);
+      }
+      .sci {
+        cursor: help;
+        border-bottom: 1px dotted var(--muted);
+      }
 
-  .status-badge{ font-size:10.5px; padding:2px 8px; border-radius:9px; font-weight:600; display:inline-block; transition:background 220ms ease-in-out, color 220ms ease-in-out; }
-  .status-badge.pendiente{ background:var(--pending-soft); color:var(--pending); }
-  .status-badge.confirmada{ background:var(--warning-soft); color:var(--warning); }
-  .status-badge.finalizada{ background:var(--primary-soft); color:var(--primary-strong); }
-  .risk-badge{ font-size:9.5px; padding:1px 6px; border-radius:8px; background:var(--risk-soft); color:var(--risk); font-weight:600; margin-left:5px; }
-  .security-badge{ font-size:10px; padding:2px 7px; border-radius:8px; background:var(--security-soft); color:var(--security); font-weight:600; display:inline-flex; align-items:center; gap:4px; }
+      .status-badge {
+        font-size: 10.5px;
+        padding: 2px 8px;
+        border-radius: 9px;
+        font-weight: 600;
+        display: inline-block;
+        transition:
+          background 220ms ease-in-out,
+          color 220ms ease-in-out;
+      }
+      .status-badge.pendiente {
+        background: var(--pending-soft);
+        color: var(--pending);
+      }
+      .status-badge.confirmada {
+        background: var(--warning-soft);
+        color: var(--warning);
+      }
+      .status-badge.finalizada {
+        background: var(--primary-soft);
+        color: var(--primary-strong);
+      }
+      .risk-badge {
+        font-size: 9.5px;
+        padding: 1px 6px;
+        border-radius: 8px;
+        background: var(--risk-soft);
+        color: var(--risk);
+        font-weight: 600;
+        margin-left: 5px;
+      }
+      .security-badge {
+        font-size: 10px;
+        padding: 2px 7px;
+        border-radius: 8px;
+        background: var(--security-soft);
+        color: var(--security);
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+      }
 
-  /* ---------- Feed lateral: timestamps relativos vs. absolutos del ledger ---------- */
-  .side-header{ padding:12px 14px; border-bottom:var(--b2-width) solid var(--b2-color); font-size:12px; font-weight:600; }
-  .side-body{ flex:1; overflow-y:auto; padding:8px 12px; }
-  .feed-line{ padding:7px 0; border-bottom:1px dashed var(--b1-color); font-size:11.5px; }
-  .feed-rel{ color:var(--muted); font-family:var(--mono); font-size:10.5px; }
+      /* ---------- Feed lateral: timestamps relativos vs. absolutos del ledger ---------- */
+      .side-header {
+        padding: 12px 14px;
+        border-bottom: var(--b2-width) solid var(--b2-color);
+        font-size: 12px;
+        font-weight: 600;
+      }
+      .side-body {
+        flex: 1;
+        overflow-y: auto;
+        padding: 8px 12px;
+      }
+      .feed-line {
+        padding: 7px 0;
+        border-bottom: 1px dashed var(--b1-color);
+        font-size: 11.5px;
+      }
+      .feed-rel {
+        color: var(--muted);
+        font-family: var(--mono);
+        font-size: 10.5px;
+      }
 
-  .price-tooltip{ position:fixed; z-index:220; width:210px; background:color-mix(in srgb, var(--surface) 88%, transparent); backdrop-filter:blur(8px); border:var(--b2-width) solid var(--b2-color); border-radius:var(--b3-radius); box-shadow:var(--elev-2); padding:10px 12px; font-size:11.5px; opacity:0; transform:translateY(4px); transition:opacity 140ms ease-out, transform 140ms ease-out; pointer-events:none; }
-  .price-tooltip.show{ opacity:1; transform:translateY(0); }
-  .pt-row{ display:flex; justify-content:space-between; padding:2px 0; }
-  .pt-label{ color:var(--muted); }
+      .price-tooltip {
+        position: fixed;
+        z-index: 220;
+        width: 210px;
+        background: color-mix(in srgb, var(--surface) 88%, transparent);
+        backdrop-filter: blur(8px);
+        border: var(--b2-width) solid var(--b2-color);
+        border-radius: var(--b3-radius);
+        box-shadow: var(--elev-2);
+        padding: 10px 12px;
+        font-size: 11.5px;
+        opacity: 0;
+        transform: translateY(4px);
+        transition:
+          opacity 140ms ease-out,
+          transform 140ms ease-out;
+        pointer-events: none;
+      }
+      .price-tooltip.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .pt-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 2px 0;
+      }
+      .pt-label {
+        color: var(--muted);
+      }
 
-  /* ---------- Modal (reusa el patrón de la demo 4) ---------- */
-  .modal-overlay{ position:fixed; inset:0; background:rgba(10,14,18,.55); display:none; align-items:center; justify-content:center; z-index:300; }
-  .modal-overlay.open{ display:flex; }
-  .modal{ background:var(--surface); border:var(--b4-width) solid var(--b4-color); border-radius:var(--b4-radius); box-shadow:var(--elev-2); width:440px; }
-  .modal.critical{ border-color:var(--danger); box-shadow:var(--elev-3), 0 0 0 4px var(--surface), 0 0 0 5px var(--danger); }
-  .modal-header{ padding:16px 18px 8px; }
-  .modal-header h3{ margin:0; font-size:15px; }
-  .modal-body{ padding:4px 18px 16px; font-size:12.5px; }
-  .modal-footer{ padding:12px 18px; border-top:var(--b2-width) solid var(--b2-color); display:flex; justify-content:flex-end; gap:8px; }
-  .field-group{ margin-bottom:12px; }
-  .field-label{ font-size:11px; color:var(--muted); margin-bottom:4px; display:block; }
-  .field-input{ width:100%; padding:7px 9px; border:var(--b2-width) solid var(--b2-color); border-radius:var(--b2-radius); font-family:var(--mono); font-size:12.5px; background:var(--surface); color:var(--text); }
-  .field-input:focus{ border-color:var(--primary); outline:none; }
-  .field-input.invalid{ border-color:var(--danger); background:var(--danger-soft); }
-  .field-error{ font-size:11px; color:var(--danger); margin-top:3px; display:none; }
-  .field-error.show{ display:block; }
-  .summary-box{ background:var(--bg); border:var(--b2-width) solid var(--b2-color); border-radius:var(--b2-radius); padding:10px 12px; font-size:12px; }
-  .summary-box .row{ display:flex; justify-content:space-between; padding:3px 0; }
-  .step-dots{ display:flex; gap:5px; padding:0 18px 10px; }
-  .step-dot{ width:6px; height:6px; border-radius:50%; background:var(--b1-color); }
-  .step-dot.active{ background:var(--primary); }
+      /* ---------- Modal (reusa el patrón de la demo 4) ---------- */
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(10, 14, 18, 0.55);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 300;
+      }
+      .modal-overlay.open {
+        display: flex;
+      }
+      .modal {
+        background: var(--surface);
+        border: var(--b4-width) solid var(--b4-color);
+        border-radius: var(--b4-radius);
+        box-shadow: var(--elev-2);
+        width: 440px;
+      }
+      .modal.critical {
+        border-color: var(--danger);
+        box-shadow:
+          var(--elev-3),
+          0 0 0 4px var(--surface),
+          0 0 0 5px var(--danger);
+      }
+      .modal-header {
+        padding: 16px 18px 8px;
+      }
+      .modal-header h3 {
+        margin: 0;
+        font-size: 15px;
+      }
+      .modal-body {
+        padding: 4px 18px 16px;
+        font-size: 12.5px;
+      }
+      .modal-footer {
+        padding: 12px 18px;
+        border-top: var(--b2-width) solid var(--b2-color);
+        display: flex;
+        justify-content: flex-end;
+        gap: 8px;
+      }
+      .field-group {
+        margin-bottom: 12px;
+      }
+      .field-label {
+        font-size: 11px;
+        color: var(--muted);
+        margin-bottom: 4px;
+        display: block;
+      }
+      .field-input {
+        width: 100%;
+        padding: 7px 9px;
+        border: var(--b2-width) solid var(--b2-color);
+        border-radius: var(--b2-radius);
+        font-family: var(--mono);
+        font-size: 12.5px;
+        background: var(--surface);
+        color: var(--text);
+      }
+      .field-input:focus {
+        border-color: var(--primary);
+        outline: none;
+      }
+      .field-input.invalid {
+        border-color: var(--danger);
+        background: var(--danger-soft);
+      }
+      .field-error {
+        font-size: 11px;
+        color: var(--danger);
+        margin-top: 3px;
+        display: none;
+      }
+      .field-error.show {
+        display: block;
+      }
+      .summary-box {
+        background: var(--bg);
+        border: var(--b2-width) solid var(--b2-color);
+        border-radius: var(--b2-radius);
+        padding: 10px 12px;
+        font-size: 12px;
+      }
+      .summary-box .row {
+        display: flex;
+        justify-content: space-between;
+        padding: 3px 0;
+      }
+      .step-dots {
+        display: flex;
+        gap: 5px;
+        padding: 0 18px 10px;
+      }
+      .step-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--b1-color);
+      }
+      .step-dot.active {
+        background: var(--primary);
+      }
 
-  .toast{ position:fixed; bottom:44px; left:50%; transform:translateX(-50%) translateY(8px); background:var(--text); color:#fff; font-size:12px; padding:8px 14px; border-radius:var(--b2-radius); opacity:0; transition:opacity 150ms ease-out, transform 150ms ease-out; z-index:350; pointer-events:none; max-width:400px; text-align:center; }
-  .toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+      .toast {
+        position: fixed;
+        bottom: 44px;
+        left: 50%;
+        transform: translateX(-50%) translateY(8px);
+        background: var(--text);
+        color: #fff;
+        font-size: 12px;
+        padding: 8px 14px;
+        border-radius: var(--b2-radius);
+        opacity: 0;
+        transition:
+          opacity 150ms ease-out,
+          transform 150ms ease-out;
+        z-index: 350;
+        pointer-events: none;
+        max-width: 400px;
+        text-align: center;
+      }
+      .toast.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
 
-  .help-overlay{ position:fixed; inset:0; background:rgba(10,14,18,.5); display:none; align-items:center; justify-content:center; z-index:320; }
-  .help-overlay.open{ display:flex; }
-  .help-card{ background:var(--surface); border:var(--b4-width) solid var(--b4-color); border-radius:var(--b4-radius); box-shadow:var(--elev-2); width:460px; max-height:76vh; overflow-y:auto; }
-  .help-header{ padding:14px 16px; border-bottom:var(--b2-width) solid var(--b2-color); display:flex; justify-content:space-between; align-items:center; }
-  .help-header h3{ margin:0; font-size:14px; }
-  .help-close{ border:none; background:none; font-size:16px; color:var(--muted); cursor:pointer; }
-  .help-body{ padding:4px 16px 16px; }
-  .help-group-label{ font-size:10.5px; color:var(--muted); padding:10px 0 4px; }
-  .help-row{ display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid var(--bg); font-size:12px; gap:10px; }
-</style>
-</head>
-<body>
+      .help-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(10, 14, 18, 0.5);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 320;
+      }
+      .help-overlay.open {
+        display: flex;
+      }
+      .help-card {
+        background: var(--surface);
+        border: var(--b4-width) solid var(--b4-color);
+        border-radius: var(--b4-radius);
+        box-shadow: var(--elev-2);
+        width: 460px;
+        max-height: 76vh;
+        overflow-y: auto;
+      }
+      .help-header {
+        padding: 14px 16px;
+        border-bottom: var(--b2-width) solid var(--b2-color);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .help-header h3 {
+        margin: 0;
+        font-size: 14px;
+      }
+      .help-close {
+        border: none;
+        background: none;
+        font-size: 16px;
+        color: var(--muted);
+        cursor: pointer;
+      }
+      .help-body {
+        padding: 4px 16px 16px;
+      }
+      .help-group-label {
+        font-size: 10.5px;
+        color: var(--muted);
+        padding: 10px 0 4px;
+      }
+      .help-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 6px 0;
+        border-bottom: 1px solid var(--bg);
+        font-size: 12px;
+        gap: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <div class="hint-banner">
+        <strong>Bench</strong> — demo 5, mismo sistema en un contexto distinto: wallet/ledger, no
+        facturación. Mirá la extensión financiera (2.10) a fondo: direcciones truncadas (clic para
+        copiar), notación científica con tooltip, timestamps relativos en el feed vs. absolutos en
+        el ledger, y el ciclo <kbd>pendiente → confirmada → finalizada</kbd> en vivo. "Enviar
+        fondos" reutiliza el modal de la demo 4, ahora en dos pasos.
+      </div>
 
-<div class="shell">
-  <div class="hint-banner">
-    <strong>Bench</strong> — demo 5, mismo sistema en un contexto distinto: wallet/ledger, no facturación. Mirá la extensión financiera (2.10) a fondo: direcciones truncadas (clic para copiar), notación científica con tooltip, timestamps relativos en el feed vs. absolutos en el ledger, y el ciclo <kbd>pendiente → confirmada → finalizada</kbd> en vivo. "Enviar fondos" reutiliza el modal de la demo 4, ahora en dos pasos.
-  </div>
+      <div class="topbar">
+        <span class="brand">Bench · Wallet</span>
+        <div class="toolbar-sep"></div>
+        <button class="btn primary" id="btnSend">
+          <span class="icon" data-icon="send"></span>Enviar fondos
+        </button>
+        <button class="btn" id="btnHelp" style="margin-left: auto">
+          <span class="icon" data-icon="help"></span>Ayuda
+        </button>
+      </div>
 
-  <div class="topbar">
-    <span class="brand">Bench · Wallet</span>
-    <div class="toolbar-sep"></div>
-    <button class="btn primary" id="btnSend"><span class="icon" data-icon="send"></span>Enviar fondos</button>
-    <button class="btn" id="btnHelp" style="margin-left:auto;"><span class="icon" data-icon="help"></span>Ayuda</button>
-  </div>
+      <div class="body">
+        <div class="main">
+          <div class="wallet-card">
+            <div>
+              <div class="wallet-label">Saldo disponible</div>
+              <div class="wallet-balance tnum" id="walletBalance">
+                2.34871200<span class="unit">BTC</span>
+              </div>
+            </div>
+            <div class="wallet-actions">
+              <span class="security-badge"
+                ><span class="icon" data-icon="shield"></span>Multi-firma verificada</span
+              >
+            </div>
+          </div>
 
-  <div class="body">
-    <div class="main">
-      <div class="wallet-card">
-        <div>
-          <div class="wallet-label">Saldo disponible</div>
-          <div class="wallet-balance tnum" id="walletBalance">2.34871200<span class="unit">BTC</span></div>
+          <div class="ticker" id="ticker"></div>
+
+          <div class="section-title">Ledger — historial de transacciones</div>
+          <table class="ledger" id="ledgerTable">
+            <thead>
+              <tr>
+                <th>Hash</th>
+                <th>Tipo</th>
+                <th>Monto</th>
+                <th>Dirección</th>
+                <th>Estado</th>
+                <th>Fecha (absoluta)</th>
+              </tr>
+            </thead>
+            <tbody id="ledgerBody"></tbody>
+          </table>
         </div>
-        <div class="wallet-actions">
-          <span class="security-badge"><span class="icon" data-icon="shield"></span>Multi-firma verificada</span>
+
+        <div class="side">
+          <div class="side-header">Actividad reciente (relativo)</div>
+          <div class="side-body" id="activityFeed"></div>
         </div>
       </div>
-
-      <div class="ticker" id="ticker"></div>
-
-      <div class="section-title">Ledger — historial de transacciones</div>
-      <table class="ledger" id="ledgerTable">
-        <thead><tr><th>Hash</th><th>Tipo</th><th>Monto</th><th>Dirección</th><th>Estado</th><th>Fecha (absoluta)</th></tr></thead>
-        <tbody id="ledgerBody"></tbody>
-      </table>
     </div>
 
-    <div class="side">
-      <div class="side-header">Actividad reciente (relativo)</div>
-      <div class="side-body" id="activityFeed"></div>
-    </div>
-  </div>
-</div>
+    <div class="price-tooltip" id="priceTooltip"></div>
+    <div class="toast" id="toast"></div>
 
-<div class="price-tooltip" id="priceTooltip"></div>
-<div class="toast" id="toast"></div>
-
-<!-- Modal: Enviar fondos — dos pasos, reutiliza el componente de la demo 4 -->
-<div class="modal-overlay" id="modalSend">
-  <div class="modal" id="sendModalBox" role="dialog" aria-modal="true">
-    <div class="modal-header"><h3 id="sendTitle">Enviar fondos — paso 1</h3></div>
-    <div class="step-dots"><span class="step-dot active" id="dot1"></span><span class="step-dot" id="dot2"></span></div>
-    <div class="modal-body" id="sendBodyStep1">
-      <div class="field-group">
-        <label class="field-label">Dirección de destino</label>
-        <input class="field-input" id="inpAddress" placeholder="0x..." value="0x4f2a8b1e9c3d5f7a2b8e1c4d9f6a3b7e5c1d8f2a">
-        <div class="field-error" id="errAddress">Dirección inválida — debe tener 42 caracteres empezando con 0x</div>
+    <!-- Modal: Enviar fondos — dos pasos, reutiliza el componente de la demo 4 -->
+    <div class="modal-overlay" id="modalSend">
+      <div class="modal" id="sendModalBox" role="dialog" aria-modal="true">
+        <div class="modal-header"><h3 id="sendTitle">Enviar fondos — paso 1</h3></div>
+        <div class="step-dots">
+          <span class="step-dot active" id="dot1"></span><span class="step-dot" id="dot2"></span>
+        </div>
+        <div class="modal-body" id="sendBodyStep1">
+          <div class="field-group">
+            <label class="field-label">Dirección de destino</label>
+            <input
+              class="field-input"
+              id="inpAddress"
+              placeholder="0x..."
+              value="0x4f2a8b1e9c3d5f7a2b8e1c4d9f6a3b7e5c1d8f2a"
+            />
+            <div class="field-error" id="errAddress">
+              Dirección inválida — debe tener 42 caracteres empezando con 0x
+            </div>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Monto (BTC)</label>
+            <input class="field-input" id="inpAmount" placeholder="0.00000000" value="0.05000000" />
+            <div class="field-error" id="errAmount">Monto inválido o mayor al saldo disponible</div>
+          </div>
+        </div>
+        <div class="modal-body" id="sendBodyStep2" style="display: none">
+          <p style="margin: 0 0 10px; color: var(--muted)">
+            Revisá el resumen antes de confirmar.
+            <strong style="color: var(--text)">Esta acción no se puede deshacer.</strong>
+          </p>
+          <div class="summary-box">
+            <div class="row"><span>Destino</span><span class="tnum" id="sumAddr">—</span></div>
+            <div class="row"><span>Monto</span><span class="tnum" id="sumAmount">—</span></div>
+            <div class="row">
+              <span>Comisión de red</span><span class="tnum">0.00003200 BTC</span>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn" id="sendCancel">Cancelar</button>
+          <button class="btn" id="sendBack" style="display: none">Atrás</button>
+          <button class="btn primary" id="sendNext">Continuar</button>
+        </div>
       </div>
-      <div class="field-group">
-        <label class="field-label">Monto (BTC)</label>
-        <input class="field-input" id="inpAmount" placeholder="0.00000000" value="0.05000000">
-        <div class="field-error" id="errAmount">Monto inválido o mayor al saldo disponible</div>
+    </div>
+
+    <div class="help-overlay" id="helpOverlay">
+      <div class="help-card">
+        <div class="help-header">
+          <h3>Ayuda — Demo 5 (extensión financiera, 2.10)</h3>
+          <button class="help-close" id="helpClose">✕</button>
+        </div>
+        <div class="help-body">
+          <div class="help-group-label">Formato de números</div>
+          <div class="help-row">
+            <span>Cripto</span><span>decimales completos, sin redondeo silencioso</span>
+          </div>
+          <div class="help-row">
+            <span>Monto muy pequeño</span
+            ><span>notación científica + tooltip con valor completo</span>
+          </div>
+          <div class="help-group-label">Direcciones</div>
+          <div class="help-row"><span>Formato</span><span>truncado + tooltip + copiar</span></div>
+          <div class="help-group-label">Timestamps</div>
+          <div class="help-row">
+            <span>Feed de actividad</span><span>relativo ("hace 3 min")</span>
+          </div>
+          <div class="help-row"><span>Fila del ledger</span><span>absoluto, siempre</span></div>
+          <div class="help-group-label">Ciclo de vida de una transacción</div>
+          <div class="help-row">
+            <span>Transición de estado</span><span>220ms, cruce directo de color</span>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="modal-body" id="sendBodyStep2" style="display:none;">
-      <p style="margin:0 0 10px; color:var(--muted);">Revisá el resumen antes de confirmar. <strong style="color:var(--text);">Esta acción no se puede deshacer.</strong></p>
-      <div class="summary-box">
-        <div class="row"><span>Destino</span><span class="tnum" id="sumAddr">—</span></div>
-        <div class="row"><span>Monto</span><span class="tnum" id="sumAmount">—</span></div>
-        <div class="row"><span>Comisión de red</span><span class="tnum">0.00003200 BTC</span></div>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn" id="sendCancel">Cancelar</button>
-      <button class="btn" id="sendBack" style="display:none;">Atrás</button>
-      <button class="btn primary" id="sendNext">Continuar</button>
-    </div>
-  </div>
-</div>
 
-<div class="help-overlay" id="helpOverlay">
-  <div class="help-card">
-    <div class="help-header"><h3>Ayuda — Demo 5 (extensión financiera, 2.10)</h3><button class="help-close" id="helpClose">✕</button></div>
-    <div class="help-body">
-      <div class="help-group-label">Formato de números</div>
-      <div class="help-row"><span>Cripto</span><span>decimales completos, sin redondeo silencioso</span></div>
-      <div class="help-row"><span>Monto muy pequeño</span><span>notación científica + tooltip con valor completo</span></div>
-      <div class="help-group-label">Direcciones</div>
-      <div class="help-row"><span>Formato</span><span>truncado + tooltip + copiar</span></div>
-      <div class="help-group-label">Timestamps</div>
-      <div class="help-row"><span>Feed de actividad</span><span>relativo ("hace 3 min")</span></div>
-      <div class="help-row"><span>Fila del ledger</span><span>absoluto, siempre</span></div>
-      <div class="help-group-label">Ciclo de vida de una transacción</div>
-      <div class="help-row"><span>Transición de estado</span><span>220ms, cruce directo de color</span></div>
-    </div>
-  </div>
-</div>
+    <script>
+      (function () {
+        const ICONS = {
+          send: '<svg viewBox="0 0 32 32" fill="currentColor"><path d="M27 5 3 14.5l9 3.5 10-9-9 10 3.5 9Z"/></svg>',
+          help: '<svg viewBox="0 0 32 32" fill="currentColor"><path d="M16 2a14 14 0 1 0 14 14A14 14 0 0 0 16 2Zm0 26a12 12 0 1 1 12-12 12 12 0 0 1-12 12Z"/><path d="M17 22h-2v-2h2Zm3.5-11.5a4.5 4.5 0 0 0-7.9-2.9l1.5 1.32A2.5 2.5 0 1 1 16 13.5h-1v4h2v-2.2a4.5 4.5 0 0 0 3.5-4.3Z"/></svg>',
+          shield:
+            '<svg viewBox="0 0 32 32" fill="currentColor"><path d="M16 2 4 7v9c0 8 5.3 13.7 12 15 6.7-1.3 12-7 12-15V7Zm-2 20-5-5 1.4-1.4L14 19.2l8.6-8.6L24 12Z"/></svg>',
+        };
+        document
+          .querySelectorAll('[data-icon]')
+          .forEach((el) => (el.innerHTML = ICONS[el.dataset.icon] || ''));
+        const $ = (s, c) => (c || document).querySelector(s);
+        const $$ = (s, c) => Array.from((c || document).querySelectorAll(s));
+        let toastTimer = null;
+        function showToast(msg) {
+          const t = $('#toast');
+          t.textContent = msg;
+          t.classList.add('show');
+          clearTimeout(toastTimer);
+          toastTimer = setTimeout(() => t.classList.remove('show'), 2400);
+        }
+        function nowAbs(d) {
+          return d.toLocaleString('es-BO', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+          });
+        }
+        function truncAddr(a) {
+          return a.slice(0, 6) + '…' + a.slice(-4);
+        }
 
-<script>
-(function(){
-  const ICONS = {
-    send: '<svg viewBox="0 0 32 32" fill="currentColor"><path d="M27 5 3 14.5l9 3.5 10-9-9 10 3.5 9Z"/></svg>',
-    help: '<svg viewBox="0 0 32 32" fill="currentColor"><path d="M16 2a14 14 0 1 0 14 14A14 14 0 0 0 16 2Zm0 26a12 12 0 1 1 12-12 12 12 0 0 1-12 12Z"/><path d="M17 22h-2v-2h2Zm3.5-11.5a4.5 4.5 0 0 0-7.9-2.9l1.5 1.32A2.5 2.5 0 1 1 16 13.5h-1v4h2v-2.2a4.5 4.5 0 0 0 3.5-4.3Z"/></svg>',
-    shield: '<svg viewBox="0 0 32 32" fill="currentColor"><path d="M16 2 4 7v9c0 8 5.3 13.7 12 15 6.7-1.3 12-7 12-15V7Zm-2 20-5-5 1.4-1.4L14 19.2l8.6-8.6L24 12Z"/></svg>',
-  };
-  document.querySelectorAll('[data-icon]').forEach(el => el.innerHTML = ICONS[el.dataset.icon] || '');
-  const $ = (s,c)=>(c||document).querySelector(s);
-  const $$ = (s,c)=>Array.from((c||document).querySelectorAll(s));
-  let toastTimer=null;
-  function showToast(msg){ const t=$('#toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove('show'),2400); }
-  function nowAbs(d){ return d.toLocaleString('es-BO',{year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit'}); }
-  function truncAddr(a){ return a.slice(0,6)+'…'+a.slice(-4); }
+        // ================= Direcciones truncadas + copiar =================
+        function bindAddr(el) {
+          const full = el.dataset.full;
+          el.title = full;
+          el.addEventListener('click', () => {
+            if (navigator.clipboard) {
+              navigator.clipboard.writeText(full).catch(() => {});
+            }
+            showToast('Dirección copiada: ' + truncAddr(full));
+          });
+        }
 
-  // ================= Direcciones truncadas + copiar =================
-  function bindAddr(el){
-    const full = el.dataset.full;
-    el.title = full;
-    el.addEventListener('click', ()=>{
-      if(navigator.clipboard){ navigator.clipboard.writeText(full).catch(()=>{}); }
-      showToast('Dirección copiada: ' + truncAddr(full));
-    });
-  }
+        // ================= Notación científica con tooltip =================
+        function formatAmount(v) {
+          if (v < 0.00001 && v > 0) {
+            return { text: v.toExponential(2), full: v.toFixed(10), sci: true };
+          }
+          return { text: v.toFixed(8), full: null, sci: false };
+        }
 
-  // ================= Notación científica con tooltip =================
-  function formatAmount(v){
-    if(v < 0.00001 && v > 0){
-      return { text: v.toExponential(2), full: v.toFixed(10), sci:true };
-    }
-    return { text: v.toFixed(8), full: null, sci:false };
-  }
+        // ================= Ledger =================
+        const addrs = [
+          '0x4f2a8b1e9c3d5f7a2b8e1c4d9f6a3b7e5c1d8f2a',
+          '0x9b3c7d2e8f1a4b6c9d2e5f8a1b4c7d9e2f5a8b1c',
+          '0x1a5d8e2c4f7b9a3d6e8f1c4b7a9d2e5f8c1b4a7d',
+        ];
+        let ledgerRows = [
+          {
+            hash: '0x8c1f…4e2a',
+            full: '0x8c1f3a9d7e2b4f6c8a1d3e5f7b9c2a4d6e8f1c3a4e2a',
+            tipo: 'Envío',
+            monto: 0.05,
+            addr: addrs[0],
+            estado: 'finalizada',
+            ts: new Date(Date.now() - 86400000 * 2),
+            risk: false,
+          },
+          {
+            hash: '0x2d7e…9b1c',
+            full: '0x2d7e9f1a3b5c7d9e1f3a5b7c9d1e3f5a7b9c1d3e9b1c',
+            tipo: 'Recepción',
+            monto: 1.2,
+            addr: addrs[1],
+            estado: 'finalizada',
+            ts: new Date(Date.now() - 86400000),
+            risk: false,
+          },
+          {
+            hash: '0x6a3b…7f8d',
+            full: '0x6a3b8c1d4e7f9a2b5c8d1e4f7a9b2c5d8e1f4a7c7f8d',
+            tipo: 'Envío',
+            monto: 0.00000871,
+            addr: addrs[2],
+            estado: 'confirmada',
+            ts: new Date(Date.now() - 3600000 * 5),
+            risk: true,
+          },
+        ];
 
-  // ================= Ledger =================
-  const addrs = [
-    '0x4f2a8b1e9c3d5f7a2b8e1c4d9f6a3b7e5c1d8f2a',
-    '0x9b3c7d2e8f1a4b6c9d2e5f8a1b4c7d9e2f5a8b1c',
-    '0x1a5d8e2c4f7b9a3d6e8f1c4b7a9d2e5f8c1b4a7d',
-  ];
-  let ledgerRows = [
-    { hash:'0x8c1f…4e2a', full:'0x8c1f3a9d7e2b4f6c8a1d3e5f7b9c2a4d6e8f1c3a4e2a', tipo:'Envío', monto:0.05000000, addr:addrs[0], estado:'finalizada', ts:new Date(Date.now()-86400000*2), risk:false },
-    { hash:'0x2d7e…9b1c', full:'0x2d7e9f1a3b5c7d9e1f3a5b7c9d1e3f5a7b9c1d3e9b1c', tipo:'Recepción', monto:1.20000000, addr:addrs[1], estado:'finalizada', ts:new Date(Date.now()-86400000), risk:false },
-    { hash:'0x6a3b…7f8d', full:'0x6a3b8c1d4e7f9a2b5c8d1e4f7a9b2c5d8e1f4a7c7f8d', tipo:'Envío', monto:0.00000871, addr:addrs[2], estado:'confirmada', ts:new Date(Date.now()-3600000*5), risk:true },
-  ];
-
-  function renderLedger(){
-    const body = $('#ledgerBody');
-    body.innerHTML = ledgerRows.map((r,i)=>{
-      const amt = formatAmount(r.monto);
-      return `<tr data-i="${i}">
+        function renderLedger() {
+          const body = $('#ledgerBody');
+          body.innerHTML = ledgerRows
+            .map((r, i) => {
+              const amt = formatAmount(r.monto);
+              return `<tr data-i="${i}">
         <td><span class="addr" data-full="${r.full}">${r.hash}</span></td>
         <td style="font-family:var(--sans);">${r.tipo}</td>
         <td class="tnum">${amt.sci ? `<span class="sci" title="Valor completo: ${amt.full} BTC">${amt.text} BTC</span>` : amt.text + ' BTC'}${r.risk ? '<span class="risk-badge">⚠ Nueva dirección</span>' : ''}</td>
@@ -284,150 +837,218 @@
         <td><span class="status-badge ${r.estado}" id="status-${i}">${r.estado}</span></td>
         <td>${nowAbs(r.ts)}</td>
       </tr>`;
-    }).join('');
-    $$('.addr', body).forEach(bindAddr);
-  }
-  renderLedger();
+            })
+            .join('');
+          $$('.addr', body).forEach(bindAddr);
+        }
+        renderLedger();
 
-  // ================= Ciclo pendiente → confirmada → finalizada =================
-  function addPendingTx(addr, monto){
-    const row = { hash: '0x' + Math.random().toString(16).slice(2,10) + '…' + Math.random().toString(16).slice(2,6),
-      full: '0x' + Array.from({length:40},()=>Math.floor(Math.random()*16).toString(16)).join(''),
-      tipo:'Envío', monto: parseFloat(monto), addr, estado:'pendiente', ts:new Date(), risk:false };
-    ledgerRows.unshift(row);
-    renderLedger();
-    pushActivity('Transacción enviada — pendiente de confirmación');
+        // ================= Ciclo pendiente → confirmada → finalizada =================
+        function addPendingTx(addr, monto) {
+          const row = {
+            hash:
+              '0x' +
+              Math.random().toString(16).slice(2, 10) +
+              '…' +
+              Math.random().toString(16).slice(2, 6),
+            full:
+              '0x' +
+              Array.from({ length: 40 }, () => Math.floor(Math.random() * 16).toString(16)).join(
+                '',
+              ),
+            tipo: 'Envío',
+            monto: parseFloat(monto),
+            addr,
+            estado: 'pendiente',
+            ts: new Date(),
+            risk: false,
+          };
+          ledgerRows.unshift(row);
+          renderLedger();
+          pushActivity('Transacción enviada — pendiente de confirmación');
 
-    setTimeout(()=>{ row.estado='confirmada'; renderLedger(); pushActivity('Transacción confirmada por la red'); }, 2600);
-    setTimeout(()=>{ row.estado='finalizada'; renderLedger(); pushActivity('Transacción finalizada — irreversible'); }, 5600);
-  }
+          setTimeout(() => {
+            row.estado = 'confirmada';
+            renderLedger();
+            pushActivity('Transacción confirmada por la red');
+          }, 2600);
+          setTimeout(() => {
+            row.estado = 'finalizada';
+            renderLedger();
+            pushActivity('Transacción finalizada — irreversible');
+          }, 5600);
+        }
 
-  // ================= Feed de actividad (relativo) =================
-  let activityLog = [];
-  function pushActivity(msg){
-    activityLog.unshift({ msg, ts: Date.now() });
-    if(activityLog.length > 12) activityLog.pop();
-    renderActivity();
-  }
-  function relTime(ts){
-    const s = Math.floor((Date.now()-ts)/1000);
-    if(s < 60) return 'hace ' + s + 's';
-    if(s < 3600) return 'hace ' + Math.floor(s/60) + ' min';
-    return 'hace ' + Math.floor(s/3600) + ' h';
-  }
-  function renderActivity(){
-    $('#activityFeed').innerHTML = activityLog.map(a=>
-      `<div class="feed-line">${a.msg}<div class="feed-rel">${relTime(a.ts)}</div></div>`
-    ).join('') || '<div style="color:var(--muted); font-size:11.5px;">Sin actividad todavía.</div>';
-  }
-  pushActivity('Sesión iniciada');
-  setInterval(renderActivity, 15000); // refresca el texto relativo
+        // ================= Feed de actividad (relativo) =================
+        let activityLog = [];
+        function pushActivity(msg) {
+          activityLog.unshift({ msg, ts: Date.now() });
+          if (activityLog.length > 12) activityLog.pop();
+          renderActivity();
+        }
+        function relTime(ts) {
+          const s = Math.floor((Date.now() - ts) / 1000);
+          if (s < 60) return 'hace ' + s + 's';
+          if (s < 3600) return 'hace ' + Math.floor(s / 60) + ' min';
+          return 'hace ' + Math.floor(s / 3600) + ' h';
+        }
+        function renderActivity() {
+          $('#activityFeed').innerHTML =
+            activityLog
+              .map(
+                (a) =>
+                  `<div class="feed-line">${a.msg}<div class="feed-rel">${relTime(a.ts)}</div></div>`,
+              )
+              .join('') ||
+            '<div style="color:var(--muted); font-size:11.5px;">Sin actividad todavía.</div>';
+        }
+        pushActivity('Sesión iniciada');
+        setInterval(renderActivity, 15000); // refresca el texto relativo
 
-  // ================= Ticker en vivo =================
-  const symbols = [{s:'BTC/USD', p:62340.50}, {s:'ETH/USD', p:3421.80}, {s:'Comisión red', p:0.000032}];
-  function renderTicker(){
-    $('#ticker').innerHTML = symbols.map((sym,i)=>
-      `<div class="ticker-item"><div class="ticker-sym">${sym.s}</div><div class="ticker-price tnum" id="tick-${i}">${sym.p.toLocaleString('en-US',{minimumFractionDigits: sym.p<1?6:2})}</div></div>`
-    ).join('');
-  }
-  renderTicker();
-  setInterval(()=>{
-    symbols.forEach((sym,i)=>{
-      const delta = (Math.random()-0.5) * (sym.p * 0.002);
-      sym.p = Math.max(0.000001, sym.p + delta);
-      const el = $('#tick-'+i);
-      el.textContent = sym.p.toLocaleString('en-US',{minimumFractionDigits: sym.p<1?6:2});
-      el.classList.remove('up','down');
-      el.classList.add(delta >= 0 ? 'up' : 'down');
-      el.classList.remove('tick-flash'); void el.offsetWidth; el.classList.add('tick-flash');
-    });
-  }, 1800);
+        // ================= Ticker en vivo =================
+        const symbols = [
+          { s: 'BTC/USD', p: 62340.5 },
+          { s: 'ETH/USD', p: 3421.8 },
+          { s: 'Comisión red', p: 0.000032 },
+        ];
+        function renderTicker() {
+          $('#ticker').innerHTML = symbols
+            .map(
+              (sym, i) =>
+                `<div class="ticker-item"><div class="ticker-sym">${sym.s}</div><div class="ticker-price tnum" id="tick-${i}">${sym.p.toLocaleString('en-US', { minimumFractionDigits: sym.p < 1 ? 6 : 2 })}</div></div>`,
+            )
+            .join('');
+        }
+        renderTicker();
+        setInterval(() => {
+          symbols.forEach((sym, i) => {
+            const delta = (Math.random() - 0.5) * (sym.p * 0.002);
+            sym.p = Math.max(0.000001, sym.p + delta);
+            const el = $('#tick-' + i);
+            el.textContent = sym.p.toLocaleString('en-US', {
+              minimumFractionDigits: sym.p < 1 ? 6 : 2,
+            });
+            el.classList.remove('up', 'down');
+            el.classList.add(delta >= 0 ? 'up' : 'down');
+            el.classList.remove('tick-flash');
+            void el.offsetWidth;
+            el.classList.add('tick-flash');
+          });
+        }, 1800);
 
-  // ================= Modal: Enviar fondos (2 pasos) =================
-  let sendStep = 1, lastFocused = null;
-  function openSend(){
-    lastFocused = document.activeElement;
-    sendStep = 1;
-    updateSendStep();
-    $('#modalSend').classList.add('open');
-    $('#inpAddress').focus();
-  }
-  function closeSend(){ $('#modalSend').classList.remove('open'); if(lastFocused) lastFocused.focus(); }
-  function updateSendStep(){
-    const box = $('#sendModalBox');
-    box.classList.toggle('critical', sendStep === 2);
-    $('#sendTitle').textContent = 'Enviar fondos — paso ' + sendStep + (sendStep===2 ? ' (confirmación)' : '');
-    $('#dot1').classList.toggle('active', sendStep>=1);
-    $('#dot2').classList.toggle('active', sendStep>=2);
-    $('#sendBodyStep1').style.display = sendStep===1 ? 'block' : 'none';
-    $('#sendBodyStep2').style.display = sendStep===2 ? 'block' : 'none';
-    $('#sendBack').style.display = sendStep===2 ? 'inline-flex' : 'none';
-    $('#sendNext').textContent = sendStep===2 ? 'Confirmar envío' : 'Continuar';
-  }
-  function validateStep1(){
-    const addr = $('#inpAddress').value.trim();
-    const amt = parseFloat($('#inpAmount').value);
-    let ok = true;
-    const addrValid = /^0x[a-fA-F0-9]{40}$/.test(addr);
-    $('#inpAddress').classList.toggle('invalid', !addrValid);
-    $('#errAddress').classList.toggle('show', !addrValid);
-    if(!addrValid) ok = false;
-    const amtValid = !isNaN(amt) && amt > 0 && amt <= 2.34871200;
-    $('#inpAmount').classList.toggle('invalid', !amtValid);
-    $('#errAmount').classList.toggle('show', !amtValid);
-    if(!amtValid) ok = false;
-    return ok;
-  }
-  ['inpAddress','inpAmount'].forEach(id=>{
-    $('#'+id).addEventListener('blur', validateStep1); // Regla: validar en blur, no en cada tecla
-  });
-  $('#btnSend').addEventListener('click', openSend);
-  $('#sendCancel').addEventListener('click', closeSend);
-  $('#sendBack').addEventListener('click', ()=>{ sendStep=1; updateSendStep(); });
-  $('#sendNext').addEventListener('click', ()=>{
-    if(sendStep === 1){
-      if(!validateStep1()) return;
-      $('#sumAddr').textContent = truncAddr($('#inpAddress').value.trim());
-      $('#sumAmount').textContent = parseFloat($('#inpAmount').value).toFixed(8) + ' BTC';
-      sendStep = 2; updateSendStep();
-    } else {
-      const addr = $('#inpAddress').value.trim(), amt = $('#inpAmount').value;
-      closeSend();
-      addPendingTx(addr, amt);
-      showToast('Transacción enviada — seguila en el ledger');
-    }
-  });
-  $('#modalSend').addEventListener('click', (e)=>{ if(e.target === $('#modalSend')) closeSend(); });
-  document.addEventListener('keydown', (e)=>{
-    if(!$('#modalSend').classList.contains('open')) return;
-    if(e.key === 'Escape'){ closeSend(); return; }
-    if(e.key === 'Tab'){
-      const focusables = $$('button, input', $('#sendModalBox')).filter(el => el.offsetParent !== null);
-      const first = focusables[0], last = focusables[focusables.length-1];
-      if(e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
-      else if(!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
-    }
-  });
+        // ================= Modal: Enviar fondos (2 pasos) =================
+        let sendStep = 1,
+          lastFocused = null;
+        function openSend() {
+          lastFocused = document.activeElement;
+          sendStep = 1;
+          updateSendStep();
+          $('#modalSend').classList.add('open');
+          $('#inpAddress').focus();
+        }
+        function closeSend() {
+          $('#modalSend').classList.remove('open');
+          if (lastFocused) lastFocused.focus();
+        }
+        function updateSendStep() {
+          const box = $('#sendModalBox');
+          box.classList.toggle('critical', sendStep === 2);
+          $('#sendTitle').textContent =
+            'Enviar fondos — paso ' + sendStep + (sendStep === 2 ? ' (confirmación)' : '');
+          $('#dot1').classList.toggle('active', sendStep >= 1);
+          $('#dot2').classList.toggle('active', sendStep >= 2);
+          $('#sendBodyStep1').style.display = sendStep === 1 ? 'block' : 'none';
+          $('#sendBodyStep2').style.display = sendStep === 2 ? 'block' : 'none';
+          $('#sendBack').style.display = sendStep === 2 ? 'inline-flex' : 'none';
+          $('#sendNext').textContent = sendStep === 2 ? 'Confirmar envío' : 'Continuar';
+        }
+        function validateStep1() {
+          const addr = $('#inpAddress').value.trim();
+          const amt = parseFloat($('#inpAmount').value);
+          let ok = true;
+          const addrValid = /^0x[a-fA-F0-9]{40}$/.test(addr);
+          $('#inpAddress').classList.toggle('invalid', !addrValid);
+          $('#errAddress').classList.toggle('show', !addrValid);
+          if (!addrValid) ok = false;
+          const amtValid = !isNaN(amt) && amt > 0 && amt <= 2.348712;
+          $('#inpAmount').classList.toggle('invalid', !amtValid);
+          $('#errAmount').classList.toggle('show', !amtValid);
+          if (!amtValid) ok = false;
+          return ok;
+        }
+        ['inpAddress', 'inpAmount'].forEach((id) => {
+          $('#' + id).addEventListener('blur', validateStep1); // Regla: validar en blur, no en cada tecla
+        });
+        $('#btnSend').addEventListener('click', openSend);
+        $('#sendCancel').addEventListener('click', closeSend);
+        $('#sendBack').addEventListener('click', () => {
+          sendStep = 1;
+          updateSendStep();
+        });
+        $('#sendNext').addEventListener('click', () => {
+          if (sendStep === 1) {
+            if (!validateStep1()) return;
+            $('#sumAddr').textContent = truncAddr($('#inpAddress').value.trim());
+            $('#sumAmount').textContent = parseFloat($('#inpAmount').value).toFixed(8) + ' BTC';
+            sendStep = 2;
+            updateSendStep();
+          } else {
+            const addr = $('#inpAddress').value.trim(),
+              amt = $('#inpAmount').value;
+            closeSend();
+            addPendingTx(addr, amt);
+            showToast('Transacción enviada — seguila en el ledger');
+          }
+        });
+        $('#modalSend').addEventListener('click', (e) => {
+          if (e.target === $('#modalSend')) closeSend();
+        });
+        document.addEventListener('keydown', (e) => {
+          if (!$('#modalSend').classList.contains('open')) return;
+          if (e.key === 'Escape') {
+            closeSend();
+            return;
+          }
+          if (e.key === 'Tab') {
+            const focusables = $$('button, input', $('#sendModalBox')).filter(
+              (el) => el.offsetParent !== null,
+            );
+            const first = focusables[0],
+              last = focusables[focusables.length - 1];
+            if (e.shiftKey && document.activeElement === first) {
+              e.preventDefault();
+              last.focus();
+            } else if (!e.shiftKey && document.activeElement === last) {
+              e.preventDefault();
+              first.focus();
+            }
+          }
+        });
 
-  // ================= Tooltip de precio (material acento, reutilizado de demo 1) =================
-  const priceTip = $('#priceTooltip');
-  $$('.ticker-item').forEach ? null : null;
-  document.addEventListener('mouseover', (e)=>{
-    const item = e.target.closest('.ticker-item');
-    if(!item) return;
-    const rect = item.getBoundingClientRect();
-    priceTip.innerHTML = `<div class="pt-row"><span class="pt-label">Actualizado</span><span>en vivo</span></div><div class="pt-row"><span class="pt-label">Intervalo</span><span>~1.8s</span></div>`;
-    priceTip.style.left = rect.left + 'px'; priceTip.style.top = (rect.bottom+6) + 'px';
-    priceTip.classList.add('show');
-  });
-  document.addEventListener('mouseout', (e)=>{ if(e.target.closest('.ticker-item')) priceTip.classList.remove('show'); });
+        // ================= Tooltip de precio (material acento, reutilizado de demo 1) =================
+        const priceTip = $('#priceTooltip');
+        $$('.ticker-item').forEach ? null : null;
+        document.addEventListener('mouseover', (e) => {
+          const item = e.target.closest('.ticker-item');
+          if (!item) return;
+          const rect = item.getBoundingClientRect();
+          priceTip.innerHTML = `<div class="pt-row"><span class="pt-label">Actualizado</span><span>en vivo</span></div><div class="pt-row"><span class="pt-label">Intervalo</span><span>~1.8s</span></div>`;
+          priceTip.style.left = rect.left + 'px';
+          priceTip.style.top = rect.bottom + 6 + 'px';
+          priceTip.classList.add('show');
+        });
+        document.addEventListener('mouseout', (e) => {
+          if (e.target.closest('.ticker-item')) priceTip.classList.remove('show');
+        });
 
-  // ---------------- Ayuda ----------------
-  const helpOverlay = $('#helpOverlay');
-  $('#btnHelp').addEventListener('click', ()=> helpOverlay.classList.add('open'));
-  $('#helpClose').addEventListener('click', ()=> helpOverlay.classList.remove('open'));
-  helpOverlay.addEventListener('click', (e)=>{ if(e.target===helpOverlay) helpOverlay.classList.remove('open'); });
-})();
-</script>
-</body>
+        // ---------------- Ayuda ----------------
+        const helpOverlay = $('#helpOverlay');
+        $('#btnHelp').addEventListener('click', () => helpOverlay.classList.add('open'));
+        $('#helpClose').addEventListener('click', () => helpOverlay.classList.remove('open'));
+        helpOverlay.addEventListener('click', (e) => {
+          if (e.target === helpOverlay) helpOverlay.classList.remove('open');
+        });
+      })();
+    </script>
+  </body>
 </html>

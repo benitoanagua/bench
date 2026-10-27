@@ -11,16 +11,37 @@ export class BchTab {
 
   private handleKeyDown = (event: KeyboardEvent) => {
     if (this.disabled || !['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
-    const tabs = Array.from(this.host.parentElement?.querySelectorAll(':scope > bch-tab') || []) as HTMLElement[];
+    const tabs = Array.from(
+      this.host.parentElement?.querySelectorAll(':scope > bch-tab') || [],
+    ) as HTMLElement[];
     const enabled = tabs.filter((tab) => !tab.hasAttribute('disabled'));
     const current = enabled.indexOf(this.host);
-    const nextIndex = event.key === 'Home' ? 0 : event.key === 'End' ? enabled.length - 1 : (current + (event.key === 'ArrowRight' ? 1 : -1) + enabled.length) % enabled.length;
+    const nextIndex =
+      event.key === 'Home'
+        ? 0
+        : event.key === 'End'
+          ? enabled.length - 1
+          : (current + (event.key === 'ArrowRight' ? 1 : -1) + enabled.length) % enabled.length;
     event.preventDefault();
     enabled[nextIndex]?.focus();
   };
 
   render() {
     const panelId = `${this.id}-panel`;
-    return <button id={this.id} class={{ tab: true, active: this.active }} role="tab" aria-selected={this.active ? 'true' : 'false'} aria-controls={panelId} tabIndex={this.active ? 0 : -1} disabled={this.disabled} onClick={() => this.bchPress.emit(this.value)} onKeyDown={this.handleKeyDown}><slot /></button>;
+    return (
+      <button
+        id={this.id}
+        class={{ tab: true, active: this.active }}
+        role="tab"
+        aria-selected={this.active ? 'true' : 'false'}
+        aria-controls={panelId}
+        tabIndex={this.active ? 0 : -1}
+        disabled={this.disabled}
+        onClick={() => this.bchPress.emit(this.value)}
+        onKeyDown={this.handleKeyDown}
+      >
+        <slot />
+      </button>
+    );
   }
 }

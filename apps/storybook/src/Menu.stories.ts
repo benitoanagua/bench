@@ -10,10 +10,13 @@ const meta = {
 export default meta;
 
 export const Default = {
-  render: () => h('bch-menu', { label: 'Actions' },
-    h('bch-button', { slot: 'trigger' }, 'Open menu'),
-    h('bch-menu-item', { value: 'edit' }, 'Edit'),
-    h('bch-menu-item', { value: 'duplicate' }, 'Duplicate'),
-    h('bch-menu-item', { value: 'delete', tone: 'danger' }, 'Delete'),
-  ),
+  render: () =>
+    h(
+      'bch-menu',
+      { label: 'Actions' },
+      h('bch-button', { slot: 'trigger' }, 'Open menu'),
+      h('bch-menu-item', { value: 'edit' }, 'Edit'),
+      h('bch-menu-item', { value: 'duplicate' }, 'Duplicate'),
+      h('bch-menu-item', { value: 'delete', tone: 'danger' }, 'Delete'),
+    ),
 };

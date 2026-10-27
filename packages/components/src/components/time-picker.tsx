@@ -29,7 +29,9 @@ export class BchTimePicker {
   @Event() bchInput!: EventEmitter<string>;
   private input?: HTMLInputElement;
 
-  @Method() async focusControl() { this.input?.focus(); }
+  @Method() async focusControl() {
+    this.input?.focus();
+  }
 
   private onInput = (event: Event) => {
     this.value = (event.target as HTMLInputElement).value;
@@ -39,10 +41,17 @@ export class BchTimePicker {
 
   render() {
     const id = this.host.id || `bch-time-picker-${this.name || 'field'}`;
-    const describedBy = [this.hint ? `${id}-hint` : '', this.error ? `${id}-error` : ''].filter(Boolean).join(' ') || undefined;
+    const describedBy =
+      [this.hint ? `${id}-hint` : '', this.error ? `${id}-error` : ''].filter(Boolean).join(' ') ||
+      undefined;
     return (
       <div class="field">
-        {this.label ? <label class="label" htmlFor={id}>{this.label}{this.required ? ' *' : ''}</label> : null}
+        {this.label ? (
+          <label class="label" htmlFor={id}>
+            {this.label}
+            {this.required ? ' *' : ''}
+          </label>
+        ) : null}
         <input
           ref={(el) => (this.input = el as HTMLInputElement)}
           id={id}
@@ -58,8 +67,16 @@ export class BchTimePicker {
           onInput={this.onInput}
           onChange={this.onChange}
         />
-        {this.hint ? <span id={`${id}-hint`} class="message">{this.hint}</span> : null}
-        {this.error ? <span id={`${id}-error`} class="message error" role="alert">{this.error}</span> : null}
+        {this.hint ? (
+          <span id={`${id}-hint`} class="message">
+            {this.hint}
+          </span>
+        ) : null}
+        {this.error ? (
+          <span id={`${id}-error`} class="message error" role="alert">
+            {this.error}
+          </span>
+        ) : null}
       </div>
     );
   }

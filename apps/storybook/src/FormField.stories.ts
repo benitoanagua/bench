@@ -10,12 +10,18 @@ const meta = {
 export default meta;
 
 export const WrappingCustomControl = {
-  render: () => h('bch-form-field', { label: 'Search radius', hint: 'Distance in kilometers' },
-    h('bch-slider', { min: 0, max: 50, value: 10 }),
-  ),
+  render: () =>
+    h(
+      'bch-form-field',
+      { label: 'Search radius', hint: 'Distance in kilometers' },
+      h('bch-slider', { min: 0, max: 50, value: 10 }),
+    ),
 };
 export const WithError = {
-  render: () => h('bch-form-field', { label: 'API key', error: 'This field is required', required: true },
-    h('input', { type: 'text', style: { width: '100%' } }),
-  ),
+  render: () =>
+    h(
+      'bch-form-field',
+      { label: 'API key', error: 'This field is required', required: true },
+      h('input', { type: 'text', style: { width: '100%' } }),
+    ),
 };

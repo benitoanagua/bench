@@ -11,7 +11,8 @@ const meta = {
 export default meta;
 
 export const Default = {
-  render: () => stencilContent(`
+  render: () =>
+    stencilContent(`
     <bch-button onclick="document.querySelector('bch-dialog').show()">Open dialog</bch-button>
     <bch-dialog label="Confirm action">
       <p>This dialog uses the native dialog element and restores focus on close.</p>
@@ -23,7 +24,8 @@ export const Default = {
 };
 
 export const Critical = {
-  render: () => stencilContent(`
+  render: () =>
+    stencilContent(`
     <bch-button variant="danger" onclick="document.querySelector('#critical-dialog').show()">Delete permanently</bch-button>
     <bch-dialog id="critical-dialog" label="Delete permanently" tone="critical">
       <p>This will delete the record and its full history. <strong>This action cannot be undone.</strong></p>

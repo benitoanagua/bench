@@ -16,7 +16,19 @@
   font-weight: var(--bch-font-weight-medium);
   cursor: pointer;
 }
-.bch-segmented-item:hover:not(:disabled):not(.is-selected) { color: var(--bch-color-text); }
-.bch-segmented-item:focus-visible { outline: none; box-shadow: var(--bch-focus-ring); }
-.bch-segmented-item.is-selected { background: var(--bch-color-surface-raised); color: var(--bch-color-text); box-shadow: var(--bch-shadow-sm); }
-.bch-segmented-item:disabled { color: var(--bch-color-text-disabled); cursor: not-allowed; }
+.bch-segmented-item:hover:not(:disabled):not(.is-selected) {
+  color: var(--bch-color-text);
+}
+.bch-segmented-item:focus-visible {
+  outline: none;
+  box-shadow: var(--bch-focus-ring);
+}
+.bch-segmented-item.is-selected {
+  background: var(--bch-color-surface-raised);
+  color: var(--bch-color-text);
+  box-shadow: var(--bch-shadow-sm);
+}
+.bch-segmented-item:disabled {
+  color: var(--bch-color-text-disabled);
+  cursor: not-allowed;
+}

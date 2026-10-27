@@ -1,4 +1,13 @@
-import { Component, Element, Event, type EventEmitter, Method, Prop, State, h } from '@stencil/core';
+import {
+  Component,
+  Element,
+  Event,
+  type EventEmitter,
+  Method,
+  Prop,
+  State,
+  h,
+} from '@stencil/core';
 
 /**
  * A trigger + popover menu. The first slotted element (typically an
@@ -33,8 +42,12 @@ export class BchMenu {
     this.list?.addEventListener('bchSelect', this.onItemSelect as EventListener);
   };
 
-  @Method() async show() { this.setOpen(true); }
-  @Method() async close() { this.setOpen(false); }
+  @Method() async show() {
+    this.setOpen(true);
+  }
+  @Method() async close() {
+    this.setOpen(false);
+  }
 
   componentDidLoad() {
     this.refreshItems();
@@ -53,7 +66,10 @@ export class BchMenu {
     if (this.open === next) return;
     this.open = next;
     this.bchOpenChange.emit(next);
-    if (next) requestAnimationFrame(() => (this.items[0]?.querySelector('button') as HTMLElement | null)?.focus());
+    if (next)
+      requestAnimationFrame(() =>
+        (this.items[0]?.querySelector('button') as HTMLElement | null)?.focus(),
+      );
     else (this.trigger?.querySelector('button, a') as HTMLElement | null)?.focus();
   }
 
@@ -66,13 +82,35 @@ export class BchMenu {
 
   private onKeyDown = (event: KeyboardEvent) => {
     if (!this.open) return;
-    const buttons = this.items.map((item) => item.querySelector('button')).filter(Boolean) as HTMLButtonElement[];
+    const buttons = this.items
+      .map((item) => item.querySelector('button'))
+      .filter(Boolean) as HTMLButtonElement[];
     const currentIndex = buttons.findIndex((b) => b === document.activeElement);
-    if (event.key === 'Escape') { event.preventDefault(); this.setOpen(false); return; }
-    if (event.key === 'ArrowDown') { event.preventDefault(); buttons[(currentIndex + 1 + buttons.length) % buttons.length]?.focus(); return; }
-    if (event.key === 'ArrowUp') { event.preventDefault(); buttons[(currentIndex - 1 + buttons.length) % buttons.length]?.focus(); return; }
-    if (event.key === 'Home') { event.preventDefault(); buttons[0]?.focus(); return; }
-    if (event.key === 'End') { event.preventDefault(); buttons[buttons.length - 1]?.focus(); return; }
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      this.setOpen(false);
+      return;
+    }
+    if (event.key === 'ArrowDown') {
+      event.preventDefault();
+      buttons[(currentIndex + 1 + buttons.length) % buttons.length]?.focus();
+      return;
+    }
+    if (event.key === 'ArrowUp') {
+      event.preventDefault();
+      buttons[(currentIndex - 1 + buttons.length) % buttons.length]?.focus();
+      return;
+    }
+    if (event.key === 'Home') {
+      event.preventDefault();
+      buttons[0]?.focus();
+      return;
+    }
+    if (event.key === 'End') {
+      event.preventDefault();
+      buttons[buttons.length - 1]?.focus();
+      return;
+    }
   };
 
   private onItemSelect = (event: CustomEvent<string>) => {
@@ -83,7 +121,11 @@ export class BchMenu {
   render() {
     const menuId = `${this.host.id || 'bch-menu'}-list`;
     return (
-      <div class="bch-menu" ref={(el) => (this.root = el as HTMLElement)} onKeyDown={this.onKeyDown}>
+      <div
+        class="bch-menu"
+        ref={(el) => (this.root = el as HTMLElement)}
+        onKeyDown={this.onKeyDown}
+      >
         <span
           class="bch-menu__trigger"
           ref={(el) => (this.trigger = el as HTMLElement)}

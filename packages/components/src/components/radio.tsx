@@ -9,5 +9,26 @@ export class BchRadio {
   @Prop() value = '';
   @Prop() required = false;
   @Event() bchChange!: EventEmitter<string>;
-  render() { return <label class="choice"><input type="radio" name={this.name || undefined} value={this.value} checked={this.checked} disabled={this.disabled} required={this.required} onChange={(event) => { this.checked = true; this.bchChange.emit((event.target as HTMLInputElement).value); }} /><span>{this.label}<slot /></span></label>; }
+  render() {
+    return (
+      <label class="choice">
+        <input
+          type="radio"
+          name={this.name || undefined}
+          value={this.value}
+          checked={this.checked}
+          disabled={this.disabled}
+          required={this.required}
+          onChange={(event) => {
+            this.checked = true;
+            this.bchChange.emit((event.target as HTMLInputElement).value);
+          }}
+        />
+        <span>
+          {this.label}
+          <slot />
+        </span>
+      </label>
+    );
+  }
 }

@@ -1,460 +1,1033 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es" data-theme="light">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bench — Demo 4: Componentes diversos</title>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --primary:#1F5C4E; --primary-strong:#143F35; --primary-soft:#E3EEEA;
-    --danger:#A23B2E; --danger-soft:#F5E7E4;
-    --warning:#9A6B12; --warning-soft:#F3EBD8;
-    --pending:#2B5FAD; --pending-soft:#E4ECF8;
-    --mono:'IBM Plex Mono', ui-monospace, monospace;
-    --sans:'IBM Plex Sans', system-ui, sans-serif;
-    --b1-width:1px; --b1-radius:1px; --b1-color:#C3C9D1;
-    --b2-width:1px; --b2-radius:2px; --b2-color:#9AA3AF;
-    --b3-width:1.5px; --b3-radius:4px; --b3-color:#6B7480;
-    --b4-width:2px; --b4-radius:6px; --b4-color:#4B5563;
-    --elev-1: 0 1px 3px rgba(15,20,25,.10), 0 1px 2px rgba(15,20,25,.06);
-    --elev-2: 0 6px 16px rgba(15,20,25,.16), 0 2px 4px rgba(15,20,25,.08);
-    --elev-3: 0 12px 32px rgba(15,20,25,.24), 0 0 0 1px var(--danger);
-    --bg:#E7EAEE; --surface:#FFFFFF; --text:#1B2430; --muted:#626C7A;
-    --select:#2B5FAD; --select-soft:#E4ECF8;
-    --state-hover: color-mix(in srgb, var(--surface) 92%, var(--text));
-  }
-  *{ box-sizing:border-box; }
-  html,body{ margin:0; padding:0; height:100%; background:var(--bg); color:var(--text); font-family:var(--sans); font-size:13px; -webkit-font-smoothing:antialiased; }
-  button{ font-family:var(--sans); cursor:pointer; }
-  :focus-visible{ outline:2px solid var(--primary); outline-offset:1px; }
-  .icon{ width:15px; height:15px; flex-shrink:0; display:inline-flex; }
-  .icon svg{ display:block; width:100%; height:100%; }
-  .tnum{ font-variant-numeric: tabular-nums; }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bench — Demo 4: Componentes diversos</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #1f5c4e;
+        --primary-strong: #143f35;
+        --primary-soft: #e3eeea;
+        --danger: #a23b2e;
+        --danger-soft: #f5e7e4;
+        --warning: #9a6b12;
+        --warning-soft: #f3ebd8;
+        --pending: #2b5fad;
+        --pending-soft: #e4ecf8;
+        --mono: 'IBM Plex Mono', ui-monospace, monospace;
+        --sans: 'IBM Plex Sans', system-ui, sans-serif;
+        --b1-width: 1px;
+        --b1-radius: 1px;
+        --b1-color: #c3c9d1;
+        --b2-width: 1px;
+        --b2-radius: 2px;
+        --b2-color: #9aa3af;
+        --b3-width: 1.5px;
+        --b3-radius: 4px;
+        --b3-color: #6b7480;
+        --b4-width: 2px;
+        --b4-radius: 6px;
+        --b4-color: #4b5563;
+        --elev-1: 0 1px 3px rgba(15, 20, 25, 0.1), 0 1px 2px rgba(15, 20, 25, 0.06);
+        --elev-2: 0 6px 16px rgba(15, 20, 25, 0.16), 0 2px 4px rgba(15, 20, 25, 0.08);
+        --elev-3: 0 12px 32px rgba(15, 20, 25, 0.24), 0 0 0 1px var(--danger);
+        --bg: #e7eaee;
+        --surface: #ffffff;
+        --text: #1b2430;
+        --muted: #626c7a;
+        --select: #2b5fad;
+        --select-soft: #e4ecf8;
+        --state-hover: color-mix(in srgb, var(--surface) 92%, var(--text));
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--sans);
+        font-size: 13px;
+        -webkit-font-smoothing: antialiased;
+      }
+      button {
+        font-family: var(--sans);
+        cursor: pointer;
+      }
+      :focus-visible {
+        outline: 2px solid var(--primary);
+        outline-offset: 1px;
+      }
+      .icon {
+        width: 15px;
+        height: 15px;
+        flex-shrink: 0;
+        display: inline-flex;
+      }
+      .icon svg {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+      .tnum {
+        font-variant-numeric: tabular-nums;
+      }
 
-  .shell{ display:flex; flex-direction:column; height:100vh; min-height:640px; }
-  .hint-banner{ padding:7px 12px; background:var(--surface); border-bottom:var(--b3-width) solid var(--b3-color); font-size:11px; color:var(--muted); flex-shrink:0; }
-  .hint-banner kbd{ font-family:var(--mono); background:var(--bg); border:var(--b1-width) solid var(--b1-color); border-radius:var(--b1-radius); padding:1px 5px; font-size:10px; }
+      .shell {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        min-height: 640px;
+      }
+      .hint-banner {
+        padding: 7px 12px;
+        background: var(--surface);
+        border-bottom: var(--b3-width) solid var(--b3-color);
+        font-size: 11px;
+        color: var(--muted);
+        flex-shrink: 0;
+      }
+      .hint-banner kbd {
+        font-family: var(--mono);
+        background: var(--bg);
+        border: var(--b1-width) solid var(--b1-color);
+        border-radius: var(--b1-radius);
+        padding: 1px 5px;
+        font-size: 10px;
+      }
 
-  .topbar{ display:flex; align-items:center; gap:10px; padding:8px 12px; background:var(--surface); border-bottom:var(--b3-width) solid var(--b3-color); flex-shrink:0; flex-wrap:wrap; }
-  .brand{ font-weight:600; font-size:13px; }
-  .btn{ border:var(--b2-width) solid var(--b2-color); border-radius:var(--b2-radius); background:var(--surface); color:var(--text); padding:6px 11px; font-size:12px; display:flex; align-items:center; gap:6px; }
-  .btn:hover{ background:var(--state-hover); }
-  .btn.primary{ background:var(--primary); border-color:var(--primary); color:#fff; }
-  .btn.primary:hover{ background:var(--primary-strong); }
-  .btn.danger{ border-color:var(--danger); color:var(--danger); }
-  .btn.danger:hover{ background:var(--danger-soft); }
-  .toolbar-sep{ width:1px; height:20px; background:var(--b1-color); margin:0 2px; }
-  .toolbar{ display:flex; align-items:center; gap:8px; padding:8px 12px; background:var(--surface); border-bottom:var(--b3-width) solid var(--b3-color); flex-shrink:0; flex-wrap:wrap; }
+      .topbar {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 12px;
+        background: var(--surface);
+        border-bottom: var(--b3-width) solid var(--b3-color);
+        flex-shrink: 0;
+        flex-wrap: wrap;
+      }
+      .brand {
+        font-weight: 600;
+        font-size: 13px;
+      }
+      .btn {
+        border: var(--b2-width) solid var(--b2-color);
+        border-radius: var(--b2-radius);
+        background: var(--surface);
+        color: var(--text);
+        padding: 6px 11px;
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .btn:hover {
+        background: var(--state-hover);
+      }
+      .btn.primary {
+        background: var(--primary);
+        border-color: var(--primary);
+        color: #fff;
+      }
+      .btn.primary:hover {
+        background: var(--primary-strong);
+      }
+      .btn.danger {
+        border-color: var(--danger);
+        color: var(--danger);
+      }
+      .btn.danger:hover {
+        background: var(--danger-soft);
+      }
+      .toolbar-sep {
+        width: 1px;
+        height: 20px;
+        background: var(--b1-color);
+        margin: 0 2px;
+      }
+      .toolbar {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 12px;
+        background: var(--surface);
+        border-bottom: var(--b3-width) solid var(--b3-color);
+        flex-shrink: 0;
+        flex-wrap: wrap;
+      }
 
-  .body{ flex:1; display:flex; overflow:hidden; }
+      .body {
+        flex: 1;
+        display: flex;
+        overflow: hidden;
+      }
 
-  /* ---------- Tree ---------- */
-  .tree-panel{ width:280px; flex-shrink:0; background:var(--surface); border-right:var(--b3-width) solid var(--b3-color); overflow-y:auto; padding:6px 0; }
-  .tree-panel-title{ font-size:11px; color:var(--muted); padding:8px 14px 4px; font-weight:600; }
-  ul.tree, ul.tree ul{ list-style:none; margin:0; padding:0; }
-  ul.tree ul{ padding-left:18px; }
-  .tree-node{ display:flex; align-items:center; gap:5px; padding:5px 10px; border-radius:var(--b2-radius); cursor:pointer; font-size:12.5px; user-select:none; }
-  .tree-node:hover{ background:var(--state-hover); }
-  .tree-node.selected{ background:var(--primary-soft); color:var(--primary-strong); font-weight:600; }
-  .tree-node.focused{ outline:2px solid var(--primary); outline-offset:-2px; }
-  .tree-chevron{ width:14px; height:14px; flex-shrink:0; display:flex; align-items:center; justify-content:center; color:var(--muted); transition:transform 140ms ease-out; }
-  .tree-chevron.expanded{ transform:rotate(90deg); }
-  .tree-chevron.leaf{ visibility:hidden; }
-  .tree-node .icon{ color:var(--muted); }
-  .tree-children{ overflow:hidden; max-height:0; transition:max-height 180ms ease-out; }
-  .tree-children.open{ max-height:600px; }
-  .tree-count{ margin-left:auto; font-family:var(--mono); font-size:10px; color:var(--muted); background:var(--bg); padding:0 5px; border-radius:8px; }
+      /* ---------- Tree ---------- */
+      .tree-panel {
+        width: 280px;
+        flex-shrink: 0;
+        background: var(--surface);
+        border-right: var(--b3-width) solid var(--b3-color);
+        overflow-y: auto;
+        padding: 6px 0;
+      }
+      .tree-panel-title {
+        font-size: 11px;
+        color: var(--muted);
+        padding: 8px 14px 4px;
+        font-weight: 600;
+      }
+      ul.tree,
+      ul.tree ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      ul.tree ul {
+        padding-left: 18px;
+      }
+      .tree-node {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        padding: 5px 10px;
+        border-radius: var(--b2-radius);
+        cursor: pointer;
+        font-size: 12.5px;
+        user-select: none;
+      }
+      .tree-node:hover {
+        background: var(--state-hover);
+      }
+      .tree-node.selected {
+        background: var(--primary-soft);
+        color: var(--primary-strong);
+        font-weight: 600;
+      }
+      .tree-node.focused {
+        outline: 2px solid var(--primary);
+        outline-offset: -2px;
+      }
+      .tree-chevron {
+        width: 14px;
+        height: 14px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--muted);
+        transition: transform 140ms ease-out;
+      }
+      .tree-chevron.expanded {
+        transform: rotate(90deg);
+      }
+      .tree-chevron.leaf {
+        visibility: hidden;
+      }
+      .tree-node .icon {
+        color: var(--muted);
+      }
+      .tree-children {
+        overflow: hidden;
+        max-height: 0;
+        transition: max-height 180ms ease-out;
+      }
+      .tree-children.open {
+        max-height: 600px;
+      }
+      .tree-count {
+        margin-left: auto;
+        font-family: var(--mono);
+        font-size: 10px;
+        color: var(--muted);
+        background: var(--bg);
+        padding: 0 5px;
+        border-radius: 8px;
+      }
 
-  /* ---------- Detalle con Accordion ---------- */
-  .detail-panel{ flex:1; overflow-y:auto; padding:18px 22px; }
-  .detail-empty{ color:var(--muted); font-size:13px; padding:40px; text-align:center; }
-  .detail-header{ display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
-  .detail-title{ font-size:16px; font-weight:600; }
-  .detail-path{ font-family:var(--mono); font-size:11px; color:var(--muted); margin-top:2px; }
+      /* ---------- Detalle con Accordion ---------- */
+      .detail-panel {
+        flex: 1;
+        overflow-y: auto;
+        padding: 18px 22px;
+      }
+      .detail-empty {
+        color: var(--muted);
+        font-size: 13px;
+        padding: 40px;
+        text-align: center;
+      }
+      .detail-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 14px;
+      }
+      .detail-title {
+        font-size: 16px;
+        font-weight: 600;
+      }
+      .detail-path {
+        font-family: var(--mono);
+        font-size: 11px;
+        color: var(--muted);
+        margin-top: 2px;
+      }
 
-  .accordion{ border:var(--b3-width) solid var(--b3-color); border-radius:var(--b3-radius); background:var(--surface); box-shadow:var(--elev-1); overflow:hidden; }
-  .acc-item + .acc-item{ border-top:var(--b2-width) solid var(--b2-color); }
-  .acc-header{ display:flex; align-items:center; justify-content:space-between; width:100%; border:none; background:var(--surface); padding:11px 14px; font-size:12.5px; font-weight:600; text-align:left; }
-  .acc-header:hover{ background:var(--state-hover); }
-  .acc-header .tree-chevron{ color:var(--muted); }
-  .acc-body{ max-height:0; overflow:hidden; transition:max-height 180ms ease-out; background:var(--bg); }
-  .acc-body.open{ max-height:400px; }
-  .acc-body-inner{ padding:12px 14px; }
-  .field-row{ display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px dashed var(--b1-color); font-size:12.5px; }
-  .field-row .k{ color:var(--muted); }
-  .field-row .v{ font-family:var(--mono); }
+      .accordion {
+        border: var(--b3-width) solid var(--b3-color);
+        border-radius: var(--b3-radius);
+        background: var(--surface);
+        box-shadow: var(--elev-1);
+        overflow: hidden;
+      }
+      .acc-item + .acc-item {
+        border-top: var(--b2-width) solid var(--b2-color);
+      }
+      .acc-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        border: none;
+        background: var(--surface);
+        padding: 11px 14px;
+        font-size: 12.5px;
+        font-weight: 600;
+        text-align: left;
+      }
+      .acc-header:hover {
+        background: var(--state-hover);
+      }
+      .acc-header .tree-chevron {
+        color: var(--muted);
+      }
+      .acc-body {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 180ms ease-out;
+        background: var(--bg);
+      }
+      .acc-body.open {
+        max-height: 400px;
+      }
+      .acc-body-inner {
+        padding: 12px 14px;
+      }
+      .field-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 6px 0;
+        border-bottom: 1px dashed var(--b1-color);
+        font-size: 12.5px;
+      }
+      .field-row .k {
+        color: var(--muted);
+      }
+      .field-row .v {
+        font-family: var(--mono);
+      }
 
-  /* ---------- Offcanvas ---------- */
-  .scrim{ position:fixed; inset:0; background:rgba(10,14,18,.4); opacity:0; pointer-events:none; transition:opacity 140ms ease-out; z-index:190; }
-  .scrim.show{ opacity:1; pointer-events:auto; }
-  .offcanvas{ position:fixed; top:0; right:0; bottom:0; width:320px; background:var(--surface); border-left:var(--b4-width) solid var(--b4-color); box-shadow:var(--elev-2); transform:translateX(100%); transition:transform 140ms ease-out; z-index:200; display:flex; flex-direction:column; }
-  .offcanvas.open{ transform:translateX(0); }
-  .oc-header{ display:flex; align-items:center; justify-content:space-between; padding:14px 16px; border-bottom:var(--b2-width) solid var(--b2-color); }
-  .oc-header h3{ margin:0; font-size:14px; }
-  .oc-close{ border:none; background:none; color:var(--muted); }
-  .oc-body{ flex:1; overflow-y:auto; padding:12px 16px; display:flex; flex-direction:column; gap:10px; }
-  .oc-footer{ padding:12px 16px; border-top:var(--b2-width) solid var(--b2-color); display:flex; gap:8px; }
-  .oc-footer button{ flex:1; }
-  .filter-check{ display:flex; align-items:center; gap:8px; font-size:12.5px; padding:3px 0; }
-  .filter-check input{ accent-color:var(--primary); }
+      /* ---------- Offcanvas ---------- */
+      .scrim {
+        position: fixed;
+        inset: 0;
+        background: rgba(10, 14, 18, 0.4);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 140ms ease-out;
+        z-index: 190;
+      }
+      .scrim.show {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .offcanvas {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 320px;
+        background: var(--surface);
+        border-left: var(--b4-width) solid var(--b4-color);
+        box-shadow: var(--elev-2);
+        transform: translateX(100%);
+        transition: transform 140ms ease-out;
+        z-index: 200;
+        display: flex;
+        flex-direction: column;
+      }
+      .offcanvas.open {
+        transform: translateX(0);
+      }
+      .oc-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 16px;
+        border-bottom: var(--b2-width) solid var(--b2-color);
+      }
+      .oc-header h3 {
+        margin: 0;
+        font-size: 14px;
+      }
+      .oc-close {
+        border: none;
+        background: none;
+        color: var(--muted);
+      }
+      .oc-body {
+        flex: 1;
+        overflow-y: auto;
+        padding: 12px 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .oc-footer {
+        padding: 12px 16px;
+        border-top: var(--b2-width) solid var(--b2-color);
+        display: flex;
+        gap: 8px;
+      }
+      .oc-footer button {
+        flex: 1;
+      }
+      .filter-check {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 12.5px;
+        padding: 3px 0;
+      }
+      .filter-check input {
+        accent-color: var(--primary);
+      }
 
-  /* ---------- Modal bloqueante (con trampa de foco) ---------- */
-  .modal-overlay{ position:fixed; inset:0; background:rgba(10,14,18,.55); display:none; align-items:center; justify-content:center; z-index:300; }
-  .modal-overlay.open{ display:flex; }
-  .modal{ background:var(--surface); border:var(--b4-width) solid var(--b4-color); border-radius:var(--b4-radius); box-shadow:var(--elev-2); width:420px; }
-  .modal.critical{ border-color:var(--danger); box-shadow:var(--elev-3), 0 0 0 4px var(--surface), 0 0 0 5px var(--danger); }
-  .modal-header{ padding:16px 18px 8px; }
-  .modal-header h3{ margin:0; font-size:15px; }
-  .modal-body{ padding:4px 18px 16px; font-size:12.5px; color:var(--muted); line-height:1.55; }
-  .modal-body strong{ color:var(--text); }
-  .modal-footer{ padding:12px 18px; border-top:var(--b2-width) solid var(--b2-color); display:flex; justify-content:flex-end; gap:8px; }
+      /* ---------- Modal bloqueante (con trampa de foco) ---------- */
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(10, 14, 18, 0.55);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 300;
+      }
+      .modal-overlay.open {
+        display: flex;
+      }
+      .modal {
+        background: var(--surface);
+        border: var(--b4-width) solid var(--b4-color);
+        border-radius: var(--b4-radius);
+        box-shadow: var(--elev-2);
+        width: 420px;
+      }
+      .modal.critical {
+        border-color: var(--danger);
+        box-shadow:
+          var(--elev-3),
+          0 0 0 4px var(--surface),
+          0 0 0 5px var(--danger);
+      }
+      .modal-header {
+        padding: 16px 18px 8px;
+      }
+      .modal-header h3 {
+        margin: 0;
+        font-size: 15px;
+      }
+      .modal-body {
+        padding: 4px 18px 16px;
+        font-size: 12.5px;
+        color: var(--muted);
+        line-height: 1.55;
+      }
+      .modal-body strong {
+        color: var(--text);
+      }
+      .modal-footer {
+        padding: 12px 18px;
+        border-top: var(--b2-width) solid var(--b2-color);
+        display: flex;
+        justify-content: flex-end;
+        gap: 8px;
+      }
 
-  .toast{ position:fixed; bottom:44px; left:50%; transform:translateX(-50%) translateY(8px); background:var(--text); color:#fff; font-size:12px; padding:8px 14px; border-radius:var(--b2-radius); opacity:0; transition:opacity 150ms ease-out, transform 150ms ease-out; z-index:350; pointer-events:none; max-width:400px; text-align:center; }
-  .toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+      .toast {
+        position: fixed;
+        bottom: 44px;
+        left: 50%;
+        transform: translateX(-50%) translateY(8px);
+        background: var(--text);
+        color: #fff;
+        font-size: 12px;
+        padding: 8px 14px;
+        border-radius: var(--b2-radius);
+        opacity: 0;
+        transition:
+          opacity 150ms ease-out,
+          transform 150ms ease-out;
+        z-index: 350;
+        pointer-events: none;
+        max-width: 400px;
+        text-align: center;
+      }
+      .toast.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
 
-  .help-overlay{ position:fixed; inset:0; background:rgba(10,14,18,.5); display:none; align-items:center; justify-content:center; z-index:320; }
-  .help-overlay.open{ display:flex; }
-  .help-card{ background:var(--surface); border:var(--b4-width) solid var(--b4-color); border-radius:var(--b4-radius); box-shadow:var(--elev-2); width:460px; max-height:76vh; overflow-y:auto; }
-  .help-header{ padding:14px 16px; border-bottom:var(--b2-width) solid var(--b2-color); display:flex; justify-content:space-between; align-items:center; }
-  .help-header h3{ margin:0; font-size:14px; }
-  .help-close{ border:none; background:none; font-size:16px; color:var(--muted); cursor:pointer; }
-  .help-body{ padding:4px 16px 16px; }
-  .help-group-label{ font-size:10.5px; color:var(--muted); padding:10px 0 4px; }
-  .help-row{ display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid var(--bg); font-size:12px; gap:10px; }
-</style>
-</head>
-<body>
+      .help-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(10, 14, 18, 0.5);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 320;
+      }
+      .help-overlay.open {
+        display: flex;
+      }
+      .help-card {
+        background: var(--surface);
+        border: var(--b4-width) solid var(--b4-color);
+        border-radius: var(--b4-radius);
+        box-shadow: var(--elev-2);
+        width: 460px;
+        max-height: 76vh;
+        overflow-y: auto;
+      }
+      .help-header {
+        padding: 14px 16px;
+        border-bottom: var(--b2-width) solid var(--b2-color);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .help-header h3 {
+        margin: 0;
+        font-size: 14px;
+      }
+      .help-close {
+        border: none;
+        background: none;
+        font-size: 16px;
+        color: var(--muted);
+        cursor: pointer;
+      }
+      .help-body {
+        padding: 4px 16px 16px;
+      }
+      .help-group-label {
+        font-size: 10.5px;
+        color: var(--muted);
+        padding: 10px 0 4px;
+      }
+      .help-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 6px 0;
+        border-bottom: 1px solid var(--bg);
+        font-size: 12px;
+        gap: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <div class="hint-banner">
+        <strong>Bench</strong> — demo 4, componentes genéricos con los mismos tokens.
+        <strong>Árbol</strong> a la izquierda (flechas para navegar/expandir, Enter selecciona).
+        Seleccioná una función para ver el <strong>accordion</strong> de detalle. "Filtros
+        avanzados" abre un <strong>offcanvas</strong> con otro accordion. "Archivar"/"Eliminar"
+        abren <strong>modales bloqueantes</strong> reales, con trampa de foco — a diferencia de los
+        paneles flotantes de las demos anteriores, acá <kbd>Tab</kbd> nunca se escapa del diálogo.
+      </div>
 
-<div class="shell">
-  <div class="hint-banner">
-    <strong>Bench</strong> — demo 4, componentes genéricos con los mismos tokens. <strong>Árbol</strong> a la izquierda (flechas para navegar/expandir, Enter selecciona). Seleccioná una función para ver el <strong>accordion</strong> de detalle. "Filtros avanzados" abre un <strong>offcanvas</strong> con otro accordion. "Archivar"/"Eliminar" abren <strong>modales bloqueantes</strong> reales, con trampa de foco — a diferencia de los paneles flotantes de las demos anteriores, acá <kbd>Tab</kbd> nunca se escapa del diálogo.
-  </div>
+      <div class="topbar">
+        <span class="brand">Bench · Explorador de módulos</span>
+        <div class="toolbar-sep"></div>
+        <button class="btn" id="btnFilters">
+          <span class="icon" data-icon="filter"></span>Filtros avanzados
+        </button>
+        <button class="btn" id="btnHelp" style="margin-left: auto">
+          <span class="icon" data-icon="help"></span>Ayuda
+        </button>
+      </div>
 
-  <div class="topbar">
-    <span class="brand">Bench · Explorador de módulos</span>
-    <div class="toolbar-sep"></div>
-    <button class="btn" id="btnFilters"><span class="icon" data-icon="filter"></span>Filtros avanzados</button>
-    <button class="btn" id="btnHelp" style="margin-left:auto;"><span class="icon" data-icon="help"></span>Ayuda</button>
-  </div>
+      <div class="toolbar">
+        <button class="btn" id="btnArchive">
+          <span class="icon" data-icon="archive"></span>Archivar
+        </button>
+        <button class="btn danger" id="btnDelete">
+          <span class="icon" data-icon="trash"></span>Eliminar permanentemente
+        </button>
+        <div class="toolbar-sep"></div>
+        <span style="font-size: 11px; color: var(--muted)" id="selInfo"
+          >Ninguna función seleccionada</span
+        >
+      </div>
 
-  <div class="toolbar">
-    <button class="btn" id="btnArchive"><span class="icon" data-icon="archive"></span>Archivar</button>
-    <button class="btn danger" id="btnDelete"><span class="icon" data-icon="trash"></span>Eliminar permanentemente</button>
-    <div class="toolbar-sep"></div>
-    <span style="font-size:11px; color:var(--muted);" id="selInfo">Ninguna función seleccionada</span>
-  </div>
+      <div class="body">
+        <div class="tree-panel" id="treePanel">
+          <div class="tree-panel-title">Índice de funciones</div>
+          <ul class="tree" id="treeRoot" role="tree"></ul>
+        </div>
 
-  <div class="body">
-    <div class="tree-panel" id="treePanel">
-      <div class="tree-panel-title">Índice de funciones</div>
-      <ul class="tree" id="treeRoot" role="tree"></ul>
+        <div class="detail-panel" id="detailPanel">
+          <div class="detail-empty">Seleccioná una función del árbol para ver su detalle.</div>
+        </div>
+      </div>
     </div>
 
-    <div class="detail-panel" id="detailPanel">
-      <div class="detail-empty">Seleccioná una función del árbol para ver su detalle.</div>
+    <div class="scrim" id="scrim"></div>
+    <div class="offcanvas" id="offcanvas">
+      <div class="oc-header">
+        <h3>Filtros avanzados</h3>
+        <button class="oc-close" id="ocClose"><span class="icon" data-icon="close"></span></button>
+      </div>
+      <div class="oc-body">
+        <div class="accordion" id="filterAccordion"></div>
+      </div>
+      <div class="oc-footer">
+        <button class="btn" id="ocClear">Limpiar</button>
+        <button class="btn primary" id="ocApply">Aplicar filtros</button>
+      </div>
     </div>
-  </div>
-</div>
 
-<div class="scrim" id="scrim"></div>
-<div class="offcanvas" id="offcanvas">
-  <div class="oc-header"><h3>Filtros avanzados</h3><button class="oc-close" id="ocClose"><span class="icon" data-icon="close"></span></button></div>
-  <div class="oc-body">
-    <div class="accordion" id="filterAccordion"></div>
-  </div>
-  <div class="oc-footer">
-    <button class="btn" id="ocClear">Limpiar</button>
-    <button class="btn primary" id="ocApply">Aplicar filtros</button>
-  </div>
-</div>
-
-<div class="modal-overlay" id="modalArchive">
-  <div class="modal" role="dialog" aria-modal="true">
-    <div class="modal-header"><h3>Archivar función</h3></div>
-    <div class="modal-body">La función <strong id="archiveTarget">—</strong> dejará de aparecer en el omnibar y en el árbol, pero puede restaurarse después desde el panel de administración. Esta acción <strong>no es destructiva</strong>.</div>
-    <div class="modal-footer">
-      <button class="btn" data-close-modal>Cancelar</button>
-      <button class="btn primary" id="confirmArchive">Archivar</button>
+    <div class="modal-overlay" id="modalArchive">
+      <div class="modal" role="dialog" aria-modal="true">
+        <div class="modal-header"><h3>Archivar función</h3></div>
+        <div class="modal-body">
+          La función <strong id="archiveTarget">—</strong> dejará de aparecer en el omnibar y en el
+          árbol, pero puede restaurarse después desde el panel de administración. Esta acción
+          <strong>no es destructiva</strong>.
+        </div>
+        <div class="modal-footer">
+          <button class="btn" data-close-modal>Cancelar</button>
+          <button class="btn primary" id="confirmArchive">Archivar</button>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
 
-<div class="modal-overlay" id="modalDelete">
-  <div class="modal critical" role="dialog" aria-modal="true">
-    <div class="modal-header"><h3>Eliminar función permanentemente</h3></div>
-    <div class="modal-body">Vas a eliminar <strong id="deleteTarget">—</strong> de forma permanente, junto con su historial de uso y cualquier macro que la referencie. <strong>Esta acción no se puede deshacer.</strong> Borde y sombra en su nivel más alto (Bench 2.3/2.4) — la señal más fuerte del sistema.</div>
-    <div class="modal-footer">
-      <button class="btn" data-close-modal>Cancelar</button>
-      <button class="btn danger" id="confirmDelete"><span class="icon" data-icon="trash"></span>Eliminar definitivamente</button>
+    <div class="modal-overlay" id="modalDelete">
+      <div class="modal critical" role="dialog" aria-modal="true">
+        <div class="modal-header"><h3>Eliminar función permanentemente</h3></div>
+        <div class="modal-body">
+          Vas a eliminar <strong id="deleteTarget">—</strong> de forma permanente, junto con su
+          historial de uso y cualquier macro que la referencie.
+          <strong>Esta acción no se puede deshacer.</strong> Borde y sombra en su nivel más alto
+          (Bench 2.3/2.4) — la señal más fuerte del sistema.
+        </div>
+        <div class="modal-footer">
+          <button class="btn" data-close-modal>Cancelar</button>
+          <button class="btn danger" id="confirmDelete">
+            <span class="icon" data-icon="trash"></span>Eliminar definitivamente
+          </button>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
 
-<div class="toast" id="toast"></div>
+    <div class="toast" id="toast"></div>
 
-<div class="help-overlay" id="helpOverlay">
-  <div class="help-card">
-    <div class="help-header"><h3>Ayuda — Demo 4</h3><button class="help-close" id="helpClose">✕</button></div>
-    <div class="help-body">
-      <div class="help-group-label">Árbol (nuevo)</div>
-      <div class="help-row"><span>Mover foco</span><span>↑ / ↓</span></div>
-      <div class="help-row"><span>Expandir / entrar</span><span>→ / Enter</span></div>
-      <div class="help-row"><span>Colapsar / salir</span><span>←</span></div>
-      <div class="help-group-label">Modal bloqueante vs. panel flotante</div>
-      <div class="help-row"><span>Tab dentro del modal</span><span>Nunca sale del diálogo</span></div>
-      <div class="help-row"><span>Cerrar</span><span>Esc, clic afuera, o Cancelar</span></div>
-      <div class="help-group-label">Accordion / Offcanvas</div>
-      <div class="help-row"><span>Expandir sección</span><span>Clic en el encabezado</span></div>
-      <div class="help-row"><span>Cerrar offcanvas</span><span>Esc o clic fuera</span></div>
+    <div class="help-overlay" id="helpOverlay">
+      <div class="help-card">
+        <div class="help-header">
+          <h3>Ayuda — Demo 4</h3>
+          <button class="help-close" id="helpClose">✕</button>
+        </div>
+        <div class="help-body">
+          <div class="help-group-label">Árbol (nuevo)</div>
+          <div class="help-row"><span>Mover foco</span><span>↑ / ↓</span></div>
+          <div class="help-row"><span>Expandir / entrar</span><span>→ / Enter</span></div>
+          <div class="help-row"><span>Colapsar / salir</span><span>←</span></div>
+          <div class="help-group-label">Modal bloqueante vs. panel flotante</div>
+          <div class="help-row">
+            <span>Tab dentro del modal</span><span>Nunca sale del diálogo</span>
+          </div>
+          <div class="help-row"><span>Cerrar</span><span>Esc, clic afuera, o Cancelar</span></div>
+          <div class="help-group-label">Accordion / Offcanvas</div>
+          <div class="help-row">
+            <span>Expandir sección</span><span>Clic en el encabezado</span>
+          </div>
+          <div class="help-row"><span>Cerrar offcanvas</span><span>Esc o clic fuera</span></div>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
 
-<script>
-(function(){
-  const ICONS = {
-    help: '<svg viewBox="0 0 32 32" fill="currentColor"><path d="M16 2a14 14 0 1 0 14 14A14 14 0 0 0 16 2Zm0 26a12 12 0 1 1 12-12 12 12 0 0 1-12 12Z"/><path d="M17 22h-2v-2h2Zm3.5-11.5a4.5 4.5 0 0 0-7.9-2.9l1.5 1.32A2.5 2.5 0 1 1 16 13.5h-1v4h2v-2.2a4.5 4.5 0 0 0 3.5-4.3Z"/></svg>',
-    filter: '<svg viewBox="0 0 32 32" fill="currentColor"><path d="M14 28h4v-8h-4Zm-8-12h20v-2H6Zm4-8h12V6H10Z"/></svg>',
-    archive: '<svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="6" width="24" height="6" rx="1"/><path d="M6 12v12a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V12"/><path d="M13 18h6"/></svg>',
-    trash: '<svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8h20"/><path d="M12 8V6a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"/><path d="M8 8l1 18a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1l1-18"/></svg>',
-    chevron: '<svg viewBox="0 0 32 32" fill="currentColor"><path d="M12 6l10 10-10 10-1.4-1.4L19.2 16 10.6 7.4Z"/></svg>',
-    doc: '<svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 4H8a1 1 0 0 0-1 1v22a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V10Z"/><path d="M18 4v6h6"/></svg>',
-    folder: '<svg viewBox="0 0 32 32" fill="currentColor"><path d="M28 10H16.4l-2.7-2.7A1 1 0 0 0 13 7H4a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h24a1 1 0 0 0 1-1V11a1 1 0 0 0-1-1Z"/></svg>',
-  };
-  document.querySelectorAll('[data-icon]').forEach(el => el.innerHTML = ICONS[el.dataset.icon] || '');
-  const $ = (s,c)=>(c||document).querySelector(s);
-  const $$ = (s,c)=>Array.from((c||document).querySelectorAll(s));
-  let toastTimer=null;
-  function showToast(msg){ const t=$('#toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove('show'),2400); }
+    <script>
+      (function () {
+        const ICONS = {
+          help: '<svg viewBox="0 0 32 32" fill="currentColor"><path d="M16 2a14 14 0 1 0 14 14A14 14 0 0 0 16 2Zm0 26a12 12 0 1 1 12-12 12 12 0 0 1-12 12Z"/><path d="M17 22h-2v-2h2Zm3.5-11.5a4.5 4.5 0 0 0-7.9-2.9l1.5 1.32A2.5 2.5 0 1 1 16 13.5h-1v4h2v-2.2a4.5 4.5 0 0 0 3.5-4.3Z"/></svg>',
+          filter:
+            '<svg viewBox="0 0 32 32" fill="currentColor"><path d="M14 28h4v-8h-4Zm-8-12h20v-2H6Zm4-8h12V6H10Z"/></svg>',
+          archive:
+            '<svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="6" width="24" height="6" rx="1"/><path d="M6 12v12a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V12"/><path d="M13 18h6"/></svg>',
+          trash:
+            '<svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8h20"/><path d="M12 8V6a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"/><path d="M8 8l1 18a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1l1-18"/></svg>',
+          chevron:
+            '<svg viewBox="0 0 32 32" fill="currentColor"><path d="M12 6l10 10-10 10-1.4-1.4L19.2 16 10.6 7.4Z"/></svg>',
+          doc: '<svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 4H8a1 1 0 0 0-1 1v22a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V10Z"/><path d="M18 4v6h6"/></svg>',
+          folder:
+            '<svg viewBox="0 0 32 32" fill="currentColor"><path d="M28 10H16.4l-2.7-2.7A1 1 0 0 0 13 7H4a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h24a1 1 0 0 0 1-1V11a1 1 0 0 0-1-1Z"/></svg>',
+        };
+        document
+          .querySelectorAll('[data-icon]')
+          .forEach((el) => (el.innerHTML = ICONS[el.dataset.icon] || ''));
+        const $ = (s, c) => (c || document).querySelector(s);
+        const $$ = (s, c) => Array.from((c || document).querySelectorAll(s));
+        let toastTimer = null;
+        function showToast(msg) {
+          const t = $('#toast');
+          t.textContent = msg;
+          t.classList.add('show');
+          clearTimeout(toastTimer);
+          toastTimer = setTimeout(() => t.classList.remove('show'), 2400);
+        }
 
-  // ================= TREE =================
-  const treeData = [
-    { name:'Facturación', children:[
-      { name:'Ventas', children:[
-        { name:'Nueva factura', leaf:true },
-        { name:'Listado de facturas', leaf:true },
-        { name:'Nota de crédito', leaf:true },
-      ]},
-      { name:'Clientes', children:[ { name:'Nuevo cliente', leaf:true } ]},
-      { name:'Caja', children:[ { name:'Cierre diario', leaf:true } ]},
-    ]},
-    { name:'Inventario', children:[
-      { name:'Almacén', children:[
-        { name:'Ajuste de inventario', leaf:true },
-        { name:'Kardex de producto', leaf:true },
-      ]},
-    ]},
-    { name:'Reportes', children:[
-      { name:'Cartera', children:[ { name:'Reporte de cobranza', leaf:true } ]},
-    ]},
-  ];
+        // ================= TREE =================
+        const treeData = [
+          {
+            name: 'Facturación',
+            children: [
+              {
+                name: 'Ventas',
+                children: [
+                  { name: 'Nueva factura', leaf: true },
+                  { name: 'Listado de facturas', leaf: true },
+                  { name: 'Nota de crédito', leaf: true },
+                ],
+              },
+              { name: 'Clientes', children: [{ name: 'Nuevo cliente', leaf: true }] },
+              { name: 'Caja', children: [{ name: 'Cierre diario', leaf: true }] },
+            ],
+          },
+          {
+            name: 'Inventario',
+            children: [
+              {
+                name: 'Almacén',
+                children: [
+                  { name: 'Ajuste de inventario', leaf: true },
+                  { name: 'Kardex de producto', leaf: true },
+                ],
+              },
+            ],
+          },
+          {
+            name: 'Reportes',
+            children: [
+              { name: 'Cartera', children: [{ name: 'Reporte de cobranza', leaf: true }] },
+            ],
+          },
+        ];
 
-  let selectedPath = null;
+        let selectedPath = null;
 
-  function countLeaves(node){
-    if(node.leaf) return 1;
-    return (node.children||[]).reduce((s,c)=>s+countLeaves(c),0);
-  }
+        function countLeaves(node) {
+          if (node.leaf) return 1;
+          return (node.children || []).reduce((s, c) => s + countLeaves(c), 0);
+        }
 
-  function buildTree(nodes, container, path){
-    nodes.forEach((node, i)=>{
-      const li = document.createElement('li');
-      const thisPath = [...path, node.name];
-      const row = document.createElement('div');
-      row.className = 'tree-node';
-      row.tabIndex = -1;
-      row.dataset.path = thisPath.join('›');
-      const hasChildren = node.children && node.children.length;
-      row.innerHTML = `
+        function buildTree(nodes, container, path) {
+          nodes.forEach((node, i) => {
+            const li = document.createElement('li');
+            const thisPath = [...path, node.name];
+            const row = document.createElement('div');
+            row.className = 'tree-node';
+            row.tabIndex = -1;
+            row.dataset.path = thisPath.join('›');
+            const hasChildren = node.children && node.children.length;
+            row.innerHTML = `
         <span class="tree-chevron ${hasChildren ? '' : 'leaf'}">${ICONS.chevron}</span>
         <span class="icon">${hasChildren ? ICONS.folder : ICONS.doc}</span>
         <span>${node.name}</span>
         ${hasChildren ? `<span class="tree-count">${countLeaves(node)}</span>` : ''}
       `;
-      li.appendChild(row);
+            li.appendChild(row);
 
-      if(hasChildren){
-        const childUl = document.createElement('ul');
-        childUl.className = 'tree-children';
-        buildTree(node.children, childUl, thisPath);
-        li.appendChild(childUl);
+            if (hasChildren) {
+              const childUl = document.createElement('ul');
+              childUl.className = 'tree-children';
+              buildTree(node.children, childUl, thisPath);
+              li.appendChild(childUl);
 
-        row.addEventListener('click', ()=>{
-          const chevron = row.querySelector('.tree-chevron');
-          const open = childUl.classList.toggle('open');
-          chevron.classList.toggle('expanded', open);
+              row.addEventListener('click', () => {
+                const chevron = row.querySelector('.tree-chevron');
+                const open = childUl.classList.toggle('open');
+                chevron.classList.toggle('expanded', open);
+              });
+            } else {
+              row.addEventListener('click', () => selectLeaf(node, thisPath, row));
+            }
+            container.appendChild(li);
+          });
+        }
+        buildTree(treeData, $('#treeRoot'), []);
+
+        function selectLeaf(node, path, row) {
+          $$('.tree-node.selected').forEach((el) => el.classList.remove('selected'));
+          row.classList.add('selected');
+          selectedPath = path;
+          $('#selInfo').textContent = 'Seleccionada: ' + path.join(' › ');
+          renderDetail(node, path);
+        }
+
+        // Roving tabindex + navegación por flechas (patrón estándar de treeview)
+        const treeRoot = $('#treeRoot');
+        function visibleRows() {
+          return $$('.tree-node', treeRoot).filter((el) => el.offsetParent !== null);
+        }
+        let focusIdx = 0;
+        function setFocus(idx) {
+          const rows = visibleRows();
+          if (rows.length === 0) return;
+          idx = Math.max(0, Math.min(rows.length - 1, idx));
+          rows.forEach((r) => r.classList.remove('focused'));
+          rows[idx].classList.add('focused');
+          rows[idx].focus();
+          focusIdx = idx;
+        }
+        treeRoot.addEventListener('keydown', (e) => {
+          const rows = visibleRows();
+          const current = rows[focusIdx];
+          if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            setFocus(focusIdx + 1);
+          } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            setFocus(focusIdx - 1);
+          } else if (e.key === 'ArrowRight') {
+            const childUl = current.parentElement.querySelector('.tree-children');
+            if (childUl && !childUl.classList.contains('open')) {
+              current.click();
+            } else {
+              e.preventDefault();
+              setFocus(focusIdx + 1);
+            }
+          } else if (e.key === 'ArrowLeft') {
+            const childUl = current.parentElement.querySelector('.tree-children');
+            if (childUl && childUl.classList.contains('open')) {
+              current.click();
+            }
+          } else if (e.key === 'Enter') {
+            current.click();
+          }
         });
-      } else {
-        row.addEventListener('click', ()=> selectLeaf(node, thisPath, row));
-      }
-      container.appendChild(li);
-    });
-  }
-  buildTree(treeData, $('#treeRoot'), []);
+        $$('.tree-node', treeRoot).forEach((row, i) => {
+          row.addEventListener('focus', () => {
+            focusIdx = visibleRows().indexOf(row);
+          });
+        });
+        $('#treePanel').addEventListener('focusin', (e) => {
+          if (e.target.classList.contains('tree-node')) e.target.tabIndex = 0;
+        });
+        if (visibleRows()[0]) visibleRows()[0].tabIndex = 0;
 
-  function selectLeaf(node, path, row){
-    $$('.tree-node.selected').forEach(el=>el.classList.remove('selected'));
-    row.classList.add('selected');
-    selectedPath = path;
-    $('#selInfo').textContent = 'Seleccionada: ' + path.join(' › ');
-    renderDetail(node, path);
-  }
+        // ================= DETAIL + ACCORDION =================
+        function buildAccordion(container, groups, openFirst) {
+          container.innerHTML = '';
+          groups.forEach((g, i) => {
+            const item = document.createElement('div');
+            item.className = 'acc-item';
+            const header = document.createElement('button');
+            header.className = 'acc-header';
+            header.innerHTML = `<span>${g.title}</span><span class="tree-chevron" style="transform:rotate(90deg);">${ICONS.chevron}</span>`;
+            const body = document.createElement('div');
+            body.className = 'acc-body' + (openFirst && i === 0 ? ' open' : '');
+            const inner = document.createElement('div');
+            inner.className = 'acc-body-inner';
+            inner.innerHTML = g.html;
+            body.appendChild(inner);
+            const chev = header.querySelector('.tree-chevron');
+            if (openFirst && i === 0) chev.style.transform = 'rotate(-90deg)';
+            else chev.style.transform = 'rotate(90deg)';
 
-  // Roving tabindex + navegación por flechas (patrón estándar de treeview)
-  const treeRoot = $('#treeRoot');
-  function visibleRows(){ return $$('.tree-node', treeRoot).filter(el => el.offsetParent !== null); }
-  let focusIdx = 0;
-  function setFocus(idx){
-    const rows = visibleRows();
-    if(rows.length === 0) return;
-    idx = Math.max(0, Math.min(rows.length-1, idx));
-    rows.forEach(r=>r.classList.remove('focused'));
-    rows[idx].classList.add('focused');
-    rows[idx].focus();
-    focusIdx = idx;
-  }
-  treeRoot.addEventListener('keydown', (e)=>{
-    const rows = visibleRows();
-    const current = rows[focusIdx];
-    if(e.key === 'ArrowDown'){ e.preventDefault(); setFocus(focusIdx+1); }
-    else if(e.key === 'ArrowUp'){ e.preventDefault(); setFocus(focusIdx-1); }
-    else if(e.key === 'ArrowRight'){
-      const childUl = current.parentElement.querySelector('.tree-children');
-      if(childUl && !childUl.classList.contains('open')){ current.click(); }
-      else { e.preventDefault(); setFocus(focusIdx+1); }
-    }
-    else if(e.key === 'ArrowLeft'){
-      const childUl = current.parentElement.querySelector('.tree-children');
-      if(childUl && childUl.classList.contains('open')){ current.click(); }
-    }
-    else if(e.key === 'Enter'){ current.click(); }
-  });
-  $$('.tree-node', treeRoot).forEach((row,i)=>{ row.addEventListener('focus', ()=>{ focusIdx = visibleRows().indexOf(row); }); });
-  $('#treePanel').addEventListener('focusin', (e)=>{ if(e.target.classList.contains('tree-node')) e.target.tabIndex = 0; });
-  if(visibleRows()[0]) visibleRows()[0].tabIndex = 0;
+            header.addEventListener('click', () => {
+              const isOpen = body.classList.toggle('open');
+              chev.style.transform = isOpen ? 'rotate(-90deg)' : 'rotate(90deg)';
+            });
+            item.appendChild(header);
+            item.appendChild(body);
+            container.appendChild(item);
+          });
+        }
 
-  // ================= DETAIL + ACCORDION =================
-  function buildAccordion(container, groups, openFirst){
-    container.innerHTML = '';
-    groups.forEach((g, i)=>{
-      const item = document.createElement('div');
-      item.className = 'acc-item';
-      const header = document.createElement('button');
-      header.className = 'acc-header';
-      header.innerHTML = `<span>${g.title}</span><span class="tree-chevron" style="transform:rotate(90deg);">${ICONS.chevron}</span>`;
-      const body = document.createElement('div');
-      body.className = 'acc-body' + (openFirst && i===0 ? ' open' : '');
-      const inner = document.createElement('div');
-      inner.className = 'acc-body-inner';
-      inner.innerHTML = g.html;
-      body.appendChild(inner);
-      const chev = header.querySelector('.tree-chevron');
-      if(openFirst && i===0) chev.style.transform = 'rotate(-90deg)';
-      else chev.style.transform = 'rotate(90deg)';
-
-      header.addEventListener('click', ()=>{
-        const isOpen = body.classList.toggle('open');
-        chev.style.transform = isOpen ? 'rotate(-90deg)' : 'rotate(90deg)';
-      });
-      item.appendChild(header); item.appendChild(body);
-      container.appendChild(item);
-    });
-  }
-
-  function renderDetail(node, path){
-    const panel = $('#detailPanel');
-    panel.innerHTML = `
+        function renderDetail(node, path) {
+          const panel = $('#detailPanel');
+          panel.innerHTML = `
       <div class="detail-header">
         <div><div class="detail-title">${node.name}</div><div class="detail-path">${path.join(' › ')}</div></div>
       </div>
       <div class="accordion" id="detailAccordion"></div>
     `;
-    buildAccordion($('#detailAccordion'), [
-      { title: 'Información general', html: `
-        <div class="field-row"><span class="k">ID</span><span class="v">${path.join('.').toLowerCase().replace(/\s+/g,'-')}</span></div>
+          buildAccordion(
+            $('#detailAccordion'),
+            [
+              {
+                title: 'Información general',
+                html: `
+        <div class="field-row"><span class="k">ID</span><span class="v">${path.join('.').toLowerCase().replace(/\s+/g, '-')}</span></div>
         <div class="field-row"><span class="k">Tipo</span><span class="v">pantalla</span></div>
-        <div class="field-row"><span class="k">Módulo</span><span class="v">${path[0]}</span></div>` },
-      { title: 'Permisos', html: `
+        <div class="field-row"><span class="k">Módulo</span><span class="v">${path[0]}</span></div>`,
+              },
+              {
+                title: 'Permisos',
+                html: `
         <div class="field-row"><span class="k">Roles con acceso</span><span class="v">Admin, Ventas</span></div>
-        <div class="field-row"><span class="k">Visible en omnibar</span><span class="v">Sí</span></div>` },
-      { title: 'Uso reciente', html: `
+        <div class="field-row"><span class="k">Visible en omnibar</span><span class="v">Sí</span></div>`,
+              },
+              {
+                title: 'Uso reciente',
+                html: `
         <div class="field-row"><span class="k">Ejecutada hoy</span><span class="v tnum">14 veces</span></div>
-        <div class="field-row"><span class="k">Último uso</span><span class="v">hace 6 min</span></div>` },
-    ], true);
-  }
+        <div class="field-row"><span class="k">Último uso</span><span class="v">hace 6 min</span></div>`,
+              },
+            ],
+            true,
+          );
+        }
 
-  // ================= OFFCANVAS + FILTER ACCORDION =================
-  const offcanvas = $('#offcanvas'), scrim = $('#scrim');
-  function openOffcanvas(){ offcanvas.classList.add('open'); scrim.classList.add('show'); }
-  function closeOffcanvas(){ offcanvas.classList.remove('open'); scrim.classList.remove('show'); }
-  $('#btnFilters').addEventListener('click', openOffcanvas);
-  $('#ocClose').addEventListener('click', closeOffcanvas);
-  scrim.addEventListener('click', ()=>{ closeOffcanvas(); closeAllModals(); });
+        // ================= OFFCANVAS + FILTER ACCORDION =================
+        const offcanvas = $('#offcanvas'),
+          scrim = $('#scrim');
+        function openOffcanvas() {
+          offcanvas.classList.add('open');
+          scrim.classList.add('show');
+        }
+        function closeOffcanvas() {
+          offcanvas.classList.remove('open');
+          scrim.classList.remove('show');
+        }
+        $('#btnFilters').addEventListener('click', openOffcanvas);
+        $('#ocClose').addEventListener('click', closeOffcanvas);
+        scrim.addEventListener('click', () => {
+          closeOffcanvas();
+          closeAllModals();
+        });
 
-  buildAccordion($('#filterAccordion'), [
-    { title:'Estado', html: `
+        buildAccordion(
+          $('#filterAccordion'),
+          [
+            {
+              title: 'Estado',
+              html: `
       <label class="filter-check"><input type="checkbox" checked> Activas</label>
-      <label class="filter-check"><input type="checkbox"> Archivadas</label>` },
-    { title:'Módulo', html: `
+      <label class="filter-check"><input type="checkbox"> Archivadas</label>`,
+            },
+            {
+              title: 'Módulo',
+              html: `
       <label class="filter-check"><input type="checkbox" checked> Facturación</label>
       <label class="filter-check"><input type="checkbox" checked> Inventario</label>
-      <label class="filter-check"><input type="checkbox"> Reportes</label>` },
-    { title:'Rango de fecha', html: `
-      <label class="filter-check">Desde <input type="date" style="margin-left:6px; font-family:var(--sans); font-size:11.5px;"></label>` },
-  ], true);
-  $('#ocApply').addEventListener('click', ()=>{ showToast('Filtros aplicados'); closeOffcanvas(); });
-  $('#ocClear').addEventListener('click', ()=>{ showToast('Filtros limpiados'); });
+      <label class="filter-check"><input type="checkbox"> Reportes</label>`,
+            },
+            {
+              title: 'Rango de fecha',
+              html: `
+      <label class="filter-check">Desde <input type="date" style="margin-left:6px; font-family:var(--sans); font-size:11.5px;"></label>`,
+            },
+          ],
+          true,
+        );
+        $('#ocApply').addEventListener('click', () => {
+          showToast('Filtros aplicados');
+          closeOffcanvas();
+        });
+        $('#ocClear').addEventListener('click', () => {
+          showToast('Filtros limpiados');
+        });
 
-  // ================= MODALES BLOQUEANTES (con trampa de foco real) =================
-  let lastFocused = null, activeModal = null;
-  function openModal(modal, focusTarget){
-    lastFocused = document.activeElement;
-    activeModal = modal;
-    modal.classList.add('open');
-    (focusTarget || modal.querySelector('button')).focus();
-  }
-  function closeAllModals(){
-    $$('.modal-overlay.open').forEach(m=>m.classList.remove('open'));
-    activeModal = null;
-    if(lastFocused) lastFocused.focus();
-  }
-  $$('[data-close-modal]').forEach(btn=> btn.addEventListener('click', closeAllModals));
-  $$('.modal-overlay').forEach(ov=> ov.addEventListener('click', (e)=>{ if(e.target===ov) closeAllModals(); }));
+        // ================= MODALES BLOQUEANTES (con trampa de foco real) =================
+        let lastFocused = null,
+          activeModal = null;
+        function openModal(modal, focusTarget) {
+          lastFocused = document.activeElement;
+          activeModal = modal;
+          modal.classList.add('open');
+          (focusTarget || modal.querySelector('button')).focus();
+        }
+        function closeAllModals() {
+          $$('.modal-overlay.open').forEach((m) => m.classList.remove('open'));
+          activeModal = null;
+          if (lastFocused) lastFocused.focus();
+        }
+        $$('[data-close-modal]').forEach((btn) => btn.addEventListener('click', closeAllModals));
+        $$('.modal-overlay').forEach((ov) =>
+          ov.addEventListener('click', (e) => {
+            if (e.target === ov) closeAllModals();
+          }),
+        );
 
-  document.addEventListener('keydown', (e)=>{
-    if(!activeModal) return;
-    if(e.key === 'Escape'){ closeAllModals(); return; }
-    if(e.key === 'Tab'){
-      // Trampa de foco real: Tab nunca sale del modal (Bench 3 — accesibilidad)
-      const focusables = $$('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])', activeModal)
-        .filter(el => el.offsetParent !== null);
-      if(focusables.length === 0) return;
-      const first = focusables[0], last = focusables[focusables.length-1];
-      if(e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
-      else if(!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
-    }
-  });
+        document.addEventListener('keydown', (e) => {
+          if (!activeModal) return;
+          if (e.key === 'Escape') {
+            closeAllModals();
+            return;
+          }
+          if (e.key === 'Tab') {
+            // Trampa de foco real: Tab nunca sale del modal (Bench 3 — accesibilidad)
+            const focusables = $$(
+              'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+              activeModal,
+            ).filter((el) => el.offsetParent !== null);
+            if (focusables.length === 0) return;
+            const first = focusables[0],
+              last = focusables[focusables.length - 1];
+            if (e.shiftKey && document.activeElement === first) {
+              e.preventDefault();
+              last.focus();
+            } else if (!e.shiftKey && document.activeElement === last) {
+              e.preventDefault();
+              first.focus();
+            }
+          }
+        });
 
-  $('#btnArchive').addEventListener('click', ()=>{
-    if(!selectedPath){ showToast('Seleccioná una función del árbol primero'); return; }
-    $('#archiveTarget').textContent = selectedPath[selectedPath.length-1];
-    openModal($('#modalArchive'));
-  });
-  $('#btnDelete').addEventListener('click', ()=>{
-    if(!selectedPath){ showToast('Seleccioná una función del árbol primero'); return; }
-    $('#deleteTarget').textContent = selectedPath[selectedPath.length-1];
-    openModal($('#modalDelete'));
-  });
-  $('#confirmArchive').addEventListener('click', ()=>{ showToast('Función archivada — se puede restaurar después'); closeAllModals(); });
-  $('#confirmDelete').addEventListener('click', ()=>{ showToast('Función eliminada permanentemente'); closeAllModals(); });
+        $('#btnArchive').addEventListener('click', () => {
+          if (!selectedPath) {
+            showToast('Seleccioná una función del árbol primero');
+            return;
+          }
+          $('#archiveTarget').textContent = selectedPath[selectedPath.length - 1];
+          openModal($('#modalArchive'));
+        });
+        $('#btnDelete').addEventListener('click', () => {
+          if (!selectedPath) {
+            showToast('Seleccioná una función del árbol primero');
+            return;
+          }
+          $('#deleteTarget').textContent = selectedPath[selectedPath.length - 1];
+          openModal($('#modalDelete'));
+        });
+        $('#confirmArchive').addEventListener('click', () => {
+          showToast('Función archivada — se puede restaurar después');
+          closeAllModals();
+        });
+        $('#confirmDelete').addEventListener('click', () => {
+          showToast('Función eliminada permanentemente');
+          closeAllModals();
+        });
 
-  // ---------------- Ayuda ----------------
-  const helpOverlay = $('#helpOverlay');
-  $('#btnHelp').addEventListener('click', ()=> helpOverlay.classList.add('open'));
-  $('#helpClose').addEventListener('click', ()=> helpOverlay.classList.remove('open'));
-  helpOverlay.addEventListener('click', (e)=>{ if(e.target===helpOverlay) helpOverlay.classList.remove('open'); });
-})();
-</script>
-</body>
+        // ---------------- Ayuda ----------------
+        const helpOverlay = $('#helpOverlay');
+        $('#btnHelp').addEventListener('click', () => helpOverlay.classList.add('open'));
+        $('#helpClose').addEventListener('click', () => helpOverlay.classList.remove('open'));
+        helpOverlay.addEventListener('click', (e) => {
+          if (e.target === helpOverlay) helpOverlay.classList.remove('open');
+        });
+      })();
+    </script>
+  </body>
 </html>

@@ -86,7 +86,10 @@ export class BchCombobox {
       const matches = !needle || text.includes(needle);
       option.toggleAttribute('matched', matches);
       option.toggleAttribute('selected', option.getAttribute('value') === this.value);
-      if (matches) { visibleAt.push(index); visibleIndex++; }
+      if (matches) {
+        visibleAt.push(index);
+        visibleIndex++;
+      }
     });
     if (this.activeIndex >= visibleIndex) this.activeIndex = Math.max(visibleIndex - 1, 0);
     options.forEach((option, index) => {
@@ -133,14 +136,36 @@ export class BchCombobox {
   }
 
   private onKeyDown = (event: KeyboardEvent) => {
-    if (event.key === 'ArrowDown') { event.preventDefault(); this.open = true; this.moveActive(1); return; }
-    if (event.key === 'ArrowUp') { event.preventDefault(); this.moveActive(-1); return; }
-    if (event.key === 'Home' && this.open) { event.preventDefault(); this.activeIndex = 0; this.applyFilter(); return; }
-    if (event.key === 'End' && this.open) { event.preventDefault(); this.activeIndex = this.visibleOptions().length - 1; this.applyFilter(); return; }
+    if (event.key === 'ArrowDown') {
+      event.preventDefault();
+      this.open = true;
+      this.moveActive(1);
+      return;
+    }
+    if (event.key === 'ArrowUp') {
+      event.preventDefault();
+      this.moveActive(-1);
+      return;
+    }
+    if (event.key === 'Home' && this.open) {
+      event.preventDefault();
+      this.activeIndex = 0;
+      this.applyFilter();
+      return;
+    }
+    if (event.key === 'End' && this.open) {
+      event.preventDefault();
+      this.activeIndex = this.visibleOptions().length - 1;
+      this.applyFilter();
+      return;
+    }
     if (event.key === 'Enter') {
       if (this.open) {
         const active = this.visibleOptions()[this.activeIndex];
-        if (active) { event.preventDefault(); this.selectOption(active); }
+        if (active) {
+          event.preventDefault();
+          this.selectOption(active);
+        }
       }
       return;
     }
@@ -168,12 +193,19 @@ export class BchCombobox {
 
   render() {
     const id = this.host.id || `bch-combobox-${this.name || 'field'}`;
-    const describedBy = [this.hint ? `${id}-hint` : '', this.error ? `${id}-error` : ''].filter(Boolean).join(' ') || undefined;
+    const describedBy =
+      [this.hint ? `${id}-hint` : '', this.error ? `${id}-error` : ''].filter(Boolean).join(' ') ||
+      undefined;
     const visible = this.visibleOptions();
     const activeOption = visible[this.activeIndex];
     return (
       <div class="field bch-combobox" ref={(el) => (this.root = el as HTMLElement)}>
-        {this.label ? <label class="label" htmlFor={id}>{this.label}{this.required ? ' *' : ''}</label> : null}
+        {this.label ? (
+          <label class="label" htmlFor={id}>
+            {this.label}
+            {this.required ? ' *' : ''}
+          </label>
+        ) : null}
         <div class="bch-combobox__control">
           <input
             ref={(el) => (this.input = el as HTMLInputElement)}
@@ -190,17 +222,41 @@ export class BchCombobox {
             required={this.required}
             value={this.query}
             onInput={this.onInput}
-            onFocus={() => { this.open = true; this.applyFilter(); }}
+            onFocus={() => {
+              this.open = true;
+              this.applyFilter();
+            }}
             onKeyDown={this.onKeyDown}
           />
-          {this.value ? <bch-icon-button name="x" label="Clear selection" size="small" onBchPress={this.clear} /> : null}
+          {this.value ? (
+            <bch-icon-button
+              name="x"
+              label="Clear selection"
+              size="small"
+              onBchPress={this.clear}
+            />
+          ) : null}
         </div>
-        <div id={this.listboxId} class="bch-combobox__listbox" role="listbox" hidden={!this.open} ref={(el) => this.bindListbox(el as HTMLElement | undefined)}>
+        <div
+          id={this.listboxId}
+          class="bch-combobox__listbox"
+          role="listbox"
+          hidden={!this.open}
+          ref={(el) => this.bindListbox(el as HTMLElement | undefined)}
+        >
           <slot onSlotchange={this.applyFilter} />
           {visible.length === 0 ? <p class="bch-combobox__empty">{this.noResultsText}</p> : null}
         </div>
-        {this.hint ? <span id={`${id}-hint`} class="message">{this.hint}</span> : null}
-        {this.error ? <span id={`${id}-error`} class="message error" role="alert">{this.error}</span> : null}
+        {this.hint ? (
+          <span id={`${id}-hint`} class="message">
+            {this.hint}
+          </span>
+        ) : null}
+        {this.error ? (
+          <span id={`${id}-error`} class="message error" role="alert">
+            {this.error}
+          </span>
+        ) : null}
       </div>
     );
   }

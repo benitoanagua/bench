@@ -10,9 +10,16 @@ const meta = {
 export default meta;
 
 export const Default = { render: () => h('bch-icon', { name: 'star' }) };
-export const WithAriaLabel = { render: () => h('bch-icon', { name: 'info-circle', 'aria-label': 'Information' }) };
+export const WithAriaLabel = {
+  render: () => h('bch-icon', { name: 'info-circle', 'aria-label': 'Information' }),
+};
 export const Gallery = {
-  render: () => h('div', { style: { display: 'flex', gap: '12px' } },
-    ['home', 'search', 'settings', 'bell', 'user', 'calendar'].map((n) => h('bch-icon', { name: n })),
-  ),
+  render: () =>
+    h(
+      'div',
+      { style: { display: 'flex', gap: '12px' } },
+      ['home', 'search', 'settings', 'bell', 'user', 'calendar'].map((n) =>
+        h('bch-icon', { name: n }),
+      ),
+    ),
 };

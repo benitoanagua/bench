@@ -21,7 +21,8 @@ const files = walk(join(root, 'packages'));
 const violations = [];
 for (const file of files) {
   const text = readFileSync(file, 'utf8');
-  for (const pattern of forbidden) if (pattern.test(text)) violations.push(`${file}: forbidden Lit dependency`);
+  for (const pattern of forbidden)
+    if (pattern.test(text)) violations.push(`${file}: forbidden Lit dependency`);
 }
 if (violations.length) {
   console.error(violations.join('\n'));

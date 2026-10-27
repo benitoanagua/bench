@@ -7,7 +7,10 @@ function formatBytes(bytes: number): string {
 }
 
 function matchesAccept(file: File, accept: string): boolean {
-  const patterns = accept.split(',').map((p) => p.trim()).filter(Boolean);
+  const patterns = accept
+    .split(',')
+    .map((p) => p.trim())
+    .filter(Boolean);
   if (patterns.length === 0) return true;
   return patterns.some((pattern) => {
     if (pattern.startsWith('.')) return file.name.toLowerCase().endsWith(pattern.toLowerCase());
@@ -66,7 +69,10 @@ export class BchFileUpload {
         continue;
       }
       if (this.maxSizeBytes && file.size > this.maxSizeBytes) {
-        errors.push({ fileName: file.name, reason: `File exceeds ${formatBytes(this.maxSizeBytes)} limit` });
+        errors.push({
+          fileName: file.name,
+          reason: `File exceeds ${formatBytes(this.maxSizeBytes)} limit`,
+        });
         continue;
       }
       accepted.push(file);
@@ -111,17 +117,31 @@ export class BchFileUpload {
     const id = this.host.id || `bch-file-upload-${this.name || 'field'}`;
     return (
       <div class="field bch-file-upload">
-        {this.label ? <span class="label">{this.label}{this.required ? ' *' : ''}</span> : null}
+        {this.label ? (
+          <span class="label">
+            {this.label}
+            {this.required ? ' *' : ''}
+          </span>
+        ) : null}
         <div
-          class={{ 'bch-file-upload__dropzone': true, 'is-drag-over': this.dragOver, 'is-disabled': this.disabled }}
+          class={{
+            'bch-file-upload__dropzone': true,
+            'is-drag-over': this.dragOver,
+            'is-disabled': this.disabled,
+          }}
           role="button"
           tabIndex={this.disabled ? -1 : 0}
           aria-disabled={this.disabled ? 'true' : undefined}
           aria-describedby={`${id}-hint`}
           onClick={this.openDialog}
           onKeyDown={this.onDropzoneKeyDown}
-          onDragOver={(event) => { event.preventDefault(); if (!this.disabled) this.dragOver = true; }}
-          onDragLeave={() => { this.dragOver = false; }}
+          onDragOver={(event) => {
+            event.preventDefault();
+            if (!this.disabled) this.dragOver = true;
+          }}
+          onDragLeave={() => {
+            this.dragOver = false;
+          }}
           onDrop={this.onDrop}
         >
           <bch-icon name="cloud-upload" aria-hidden="true" />
@@ -151,7 +171,12 @@ export class BchFileUpload {
                 <bch-icon name="file" aria-hidden="true" />
                 <span class="bch-file-upload__name">{file.name}</span>
                 <span class="bch-file-upload__size">{formatBytes(file.size)}</span>
-                <bch-icon-button name="x" label={`Remove ${file.name}`} size="small" onBchPress={() => this.removeFile(index)} />
+                <bch-icon-button
+                  name="x"
+                  label={`Remove ${file.name}`}
+                  size="small"
+                  onBchPress={() => this.removeFile(index)}
+                />
               </li>
             ))}
           </ul>
@@ -159,12 +184,24 @@ export class BchFileUpload {
 
         {this.validationErrors.length > 0 ? (
           <ul class="message error" role="alert">
-            {this.validationErrors.map((e) => <li>{e.fileName}: {e.reason}</li>)}
+            {this.validationErrors.map((e) => (
+              <li>
+                {e.fileName}: {e.reason}
+              </li>
+            ))}
           </ul>
         ) : null}
 
-        {this.hint ? <span id={`${id}-hint`} class="message">{this.hint}</span> : null}
-        {this.error ? <span class="message error" role="alert">{this.error}</span> : null}
+        {this.hint ? (
+          <span id={`${id}-hint`} class="message">
+            {this.hint}
+          </span>
+        ) : null}
+        {this.error ? (
+          <span class="message error" role="alert">
+            {this.error}
+          </span>
+        ) : null}
       </div>
     );
   }

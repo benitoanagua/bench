@@ -1,16 +1,66 @@
-:host { display: contents; }
-.dialog { width: min(32rem, calc(100vw - 2rem)); max-width: 100%; padding: 0; border: 0; border-radius: var(--bch-radius-lg); background: var(--bch-color-surface-raised); color: var(--bch-color-text); box-shadow: var(--bch-shadow-lg); }
+:host {
+  display: contents;
+}
+.dialog {
+  width: min(32rem, calc(100vw - 2rem));
+  max-width: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: var(--bch-radius-lg);
+  background: var(--bch-color-surface-raised);
+  color: var(--bch-color-text);
+  box-shadow: var(--bch-shadow-lg);
+}
 /* Regla 8 (innegociable): triple borde = confirmación irreversible real —
    escala junto con --bch-shadow-critical (Regla 9), nunca por separado.
    Reservado a propósito casi nunca; ver dialog.tsx §tone. */
-.dialog--critical { border: var(--bch-border-width-floating) solid var(--bch-color-danger); box-shadow: var(--bch-shadow-critical); }
-.dialog::backdrop { background: rgb(0 0 0 / .48); }
-.dialog-panel { display: grid; }
-.dialog-header, .dialog-footer { display: flex; align-items: center; gap: var(--bch-space-3); padding: var(--bch-space-4) var(--bch-space-5); }
-.dialog-header { justify-content: space-between; border-bottom: 1px solid var(--bch-color-border); }
-.dialog-header h2 { margin: 0; font-size: var(--bch-font-size-lg); }
-.dialog-body { padding: var(--bch-space-5); }
-.dialog-footer { justify-content: flex-end; border-top: 1px solid var(--bch-color-border); }
-.close { display: grid; place-items: center; width: 2.25rem; height: 2.25rem; border: 0; border-radius: 50%; background: transparent; color: inherit; cursor: pointer; }
-.close:hover { background: var(--bch-color-neutral-100); }
-.close:focus-visible { outline: none; box-shadow: var(--bch-focus-ring); }
+.dialog--critical {
+  border: var(--bch-border-width-floating) solid var(--bch-color-danger);
+  box-shadow: var(--bch-shadow-critical);
+}
+.dialog::backdrop {
+  background: rgb(0 0 0 / 0.48);
+}
+.dialog-panel {
+  display: grid;
+}
+.dialog-header,
+.dialog-footer {
+  display: flex;
+  align-items: center;
+  gap: var(--bch-space-3);
+  padding: var(--bch-space-4) var(--bch-space-5);
+}
+.dialog-header {
+  justify-content: space-between;
+  border-bottom: 1px solid var(--bch-color-border);
+}
+.dialog-header h2 {
+  margin: 0;
+  font-size: var(--bch-font-size-lg);
+}
+.dialog-body {
+  padding: var(--bch-space-5);
+}
+.dialog-footer {
+  justify-content: flex-end;
+  border-top: 1px solid var(--bch-color-border);
+}
+.close {
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+.close:hover {
+  background: var(--bch-color-neutral-100);
+}
+.close:focus-visible {
+  outline: none;
+  box-shadow: var(--bch-focus-ring);
+}

@@ -4,12 +4,12 @@ BENCH visual regression is defined by BENCH itself, not by comparison with anoth
 
 ## Viewports
 
-| Name | Width | Height |
-|---|---:|---:|
-| mobile | 320 | 800 |
-| mobile-large | 375 | 812 |
-| tablet | 768 | 1024 |
-| desktop | 1440 | 900 |
+| Name         | Width | Height |
+| ------------ | ----: | -----: |
+| mobile       |   320 |    800 |
+| mobile-large |   375 |    812 |
+| tablet       |   768 |   1024 |
+| desktop      |  1440 |    900 |
 
 ## State coverage
 

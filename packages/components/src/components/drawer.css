@@ -1,14 +1,84 @@
-:host { display: contents; }
-.drawer-root { position: fixed; inset: 0; z-index: var(--bch-z-drawer); display: grid; }
-.drawer-root[hidden] { display: none; }
-.scrim { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background: rgb(0 0 0 / .42); }
-.drawer { position: absolute; top: 0; bottom: 0; width: min(24rem, calc(100vw - 2rem)); background: var(--bch-color-surface-raised); color: var(--bch-color-text); box-shadow: var(--bch-shadow-lg); display: grid; grid-template-rows: auto 1fr auto; }
-.drawer.is-right { right: 0; } .drawer.is-left { left: 0; }
-.drawer.is-end { inset-inline-end: 0; } .drawer.is-start { inset-inline-start: 0; }
-.drawer header, .drawer footer { padding: var(--bch-space-4) var(--bch-space-5); display: flex; align-items: center; justify-content: space-between; gap: var(--bch-space-3); border-bottom: 1px solid var(--bch-color-border); }
-.drawer footer { border-top: 1px solid var(--bch-color-border); border-bottom: 0; justify-content: flex-end; }
-.drawer h2 { margin: 0; font-size: var(--bch-font-size-lg); } .drawer .body { padding-inline: var(--bch-space-5); padding-block: var(--bch-space-5); overflow: auto; }
-.close { display: grid; place-items: center; width: 2.25rem; height: 2.25rem; border: 0; border-radius: 50%; background: transparent; color: inherit; cursor: pointer; }.close:focus-visible { outline: none; box-shadow: var(--bch-focus-ring); }
+:host {
+  display: contents;
+}
+.drawer-root {
+  position: fixed;
+  inset: 0;
+  z-index: var(--bch-z-drawer);
+  display: grid;
+}
+.drawer-root[hidden] {
+  display: none;
+}
+.scrim {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: rgb(0 0 0 / 0.42);
+}
+.drawer {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: min(24rem, calc(100vw - 2rem));
+  background: var(--bch-color-surface-raised);
+  color: var(--bch-color-text);
+  box-shadow: var(--bch-shadow-lg);
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+.drawer.is-right {
+  right: 0;
+}
+.drawer.is-left {
+  left: 0;
+}
+.drawer.is-end {
+  inset-inline-end: 0;
+}
+.drawer.is-start {
+  inset-inline-start: 0;
+}
+.drawer header,
+.drawer footer {
+  padding: var(--bch-space-4) var(--bch-space-5);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--bch-space-3);
+  border-bottom: 1px solid var(--bch-color-border);
+}
+.drawer footer {
+  border-top: 1px solid var(--bch-color-border);
+  border-bottom: 0;
+  justify-content: flex-end;
+}
+.drawer h2 {
+  margin: 0;
+  font-size: var(--bch-font-size-lg);
+}
+.drawer .body {
+  padding-inline: var(--bch-space-5);
+  padding-block: var(--bch-space-5);
+  overflow: auto;
+}
+.close {
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+.close:focus-visible {
+  outline: none;
+  box-shadow: var(--bch-focus-ring);
+}
 /* Note: transform: translateX() is a physical transform and is not flipped
    by `dir="rtl"`, unlike inset-inline-*. The entrance direction below is
    therefore correct for is-left/is-right (always physical) and for
@@ -16,8 +86,28 @@
    for is-start/is-end needs a JS-read `getComputedStyle(el).direction`
    check (tracked as follow-up — see docs/foundations/rtl.md). */
 @media (prefers-reduced-motion: no-preference) {
-  .drawer.is-right, .drawer.is-end { animation: bch-drawer-in-end var(--bch-motion-normal) var(--bch-ease-standard); }
-  .drawer.is-left, .drawer.is-start { animation: bch-drawer-in-start var(--bch-motion-normal) var(--bch-ease-standard); }
+  .drawer.is-right,
+  .drawer.is-end {
+    animation: bch-drawer-in-end var(--bch-motion-normal) var(--bch-ease-standard);
+  }
+  .drawer.is-left,
+  .drawer.is-start {
+    animation: bch-drawer-in-start var(--bch-motion-normal) var(--bch-ease-standard);
+  }
 }
-@keyframes bch-drawer-in-end { from { transform: translateX(100%); } to { transform: translateX(0); } }
-@keyframes bch-drawer-in-start { from { transform: translateX(-100%); } to { transform: translateX(0); } }
+@keyframes bch-drawer-in-end {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@keyframes bch-drawer-in-start {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}

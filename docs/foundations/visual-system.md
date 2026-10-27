@@ -13,7 +13,7 @@ Category A — UX principles, negotiable only through documented exception:
 - No state is only momentary if it affects how the next action is
   interpreted — an armed leader-key sequence, a live filter, a recording
   macro all need a persistent indicator, not just a toast that fades.
-- Edits reflect in the UI *before* confirmation is requested; blocking
+- Edits reflect in the UI _before_ confirmation is requested; blocking
   confirmation is reserved for the genuinely irreversible.
 - One component type = one interaction definition, everywhere it appears —
   a component never behaves differently because of which screen it's on.

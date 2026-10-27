@@ -1,6 +1,11 @@
 import { Component, Event, type EventEmitter, Prop, h } from '@stencil/core';
 
-@Component({ tag: 'bch-segmented-item', styleUrl: 'segmented-control.css', shadow: false, scoped: true })
+@Component({
+  tag: 'bch-segmented-item',
+  styleUrl: 'segmented-control.css',
+  shadow: false,
+  scoped: true,
+})
 export class BchSegmentedItem {
   @Prop() value = '';
   @Prop() disabled = false;

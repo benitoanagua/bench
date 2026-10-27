@@ -3,7 +3,8 @@ import { stencilContent } from './story-helpers';
 export default { title: 'BENCH/Visual/State Matrix' };
 
 export const Controls = {
-  render: () => stencilContent(`
+  render: () =>
+    stencilContent(`
       <div style="display:grid;gap:32px;padding:32px;max-width:960px;background:var(--bch-color-background);color:var(--bch-color-text)">
         <section style="display:grid;gap:12px">
           <h2>Buttons</h2>

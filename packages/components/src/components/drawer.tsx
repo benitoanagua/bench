@@ -17,12 +17,17 @@ export class BchDrawer {
   private previousFocus?: HTMLElement;
   private wasOpen = false;
 
-  @Method() async show() { this.open = true; }
-  @Method() async close() { this.open = false; }
+  @Method() async show() {
+    this.open = true;
+  }
+  @Method() async close() {
+    this.open = false;
+  }
 
   componentDidRender() {
     if (this.open && !this.wasOpen) {
-      this.previousFocus = document.activeElement instanceof HTMLElement ? document.activeElement : undefined;
+      this.previousFocus =
+        document.activeElement instanceof HTMLElement ? document.activeElement : undefined;
       document.body.classList.add('bch-drawer-open');
       this.bchOpen.emit();
       requestAnimationFrame(() => this.host.querySelector<HTMLElement>('.drawer .close')?.focus());
@@ -52,14 +57,39 @@ export class BchDrawer {
     const titleId = `${this.host.id || 'bch-drawer'}-title`;
     return (
       <div class="drawer-root" hidden={!this.open} onKeyDown={this.onKeyDown}>
-        <button class="scrim" type="button" aria-label="Close navigation" onClick={() => { this.open = false; }}></button>
-        <aside class={`drawer is-${this.side}`} role="dialog" aria-modal="true" aria-labelledby={this.label ? titleId : undefined}>
+        <button
+          class="scrim"
+          type="button"
+          aria-label="Close navigation"
+          onClick={() => {
+            this.open = false;
+          }}
+        ></button>
+        <aside
+          class={`drawer is-${this.side}`}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby={this.label ? titleId : undefined}
+        >
           <header>
             {this.label ? <h2 id={titleId}>{this.label}</h2> : null}
-            <button class="close" type="button" aria-label="Close" onClick={() => { this.open = false; }}><bch-icon name="x" /></button>
+            <button
+              class="close"
+              type="button"
+              aria-label="Close"
+              onClick={() => {
+                this.open = false;
+              }}
+            >
+              <bch-icon name="x" />
+            </button>
           </header>
-          <div class="body"><slot /></div>
-          <footer><slot name="footer" /></footer>
+          <div class="body">
+            <slot />
+          </div>
+          <footer>
+            <slot name="footer" />
+          </footer>
         </aside>
       </div>
     );

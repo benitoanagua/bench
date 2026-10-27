@@ -47,7 +47,9 @@ export class BchPagination {
         <ul class="bch-pagination__list">
           {pages.map((token, index) =>
             token === 'ellipsis' ? (
-              <li key={`e-${index}`} class="bch-pagination__ellipsis" aria-hidden="true">…</li>
+              <li key={`e-${index}`} class="bch-pagination__ellipsis" aria-hidden="true">
+                …
+              </li>
             ) : (
               <li key={token}>
                 <button

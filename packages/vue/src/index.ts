@@ -17,7 +17,6 @@ export const BenchVue: Plugin = {
   },
 };
 
-
 declare module 'vue' {
   interface GlobalComponents {
     'bch-button': HTMLElement;

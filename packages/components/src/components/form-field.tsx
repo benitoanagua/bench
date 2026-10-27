@@ -10,9 +10,20 @@ export class BchFormField {
   render() {
     return (
       <div class="field">
-        {this.label ? <div class="label">{this.label}{this.required ? ' *' : ''}</div> : null}
+        {this.label ? (
+          <div class="label">
+            {this.label}
+            {this.required ? ' *' : ''}
+          </div>
+        ) : null}
         <slot />
-        {this.error ? <div class="message error" role="alert">{this.error}</div> : this.hint ? <div class="message">{this.hint}</div> : null}
+        {this.error ? (
+          <div class="message error" role="alert">
+            {this.error}
+          </div>
+        ) : this.hint ? (
+          <div class="message">{this.hint}</div>
+        ) : null}
       </div>
     );
   }

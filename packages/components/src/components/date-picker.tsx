@@ -13,7 +13,11 @@ function parseISODate(s: string): Date | null {
   return Number.isNaN(date.getTime()) ? null : date;
 }
 function isSameDay(a: Date, b: Date) {
-  return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
+  return (
+    a.getFullYear() === b.getFullYear() &&
+    a.getMonth() === b.getMonth() &&
+    a.getDate() === b.getDate()
+  );
 }
 function daysInMonth(year: number, month: number) {
   return new Date(year, month + 1, 0).getDate();
@@ -103,8 +107,14 @@ export class BchDatePicker {
   };
 
   private isDisabled(date: Date): boolean {
-    if (this.min) { const min = parseISODate(this.min); if (min && date < min) return true; }
-    if (this.max) { const max = parseISODate(this.max); if (max && date > max) return true; }
+    if (this.min) {
+      const min = parseISODate(this.min);
+      if (min && date < min) return true;
+    }
+    if (this.max) {
+      const max = parseISODate(this.max);
+      if (max && date > max) return true;
+    }
     return false;
   }
 
@@ -122,8 +132,14 @@ export class BchDatePicker {
   private changeMonth(delta: number) {
     let month = this.viewMonth + delta;
     let year = this.viewYear;
-    if (month < 0) { month = 11; year -= 1; }
-    if (month > 11) { month = 0; year += 1; }
+    if (month < 0) {
+      month = 11;
+      year -= 1;
+    }
+    if (month > 11) {
+      month = 0;
+      year += 1;
+    }
     this.viewYear = year;
     this.viewMonth = month;
     this.focusedDay = Math.min(this.focusedDay, daysInMonth(year, month));
@@ -135,7 +151,12 @@ export class BchDatePicker {
   }
 
   private onGridKeyDown = (event: KeyboardEvent) => {
-    const deltas: Record<string, number> = { ArrowLeft: -1, ArrowRight: 1, ArrowUp: -7, ArrowDown: 7 };
+    const deltas: Record<string, number> = {
+      ArrowLeft: -1,
+      ArrowRight: 1,
+      ArrowUp: -7,
+      ArrowDown: 7,
+    };
     if (event.key in deltas) {
       event.preventDefault();
       const base = new Date(this.viewYear, this.viewMonth, this.focusedDay);
@@ -146,12 +167,39 @@ export class BchDatePicker {
       requestAnimationFrame(() => this.focusActiveCell());
       return;
     }
-    if (event.key === 'Home') { event.preventDefault(); this.focusedDay = 1; requestAnimationFrame(() => this.focusActiveCell()); return; }
-    if (event.key === 'End') { event.preventDefault(); this.focusedDay = daysInMonth(this.viewYear, this.viewMonth); requestAnimationFrame(() => this.focusActiveCell()); return; }
-    if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); this.selectDay(this.focusedDay); return; }
-    if (event.key === 'Escape') { event.preventDefault(); this.open = false; this.input?.focus(); return; }
-    if (event.key === 'PageUp') { event.preventDefault(); this.changeMonth(-1); return; }
-    if (event.key === 'PageDown') { event.preventDefault(); this.changeMonth(1); return; }
+    if (event.key === 'Home') {
+      event.preventDefault();
+      this.focusedDay = 1;
+      requestAnimationFrame(() => this.focusActiveCell());
+      return;
+    }
+    if (event.key === 'End') {
+      event.preventDefault();
+      this.focusedDay = daysInMonth(this.viewYear, this.viewMonth);
+      requestAnimationFrame(() => this.focusActiveCell());
+      return;
+    }
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      this.selectDay(this.focusedDay);
+      return;
+    }
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      this.open = false;
+      this.input?.focus();
+      return;
+    }
+    if (event.key === 'PageUp') {
+      event.preventDefault();
+      this.changeMonth(-1);
+      return;
+    }
+    if (event.key === 'PageDown') {
+      event.preventDefault();
+      this.changeMonth(1);
+      return;
+    }
   };
 
   private weekdayLabels(): string[] {
@@ -174,16 +222,24 @@ export class BchDatePicker {
 
   render() {
     const id = this.host.id || `bch-date-picker-${this.name || 'field'}`;
-    const monthLabel = new Intl.DateTimeFormat(this.locale, { month: 'long', year: 'numeric' }).format(
-      new Date(this.viewYear, this.viewMonth, 1),
-    );
+    const monthLabel = new Intl.DateTimeFormat(this.locale, {
+      month: 'long',
+      year: 'numeric',
+    }).format(new Date(this.viewYear, this.viewMonth, 1));
     const cells = this.buildGrid();
     const selected = parseISODate(this.value);
-    const describedBy = [this.hint ? `${id}-hint` : '', this.error ? `${id}-error` : ''].filter(Boolean).join(' ') || undefined;
+    const describedBy =
+      [this.hint ? `${id}-hint` : '', this.error ? `${id}-error` : ''].filter(Boolean).join(' ') ||
+      undefined;
 
     return (
       <div class="field bch-date-picker" ref={(el) => (this.root = el as HTMLElement)}>
-        {this.label ? <label class="label" htmlFor={id}>{this.label}{this.required ? ' *' : ''}</label> : null}
+        {this.label ? (
+          <label class="label" htmlFor={id}>
+            {this.label}
+            {this.required ? ' *' : ''}
+          </label>
+        ) : null}
         <div class="bch-date-picker__control">
           <input
             ref={(el) => (this.input = el as HTMLInputElement)}
@@ -196,24 +252,67 @@ export class BchDatePicker {
             required={this.required}
             aria-describedby={describedBy}
             onInput={this.onTextInput}
-            onFocus={() => { if (!this.disabled) this.open = true; }}
+            onFocus={() => {
+              if (!this.disabled) this.open = true;
+            }}
           />
-          <bch-icon-button name="calendar" label="Open calendar" size="small" disabled={this.disabled} onBchPress={this.toggleCalendar} />
+          <bch-icon-button
+            name="calendar"
+            label="Open calendar"
+            size="small"
+            disabled={this.disabled}
+            onBchPress={this.toggleCalendar}
+          />
         </div>
-        <div class="bch-date-picker__popup" hidden={!this.open} role="dialog" aria-label="Choose date" aria-modal="false">
+        <div
+          class="bch-date-picker__popup"
+          hidden={!this.open}
+          role="dialog"
+          aria-label="Choose date"
+          aria-modal="false"
+        >
           <div class="bch-date-picker__nav">
-            <bch-icon-button name="chevron-left" label="Previous month" size="small" onBchPress={() => this.changeMonth(-1)} />
-            <span class="bch-date-picker__month" aria-live="polite">{monthLabel}</span>
-            <bch-icon-button name="chevron-right" label="Next month" size="small" onBchPress={() => this.changeMonth(1)} />
+            <bch-icon-button
+              name="chevron-left"
+              label="Previous month"
+              size="small"
+              onBchPress={() => this.changeMonth(-1)}
+            />
+            <span class="bch-date-picker__month" aria-live="polite">
+              {monthLabel}
+            </span>
+            <bch-icon-button
+              name="chevron-right"
+              label="Next month"
+              size="small"
+              onBchPress={() => this.changeMonth(1)}
+            />
           </div>
-          <div class="bch-date-picker__grid" role="grid" aria-label={monthLabel} ref={(el) => (this.gridRef = el as HTMLElement)} onKeyDown={this.onGridKeyDown}>
+          <div
+            class="bch-date-picker__grid"
+            role="grid"
+            aria-label={monthLabel}
+            ref={(el) => (this.gridRef = el as HTMLElement)}
+            onKeyDown={this.onGridKeyDown}
+          >
             <div class="bch-date-picker__weekdays" role="row">
-              {this.weekdayLabels().map((wd) => <span role="columnheader" aria-hidden="true">{wd}</span>)}
+              {this.weekdayLabels().map((wd) => (
+                <span role="columnheader" aria-hidden="true">
+                  {wd}
+                </span>
+              ))}
             </div>
             {Array.from({ length: cells.length / 7 }, (_, row) => (
               <div role="row">
                 {cells.slice(row * 7, row * 7 + 7).map((day) => {
-                  if (day === null) return <span class="bch-date-picker__cell is-empty" role="gridcell" aria-hidden="true" />;
+                  if (day === null)
+                    return (
+                      <span
+                        class="bch-date-picker__cell is-empty"
+                        role="gridcell"
+                        aria-hidden="true"
+                      />
+                    );
                   const date = new Date(this.viewYear, this.viewMonth, day);
                   const isSelected = Boolean(selected && isSameDay(selected, date));
                   const isFocusTarget = day === this.focusedDay;
@@ -222,7 +321,11 @@ export class BchDatePicker {
                     <span role="gridcell">
                       <button
                         type="button"
-                        class={{ 'bch-date-picker__day': true, 'is-selected': isSelected, 'is-today': isSameDay(date, new Date()) }}
+                        class={{
+                          'bch-date-picker__day': true,
+                          'is-selected': isSelected,
+                          'is-today': isSameDay(date, new Date()),
+                        }}
                         tabIndex={isFocusTarget ? 0 : -1}
                         disabled={dayDisabled}
                         aria-selected={isSelected ? 'true' : undefined}
@@ -237,8 +340,16 @@ export class BchDatePicker {
             ))}
           </div>
         </div>
-        {this.hint ? <span id={`${id}-hint`} class="message">{this.hint}</span> : null}
-        {this.error ? <span id={`${id}-error`} class="message error" role="alert">{this.error}</span> : null}
+        {this.hint ? (
+          <span id={`${id}-hint`} class="message">
+            {this.hint}
+          </span>
+        ) : null}
+        {this.error ? (
+          <span id={`${id}-error`} class="message error" role="alert">
+            {this.error}
+          </span>
+        ) : null}
       </div>
     );
   }

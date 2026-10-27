@@ -1,7 +1,23 @@
-.bch-slider { display: flex; flex-direction: column; gap: var(--bch-space-2); width: 100%; }
-.bch-slider__row { display: flex; align-items: center; justify-content: space-between; }
-.bch-slider__row label { font-size: var(--bch-type-label-size); font-weight: var(--bch-type-label-weight); color: var(--bch-color-text); }
-.bch-slider__value { font-size: var(--bch-type-caption-size); color: var(--bch-color-text-muted); }
+.bch-slider {
+  display: flex;
+  flex-direction: column;
+  gap: var(--bch-space-2);
+  width: 100%;
+}
+.bch-slider__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.bch-slider__row label {
+  font-size: var(--bch-type-label-size);
+  font-weight: var(--bch-type-label-weight);
+  color: var(--bch-color-text);
+}
+.bch-slider__value {
+  font-size: var(--bch-type-caption-size);
+  color: var(--bch-color-text-muted);
+}
 
 .bch-slider__input {
   -webkit-appearance: none;
@@ -11,8 +27,13 @@
   background: transparent;
   cursor: pointer;
 }
-.bch-slider__input:disabled { cursor: not-allowed; opacity: 0.5; }
-.bch-slider__input:focus-visible { outline: none; }
+.bch-slider__input:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+.bch-slider__input:focus-visible {
+  outline: none;
+}
 
 /* Track: a linear-gradient split at the current value gives a filled/unfilled
    look without extra DOM, and works in both LTR and RTL since percent is
@@ -20,10 +41,22 @@
 .bch-slider__input::-webkit-slider-runnable-track {
   height: 0.375rem;
   border-radius: var(--bch-radius-pill);
-  background: linear-gradient(to right, var(--bch-color-action) var(--bch-slider-percent), var(--bch-color-surface) var(--bch-slider-percent));
+  background: linear-gradient(
+    to right,
+    var(--bch-color-action) var(--bch-slider-percent),
+    var(--bch-color-surface) var(--bch-slider-percent)
+  );
 }
-.bch-slider__input::-moz-range-track { height: 0.375rem; border-radius: var(--bch-radius-pill); background: var(--bch-color-surface); }
-.bch-slider__input::-moz-range-progress { height: 0.375rem; border-radius: var(--bch-radius-pill); background: var(--bch-color-action); }
+.bch-slider__input::-moz-range-track {
+  height: 0.375rem;
+  border-radius: var(--bch-radius-pill);
+  background: var(--bch-color-surface);
+}
+.bch-slider__input::-moz-range-progress {
+  height: 0.375rem;
+  border-radius: var(--bch-radius-pill);
+  background: var(--bch-color-action);
+}
 
 .bch-slider__input::-webkit-slider-thumb {
   -webkit-appearance: none;
@@ -43,5 +76,9 @@
   border: 2px solid var(--bch-color-surface-raised);
   box-shadow: var(--bch-shadow-sm);
 }
-.bch-slider__input:focus-visible::-webkit-slider-thumb { box-shadow: var(--bch-focus-ring); }
-.bch-slider__input:focus-visible::-moz-range-thumb { box-shadow: var(--bch-focus-ring); }
+.bch-slider__input:focus-visible::-webkit-slider-thumb {
+  box-shadow: var(--bch-focus-ring);
+}
+.bch-slider__input:focus-visible::-moz-range-thumb {
+  box-shadow: var(--bch-focus-ring);
+}

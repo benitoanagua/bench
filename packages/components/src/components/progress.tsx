@@ -14,14 +14,21 @@ export class BchProgress {
       <div class="bch-progress">
         {this.label ? <span class="bch-progress__label">{this.label}</span> : null}
         <div
-          class={{ 'bch-progress__track': true, [`is-${this.tone}`]: true, 'is-indeterminate': this.indeterminate }}
+          class={{
+            'bch-progress__track': true,
+            [`is-${this.tone}`]: true,
+            'is-indeterminate': this.indeterminate,
+          }}
           role="progressbar"
           aria-label={this.label || undefined}
           aria-valuemin={this.indeterminate ? undefined : 0}
           aria-valuemax={this.indeterminate ? undefined : 100}
           aria-valuenow={this.indeterminate ? undefined : clamped}
         >
-          <div class="bch-progress__fill" style={this.indeterminate ? undefined : { width: `${clamped}%` }} />
+          <div
+            class="bch-progress__fill"
+            style={this.indeterminate ? undefined : { width: `${clamped}%` }}
+          />
         </div>
       </div>
     );

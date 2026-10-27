@@ -11,6 +11,8 @@ for (const viewport of viewports) {
   test(`BENCH smoke ${viewport.name}`, async ({ page }) => {
     await page.setViewportSize({ width: viewport.width, height: viewport.height });
     await page.goto('http://127.0.0.1:6006/?path=/story/bench-components');
-    await expect(page.locator('body')).toHaveScreenshot(`bench-${viewport.name}.png`, { fullPage: true });
+    await expect(page.locator('body')).toHaveScreenshot(`bench-${viewport.name}.png`, {
+      fullPage: true,
+    });
   });
 }

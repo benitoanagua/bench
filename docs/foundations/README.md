@@ -15,14 +15,14 @@ the person opening it for the first time. Every rule below exists to solve a
 specific, real problem that person has — not an abstract aesthetic
 preference (`bench-design-system.md` §0.1):
 
-| Problem | Where Bench answers it |
-|---|---|
-| Repeats the same task hundreds of times a day — any friction multiplies | Rules 1–2, omnibar/command patterns, macros |
-| Muscle memory is the most valuable asset a dense UI has, and inconsistency destroys it | Rule 4, the border/line-style scales (§2.2–2.3) |
-| Can't afford to lose work to an app, browser, or personal error | Rule 3, visible undo history, full-state persistence |
-| Works with financial/operational data where a misread number costs money | Financial extension (§2.10) |
-| Scans hundreds of rows an hour — decorative animation is accumulated friction | Motion with purpose (§2.5), configurable density (§2.9) |
-| Already invested time learning this tool — an unmotivated behavior change costs that time back | Rule 9 and the visual layer (convention, never a whim) |
+| Problem                                                                                        | Where Bench answers it                                  |
+| ---------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
+| Repeats the same task hundreds of times a day — any friction multiplies                        | Rules 1–2, omnibar/command patterns, macros             |
+| Muscle memory is the most valuable asset a dense UI has, and inconsistency destroys it         | Rule 4, the border/line-style scales (§2.2–2.3)         |
+| Can't afford to lose work to an app, browser, or personal error                                | Rule 3, visible undo history, full-state persistence    |
+| Works with financial/operational data where a misread number costs money                       | Financial extension (§2.10)                             |
+| Scans hundreds of rows an hour — decorative animation is accumulated friction                  | Motion with purpose (§2.5), configurable density (§2.9) |
+| Already invested time learning this tool — an unmotivated behavior change costs that time back | Rule 9 and the visual layer (convention, never a whim)  |
 
 ## Foundation areas
 

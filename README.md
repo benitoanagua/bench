@@ -1,10 +1,10 @@
 # Bench Design System
 
-*(Bench, short for "Workbench" — the surface where someone who's mastered a
+_(Bench, short for "Workbench" — the surface where someone who's mastered a
 craft keeps their tools exactly where they need them, every day, for years.
 Built for the person who has this software open 8 hours a day, not the
 person opening it for the first time. Full philosophy and the 9 inviolable
-rules: [`docs/bench-design-system.md`](./docs/bench-design-system.md).)*
+rules: [`docs/bench-design-system.md`](./docs/bench-design-system.md).)_
 
 Bench is a design system built from scratch with Stencil, TypeScript and Web
 Components. Everything in it — colors, the 4-level border scale, elevation,

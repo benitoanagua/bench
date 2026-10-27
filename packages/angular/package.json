@@ -5,8 +5,18 @@
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "peerDependencies": { "@angular/core": ">=17" },
-  "dependencies": { "@bench/components": "workspace:*" },
-  "devDependencies": { "typescript": "^5.7.0" },
-  "scripts": { "build": "tsc -p tsconfig.json", "typecheck": "tsc -p tsconfig.json --noEmit", "lint": "node ../../tooling/lint/package-rules.mjs angular" }
+  "peerDependencies": {
+    "@angular/core": ">=17"
+  },
+  "dependencies": {
+    "@bench/components": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "node ../../tooling/lint/package-rules.mjs angular"
+  }
 }

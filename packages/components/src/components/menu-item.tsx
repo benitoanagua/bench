@@ -21,9 +21,15 @@ export class BchMenuItem {
         disabled={this.disabled}
         onClick={this.onClick}
       >
-        <span class="start"><slot name="start" /></span>
-        <span class="label"><slot /></span>
-        <span class="end"><slot name="end" /></span>
+        <span class="start">
+          <slot name="start" />
+        </span>
+        <span class="label">
+          <slot />
+        </span>
+        <span class="end">
+          <slot name="end" />
+        </span>
       </button>
     );
   }

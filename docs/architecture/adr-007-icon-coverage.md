@@ -33,8 +33,8 @@ suggests common names but never rejects a valid Tabler name that isn't in the cu
 
 ## Update (see ADR-008)
 
-The icon *set* documented here (Tabler) has since been replaced by Carbon —
+The icon _set_ documented here (Tabler) has since been replaced by Carbon —
 see `docs/architecture/adr-008-carbon-icons.md`. The architectural lesson
 this ADR records (resolve against the real, full dataset; never a silent
 hand-authored subset) is exactly the principle ADR-008 had to explicitly
-choose to *temporarily* set aside, on the record, rather than repeat quietly.
+choose to _temporarily_ set aside, on the record, rather than repeat quietly.

@@ -21,9 +21,27 @@
   font-display: swap;
 }
 
-*, *::before, *::after { box-sizing: border-box; }
-:root { font-family: var(--bch-font-family-sans); color: var(--bch-color-text); background: var(--bch-color-background); }
-:where(button, input, textarea, select) { font: inherit; }
-:where(button, input, textarea, select):focus-visible { outline: none; box-shadow: var(--bch-focus-ring); }
-:where(bch-icon) { color: inherit; }
-:where(.bch-font-mono) { font-family: var(--bch-font-family-mono); font-variant-numeric: tabular-nums; }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+:root {
+  font-family: var(--bch-font-family-sans);
+  color: var(--bch-color-text);
+  background: var(--bch-color-background);
+}
+:where(button, input, textarea, select) {
+  font: inherit;
+}
+:where(button, input, textarea, select):focus-visible {
+  outline: none;
+  box-shadow: var(--bch-focus-ring);
+}
+:where(bch-icon) {
+  color: inherit;
+}
+:where(.bch-font-mono) {
+  font-family: var(--bch-font-family-mono);
+  font-variant-numeric: tabular-nums;
+}

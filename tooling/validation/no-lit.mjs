@@ -6,7 +6,7 @@ const scanRoots = ['apps', 'packages'];
 const excludedDirs = new Set(['node_modules', 'dist', 'storybook-static', '.git']);
 const forbidden = [
   /from\s+['"]lit(?:\/|['"])/,
-  /from\s+['"]lit-html['"]/, 
+  /from\s+['"]lit-html['"]/,
   /@lit\//,
   /LitElement/,
   /@storybook\/web-components(?:-vite)?/,
@@ -38,7 +38,8 @@ for (const file of ['package.json', 'pnpm-workspace.yaml']) {
   const path = join(root, file);
   const text = readFileSync(path, 'utf8');
   text.split('\n').forEach((line, index) => {
-    if (forbidden.some((pattern) => pattern.test(line))) hits.push(`${path}:${index + 1}: ${line.trim()}`);
+    if (forbidden.some((pattern) => pattern.test(line)))
+      hits.push(`${path}:${index + 1}: ${line.trim()}`);
   });
 }
 

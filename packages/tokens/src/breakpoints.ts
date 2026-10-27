@@ -31,7 +31,10 @@ export function minWidthQuery(key: BreakpointKey): string {
  *
  * const unsubscribe = watchBreakpoint('md', (matches) => { ... });
  */
-export function watchBreakpoint(key: BreakpointKey, callback: (matches: boolean) => void): () => void {
+export function watchBreakpoint(
+  key: BreakpointKey,
+  callback: (matches: boolean) => void,
+): () => void {
   if (typeof window === 'undefined' || !window.matchMedia) return () => {};
   const mql = window.matchMedia(minWidthQuery(key));
   const listener = (event: MediaQueryListEvent) => callback(event.matches);

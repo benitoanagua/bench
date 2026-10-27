@@ -10,18 +10,24 @@ const meta = {
 export default meta;
 
 export const Default = {
-  render: () => h('bch-breadcrumbs', null,
-    h('bch-breadcrumb-item', { href: '#' }, 'Home'),
-    h('bch-breadcrumb-item', { href: '#' }, 'Settings'),
-    h('bch-breadcrumb-item', { current: true }, 'Profile'),
-  ),
+  render: () =>
+    h(
+      'bch-breadcrumbs',
+      null,
+      h('bch-breadcrumb-item', { href: '#' }, 'Home'),
+      h('bch-breadcrumb-item', { href: '#' }, 'Settings'),
+      h('bch-breadcrumb-item', { current: true }, 'Profile'),
+    ),
 };
 export const Collapsed = {
-  render: () => h('bch-breadcrumbs', { maxItems: 3 },
-    h('bch-breadcrumb-item', { href: '#' }, 'Home'),
-    h('bch-breadcrumb-item', { href: '#' }, 'Products'),
-    h('bch-breadcrumb-item', { href: '#' }, 'Category'),
-    h('bch-breadcrumb-item', { href: '#' }, 'Subcategory'),
-    h('bch-breadcrumb-item', { current: true }, 'Item'),
-  ),
+  render: () =>
+    h(
+      'bch-breadcrumbs',
+      { maxItems: 3 },
+      h('bch-breadcrumb-item', { href: '#' }, 'Home'),
+      h('bch-breadcrumb-item', { href: '#' }, 'Products'),
+      h('bch-breadcrumb-item', { href: '#' }, 'Category'),
+      h('bch-breadcrumb-item', { href: '#' }, 'Subcategory'),
+      h('bch-breadcrumb-item', { current: true }, 'Item'),
+    ),
 };

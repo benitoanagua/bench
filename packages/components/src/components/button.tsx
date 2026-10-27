@@ -16,7 +16,9 @@ export class BchButton {
   private control?: HTMLButtonElement;
 
   @Method()
-  async focusControl() { this.control?.focus(); }
+  async focusControl() {
+    this.control?.focus();
+  }
 
   private handleClick = (event: MouseEvent) => {
     if (!this.disabled && !this.loading) this.bchPress.emit(event);
@@ -33,16 +35,22 @@ export class BchButton {
 
     return (
       <button
-        ref={(el) => this.control = el as HTMLButtonElement}
+        ref={(el) => (this.control = el as HTMLButtonElement)}
         class={classes}
         disabled={this.disabled || this.loading}
         type={this.type}
         aria-busy={this.loading ? 'true' : undefined}
         onClick={this.handleClick}
       >
-        <span class="start">{this.loading ? <bch-spinner label="Loading" /> : <slot name="start" />}</span>
-        <span class="label"><slot /></span>
-        <span class="end"><slot name="end" /></span>
+        <span class="start">
+          {this.loading ? <bch-spinner label="Loading" /> : <slot name="start" />}
+        </span>
+        <span class="label">
+          <slot />
+        </span>
+        <span class="end">
+          <slot name="end" />
+        </span>
       </button>
     );
   }

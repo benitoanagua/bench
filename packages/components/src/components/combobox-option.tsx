@@ -15,7 +15,10 @@ export class BchComboboxOption {
         role="option"
         aria-selected={this.selected ? 'true' : 'false'}
         class={{ 'bch-combobox__option': true, 'is-active': this.active }}
-        onMouseDown={(event) => { event.preventDefault(); this.bchSelect.emit(this.value); }}
+        onMouseDown={(event) => {
+          event.preventDefault();
+          this.bchSelect.emit(this.value);
+        }}
       >
         <slot />
       </div>

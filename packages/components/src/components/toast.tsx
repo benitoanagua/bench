@@ -61,7 +61,10 @@ export class BchToastRegion {
   @Method()
   async dismiss(id: string, opts: { silent?: boolean } = {}) {
     const timer = this.timers.get(id);
-    if (timer) { clearTimeout(timer); this.timers.delete(id); }
+    if (timer) {
+      clearTimeout(timer);
+      this.timers.delete(id);
+    }
     const wasActive = this.active.some((t) => t.id === id);
     this.active = this.active.filter((t) => t.id !== id);
     this.queue = this.queue.filter((t) => t.id !== id);
@@ -110,7 +113,12 @@ export class BchToastRegion {
               {t.heading ? <strong>{t.heading}</strong> : null}
               <div>{t.message}</div>
             </div>
-            <bch-icon-button name="x" label="Dismiss" size="small" onBchPress={() => this.dismiss(t.id)} />
+            <bch-icon-button
+              name="x"
+              label="Dismiss"
+              size="small"
+              onBchPress={() => this.dismiss(t.id)}
+            />
           </div>
         ))}
       </div>

@@ -5,7 +5,8 @@ export default {
 };
 
 export const Core = {
-  render: () => stencilContent(`
+  render: () =>
+    stencilContent(`
       <div style="display:grid;gap:24px;padding:32px;max-width:900px;background:var(--bch-color-background);color:var(--bch-color-text)">
         <section style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
           <bch-button variant="primary"><bch-icon slot="start" name="plus"></bch-icon>Primary</bch-button>

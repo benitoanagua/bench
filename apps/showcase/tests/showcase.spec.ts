@@ -16,7 +16,10 @@ test('navigation switches product surfaces', async ({ page }) => {
 
 test('create dialog opens and closes', async ({ page }) => {
   await page.goto('/');
-  await page.getByRole('button', { name: /Create$/ }).first().click();
+  await page
+    .getByRole('button', { name: /Create$/ })
+    .first()
+    .click();
   await expect(page.locator('bch-dialog')).toBeVisible();
   await page.getByRole('button', { name: 'Cancel' }).click();
 });

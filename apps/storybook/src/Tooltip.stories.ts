@@ -10,12 +10,18 @@ const meta = {
 export default meta;
 
 export const Top = {
-  render: () => h('bch-tooltip', { text: 'Helpful context', placement: 'top' },
-    h('bch-icon', { name: 'info-circle', 'aria-label': 'Information' }),
-  ),
+  render: () =>
+    h(
+      'bch-tooltip',
+      { text: 'Helpful context', placement: 'top' },
+      h('bch-icon', { name: 'info-circle', 'aria-label': 'Information' }),
+    ),
 };
 export const Bottom = {
-  render: () => h('bch-tooltip', { text: 'Helpful context', placement: 'bottom' },
-    h('bch-icon', { name: 'info-circle', 'aria-label': 'Information' }),
-  ),
+  render: () =>
+    h(
+      'bch-tooltip',
+      { text: 'Helpful context', placement: 'bottom' },
+      h('bch-icon', { name: 'info-circle', 'aria-label': 'Information' }),
+    ),
 };

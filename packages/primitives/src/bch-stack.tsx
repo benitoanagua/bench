@@ -7,6 +7,17 @@ export class BchStack {
   @Prop() align: 'start' | 'center' | 'end' | 'stretch' = 'stretch';
 
   render() {
-    return <div class="bch-stack" style={{ '--bch-stack-direction': this.direction, '--bch-stack-gap': this.gap, '--bch-stack-align': this.align }}><slot /></div>;
+    return (
+      <div
+        class="bch-stack"
+        style={{
+          '--bch-stack-direction': this.direction,
+          '--bch-stack-gap': this.gap,
+          '--bch-stack-align': this.align,
+        }}
+      >
+        <slot />
+      </div>
+    );
   }
 }

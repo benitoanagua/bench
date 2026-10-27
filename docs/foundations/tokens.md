@@ -25,12 +25,12 @@ Smaller element → thinner, more subtle border, smaller radius. Larger element
 → thicker, darker border, larger radius. No component introduces a
 border-width or radius outside this table.
 
-| Level | Token | Width | Radius | Example |
-|---|---|---|---|---|
-| 1 — Micro | `--bch-color-border-micro`, `--bch-radius-sm` | 1px | 1px | badges, chips, checkboxes |
-| 2 — Control | `--bch-color-border-control`, `--bch-radius-md` | 1px | 2px | inputs, buttons, grid cells |
-| 3 — Container | `--bch-color-border-container`, `--bch-radius-lg` | 1.5px | 4px | panels, cards, toolbars |
-| 4 — Floating | `--bch-color-border-floating`, `--bch-radius-xl` | 2px | 6px | floating cards, modals |
+| Level         | Token                                             | Width | Radius | Example                     |
+| ------------- | ------------------------------------------------- | ----- | ------ | --------------------------- |
+| 1 — Micro     | `--bch-color-border-micro`, `--bch-radius-sm`     | 1px   | 1px    | badges, chips, checkboxes   |
+| 2 — Control   | `--bch-color-border-control`, `--bch-radius-md`   | 1px   | 2px    | inputs, buttons, grid cells |
+| 3 — Container | `--bch-color-border-container`, `--bch-radius-lg` | 1.5px | 4px    | panels, cards, toolbars     |
+| 4 — Floating  | `--bch-color-border-floating`, `--bch-radius-xl`  | 2px   | 6px    | floating cards, modals      |
 
 `--bch-radius-pill` (999px) is the one documented exception: status badges
 are intentionally pill-shaped, which doesn't contradict the proportionality
@@ -41,12 +41,12 @@ old two-level names keeps working unchanged.
 
 ## Line-style semantics (Rule 8)
 
-| Style | Meaning | Where |
-|---|---|---|
-| Solid (default) | Confirmed / persisted state | everywhere, by default |
-| Dashed | Provisional, not yet confirmed | a cell mid-edit, a just-duplicated record |
-| Double | Closing / totalization boundary | a totals row, a closing summary |
-| Triple | Real irreversible confirmation — the system's loudest signal, used almost never on purpose | permanent-delete confirmation |
+| Style           | Meaning                                                                                    | Where                                     |
+| --------------- | ------------------------------------------------------------------------------------------ | ----------------------------------------- |
+| Solid (default) | Confirmed / persisted state                                                                | everywhere, by default                    |
+| Dashed          | Provisional, not yet confirmed                                                             | a cell mid-edit, a just-duplicated record |
+| Double          | Closing / totalization boundary                                                            | a totals row, a closing summary           |
+| Triple          | Real irreversible confirmation — the system's loudest signal, used almost never on purpose | permanent-delete confirmation             |
 
 There is no CSS custom property for "triple border" by itself — it's always
 paired with `--bch-shadow-critical` (elevation §below), because in Bench the
@@ -64,9 +64,9 @@ reintroducing the escalation ad hoc.
 
 ```css
 --bch-elev-0: none;
---bch-elev-1: 0 1px 3px rgb(15 20 25 / .10), 0 1px 2px rgb(15 20 25 / .06);
---bch-elev-2: 0 6px 16px rgb(15 20 25 / .16), 0 2px 4px rgb(15 20 25 / .08);
---bch-elev-3: 0 12px 32px rgb(15 20 25 / .24), 0 0 0 1px var(--bch-color-danger);
+--bch-elev-1: 0 1px 3px rgb(15 20 25 / 0.1), 0 1px 2px rgb(15 20 25 / 0.06);
+--bch-elev-2: 0 6px 16px rgb(15 20 25 / 0.16), 0 2px 4px rgb(15 20 25 / 0.08);
+--bch-elev-3: 0 12px 32px rgb(15 20 25 / 0.24), 0 0 0 1px var(--bch-color-danger);
 ```
 
 `--bch-shadow-sm/md/lg` are the pre-existing component-facing aliases, mapped
@@ -108,11 +108,11 @@ value, so no component had to be rewritten to obey the rule.
 ## Motion (§2.5)
 
 ```css
---bch-motion-fast: 80ms;      /* hover/focus */
---bch-motion-normal: 180ms;   /* confirmation flash */
---bch-motion-panel: 140ms;    /* panel/modal open */
---bch-motion-badge: 220ms;    /* badge/status color cross-fade */
---bch-motion-slow: 300ms;     /* ceiling: streaming-data highlight */
+--bch-motion-fast: 80ms; /* hover/focus */
+--bch-motion-normal: 180ms; /* confirmation flash */
+--bch-motion-panel: 140ms; /* panel/modal open */
+--bch-motion-badge: 220ms; /* badge/status color cross-fade */
+--bch-motion-slow: 300ms; /* ceiling: streaming-data highlight */
 ```
 
 Nothing that represents a **discrete state change** animates for longer than

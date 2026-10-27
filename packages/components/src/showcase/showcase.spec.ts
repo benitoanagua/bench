@@ -8,7 +8,10 @@ import { BchToolbar } from './toolbar';
 
 describe('showcase components', () => {
   it('renders the compositional set', async () => {
-    const page = await newSpecPage({ components: [BchMetricCard, BchStatus, BchAlert, BchEmptyState, BchDataTable, BchToolbar], html: '<bch-metric-card label=Users value=42></bch-metric-card>' });
+    const page = await newSpecPage({
+      components: [BchMetricCard, BchStatus, BchAlert, BchEmptyState, BchDataTable, BchToolbar],
+      html: '<bch-metric-card label=Users value=42></bch-metric-card>',
+    });
     expect(page.root).toBeTruthy();
   });
 });

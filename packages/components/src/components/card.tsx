@@ -22,9 +22,15 @@ export class BchCard {
         onClick={(event) => this.interactive && this.bchPress.emit(event)}
         onKeyDown={this.handleKeyDown}
       >
-        <header><slot name="header" /></header>
-        <div class="body"><slot /></div>
-        <footer><slot name="footer" /></footer>
+        <header>
+          <slot name="header" />
+        </header>
+        <div class="body">
+          <slot />
+        </div>
+        <footer>
+          <slot name="footer" />
+        </footer>
       </article>
     );
   }

@@ -6,8 +6,5 @@
     "jsx": "react-jsx",
     "noEmit": false
   },
-  "include": [
-    "src/**/*.tsx",
-    "src/**/*.ts"
-  ]
+  "include": ["src/**/*.tsx", "src/**/*.ts"]
 }

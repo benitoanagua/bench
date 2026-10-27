@@ -8,10 +8,16 @@ export class BchEmptyState {
   render() {
     return (
       <section class="bch-empty-state">
-        <div class="bch-empty-state__icon"><slot name="icon"><bch-icon name="inbox" aria-label=""></bch-icon></slot></div>
+        <div class="bch-empty-state__icon">
+          <slot name="icon">
+            <bch-icon name="inbox" aria-label=""></bch-icon>
+          </slot>
+        </div>
         <h3>{this.heading}</h3>
         {this.description ? <p>{this.description}</p> : null}
-        <div class="bch-empty-state__actions"><slot name="actions" /></div>
+        <div class="bch-empty-state__actions">
+          <slot name="actions" />
+        </div>
       </section>
     );
   }

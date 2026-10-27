@@ -10,15 +10,21 @@ const meta = {
 export default meta;
 
 export const Vertical = {
-  render: () => h('bch-nav', { orientation: 'vertical' },
-    h('bch-nav-item', { href: '#home', active: true }, 'Home'),
-    h('bch-nav-item', { href: '#settings' }, 'Settings'),
-    h('bch-nav-item', { href: '#billing', disabled: true }, 'Billing'),
-  ),
+  render: () =>
+    h(
+      'bch-nav',
+      { orientation: 'vertical' },
+      h('bch-nav-item', { href: '#home', active: true }, 'Home'),
+      h('bch-nav-item', { href: '#settings' }, 'Settings'),
+      h('bch-nav-item', { href: '#billing', disabled: true }, 'Billing'),
+    ),
 };
 export const Horizontal = {
-  render: () => h('bch-nav', { orientation: 'horizontal' },
-    h('bch-nav-item', { href: '#home', active: true }, 'Home'),
-    h('bch-nav-item', { href: '#settings' }, 'Settings'),
-  ),
+  render: () =>
+    h(
+      'bch-nav',
+      { orientation: 'horizontal' },
+      h('bch-nav-item', { href: '#home', active: true }, 'Home'),
+      h('bch-nav-item', { href: '#settings' }, 'Settings'),
+    ),
 };

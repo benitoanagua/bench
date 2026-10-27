@@ -10,16 +10,22 @@ const meta = {
 export default meta;
 
 export const Default = {
-  render: () => h('bch-segmented-control', { label: 'View', value: 'list' },
-    h('bch-segmented-item', { value: 'list', selected: true }, 'List'),
-    h('bch-segmented-item', { value: 'grid' }, 'Grid'),
-    h('bch-segmented-item', { value: 'map' }, 'Map'),
-  ),
+  render: () =>
+    h(
+      'bch-segmented-control',
+      { label: 'View', value: 'list' },
+      h('bch-segmented-item', { value: 'list', selected: true }, 'List'),
+      h('bch-segmented-item', { value: 'grid' }, 'Grid'),
+      h('bch-segmented-item', { value: 'map' }, 'Map'),
+    ),
 };
 export const WithDisabledOption = {
-  render: () => h('bch-segmented-control', { label: 'View', value: 'list' },
-    h('bch-segmented-item', { value: 'list', selected: true }, 'List'),
-    h('bch-segmented-item', { value: 'grid' }, 'Grid'),
-    h('bch-segmented-item', { value: 'map', disabled: true }, 'Map'),
-  ),
+  render: () =>
+    h(
+      'bch-segmented-control',
+      { label: 'View', value: 'list' },
+      h('bch-segmented-item', { value: 'list', selected: true }, 'List'),
+      h('bch-segmented-item', { value: 'grid' }, 'Grid'),
+      h('bch-segmented-item', { value: 'map', disabled: true }, 'Map'),
+    ),
 };

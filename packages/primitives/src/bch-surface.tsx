@@ -4,6 +4,10 @@ import { Component, Prop, h } from '@stencil/core';
 export class BchSurface {
   @Prop() elevated = false;
   render() {
-    return <div class={{ surface: true, elevated: this.elevated }}><slot /></div>;
+    return (
+      <div class={{ surface: true, elevated: this.elevated }}>
+        <slot />
+      </div>
+    );
   }
 }

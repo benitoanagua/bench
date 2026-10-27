@@ -1,4 +1,6 @@
-:host { display: block; }
+:host {
+  display: block;
+}
 .bch-stack {
   display: flex;
   flex-direction: var(--bch-stack-direction, column);

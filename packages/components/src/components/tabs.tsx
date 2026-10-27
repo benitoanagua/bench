@@ -21,7 +21,9 @@ export class BchTabs {
     this.syncChildren();
   };
   private syncChildren = () => {
-    this.items.forEach((tab) => tab.setAttribute('active', String(tab.getAttribute('value') === this.value)));
+    this.items.forEach((tab) =>
+      tab.setAttribute('active', String(tab.getAttribute('value') === this.value)),
+    );
     Array.from(this.host.querySelectorAll(':scope > bch-tab-panel')).forEach((panel) => {
       const el = panel as HTMLElement;
       el.hidden = el.getAttribute('value') !== this.value;
@@ -36,7 +38,13 @@ export class BchTabs {
   };
 
   render() {
-    return <div class="tabs"><div class="tab-list" role="tablist" aria-label="Tabs" ref={(el) => this.tabList = el}><slot onSlotchange={this.refresh} /></div><slot name="panel" /></div>;
+    return (
+      <div class="tabs">
+        <div class="tab-list" role="tablist" aria-label="Tabs" ref={(el) => (this.tabList = el)}>
+          <slot onSlotchange={this.refresh} />
+        </div>
+        <slot name="panel" />
+      </div>
+    );
   }
 }
-

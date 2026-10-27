@@ -20,12 +20,18 @@ export class BchInput {
   private input?: HTMLInputElement;
 
   @Method()
-  async focusControl() { this.input?.focus(); }
+  async focusControl() {
+    this.input?.focus();
+  }
 
   @Method()
-  async select() { this.input?.select(); }
+  async select() {
+    this.input?.select();
+  }
 
-  private id() { return this.host.id || `bch-input-${this.name || 'field'}`; }
+  private id() {
+    return this.host.id || `bch-input-${this.name || 'field'}`;
+  }
   private onInput = (event: Event) => {
     this.value = (event.target as HTMLInputElement).value;
     this.bchInput.emit(this.value);
@@ -34,12 +40,45 @@ export class BchInput {
 
   render() {
     const id = this.id();
-    const describedBy = [this.hint ? `${id}-hint` : '', this.error ? `${id}-error` : ''].filter(Boolean).join(' ') || undefined;
-    return <div class="field">
-      {this.label ? <label class="label" htmlFor={id}>{this.label}{this.required ? ' *' : ''}</label> : null}
-      <input ref={(el) => this.input = el as HTMLInputElement} id={id} name={this.name || undefined} type={this.type} value={this.value} placeholder={this.placeholder} required={this.required} disabled={this.disabled} readOnly={this.readonly} autoComplete={this.autocomplete} inputMode={this.inputmode} aria-invalid={this.error ? 'true' : undefined} aria-describedby={describedBy} onInput={this.onInput} onChange={this.onChange} />
-      {this.hint ? <span id={`${id}-hint`} class="message">{this.hint}</span> : null}
-      {this.error ? <span id={`${id}-error`} class="message error" role="alert">{this.error}</span> : null}
-    </div>;
+    const describedBy =
+      [this.hint ? `${id}-hint` : '', this.error ? `${id}-error` : ''].filter(Boolean).join(' ') ||
+      undefined;
+    return (
+      <div class="field">
+        {this.label ? (
+          <label class="label" htmlFor={id}>
+            {this.label}
+            {this.required ? ' *' : ''}
+          </label>
+        ) : null}
+        <input
+          ref={(el) => (this.input = el as HTMLInputElement)}
+          id={id}
+          name={this.name || undefined}
+          type={this.type}
+          value={this.value}
+          placeholder={this.placeholder}
+          required={this.required}
+          disabled={this.disabled}
+          readOnly={this.readonly}
+          autoComplete={this.autocomplete}
+          inputMode={this.inputmode}
+          aria-invalid={this.error ? 'true' : undefined}
+          aria-describedby={describedBy}
+          onInput={this.onInput}
+          onChange={this.onChange}
+        />
+        {this.hint ? (
+          <span id={`${id}-hint`} class="message">
+            {this.hint}
+          </span>
+        ) : null}
+        {this.error ? (
+          <span id={`${id}-error`} class="message error" role="alert">
+            {this.error}
+          </span>
+        ) : null}
+      </div>
+    );
   }
 }
