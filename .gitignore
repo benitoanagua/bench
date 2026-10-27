@@ -44,3 +44,4 @@ wp-config-local.php
 # Coverage
 coverage/
 .nyc_output/
+.turbo/
