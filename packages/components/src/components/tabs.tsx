@@ -1,4 +1,5 @@
 import { Component, Element, Event, type EventEmitter, Prop, State, h } from '@stencil/core';
+import { getDirectChildrenForBench } from '../util/direct-children';
 
 @Component({ tag: 'bch-tabs', styleUrl: 'tabs.css', shadow: false, scoped: true })
 export class BchTabs {
@@ -16,7 +17,7 @@ export class BchTabs {
     this.tabList?.removeEventListener('bchPress', this.onTabPress as EventListener);
   }
   private refresh = () => {
-    this.items = Array.from(this.host.querySelectorAll(':scope > bch-tab')) as HTMLElement[];
+    this.items = Array.from(getDirectChildrenForBench(this.host, 'bch-tab')) as HTMLElement[];
     if (!this.value && this.items[0]) this.value = this.items[0].getAttribute('value') || '';
     this.syncChildren();
   };
@@ -24,7 +25,7 @@ export class BchTabs {
     this.items.forEach((tab) =>
       tab.setAttribute('active', String(tab.getAttribute('value') === this.value)),
     );
-    Array.from(this.host.querySelectorAll(':scope > bch-tab-panel')).forEach((panel) => {
+    Array.from(getDirectChildrenForBench(this.host, 'bch-tab-panel')).forEach((panel) => {
       const el = panel as HTMLElement;
       el.hidden = el.getAttribute('value') !== this.value;
     });

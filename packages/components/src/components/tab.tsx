@@ -1,4 +1,5 @@
 import { Component, Element, Event, type EventEmitter, Prop, h } from '@stencil/core';
+import { getDirectChildrenForBench } from '../util/direct-children';
 
 @Component({ tag: 'bch-tab', styleUrl: 'tabs.css', shadow: false, scoped: true })
 export class BchTab {
@@ -12,7 +13,7 @@ export class BchTab {
   private handleKeyDown = (event: KeyboardEvent) => {
     if (this.disabled || !['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
     const tabs = Array.from(
-      this.host.parentElement?.querySelectorAll(':scope > bch-tab') || [],
+      this.host.parentElement ? getDirectChildrenForBench(this.host.parentElement, 'bch-tab') : [],
     ) as HTMLElement[];
     const enabled = tabs.filter((tab) => !tab.hasAttribute('disabled'));
     const current = enabled.indexOf(this.host);

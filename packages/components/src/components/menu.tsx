@@ -8,6 +8,7 @@ import {
   State,
   h,
 } from '@stencil/core';
+import { getDirectChildrenForBench } from '../util/direct-children';
 
 /**
  * A trigger + popover menu. The first slotted element (typically an
@@ -59,7 +60,7 @@ export class BchMenu {
   }
 
   private refreshItems = () => {
-    this.items = Array.from(this.host.querySelectorAll(':scope > bch-menu-item')) as HTMLElement[];
+    this.items = Array.from(getDirectChildrenForBench(this.host, 'bch-menu-item')) as HTMLElement[];
   };
 
   private setOpen(next: boolean) {

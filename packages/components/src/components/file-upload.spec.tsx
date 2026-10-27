@@ -38,7 +38,11 @@ describe('bch-file-upload', () => {
     ]);
     await page.waitForChanges();
     expect(spy).toHaveBeenCalled();
-    expect(page.root?.textContent).not.toContain('photo.png');
+    // The accepted-files *list* must not include the rejected file. (The error
+    // message legitimately names it, with the rejection reason.) When the
+    // rejects were the only files offered, the list is not rendered at all.
+    const list = page.root?.querySelector('.bch-file-upload__list');
+    expect(list?.textContent?.includes('photo.png') ?? false).toBe(false);
   });
 
   it('rejects a file over maxSizeBytes', async () => {

@@ -1,4 +1,5 @@
 import { Component, Element, Prop, h } from '@stencil/core';
+import { getDirectChildrenForBench } from '../util/direct-children';
 
 /**
  * Wraps slotted `<bch-breadcrumb-item>` children, marking the last item as
@@ -29,7 +30,7 @@ export class BchBreadcrumbs {
   }
 
   private items() {
-    return Array.from(this.host.querySelectorAll(':scope > bch-breadcrumb-item')) as HTMLElement[];
+    return Array.from(getDirectChildrenForBench(this.host, 'bch-breadcrumb-item')) as HTMLElement[];
   }
 
   private refresh = () => {

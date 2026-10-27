@@ -28,8 +28,9 @@ describe('bch-date-picker', () => {
     ) as HTMLButtonElement[];
     const day5 = dayButtons.find((b) => b.textContent?.trim() === '5');
     const day25 = dayButtons.find((b) => b.textContent?.trim() === '25');
-    expect(day5?.disabled).toBe(true);
-    expect(day25?.disabled).toBe(true);
+    // mock-doc implements the disabled *attribute* but not the `.disabled` property.
+    expect(day5?.hasAttribute('disabled')).toBe(true);
+    expect(day25?.hasAttribute('disabled')).toBe(true);
     void button;
   });
 

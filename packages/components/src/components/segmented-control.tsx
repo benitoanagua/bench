@@ -1,4 +1,5 @@
 import { Component, Element, Event, type EventEmitter, Prop, h } from '@stencil/core';
+import { getDirectChildrenForBench } from '../util/direct-children';
 
 /**
  *   <bch-segmented-control value="week" label="Range">
@@ -30,7 +31,7 @@ export class BchSegmentedControl {
 
   private refresh = () => {
     const items = Array.from(
-      this.host.querySelectorAll(':scope > bch-segmented-item'),
+      getDirectChildrenForBench(this.host, 'bch-segmented-item'),
     ) as HTMLElement[];
     if (!this.value && items[0]) this.value = items[0].getAttribute('value') || '';
     this.syncChildren(items);
@@ -45,7 +46,7 @@ export class BchSegmentedControl {
   private onItemSelect = (event: CustomEvent<string>) => {
     this.value = event.detail;
     this.syncChildren(
-      Array.from(this.host.querySelectorAll(':scope > bch-segmented-item')) as HTMLElement[],
+      Array.from(getDirectChildrenForBench(this.host, 'bch-segmented-item')) as HTMLElement[],
     );
     this.bchChange.emit(this.value);
   };

@@ -1,0 +1,8 @@
+# Build outputs and caches
+.turbo/
+dist/
+www/
+coverage/
+
+# Stencil auto-generated type bundles (regenerated on every build)
+packages/*/src/components.d.ts

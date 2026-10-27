@@ -1,4 +1,5 @@
 import { Component, Element, Event, type EventEmitter, Prop, h } from '@stencil/core';
+import { getDirectChildrenForBench } from '../util/direct-children';
 
 @Component({ tag: 'bch-accordion', styleUrl: 'accordion.css', shadow: false, scoped: true })
 export class BchAccordion {
@@ -11,11 +12,11 @@ export class BchAccordion {
     this.refresh();
   }
   private refresh = () =>
-    Array.from(this.host.querySelectorAll(':scope > bch-accordion-item')).forEach((item) =>
+    Array.from(getDirectChildrenForBench(this.host, 'bch-accordion-item')).forEach((item) =>
       item.addEventListener('bchToggle', this.onToggle as EventListener),
     );
   disconnectedCallback() {
-    Array.from(this.host.querySelectorAll(':scope > bch-accordion-item')).forEach((item) =>
+    Array.from(getDirectChildrenForBench(this.host, 'bch-accordion-item')).forEach((item) =>
       item.removeEventListener('bchToggle', this.onToggle as EventListener),
     );
   }
@@ -29,7 +30,7 @@ export class BchAccordion {
     this.sync();
   };
   private sync = () =>
-    Array.from(this.host.querySelectorAll(':scope > bch-accordion-item')).forEach((item) =>
+    Array.from(getDirectChildrenForBench(this.host, 'bch-accordion-item')).forEach((item) =>
       item.setAttribute('open', String(this.openItems.includes(item.getAttribute('value') || ''))),
     );
   render() {
