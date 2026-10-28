@@ -45,7 +45,11 @@ export const Slotted = {
         'bch-tree-item',
         { value: 'customers', label: 'Customers', expanded: true },
         h('bch-tree-item', { slot: 'children', value: 'new-customer', label: 'New customer' }),
-        h('bch-tree-item', { slot: 'children', value: 'search-customers', label: 'Search customers' }),
+        h('bch-tree-item', {
+          slot: 'children',
+          value: 'search-customers',
+          label: 'Search customers',
+        }),
       ),
       h('bch-tree-item', { value: 'suppliers', label: 'Suppliers' }),
     ),

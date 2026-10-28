@@ -1,34 +1,34 @@
 # BENCH Component Matrix
 
-| Component                                      | Native semantics       | Keyboard                            | Focus               | Loading | Error                    | Visual | A11y |
-| ---------------------------------------------- | ---------------------- | ----------------------------------- | ------------------- | ------- | ------------------------ | ------ | ---- |
-| `bch-icon`                                     | SVG                    | n/a                                 | n/a                 | n/a     | n/a                      | ✓      | ✓    |
-| `bch-button`                                   | button                 | ✓                                   | ✓                   | ✓       | n/a                      | ✓      | ✓    |
-| `bch-icon-button`                              | button                 | ✓                                   | ✓                   | ✓       | n/a                      | ✓      | ✓    |
-| `bch-input`                                    | input                  | ✓                                   | ✓                   | n/a     | ✓                        | ✓      | ✓    |
-| `bch-textarea`                                 | textarea               | ✓                                   | ✓                   | n/a     | ✓                        | ✓      | ✓    |
-| `bch-checkbox`                                 | checkbox               | ✓                                   | ✓                   | n/a     | n/a                      | ✓      | ✓    |
-| `bch-radio`                                    | radio                  | ✓                                   | ✓                   | n/a     | n/a                      | ✓      | ✓    |
-| `bch-switch`                                   | switch                 | ✓                                   | ✓                   | n/a     | n/a                      | ✓      | ✓    |
-| `bch-select`                                   | select                 | ✓                                   | ✓                   | n/a     | ✓                        | ✓      | ✓    |
-| `bch-card`                                     | article/button pattern | ✓                                   | ✓                   | n/a     | n/a                      | ✓      | ✓    |
-| `bch-badge`                                    | status text            | n/a                                 | n/a                 | n/a     | n/a                      | ✓      | ✓    |
-| `bch-spinner`                                  | status                 | n/a                                 | n/a                 | ✓       | n/a                      | ✓      | ✓    |
-| `bch-progress`                                 | progressbar            | n/a                                 | n/a                 | ✓       | n/a                      | ✓      | ✓    |
-| `bch-skeleton`                                 | status                 | n/a                                 | n/a                 | ✓       | n/a                      | ✓      | ✓    |
-| `bch-toast-region`                             | status/alert queue     | n/a                                 | ✓ (returns focus)   | n/a     | n/a                      | ✓      | ✓    |
-| `bch-menu` / `bch-menu-item`                   | menu/menuitem          | ✓ (arrow/Home/End/Esc)              | ✓                   | n/a     | n/a                      | ✓      | ✓    |
-| `bch-pagination`                               | nav                    | ✓                                   | ✓                   | n/a     | n/a                      | ✓      | ✓    |
-| `bch-breadcrumbs` / `bch-breadcrumb-item`      | nav/ol                 | n/a                                 | ✓                   | n/a     | n/a                      | ✓      | ✓    |
-| `bch-avatar`                                   | img/text fallback      | n/a                                 | n/a                 | n/a     | ✓ (image error)          | ✓      | ✓    |
-| `bch-segmented-control` / `bch-segmented-item` | radiogroup/radio       | ✓                                   | ✓                   | n/a     | n/a                      | ✓      | ✓    |
-| `bch-slider`                                   | range input            | ✓ (native)                          | ✓                   | n/a     | n/a                      | ✓      | ✓    |
-| `bch-combobox` / `bch-combobox-option`         | combobox/listbox       | ✓ (arrows/Home/End/Enter/Esc)       | ✓                   | n/a     | ✓                        | ✓      | ✓    |
-| `bch-date-picker`                              | dialog/grid            | ✓ (arrows/PageUp/PageDown/Home/End) | ✓ (roving tabindex) | n/a     | ✓                        | ✓      | ✓    |
-| `bch-time-picker`                              | time input (native)    | ✓ (native)                          | ✓                   | n/a     | ✓                        | ✓      | ✓    |
-| `bch-file-upload`                              | button + file input    | ✓ (Enter/Space + native dialog)     | ✓                   | n/a     | ✓ (type/size validation) | ✓      | ✓    |
-| `bch-tree` / `bch-tree-item`                   | tree/treeitem/group    | ✓ (arrows roving/Left/Right/Enter)  | ✓ (roving tabindex) | n/a     | n/a                      | ✓      | ✓    |
-| `bch-splitter`                                 | separator              | ✓ (arrows ±16px)                    | ✓                   | n/a     | n/a                      | ✓      | ✓    |
-| `bch-status-bar`                               | status strip           | n/a (content slots)                 | n/a                 | n/a     | n/a                      | ✓      | ✓    |
-| `bch-mode-badge`                               | status text            | n/a                                 | n/a                 | n/a     | n/a                      | ✓      | ✓ (aria-live) |
-| `bch-omnibar`                                  | combobox/listbox       | ✓ (arrows/Enter/Esc, all in-input)  | ✓ (input focus)     | ✓ (index empty state) | ✓ (parser explicit error) | ✓ | ✓ |
+| Component                                      | Native semantics       | Keyboard                            | Focus               | Loading               | Error                     | Visual | A11y          |
+| ---------------------------------------------- | ---------------------- | ----------------------------------- | ------------------- | --------------------- | ------------------------- | ------ | ------------- |
+| `bch-icon`                                     | SVG                    | n/a                                 | n/a                 | n/a                   | n/a                       | ✓      | ✓             |
+| `bch-button`                                   | button                 | ✓                                   | ✓                   | ✓                     | n/a                       | ✓      | ✓             |
+| `bch-icon-button`                              | button                 | ✓                                   | ✓                   | ✓                     | n/a                       | ✓      | ✓             |
+| `bch-input`                                    | input                  | ✓                                   | ✓                   | n/a                   | ✓                         | ✓      | ✓             |
+| `bch-textarea`                                 | textarea               | ✓                                   | ✓                   | n/a                   | ✓                         | ✓      | ✓             |
+| `bch-checkbox`                                 | checkbox               | ✓                                   | ✓                   | n/a                   | n/a                       | ✓      | ✓             |
+| `bch-radio`                                    | radio                  | ✓                                   | ✓                   | n/a                   | n/a                       | ✓      | ✓             |
+| `bch-switch`                                   | switch                 | ✓                                   | ✓                   | n/a                   | n/a                       | ✓      | ✓             |
+| `bch-select`                                   | select                 | ✓                                   | ✓                   | n/a                   | ✓                         | ✓      | ✓             |
+| `bch-card`                                     | article/button pattern | ✓                                   | ✓                   | n/a                   | n/a                       | ✓      | ✓             |
+| `bch-badge`                                    | status text            | n/a                                 | n/a                 | n/a                   | n/a                       | ✓      | ✓             |
+| `bch-spinner`                                  | status                 | n/a                                 | n/a                 | ✓                     | n/a                       | ✓      | ✓             |
+| `bch-progress`                                 | progressbar            | n/a                                 | n/a                 | ✓                     | n/a                       | ✓      | ✓             |
+| `bch-skeleton`                                 | status                 | n/a                                 | n/a                 | ✓                     | n/a                       | ✓      | ✓             |
+| `bch-toast-region`                             | status/alert queue     | n/a                                 | ✓ (returns focus)   | n/a                   | n/a                       | ✓      | ✓             |
+| `bch-menu` / `bch-menu-item`                   | menu/menuitem          | ✓ (arrow/Home/End/Esc)              | ✓                   | n/a                   | n/a                       | ✓      | ✓             |
+| `bch-pagination`                               | nav                    | ✓                                   | ✓                   | n/a                   | n/a                       | ✓      | ✓             |
+| `bch-breadcrumbs` / `bch-breadcrumb-item`      | nav/ol                 | n/a                                 | ✓                   | n/a                   | n/a                       | ✓      | ✓             |
+| `bch-avatar`                                   | img/text fallback      | n/a                                 | n/a                 | n/a                   | ✓ (image error)           | ✓      | ✓             |
+| `bch-segmented-control` / `bch-segmented-item` | radiogroup/radio       | ✓                                   | ✓                   | n/a                   | n/a                       | ✓      | ✓             |
+| `bch-slider`                                   | range input            | ✓ (native)                          | ✓                   | n/a                   | n/a                       | ✓      | ✓             |
+| `bch-combobox` / `bch-combobox-option`         | combobox/listbox       | ✓ (arrows/Home/End/Enter/Esc)       | ✓                   | n/a                   | ✓                         | ✓      | ✓             |
+| `bch-date-picker`                              | dialog/grid            | ✓ (arrows/PageUp/PageDown/Home/End) | ✓ (roving tabindex) | n/a                   | ✓                         | ✓      | ✓             |
+| `bch-time-picker`                              | time input (native)    | ✓ (native)                          | ✓                   | n/a                   | ✓                         | ✓      | ✓             |
+| `bch-file-upload`                              | button + file input    | ✓ (Enter/Space + native dialog)     | ✓                   | n/a                   | ✓ (type/size validation)  | ✓      | ✓             |
+| `bch-tree` / `bch-tree-item`                   | tree/treeitem/group    | ✓ (arrows roving/Left/Right/Enter)  | ✓ (roving tabindex) | n/a                   | n/a                       | ✓      | ✓             |
+| `bch-splitter`                                 | separator              | ✓ (arrows ±16px)                    | ✓                   | n/a                   | n/a                       | ✓      | ✓             |
+| `bch-status-bar`                               | status strip           | n/a (content slots)                 | n/a                 | n/a                   | n/a                       | ✓      | ✓             |
+| `bch-mode-badge`                               | status text            | n/a                                 | n/a                 | n/a                   | n/a                       | ✓      | ✓ (aria-live) |
+| `bch-omnibar`                                  | combobox/listbox       | ✓ (arrows/Enter/Esc, all in-input)  | ✓ (input focus)     | ✓ (index empty state) | ✓ (parser explicit error) | ✓      | ✓             |

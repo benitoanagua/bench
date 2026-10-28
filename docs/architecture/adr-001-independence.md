@@ -1,14 +1,13 @@
 # ADR-001: BENCH Independence
 
+Estado: aceptado
+
 ## Decision
 
-BENCH is an independently designed design system. STRATA is allowed only as a reference for repository organization.
+Bench es un sistema de diseño independiente; sus contratos, tokens y reglas visuales se definen en este repositorio.
 
 ## Consequences
 
-- No STRATA code is required at runtime.
-- No STRATA component behavior is a contract.
-- No STRATA tokens are authoritative.
-- BENCH owns all public APIs.
+- Bench owns all public APIs.
 - Stencil is the component runtime.
 - The system remains framework-agnostic through Web Components.

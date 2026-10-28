@@ -1,6 +1,6 @@
 # Bench Visual System
 
-Bench is designed independently from STRATA. Full rationale lives in
+Full rationale lives in
 [`bench-design-system.md`](../bench-design-system.md); this page is the
 implementation-facing summary for this component library.
 

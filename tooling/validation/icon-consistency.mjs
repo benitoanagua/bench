@@ -23,8 +23,10 @@ const namesInTs = [...new Set(quoted)].sort();
 const errors = [];
 const onlyInData = dataNames.filter((n) => !namesInTs.includes(n));
 const onlyInTs = namesInTs.filter((n) => !dataNames.includes(n));
-if (onlyInData.length) errors.push(`icons in data JSON but not in icon-names.ts: ${onlyInData.join(', ')}`);
-if (onlyInTs.length) errors.push(`names in icon-names.ts but not in data JSON: ${onlyInTs.join(', ')}`);
+if (onlyInData.length)
+  errors.push(`icons in data JSON but not in icon-names.ts: ${onlyInData.join(', ')}`);
+if (onlyInTs.length)
+  errors.push(`names in icon-names.ts but not in data JSON: ${onlyInTs.join(', ')}`);
 for (const name of dataNames) {
   if (!Array.isArray(data[name]) || data[name].length === 0) {
     errors.push(`icon "${name}" has empty/invalid node data`);
@@ -37,4 +39,6 @@ if (errors.length) {
   );
   process.exit(1);
 }
-console.log(`✓ icon data consistent: ${dataNames.length} icons in both icon-names.ts and carbon-outline.json`);
+console.log(
+  `✓ icon data consistent: ${dataNames.length} icons in both icon-names.ts and carbon-outline.json`,
+);

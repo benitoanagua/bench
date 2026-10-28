@@ -44,7 +44,8 @@ export const QueryFilterSyntax = {
   // Spec §4.1 live interpretation: type e.g. "cliente:acme" and the hint line
   // under the input shows the parse; an unknown field like "omoneda:USD"
   // produces the explicit "no existe el campo …" message.
-  render: () => h('bch-omnibar', { entries, placeholder: 'Try: nota · cliente:acme · omoneda:USD' }),
+  render: () =>
+    h('bch-omnibar', { entries, placeholder: 'Try: nota · cliente:acme · omoneda:USD' }),
 };
 
 export const EmptyIndex = {

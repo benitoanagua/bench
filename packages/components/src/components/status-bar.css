@@ -4,7 +4,9 @@
   gap: var(--bch-space-4);
   min-height: var(--bch-density-row-height);
   padding: var(--bch-density-cell-py) var(--bch-density-cell-px);
-  padding-inline-start: calc(var(--bch-density-cell-px) * 3); /* bottom-left stays free — browser link-preview zone */
+  padding-inline-start: calc(
+    var(--bch-density-cell-px) * 3
+  ); /* bottom-left stays free — browser link-preview zone */
   border-block-start: var(--bch-border-width-control) solid var(--bch-color-border-container);
   background: var(--bch-color-surface);
   color: var(--bch-color-text-disabled);

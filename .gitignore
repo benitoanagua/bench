@@ -9,6 +9,7 @@ loader/
 .stencil/
 storybook-static/
 *.tsbuildinfo
+packages/*/src/components.d.ts
 
 # Caches
 .turbo/

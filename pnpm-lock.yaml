@@ -54,12 +54,6 @@ importers:
       '@bench/components':
         specifier: workspace:*
         version: link:../../packages/components
-      '@bench/primitives':
-        specifier: workspace:*
-        version: link:../../packages/primitives
-      '@bench/tokens':
-        specifier: workspace:*
-        version: link:../../packages/tokens
     devDependencies:
       '@stencil/core':
         specifier: ^4.44.2
@@ -86,15 +80,9 @@ importers:
 
   packages/components:
     dependencies:
-      '@bench/foundation':
-        specifier: workspace:*
-        version: link:../foundation
       '@bench/icons':
         specifier: workspace:*
         version: link:../icons
-      '@bench/tokens':
-        specifier: workspace:*
-        version: link:../tokens
     devDependencies:
       '@stencil/core':
         specifier: ^4.38.0
@@ -123,25 +111,6 @@ importers:
       typescript:
         specifier: ^5.7.0
         version: 5.9.3
-
-  packages/primitives:
-    dependencies:
-      '@bench/tokens':
-        specifier: workspace:*
-        version: link:../tokens
-    devDependencies:
-      '@stencil/core':
-        specifier: ^4.38.0
-        version: 4.45.2
-      '@types/jest':
-        specifier: ^29.5.14
-        version: 29.5.14
-      jest:
-        specifier: ^29.7.0
-        version: 29.7.0(@types/node@22.20.5)
-      jest-cli:
-        specifier: ^29.7.0
-        version: 29.7.0(@types/node@22.20.5)
 
   packages/react:
     dependencies:
