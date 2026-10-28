@@ -28,16 +28,13 @@ import { fileURLToPath } from 'node:url';
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const iconsOutDir = join(root, 'packages', 'icons', 'src');
 
-
 /**
  * Resolve @carbon/icons: devDependency of @bench/icons, so it usually links
  * at packages/icons/node_modules; fall back to the pnpm store like the
  * typography generator does.
  */
 function resolveIconsPkg() {
-  const candidates = [
-    join(root, 'packages', 'icons', 'node_modules', '@carbon', 'icons'),
-  ];
+  const candidates = [join(root, 'packages', 'icons', 'node_modules', '@carbon', 'icons')];
   const storeNames = join(root, 'node_modules', '.pnpm');
   if (existsSync(storeNames)) {
     for (const d of readdirSync(storeNames)) {
@@ -186,7 +183,9 @@ ${Object.keys(out)
 `,
   );
 
-  console.log(`✓ carbon-outline.json + icon-names.ts regenerated: ${Object.keys(out).length} icons`);
+  console.log(
+    `✓ carbon-outline.json + icon-names.ts regenerated: ${Object.keys(out).length} icons`,
+  );
 }
 
 main();

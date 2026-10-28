@@ -29,5 +29,11 @@ export const CustomLabel = {
 };
 
 export const NormalMode = {
-  render: () => h('div', {}, h('bch-mode-badge', { mode: 'normal' }), 'Nothing above: normal mode renders no badge.'),
+  render: () =>
+    h(
+      'div',
+      {},
+      h('bch-mode-badge', { mode: 'normal' }),
+      'Nothing above: normal mode renders no badge.',
+    ),
 };

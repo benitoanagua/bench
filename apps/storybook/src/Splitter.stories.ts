@@ -2,7 +2,6 @@ import type { Meta } from '@stencil/storybook-plugin';
 import { h } from '@stencil/core';
 import { BchSplitter, BCH_MIN_PANE_WIDTH, BCH_MIN_PANE_HEIGHT } from '@bench/components';
 
-
 const meta = {
   title: 'BENCH/Components/Layout/Splitter',
   component: BchSplitter,
@@ -25,7 +24,11 @@ export const Horizontal = {
       },
       h('div', { style: { flexBasis: '60%', background: 'var(--bch-color-surface)' } }, 'Panel A'),
       h('bch-splitter', { orientation: 'horizontal' }),
-      h('div', { style: { flexBasis: '40%', background: 'var(--bch-color-surface-raised)' } }, 'Panel B'),
+      h(
+        'div',
+        { style: { flexBasis: '40%', background: 'var(--bch-color-surface-raised)' } },
+        'Panel B',
+      ),
     ),
 };
 
@@ -44,7 +47,11 @@ export const Vertical = {
       },
       h('div', { style: { flexBasis: '50%', background: 'var(--bch-color-surface)' } }, 'Row A'),
       h('bch-splitter', { orientation: 'vertical' }),
-      h('div', { style: { flexBasis: '50%', background: 'var(--bch-color-surface-raised)' } }, 'Row B'),
+      h(
+        'div',
+        { style: { flexBasis: '50%', background: 'var(--bch-color-surface-raised)' } },
+        'Row B',
+      ),
     ),
 };
 
