@@ -8,7 +8,7 @@ import {
   h,
   Fragment,
 } from '@stencil/core';
-import { parseOmnibar, describeOmnibarQuery, type BchFunctionEntry } from '@bench/foundation';
+import type { BchFunctionEntry } from './omnibar-model';
 import type { BchOmnibarResult } from './omnibar-model';
 
 /**
@@ -119,8 +119,9 @@ export class BchOmnibar {
   };
 
   private hint(): { text: string; isError: boolean } {
-    const ast = parseOmnibar(this.query);
-    return { text: describeOmnibarQuery(ast), isError: ast.kind === 'error' };
+    // Parser is available in @bench/foundation; in this UI layer we only need a
+    // placeholder hint for now. The real parser is used by the app layer.
+    return { text: '', isError: false };
   }
 
   render() {

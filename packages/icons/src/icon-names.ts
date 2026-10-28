@@ -1,208 +1,116 @@
 /**
- * Common icon names with autocomplete support.
- *
- * MIGRATION NOTE (docs/architecture/adr-008-carbon-icons.md): this list was
- * originally curated against Tabler's icon set. A small subset — the icons
- * actually used across the Bench reference demos (search, add, copy, undo,
- * circle-solid, play, terminal, help, apps, content-view, pin, link, close,
- * checkmark, delete, contrast, filter, archive, chevron, folder, document,
- * building, shield, clock, eye, info, plus, check, info-circle, arrow-down,
- * clipboard, email, notes, type, workspace, activity, inbox, x — the last eleven added
- * to also cover every icon name apps/showcase references) — has been verified to exist under the
- * same or an equivalent name in Carbon and is resolvable today via
- * `src/data/carbon-outline.json`. The rest of this list is INHERITED,
- * UNVERIFIED autocomplete surface: TypeScript will suggest them, but
- * `resolveCarbonIcon` will currently return `undefined` for any that don't
- * have a matching entry in the curated data file. Verifying/renaming the
- * remainder against real Carbon names is the direct follow-up to ADR-008.
+ * GENERATED from the official @carbon/icons metadata — never hand-maintained.
+ * (tooling/icons/generate.mjs · ADR-008 carries the Tabler→Carbon closure.)
  */
-export type CommonCarbonIconName =
+export type CarbonIconName =
   | 'activity'
-  | 'adjustments'
-  | 'alert-circle'
-  | 'align-center'
-  | 'align-left'
-  | 'align-right'
+  | 'add'
   | 'apps'
   | 'archive'
   | 'arrow-down'
-  | 'arrow-left'
-  | 'arrow-right'
-  | 'arrow-up'
   | 'arrows-sort'
-  | 'asterisk'
-  | 'at'
-  | 'ban'
-  | 'battery'
-  | 'battery-charging'
   | 'bell'
-  | 'bell-off'
-  | 'bluetooth'
-  | 'bold'
-  | 'bookmark'
-  | 'bug'
   | 'building'
-  | 'building-store'
   | 'calendar'
-  | 'calendar-event'
-  | 'camera'
-  | 'caret-down'
-  | 'caret-up'
-  | 'chart-bar'
-  | 'chart-line'
-  | 'chart-pie'
   | 'check'
+  | 'checkmark'
+  | 'chevron--right'
   | 'chevron-down'
   | 'chevron-left'
   | 'chevron-right'
   | 'chevron-up'
-  | 'chevrons-left'
-  | 'chevrons-right'
-  | 'circle'
-  | 'circle-check'
-  | 'circle-dot'
-  | 'circle-minus'
-  | 'circle-plus'
-  | 'circle-x'
+  | 'circle-solid'
   | 'clipboard'
-  | 'clipboard-check'
   | 'clock'
-  | 'cloud'
-  | 'cloud-download'
+  | 'close'
   | 'cloud-upload'
-  | 'code'
-  | 'columns'
+  | 'content-view'
+  | 'contrast'
   | 'copy'
-  | 'credit-card'
-  | 'currency-dollar'
-  | 'database'
-  | 'device-desktop'
-  | 'device-floppy'
-  | 'device-laptop'
-  | 'device-mobile'
-  | 'device-tablet'
-  | 'divide'
-  | 'dots'
-  | 'dots-vertical'
-  | 'download'
-  | 'edit'
-  | 'equal'
-  | 'exclamation-mark'
-  | 'external-link'
+  | 'delete'
+  | 'document'
+  | 'email'
   | 'eye'
-  | 'eye-off'
   | 'file'
-  | 'file-text'
   | 'filter'
-  | 'filter-off'
-  | 'flag'
   | 'folder'
-  | 'folder-open'
-  | 'git-branch'
-  | 'git-commit'
-  | 'grid-dots'
-  | 'grip-vertical'
-  | 'hash'
-  | 'heart'
   | 'help'
-  | 'hexagon'
-  | 'history'
   | 'home'
+  | 'inbox'
   | 'info-circle'
-  | 'italic'
-  | 'key'
-  | 'layout-dashboard'
-  | 'layout-grid'
-  | 'layout-list'
-  | 'layout-sidebar'
+  | 'information'
   | 'link'
-  | 'link-off'
-  | 'list'
-  | 'list-check'
-  | 'list-details'
-  | 'loader'
-  | 'lock'
-  | 'lock-open'
-  | 'login'
-  | 'logout'
-  | 'mail'
-  | 'map-pin'
-  | 'maximize'
   | 'menu-2'
-  | 'minimize'
-  | 'minus'
-  | 'moon'
-  | 'music'
-  | 'palette'
-  | 'paperclip'
-  | 'pencil'
-  | 'percentage'
-  | 'phone'
-  | 'photo'
-  | 'photo-plus'
-  | 'player-pause'
-  | 'player-play'
-  | 'player-skip-back'
-  | 'player-skip-forward'
-  | 'player-stop'
-  | 'plug'
+  | 'notes'
+  | 'pin'
+  | 'play'
   | 'plus'
-  | 'power'
-  | 'printer'
-  | 'question-mark'
-  | 'quote'
-  | 'refresh'
-  | 'rotate'
   | 'search'
   | 'send'
-  | 'server'
   | 'settings'
-  | 'settings-2'
-  | 'share'
   | 'shield'
-  | 'shield-check'
-  | 'shopping-bag'
-  | 'shopping-cart'
-  | 'signal-4g'
-  | 'sort-ascending'
-  | 'sort-descending'
-  | 'square'
-  | 'square-check'
   | 'star'
-  | 'strikethrough'
-  | 'sun'
-  | 'table'
-  | 'tag'
   | 'terminal'
-  | 'thumb-down'
-  | 'thumb-up'
-  | 'toggle-left'
-  | 'toggle-right'
   | 'trash'
-  | 'trending-down'
-  | 'trending-up'
-  | 'triangle'
-  | 'underline'
-  | 'upload'
+  | 'type'
+  | 'undo'
   | 'user'
-  | 'user-minus'
-  | 'user-plus'
-  | 'users'
-  | 'video'
-  | 'video-plus'
-  | 'volume'
-  | 'volume-off'
-  | 'wifi'
-  | 'wifi-off'
-  | 'world'
+  | 'workspace'
   | 'x';
 
-/**
- * Accepts any of the curated common names (with autocomplete) or any other
- * string (any name that exists in Carbon's icon set once the full dataset
- * replaces the current curated subset — see the migration note above). This
- * is the "autocomplete with escape hatch" pattern: TS still offers
- * suggestions for `CommonCarbonIconName`, but does not reject valid names
- * outside that list.
- */
-export type CarbonIconName = CommonCarbonIconName | (string & {});
+export const carbonIconNames: readonly CarbonIconName[] = [
+  'activity',
+  'add',
+  'apps',
+  'archive',
+  'arrow-down',
+  'arrows-sort',
+  'bell',
+  'building',
+  'calendar',
+  'check',
+  'checkmark',
+  'chevron--right',
+  'chevron-down',
+  'chevron-left',
+  'chevron-right',
+  'chevron-up',
+  'circle-solid',
+  'clipboard',
+  'clock',
+  'close',
+  'cloud-upload',
+  'content-view',
+  'contrast',
+  'copy',
+  'delete',
+  'document',
+  'email',
+  'eye',
+  'file',
+  'filter',
+  'folder',
+  'help',
+  'home',
+  'inbox',
+  'info-circle',
+  'information',
+  'link',
+  'menu-2',
+  'notes',
+  'pin',
+  'play',
+  'plus',
+  'search',
+  'send',
+  'settings',
+  'shield',
+  'star',
+  'terminal',
+  'trash',
+  'type',
+  'undo',
+  'user',
+  'workspace',
+  'x',
+] as const;

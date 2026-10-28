@@ -1,7 +1,7 @@
 import iconData from './data/carbon-outline.json';
 import type { CarbonIconName } from './icon-names';
 
-export type { CarbonIconName, CommonCarbonIconName } from './icon-names';
+export type { CarbonIconName } from './icon-names';
 
 /**
  * A single SVG child node: [tagName, attributes]. Unlike the Tabler-era format
@@ -18,25 +18,30 @@ export type CarbonNode = readonly [string, Record<string, string | number>];
  * at build time — see packages/icons/THIRD_PARTY_NOTICES.md for attribution
  * and packages/icons/package.json's build script for the generation step.
  *
- * Honesty note (see docs/architecture/adr-008-carbon-icons.md): as of this
- * migration, `src/data/carbon-outline.json` ships a curated subset (~25
- * icons — the set verified across the Bench reference demos and every icon
- * name actually used by `apps/showcase` in this repository)
- * rather than Carbon's full ~2,200-icon catalog. This is a DELIBERATE,
- * TEMPORARY, and DOCUMENTED gap, not a repeat of the mistake ADR-007 already
- * corrected once (a silent, undocumented hand-authored subset). Regenerating
- * this file from the real `@carbon/icons` package to reach full coverage is
- * tracked as the direct follow-up to this ADR — until then, `bch-icon` will
- * render nothing (no error) for any Carbon-valid name outside the curated
- * set, exactly like the pre-ADR-007 Tabler behavior this migration
- * temporarily reintroduces on purpose, with the cause documented instead of
- * hidden.
+ * Carbon icon data is GENERATED from the official `@carbon/icons` package
+ * (tooling/icons/generate.mjs, devDependency pinned via @bench/icons) —
+ * never hand-authored. Coverage is curated: every name referenced as
+ * `<bch-icon name="…">` in this repo plus Bench's public alias table
+ * (Bench-era names like `chevron-down` are re-keyed to their Carbon asset).
+ * ADR-008 closes the ADR-007-era gap by making this the single generation
+ * path enforced by tooling/validation/icon-consistency.mjs.
  */
 const icons = iconData as unknown as Record<string, readonly CarbonNode[]>;
 
 export function resolveCarbonIcon(name: string): readonly CarbonNode[] | undefined {
   const normalized = name.trim().toLowerCase();
-  return icons[normalized];
+  const resolved = icons[normalized];
+  if (!resolved && process.env.NODE_ENV !== 'production') {
+    // Dev-only affordance (§2.8: a missing glyph must not fail silently in
+    // production, but also must not spam end users): tell the developer the
+    // name is not in the generated set — run `pnpm icons:generate` after
+    // adding `<bch-icon name="…">` usage, or check the spelling/ADR-008.
+    console.warn(
+      `[bch-icon] "${name}" is not in the generated Carbon set (${carbonIconCount} icons). ` +
+        'If it is a new usage, run `pnpm icons:generate`; otherwise check docs/architecture/adr-008-carbon-icons.md.',
+    );
+  }
+  return resolved;
 }
 
 export function isCarbonIconName(name: string): name is CarbonIconName {

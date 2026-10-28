@@ -17,7 +17,7 @@
     "test:showcase": "pnpm --filter @bench/showcase test",
     "test:visual": "pnpm --filter @bench/testing test:visual",
     "test:visual:update": "pnpm --filter @bench/testing test:visual -- --update-snapshots",
-    "check": "pnpm check:icons && pnpm check:framework && pnpm check:api && pnpm check:dependencies && pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && pnpm build && pnpm build:storybook",
+    "check": "pnpm check:icons && pnpm check:icons-consistency && pnpm check:framework && pnpm check:api && pnpm check:dependencies && pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && pnpm build && pnpm build:storybook",
     "release": "changeset publish",
     "format:check": "prettier --check .",
     "format": "prettier --write .",
@@ -28,7 +28,9 @@
     "check:framework": "node tooling/validation/no-lit.mjs",
     "check:dependencies": "node tooling/validation/dependency-consistency.mjs",
     "check:api": "node tooling/validation/public-api.mjs",
-    "fonts:build": "node tooling/typography/build.mjs"
+    "fonts:build": "node tooling/typography/build.mjs",
+    "icons:generate": "node tooling/icons/generate.mjs",
+    "check:icons-consistency": "node tooling/validation/icon-consistency.mjs"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.0",
