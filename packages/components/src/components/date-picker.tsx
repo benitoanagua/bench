@@ -1,16 +1,11 @@
 import { Component, Element, Event, type EventEmitter, Prop, State, h } from '@stencil/core';
+import { parseISODate } from '../util/iso-date';
 
 function toISODate(d: Date): string {
   const y = d.getFullYear();
   const m = String(d.getMonth() + 1).padStart(2, '0');
   const day = String(d.getDate()).padStart(2, '0');
   return `${y}-${m}-${day}`;
-}
-function parseISODate(s: string): Date | null {
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(s)) return null;
-  const [y, m, d] = s.split('-').map(Number);
-  const date = new Date(y, m - 1, d);
-  return Number.isNaN(date.getTime()) ? null : date;
 }
 function isSameDay(a: Date, b: Date) {
   return (

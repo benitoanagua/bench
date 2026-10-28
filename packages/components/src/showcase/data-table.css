@@ -90,3 +90,65 @@
   width: 0.875rem;
   height: 0.875rem;
 }
+
+/* ——— Grid editable in-place (§4.2) ——— */
+.bch-data-table td[data-key] {
+  cursor: cell;
+}
+.bch-data-table td:focus-visible {
+  outline: 2px solid var(--bch-focus-color);
+  /* §3 — dentro de grids densos el offset va hacia adentro, nunca hacia afuera. */
+  outline-offset: -2px;
+  position: relative;
+}
+/* Celda provisional (Regla 8, §2.3) — el estilo de línea viene del token,
+   nunca es un dashed decorativo. */
+.bch-data-table td.is-editing {
+  border-style: var(--bch-line-provisional);
+  border-color: var(--bch-color-border-container);
+}
+.bch-data-table__input {
+  width: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  font: inherit;
+  color: inherit;
+  outline: none;
+}
+.bch-data-table td.is-invalid {
+  color: var(--bch-color-danger);
+}
+/* Confirmación de edición (§2.5): flash de 180ms hacia la banda action-soft y
+   vuelta. reduced-motion se respeta porque la duración/vuelta vienen del token
+   --bch-motion-normal (tokens.css lo lleva a 0ms bajo prefers-reduced-motion). */
+@keyframes bch-data-table-committed {
+  from {
+    background-color: var(--bch-color-action-soft);
+  }
+  to {
+    background-color: transparent;
+  }
+}
+.bch-data-table td.is-committed {
+  animation: bch-data-table-committed var(--bch-motion-normal) var(--bch-ease-out);
+}
+.bch-data-table__virtual-spacer td {
+  padding: 0;
+}
+
+/* ——— Fila de totales (Regla 8, §2.3): frontera de cierre → línea double ———
+   Grosor y estilo emparejados con los tokens --bch-line-total /
+   --bch-line-total-width (CSS `double` necesita >=3px para renderizar dos
+   trazos); uso autorizado solo aquí y en resúmenes de cierre. */
+.bch-data-table tr.is-total th,
+.bch-data-table tr.is-total td {
+  border-block-start-width: var(--bch-line-total-width);
+  border-block-start-style: var(--bch-line-total);
+  border-color: var(--bch-color-border-container);
+  font-weight: var(--bch-font-weight-semibold);
+}
+.bch-data-table tbody tr.is-total:hover {
+  background: transparent;
+}
