@@ -35,8 +35,8 @@
   font: inherit;
 }
 :where(button, input, textarea, select):focus-visible {
-  outline: none;
-  box-shadow: var(--bch-focus-ring);
+  outline: 2px solid var(--bch-focus-color);
+  outline-offset: 1px;
 }
 :where(bch-icon) {
   color: inherit;
@@ -51,4 +51,13 @@
    --bch-tracking-body ya lo aplican en su propio CSS. */
 .text-body {
   letter-spacing: var(--bch-tracking-body);
+}
+
+/* §3 — compatibilidad con forced-colors (Windows High Contrast): si el sistema
+   no pinta --bch-focus-color, reestablece un color de esquema visible. */
+@media (forced-colors: active) {
+  /* Keep High-contrast outline visible */
+  :where(button, input, textarea, select, bch-button, a, [tabindex]):focus-visible {
+    outline-color: Highlight;
+  }
 }

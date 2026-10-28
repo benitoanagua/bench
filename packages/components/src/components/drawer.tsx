@@ -65,12 +65,10 @@ export class BchDrawer {
             this.open = false;
           }}
         ></button>
-        <aside
-          class={`drawer is-${this.side}`}
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby={this.label ? titleId : undefined}
-        >
+        {/* Offcanvas (§4.7/§3): panel NO modal — nunca atrapa el foco ni vía
+            focus trap; el cierre sigue siendo Escape, clic en el scrim y botón.
+            La variante modal (trampa de foco real) es bch-dialog, no esta. */}
+        <aside class={`drawer is-${this.side}`} aria-labelledby={this.label ? titleId : undefined}>
           <header>
             {this.label ? <h2 id={titleId}>{this.label}</h2> : null}
             <button

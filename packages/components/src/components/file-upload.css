@@ -34,8 +34,8 @@
   border-color: var(--bch-color-action);
 }
 .bch-file-upload__dropzone:focus-visible {
-  outline: none;
-  box-shadow: var(--bch-focus-ring);
+  outline: 2px solid var(--bch-focus-color);
+  outline-offset: 1px;
 }
 .bch-file-upload__dropzone.is-drag-over {
   border-color: var(--bch-color-action);

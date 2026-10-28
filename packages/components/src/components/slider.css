@@ -32,7 +32,9 @@
   opacity: 0.5;
 }
 .bch-slider__input:focus-visible {
-  outline: none;
+  /* §3 — outline nativo; nunca `outline: none` sin sustituto igual o más visible. */
+  outline: 2px solid var(--bch-focus-color);
+  outline-offset: 1px;
 }
 
 /* Track: a linear-gradient split at the current value gives a filled/unfilled
@@ -76,9 +78,14 @@
   border: 2px solid var(--bch-color-surface-raised);
   box-shadow: var(--bch-shadow-sm);
 }
-.bch-slider__input:focus-visible::-webkit-slider-thumb {
-  box-shadow: var(--bch-focus-ring);
-}
-.bch-slider__input:focus-visible::-moz-range-thumb {
-  box-shadow: var(--bch-focus-ring);
+/* §3 — el thumb hereda el foco del propio input; el anillo nativo del input
+   (`outline` arriba) es el indicador, así que el thumb no duplica el estilo. */
+
+/* §3 — compatibilidad con forced-colors (Windows High Contrast): si el sistema
+   no pinta --bch-focus-color, reestablece un color de esquema visible. */
+@media (forced-colors: active) {
+  /* Keep High-contrast outline visible */
+  .bch-slider__input:focus-visible {
+    outline-color: Highlight;
+  }
 }

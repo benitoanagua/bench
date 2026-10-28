@@ -48,6 +48,6 @@
   color: var(--bch-color-action);
 }
 .bch-breadcrumbs__ellipsis:focus-visible {
-  outline: none;
-  box-shadow: var(--bch-focus-ring);
+  outline: 2px solid var(--bch-focus-color);
+  outline-offset: 1px;
 }

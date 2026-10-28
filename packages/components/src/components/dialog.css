@@ -68,6 +68,6 @@
   background: var(--bch-color-neutral-100);
 }
 .close:focus-visible {
-  outline: none;
-  box-shadow: var(--bch-focus-ring);
+  outline: 2px solid var(--bch-focus-color);
+  outline-offset: 1px;
 }

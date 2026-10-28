@@ -54,8 +54,8 @@
   background: var(--bch-color-surface);
 }
 .bch-menu-item:focus-visible {
-  outline: none;
-  box-shadow: var(--bch-focus-ring);
+  outline: 2px solid var(--bch-focus-color);
+  outline-offset: 1px;
 }
 .bch-menu-item.is-danger {
   color: var(--bch-color-danger);

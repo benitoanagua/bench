@@ -41,7 +41,7 @@
   box-shadow: var(--bch-shadow-md);
 }
 .interactive:focus-visible {
-  outline: none;
   border-color: var(--bch-color-action);
-  box-shadow: var(--bch-focus-ring);
+  outline: 2px solid var(--bch-focus-color);
+  outline-offset: 1px;
 }

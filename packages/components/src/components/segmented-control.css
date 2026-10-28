@@ -20,8 +20,8 @@
   color: var(--bch-color-text);
 }
 .bch-segmented-item:focus-visible {
-  outline: none;
-  box-shadow: var(--bch-focus-ring);
+  outline: 2px solid var(--bch-focus-color);
+  outline-offset: 1px;
 }
 .bch-segmented-item.is-selected {
   background: var(--bch-color-surface-raised);

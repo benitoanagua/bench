@@ -38,8 +38,8 @@
   background: var(--bch-color-action);
 }
 .tab:focus-visible {
-  outline: none;
-  box-shadow: var(--bch-focus-ring);
+  outline: 2px solid var(--bch-focus-color);
+  outline-offset: 1px;
 }
 .tab:disabled {
   opacity: 0.5;

@@ -50,6 +50,6 @@
   transform: translateX(1rem);
 }
 .choice input[role='switch']:focus-visible {
-  outline: none;
-  box-shadow: var(--bch-focus-ring);
+  outline: 2px solid var(--bch-focus-color);
+  outline-offset: 1px;
 }

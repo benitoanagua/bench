@@ -28,9 +28,9 @@
 .field input:focus,
 .field textarea:focus,
 .field select:focus {
-  outline: none;
   border-color: var(--bch-color-action);
-  box-shadow: var(--bch-focus-ring);
+  outline: 2px solid var(--bch-focus-color);
+  outline-offset: 1px;
 }
 .message {
   font-size: var(--bch-font-size-xs);
