@@ -1,14 +1,44 @@
-# Dependencies
+# Dependencias
 node_modules/
-vendor/
+.pnpm-store/
 
-# Build outputs
-public/
+# Salidas de build (Stencil, tsc, Storybook, Vite)
 dist/
+www/
+loader/
+.stencil/
+storybook-static/
+*.tsbuildinfo
 
-# Environment files
+# Caches
+.turbo/
+.cache/
+.parcel-cache/
+.eslintcache
+
+# Tests (Playwright)
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+coverage/
+.nyc_output/
+
+# Imágenes (no se versionan; incluye los baselines de snapshots visuales)
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.webp
+*.avif
+*.bmp
+*.ico
+*-snapshots/
+
+# Entorno
 .env
-.env.local
+.env.*
+!.env.example
 
 # IDE
 .vscode/
@@ -16,34 +46,14 @@ dist/
 *.swp
 *.swo
 
-# OS
+# SO
 .DS_Store
 Thumbs.db
+desktop.ini
 
-# Logs
+# Logs y temporales
 *.log
 npm-debug.log*
 pnpm-debug.log*
-
-# Cache
-.cache/
-.parcel-cache/
-
-# Temporary files
 *.tmp
 *.temp
-
-# PHP
-composer.phar
-composer.lock
-pnpm-lock.yaml
-
-# WordPress
-wp-config-local.php
-
-# Coverage
-coverage/
-.nyc_output/
-.turbo/
-packages/fonts/dist/
-packages/fonts/dist/
