@@ -19,4 +19,3 @@
 | `bch-mode-badge`             | feedback   | status (aria-live)    | none                        | none                 |
 | `bch-omnibar`                | navigation | combobox/listbox      | none                        | `bchRun`, `bchInput` |
 
-This matrix is a BENCH contract and is not derived from STRATA APIs.

@@ -13,7 +13,7 @@ It intentionally contains no domain logic, API client, persistence or framework-
 
 ## Visual intent
 
-The application is a BENCH consumer. It should be used to detect component inconsistencies without comparing pixels to STRATA.
+The application is a BENCH consumer. It should be used to detect component inconsistencies.
 
 ## Commands
 

@@ -14,11 +14,6 @@ See `docs/bench-design-system.md` §0.1 for the full problem→rule mapping.
 
 ## Principles
 
-- STRATA is used only as a repository-organization reference.
-- No STRATA component logic, tokens, visual rules, APIs or behavior are
-  inherited. Bench's own visual DNA — colors, the border/elevation scales,
-  motion bands, typography — comes from `bench-design-system.md`, not from
-  STRATA.
 - Carbon Icons is the only icon family used by Bench, for the same design
   lineage as its typography (IBM Plex) — see
   `docs/architecture/adr-008-carbon-icons.md` for the migration record and

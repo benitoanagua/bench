@@ -1,6 +1,6 @@
 # BENCH Architecture
 
-BENCH is an independent design system. STRATA is referenced only for repository organization; no STRATA design, component logic, tokens, APIs, or behavior are inherited.
+BENCH is an independent design system.
 
 ## Layers
 

@@ -1,7 +1,5 @@
 # BENCH visual state matrix
 
-The visual contract is BENCH-owned. STRATA is not a visual baseline.
-
 ## Viewports
 
 - 320×800

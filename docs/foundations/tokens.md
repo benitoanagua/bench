@@ -1,6 +1,5 @@
 # Bench Foundations & Tokens
 
-Bench tokens are authored independently. They are not copied from STRATA.
 Full rationale and exact values live in
 [`bench-design-system.md` §2](../bench-design-system.md) — this page maps
 that specification onto the actual CSS custom properties in

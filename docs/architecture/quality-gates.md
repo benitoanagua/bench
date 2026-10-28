@@ -12,5 +12,3 @@ A component is production-ready only when all applicable gates pass:
 8. Public export and documentation.
 9. Dependency-rule validation.
 10. No legacy icon provider references.
-
-Visual snapshots are BENCH-owned acceptance artifacts; they are not compared to STRATA.

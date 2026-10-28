@@ -1,6 +1,6 @@
 # BENCH — Criterios de aceptación visual
 
-El Showcase es la superficie de referencia de BENCH. Las comparaciones visuales se generan desde BENCH y no contra STRATA.
+El Showcase es la superficie de referencia de BENCH. Las comparaciones visuales se generan desde BENCH.
 
 ## Viewports
 

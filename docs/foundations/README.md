@@ -1,6 +1,5 @@
 # Bench Foundations
 
-Bench foundations are independently defined and are not inherited from STRATA.
 The single normative source for everything below — philosophy, the 9
 inviolable rules, and every token value — is
 [`docs/bench-design-system.md`](../bench-design-system.md). These
