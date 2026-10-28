@@ -21,9 +21,7 @@
     "lint": "node ../../tooling/lint/package-rules.mjs components"
   },
   "dependencies": {
-    "@bench/foundation": "workspace:*",
-    "@bench/icons": "workspace:*",
-    "@bench/tokens": "workspace:*"
+    "@bench/icons": "workspace:*"
   },
   "devDependencies": {
     "@stencil/core": "^4.38.0",

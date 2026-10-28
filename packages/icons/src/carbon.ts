@@ -49,9 +49,9 @@ export function isCarbonIconName(name: string): name is CarbonIconName {
 }
 
 /** Total number of icons available in the resolved (currently curated) set. */
-export const carbonIconCount = Object.keys(icons).length;
+const carbonIconCount = Object.keys(icons).length;
 
 /** All available icon names, sorted. Useful for a documentation/icon-picker page. */
-export function listCarbonIconNames(): string[] {
+function listCarbonIconNames(): string[] {
   return Object.keys(icons).sort();
 }

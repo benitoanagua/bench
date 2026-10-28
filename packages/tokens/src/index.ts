@@ -4,7 +4,6 @@ import './type-scale.css';
 
 export { breakpoints, minWidthQuery, watchBreakpoint } from './breakpoints';
 export type { BreakpointKey } from './breakpoints';
-export { BREAKPOINTS } from './breakpoints';
 
 export const benchTokens = {
   prefix: 'bch',

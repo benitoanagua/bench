@@ -19,7 +19,7 @@ export const breakpoints = {
 } as const;
 
 /** UPPER_CASE alias — same object, imported by $bench/foundation etc. */
-export const BREAKPOINTS = breakpoints;
+ // BREAKPOINTS alias removed as unused; consumers import `breakpoints`
 
 export type BreakpointKey = keyof typeof breakpoints;
 
