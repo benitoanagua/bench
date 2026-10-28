@@ -30,17 +30,22 @@
 }
 .bch-data-table th,
 .bch-data-table td {
-  padding-block: 12px;
-  padding-inline: 16px;
+  /* Regla 6 — densidad global del sistema (§2.9). */
+  padding-block: var(--bch-density-cell-py);
+  padding-inline: var(--bch-density-cell-px);
   border-block-start: 1px solid var(--bch-color-border);
   text-align: start;
   white-space: nowrap;
 }
+.bch-data-table td {
+  font-size: var(--bch-density-fs-data);
+  line-height: var(--bch-line-height-data);
+}
 .bch-data-table th {
   color: var(--bch-color-text-muted);
-  font-size: 0.75rem;
+  font-size: var(--bch-density-fs-ui);
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: var(--bch-letter-spacing-overline);
 }
 .bch-data-table .numeric {
   text-align: end;

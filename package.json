@@ -27,10 +27,13 @@
     "format:repair": "prettier --write .",
     "check:framework": "node tooling/validation/no-lit.mjs",
     "check:dependencies": "node tooling/validation/dependency-consistency.mjs",
-    "check:api": "node tooling/validation/public-api.mjs"
+    "check:api": "node tooling/validation/public-api.mjs",
+    "fonts:build": "node tooling/typography/build.mjs"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.0",
+    "@ibm/plex-mono": "^2.5.0",
+    "@ibm/plex-sans": "^1.1.0",
     "@playwright/test": "^1.55.0",
     "@types/node": "^22.0.0",
     "prettier": "^3.5.0",

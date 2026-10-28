@@ -16,13 +16,9 @@ export function createId(prefix = 'bch'): string {
  * the `:scope` pseudo-class, which Stencil's mock-doc (jest spec tests) does
  * not support.
  */
-export function getDirectChildren(
-  host: HTMLElement,
-  tagName: string,
-): HTMLElement[] {
+export function getDirectChildren(host: HTMLElement, tagName: string): HTMLElement[] {
   const wanted = tagName.toLowerCase();
   return Array.from(host.children).filter(
-    (el): el is HTMLElement =>
-      (el as Element).tagName?.toLowerCase() === wanted,
+    (el): el is HTMLElement => (el as Element).tagName?.toLowerCase() === wanted,
   );
 }

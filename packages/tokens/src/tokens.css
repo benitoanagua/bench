@@ -124,6 +124,11 @@
   --bch-letter-spacing-normal: 0;
   --bch-letter-spacing-wide: 0.02em;
   --bch-letter-spacing-overline: 0.08em;
+  /* Tracking por rol (§2.7) — IBM Plex productivo: cuerpo de UI a 14-16px con
+     tracking fino positivo; dato monoespaciado pequeño (12px) con el doble.
+     Valores literales de la spec, no inventados. */
+  --bch-tracking-body: 0.16px;
+  --bch-tracking-mono: 0.32px;
 
   /* Type scale — composed roles, not just raw sizes.
      Use these (via the .bch-type-* utility classes in styles/type-scale.css,
@@ -292,6 +297,35 @@
   --bch-shadow-md: var(--bch-elev-2);
   --bch-shadow-lg: var(--bch-elev-2);
   --bch-shadow-critical: var(--bch-elev-3);
+}
+
+/* Semántica de línea (Regla inviolable 8, §2.3): cada estilo de línea queda
+   atado a un estado, nunca a preferencia estética. Los componentes toman el
+   estilo de estos tokens — un dashed/double/triple fuera de los estados
+   definidos es una violación. El triple no es un `border-style` CSS: es una
+   composición (borde nivel 4 + dos anillos + --bch-shadow-critical), ver
+   el token --bch-line-critical más abajo. */
+:root {
+  --bch-line-default: solid; /* estado persistido/confirmado */
+  --bch-line-provisional: dashed; /* estado provisional, aún no confirmado */
+  --bch-line-total: double; /* frontera de cierre o totalización */
+  /* Fila de totales (Regla 8, §2.3): double-rayo doble requiere grosor mínimo;
+     los bordes CSS `double` necesitan >=3px para renderizar dos trazos. El
+     grosor queda emparejado con el estilo y autorizado solo en:
+     fila de totales de bch-data-table, resumen de cierre. */
+  --bch-line-total-width: 3px;
+}
+
+/* Modo crítico (§2.4 elev-3 + §2.3 triple): borde real + anillos, no una
+   sombra decorativa. La línea triple son tres trazos concéntricos: borde de
+   2px (nivel 4) sobre el elemento, un anillo de superficie (gap) y un anillo
+   de 2px de color del estado; --bch-shadow-critical se suma SIEMPRE, porque
+   sombra y borde escalan juntos (Regla 9). Solo componentes que confirman
+   algo irreversible pueden usarlo. */
+:root {
+  --bch-color-line-critical: var(--bch-color-danger);
+  --bch-line-critical-gap: 2px;
+  --bch-line-critical-ring: 2px;
 }
 
 /* Material — máximo dos (§2.6): base sólido (default) y acento translúcido,

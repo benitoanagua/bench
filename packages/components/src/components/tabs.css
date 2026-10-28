@@ -9,12 +9,14 @@
 }
 .tab {
   position: relative;
-  min-height: 2.75rem;
-  padding: 0 var(--bch-space-4);
+  /* Regla 6 — densidad global del sistema. */
+  min-height: var(--bch-density-row-height);
+  padding: 0 var(--bch-density-cell-px);
   border: 0;
   background: transparent;
   color: var(--bch-color-text-muted);
-  font: var(--bch-font-weight-medium) var(--bch-font-size-sm)/1 var(--bch-font-family-sans);
+  font: var(--bch-font-weight-medium) var(--bch-density-fs-ui)/var(--bch-line-height-data)
+    var(--bch-font-family-sans);
   cursor: pointer;
   white-space: nowrap;
 }

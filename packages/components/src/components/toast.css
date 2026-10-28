@@ -29,9 +29,14 @@
   gap: var(--bch-space-3);
   padding: var(--bch-space-3) var(--bch-space-4);
   border-radius: var(--bch-radius-md);
-  background: var(--bch-color-neutral-900);
-  color: var(--bch-color-neutral-0);
+  /* Regla 9 / §2.6 — material-acento (translúcido + blur 8px): toast es overlay
+     informativo no editable; el token ya baja a ~80% en modo oscuro. Nunca se
+     aplica a superficies con datos editables. */
+  background: var(--bch-material-acento-bg);
+  color: var(--bch-color-text);
+  backdrop-filter: blur(var(--bch-material-acento-blur));
   box-shadow: var(--bch-shadow-lg);
+  letter-spacing: var(--bch-tracking-body);
   font-size: var(--bch-type-body-sm-size);
   line-height: var(--bch-type-body-sm-line-height);
 }

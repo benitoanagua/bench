@@ -44,4 +44,11 @@
 :where(.bch-font-mono) {
   font-family: var(--bch-font-family-mono);
   font-variant-numeric: tabular-nums;
+  letter-spacing: var(--bch-tracking-mono);
+}
+/* Tracking del cuerpo de UI (§2.7): se aplica a roles de dato/universal;
+   los componentes basados en texto (botón, campo, párrafo) que recogen
+   --bch-tracking-body ya lo aplican en su propio CSS. */
+.text-body {
+  letter-spacing: var(--bch-tracking-body);
 }

@@ -13,10 +13,17 @@
 }
 /* Regla 8 (innegociable): triple borde = confirmación irreversible real —
    escala junto con --bch-shadow-critical (Regla 9), nunca por separado.
-   Reservado a propósito casi nunca; ver dialog.tsx §tone. */
+   La línea triple son tres trazos concéntricos reales: borde de 2px (nivel 4)
+   + anillo de superficie (gap) + anillo de 2px del color del estado, todo
+   tomado de los tokens --bch-line-critical-* (§2.3). Se le suma SIEMPRE
+   --bch-shadow-critical (elev-3). Reservado a propósito casi nunca; ver
+   dialog.tsx §tone. */
 .dialog--critical {
-  border: var(--bch-border-width-floating) solid var(--bch-color-danger);
-  box-shadow: var(--bch-shadow-critical);
+  border: var(--bch-border-width-floating) solid var(--bch-color-line-critical);
+  box-shadow:
+    inset 0 0 0 var(--bch-line-critical-gap) var(--bch-color-surface-raised),
+    0 0 0 var(--bch-line-critical-ring) var(--bch-color-line-critical),
+    var(--bch-shadow-critical);
 }
 .dialog::backdrop {
   background: rgb(0 0 0 / 0.48);

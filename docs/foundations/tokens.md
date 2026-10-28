@@ -105,6 +105,58 @@ iconography (§2.8).
 `600` — three semantic names kept for component-API stability, one real
 value, so no component had to be rewritten to obey the rule.
 
+## Tracking (§2.7)
+
+The spec closes an explicit gap with two tokens, applied wherever bodies of
+UI text render:
+
+```css
+--bch-tracking-body: 0.16px; /* labels, body, headers of UI at 14–16px */
+--bch-tracking-mono: 0.32px; /* monospace data at ~12px (IDs, hashes) */
+```
+
+Applied by default in the text-bearing components (button, field, tooltip,
+toast, data-table cells); available system-wide via the raw tokens. The
+`.bch-font-mono` utility adds mono-tracking along with the fixed tabular
+figures.
+
+## Typography layers (ADR-010)
+
+Two layers, one token source:
+
+- **Dense chrome** (default): everything a resident user stares at — grids,
+  toolbars, forms, menus. Sizes come from the density tokens
+  (`--bch-density-fs-data` / `-fs-ui`); never from
+  `--bch-type-display/h1/h2`.
+- **Product content** (opt-in: onboarding, empty/error heroes, editorial
+  pages): the `--bch-type-*` roles, incl. `display` / `h1` / `h2`.
+
+Self-hosted fonts ship through the `@bench/fonts` build step:
+`pnpm fonts:build` copies the official IBM Plex woff2 files from the
+`@ibm/plex-sans` / `@ibm/plex-mono` packages (the published npm builds are
+static today — Regular 400 + SemiBold 600, the two weights the spec defines,
+see ADR-010) into `packages/fonts/dist` with `fonts.css` including the
+dimensioned-fallback `@font-face` rules. The consuming app includes that CSS
+plus its own `.woff2` assets — never a runtime CDN (§2.8, §2.7).
+
+## Financial extension (§2.10, opt-in)
+
+The tokens exist in every build:
+
+```css
+--bch-color-risk: #8b2942; /* exposure/warning — distinct from danger-failure */
+--bch-color-risk-soft: #f2e1e6;
+--bch-color-security: #146b5c; /* 2FA / signed — distinct from success */
+--bch-color-security-soft: #dceeea;
+```
+
+They surface only through explicit opt-in variants: `bch-badge tone="risk|security"`
+and `bch-status tone="risk|security"`. A module qualifies to use them if it
+meets at least one of the §2.10 criteria: shows a persistent balance that
+changes state, writes a real ledger/transaction record, or needs two-step
+confirmation because a numeric mis-read has direct monetary consequence.
+Read-only reporting and settings screens stay on the standard tones.
+
 ## Motion (§2.5)
 
 ```css

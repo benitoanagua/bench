@@ -18,6 +18,9 @@ export const breakpoints = {
   '2xl': 1536,
 } as const;
 
+/** UPPER_CASE alias — same object, imported by $bench/foundation etc. */
+export const BREAKPOINTS = breakpoints;
+
 export type BreakpointKey = keyof typeof breakpoints;
 
 /** Returns a `(min-width: ...)` media query string for the given breakpoint. */

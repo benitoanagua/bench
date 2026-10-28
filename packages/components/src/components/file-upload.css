@@ -4,7 +4,13 @@
   align-items: center;
   gap: var(--bch-space-2);
   padding: var(--bch-space-6);
-  border: 2px dashed var(--bch-color-border);
+  /* Regla 8 (§2.3): solid border by default. The dropzone is not provisional
+     state — it is a permanent affordance. A dashed variant (`is-provisional`,
+     token --bch-line-provisional) remains available for "template / not yet
+     confirmed" semantics when a product needs it. */
+  border: 1px solid var(--bch-color-border-micro);
+  border-style: var(--bch-line-default);
+  transition: border-color var(--bch-motion-fast) var(--bch-ease-standard);
   border-radius: var(--bch-radius-lg);
   background: var(--bch-color-surface);
   color: var(--bch-color-text-muted);

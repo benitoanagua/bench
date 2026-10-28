@@ -45,3 +45,5 @@ wp-config-local.php
 coverage/
 .nyc_output/
 .turbo/
+packages/fonts/dist/
+packages/fonts/dist/

@@ -6,12 +6,16 @@
   align-items: center;
   justify-content: center;
   gap: var(--bch-space-2);
-  min-height: var(--bch-size-control-md);
-  padding: 0 var(--bch-space-4);
+  /* Regla 6 — el tamaño por defecto sigue la densidad global (§2.9):
+     nunca un valor propio del componente. */
+  min-height: var(--bch-density-row-height);
+  padding: var(--bch-density-cell-py) var(--bch-density-cell-px);
   border: 1px solid transparent;
   border-radius: var(--bch-radius-md);
   font: inherit;
+  font-size: var(--bch-density-fs-ui);
   font-weight: var(--bch-font-weight-semibold);
+  letter-spacing: var(--bch-tracking-body);
   line-height: 1;
   cursor: pointer;
   transition:

@@ -10,7 +10,11 @@
       "import": "./dist/index.js"
     },
     "./tokens.css": "./src/tokens.css",
-    "./themes.css": "./src/themes.css"
+    "./themes.css": "./src/themes.css",
+    "./breakpoints": {
+      "types": "./dist/breakpoints.d.ts",
+      "import": "./dist/breakpoints.js"
+    }
   },
   "scripts": {
     "build": "tsc",

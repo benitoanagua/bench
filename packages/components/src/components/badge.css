@@ -29,3 +29,26 @@
   background: color-mix(in srgb, var(--bch-color-danger) 14%, white);
   color: var(--bch-color-danger);
 }
+/* Extensión financiera (§2.10, opt-in) — risk: exposición/advertencia, distinto
+   de danger (fallo consumado); security: firma/2FA confirmado, distinto de
+   success. Ver el criterio de calificación en bench-design-system.md §2.10. */
+.is-risk {
+  background: color-mix(in srgb, var(--bch-color-risk) 14%, white);
+  color: var(--bch-color-risk);
+}
+.is-security {
+  background: color-mix(in srgb, var(--bch-color-security) 14%, white);
+  color: var(--bch-color-security);
+}
+[data-bch-theme='dark'] .is-neutral {
+  background: var(--bch-color-neutral-900);
+  color: var(--bch-color-neutral-100);
+}
+[data-bch-theme='dark'] .is-info,
+[data-bch-theme='dark'] .is-success,
+[data-bch-theme='dark'] .is-warning,
+[data-bch-theme='dark'] .is-danger,
+[data-bch-theme='dark'] .is-risk,
+[data-bch-theme='dark'] .is-security {
+  background: color-mix(in srgb, currentColor 18%, var(--bch-color-surface-raised));
+}

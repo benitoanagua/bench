@@ -35,14 +35,15 @@
   display: flex;
   align-items: center;
   gap: var(--bch-space-2);
+  /* Regla 6 — densidad global del sistema. */
   width: 100%;
-  padding: var(--bch-space-2) var(--bch-space-3);
+  padding: var(--bch-density-cell-py) var(--bch-density-cell-px);
   border: 0;
   border-radius: var(--bch-radius-sm);
   background: transparent;
   color: var(--bch-color-text);
   font: inherit;
-  font-size: var(--bch-type-body-sm-size);
+  font-size: var(--bch-density-fs-ui);
   text-align: start;
   cursor: pointer;
 }

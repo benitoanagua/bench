@@ -29,3 +29,12 @@
 .bch-status--info {
   color: var(--bch-color-action);
 }
+/* Extensión financiera (§2.10, opt-in): risk = exposición/advertencia,
+   security = firma/2FA confirmado — estados distintos de danger/success
+   porque representan cosas distintas (ver criterio de calificación §2.10). */
+.bch-status--risk {
+  color: var(--bch-color-risk);
+}
+.bch-status--security {
+  color: var(--bch-color-security);
+}

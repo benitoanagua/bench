@@ -12,9 +12,14 @@
   padding-block: 0.375rem;
   padding-inline: 0.5rem;
   border-radius: var(--bch-radius-sm);
-  background: var(--bch-color-neutral-900);
-  color: var(--bch-color-neutral-0);
+  /* Regla 9 / §2.6 — material-acento: translúcido + blur 8px, reservado a
+     overlays informativos no editables (tooltip, toast). Nunca sobre una
+     superficie con datos editables. En modo oscuro el token baja a ~80%. */
+  background: var(--bch-material-acento-bg);
+  color: var(--bch-color-text);
+  backdrop-filter: blur(var(--bch-material-acento-blur));
   font: var(--bch-font-weight-medium) var(--bch-font-size-xs)/1.35 var(--bch-font-family-sans);
+  letter-spacing: var(--bch-tracking-body);
   white-space: normal;
   box-shadow: var(--bch-shadow-md);
 }

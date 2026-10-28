@@ -15,14 +15,14 @@
   display: grid;
   place-items: center;
   min-width: var(--bch-size-control-sm);
-  height: var(--bch-size-control-sm);
-  padding-inline: var(--bch-space-2);
+  height: var(--bch-density-row-height);
+  padding-inline: var(--bch-density-cell-px);
   border: 0;
   border-radius: var(--bch-radius-sm);
   background: transparent;
   color: var(--bch-color-text);
   font: inherit;
-  font-size: var(--bch-type-body-sm-size);
+  font-size: var(--bch-density-fs-ui);
   cursor: pointer;
 }
 .bch-pagination__page:hover {

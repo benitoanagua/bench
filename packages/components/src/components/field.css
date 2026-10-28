@@ -8,8 +8,9 @@
   font-family: var(--bch-font-family-sans);
 }
 .label {
-  font-size: var(--bch-font-size-sm);
+  font-size: var(--bch-density-fs-ui);
   font-weight: var(--bch-font-weight-semibold);
+  letter-spacing: var(--bch-tracking-body);
 }
 .field input,
 .field textarea,
@@ -17,7 +18,9 @@
   width: 100%;
   border: var(--bch-border-width-control) solid var(--bch-color-border-control);
   border-radius: var(--bch-radius-md);
-  padding: var(--bch-space-3);
+  /* Regla 6 — densidad global del sistema. */
+  padding: var(--bch-density-cell-py) var(--bch-density-cell-px);
+  font-size: var(--bch-density-fs-ui);
   background: var(--bch-color-background);
   color: inherit;
   transition: border-color var(--bch-motion-fast) var(--bch-ease-standard);

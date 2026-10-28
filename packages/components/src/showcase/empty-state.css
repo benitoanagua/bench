@@ -4,10 +4,16 @@
   gap: 10px;
   padding: 40px 24px;
   text-align: center;
-  border: 1px dashed var(--bch-color-border);
+  /* Regla 8 (§2.3): sólido = default; el dashed queda reservado a la variante
+     provisional explícita más abajo. */
+  border: 1px solid var(--bch-color-border-micro);
+  border-style: var(--bch-line-default);
   border-radius: var(--bch-radius-lg);
   background: var(--bch-color-surface);
   color: var(--bch-color-text);
+}
+.bch-empty-state.is-provisional {
+  border-style: var(--bch-line-provisional);
 }
 .bch-empty-state__icon {
   display: grid;
