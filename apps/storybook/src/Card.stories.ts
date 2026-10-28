@@ -32,7 +32,7 @@ export const Interactive = {
   render: () =>
     h(
       'bch-card',
-      { interactive: true, onBchPress: () => console.log('card pressed') },
+      { interactive: true, onBchPress: () => {} },
       h('span', { slot: 'header' }, 'Clickable card'),
       h('p', null, 'This card responds to click and keyboard activation.'),
     ),
