@@ -1,0 +1,67 @@
+.bch-tree {
+  display: block;
+}
+.bch-tree__body {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Row: high-repetition content — border level 1 (micro), never container
+   weight. Height, padding and font size all come from the density tokens
+   (Regla 6); indentation is set inline by bch-tree as
+   `calc(var(--bch-density-cell-px) * depth)`. */
+.bch-tree-item__row {
+  display: flex;
+  align-items: center;
+  gap: var(--bch-space-1);
+  min-height: var(--bch-density-row-height);
+  padding: var(--bch-density-cell-py) var(--bch-density-cell-px);
+  border-block-end: var(--bch-border-width-micro) solid var(--bch-color-border-micro);
+  background: transparent;
+  color: var(--bch-color-text);
+  font: inherit;
+  font-size: var(--bch-density-fs-ui);
+  cursor: pointer;
+  user-select: none;
+}
+.bch-tree-item__row:hover {
+  background: var(--bch-color-surface);
+}
+.bch-tree-item__row:focus-visible {
+  outline: 2px solid var(--bch-focus-color);
+  outline-offset: -2px;
+}
+
+/* Expand toggle indicator — a token-only triangle. */
+.bch-tree-item__toggle {
+  inline-size: 0;
+  block-size: 0;
+  border: 0;
+  border-inline-start: calc(var(--bch-space-2) / 2) solid transparent;
+  border-block-start: calc(var(--bch-space-2) / 2) solid var(--bch-color-border-strong);
+  transition: transform var(--bch-motion-fast) var(--bch-ease-standard);
+}
+.bch-tree-item__toggle.is-open {
+  transform: rotate(90deg);
+}
+.bch-tree-item__row:not(.is-branch) .bch-tree-item__toggle {
+  visibility: hidden;
+}
+
+.bch-tree-item__label {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bch-tree-item__children {
+  display: block;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bch-tree-item__row,
+  .bch-tree-item__toggle {
+    transition: none;
+  }
+}

@@ -1,0 +1,19 @@
+.bch-mode-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--bch-space-1);
+  min-height: var(--bch-density-row-height);
+  padding: var(--bch-density-cell-py) var(--bch-density-cell-px);
+  border-radius: var(--bch-radius-sm);
+  background: var(--bch-color-action-soft);
+  color: var(--bch-color-action);
+  font: inherit;
+  font-size: var(--bch-density-fs-ui);
+  letter-spacing: var(--bch-tracking-ui, normal);
+  text-transform: uppercase;
+  user-select: none;
+}
+.bch-mode-badge.is-edit {
+  background: var(--bch-color-warning-soft);
+  color: var(--bch-color-warning);
+}

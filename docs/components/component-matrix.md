@@ -27,3 +27,8 @@
 | `bch-date-picker`                              | dialog/grid            | ✓ (arrows/PageUp/PageDown/Home/End) | ✓ (roving tabindex) | n/a     | ✓                        | ✓      | ✓    |
 | `bch-time-picker`                              | time input (native)    | ✓ (native)                          | ✓                   | n/a     | ✓                        | ✓      | ✓    |
 | `bch-file-upload`                              | button + file input    | ✓ (Enter/Space + native dialog)     | ✓                   | n/a     | ✓ (type/size validation) | ✓      | ✓    |
+| `bch-tree` / `bch-tree-item`                   | tree/treeitem/group    | ✓ (arrows roving/Left/Right/Enter)  | ✓ (roving tabindex) | n/a     | n/a                      | ✓      | ✓    |
+| `bch-splitter`                                 | separator              | ✓ (arrows ±16px)                    | ✓                   | n/a     | n/a                      | ✓      | ✓    |
+| `bch-status-bar`                               | status strip           | n/a (content slots)                 | n/a                 | n/a     | n/a                      | ✓      | ✓    |
+| `bch-mode-badge`                               | status text            | n/a                                 | n/a                 | n/a     | n/a                      | ✓      | ✓ (aria-live) |
+| `bch-omnibar`                                  | combobox/listbox       | ✓ (arrows/Enter/Esc, all in-input)  | ✓ (input focus)     | ✓ (index empty state) | ✓ (parser explicit error) | ✓ | ✓ |

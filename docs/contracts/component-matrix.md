@@ -13,5 +13,10 @@
 | `bch-select`      | form      | select                | default                 | `bchChange` |
 | `bch-card`        | content   | article               | header, default, footer | none        |
 | `bch-badge`       | feedback  | status                | default                 | none        |
+| `bch-tree` / `bch-tree-item` | navigation | tree/treeitem/group    | none                    | `bchSelect` |
+| `bch-splitter`    | layout    | separator             | none                    | `bchDrag`   |
+| `bch-status-bar`  | layout    | status strip          | start, mode, telemetry, end | none        |
+| `bch-mode-badge`  | feedback  | status (aria-live)    | none                    | none        |
+| `bch-omnibar`     | navigation | combobox/listbox      | none                    | `bchRun`, `bchInput` |
 
 This matrix is a BENCH contract and is not derived from STRATA APIs.

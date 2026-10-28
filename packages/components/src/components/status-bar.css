@@ -1,0 +1,42 @@
+.bch-status-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--bch-space-4);
+  min-height: var(--bch-density-row-height);
+  padding: var(--bch-density-cell-py) var(--bch-density-cell-px);
+  padding-inline-start: calc(var(--bch-density-cell-px) * 3); /* bottom-left stays free — browser link-preview zone */
+  border-block-start: var(--bch-border-width-control) solid var(--bch-color-border-container);
+  background: var(--bch-color-surface);
+  color: var(--bch-color-text-disabled);
+  font: inherit;
+  font-size: var(--bch-density-fs-data);
+}
+
+.bch-status-bar__start,
+.bch-status-bar__mode,
+.bch-status-bar__telemetry,
+.bch-status-bar__end {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--bch-space-3);
+  white-space: nowrap;
+}
+
+.bch-status-bar__telemetry {
+  font-variant-numeric: tabular-nums;
+}
+
+.bch-status-bar__end {
+  margin-inline-start: auto;
+}
+
+/* Reserved, always-empty margin on the bottom-left corner: the browser
+   renders link previews there, so no slot content can overlap it. */
+.bch-status-bar__browser-corner {
+  position: absolute;
+  inset-block-end: 0;
+  inset-inline-start: 0;
+  inline-size: calc(var(--bch-density-cell-px) * 3);
+  block-size: 100%;
+  pointer-events: none;
+}

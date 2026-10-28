@@ -1,0 +1,81 @@
+.omnibar {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  min-inline-size: 20rem;
+  font: inherit;
+}
+
+.omnibar-input {
+  inline-size: 100%;
+  min-height: var(--bch-density-row-height);
+  padding: var(--bch-density-cell-py) var(--bch-density-cell-px);
+  border: var(--bch-border-width-control) solid var(--bch-color-border-control);
+  border-radius: var(--bch-radius-md);
+  background: var(--bch-color-surface-raised);
+  color: var(--bch-color-text);
+  font: inherit;
+  font-size: var(--bch-density-fs-ui);
+}
+.omnibar-input:focus-visible {
+  outline: 2px solid var(--bch-focus-color);
+  outline-offset: -2px;
+}
+
+/* Live interpretation of the query (§4.1): shown before Enter, including
+   the parser's explicit unknown-field error. */
+.omnibar-hint {
+  padding: var(--bch-space-1) var(--bch-density-cell-px);
+  color: var(--bch-color-text-muted);
+  font-size: var(--bch-density-fs-data);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.omnibar-hint.is-error {
+  color: var(--bch-color-danger);
+}
+
+.omnibar-results {
+  position: absolute;
+  top: calc(100% + var(--bch-space-1));
+  inset-inline: 0;
+  z-index: var(--bch-z-dropdown);
+  margin: 0;
+  padding: var(--bch-space-1);
+  border-radius: var(--bch-radius-md);
+  border: var(--bch-border-width-container) solid var(--bch-color-border-container);
+  background: var(--bch-color-surface-raised);
+  box-shadow: var(--bch-shadow-md);
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.omnibar-result {
+  display: flex;
+  align-items: center;
+  gap: var(--bch-space-2);
+  padding: var(--bch-density-cell-py) var(--bch-density-cell-px);
+  border-radius: var(--bch-radius-sm);
+  color: var(--bch-color-text);
+  font-size: var(--bch-density-fs-ui);
+  cursor: pointer;
+}
+.omnibar-result.is-active {
+  background: var(--bch-color-state-hover);
+}
+.omnibar-result__breadcrumb {
+  flex: 1;
+  color: var(--bch-color-text-muted);
+  font-size: var(--bch-density-fs-data);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.omnibar-result__name {
+  color: var(--bch-color-text);
+  white-space: nowrap;
+}

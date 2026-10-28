@@ -1,0 +1,57 @@
+.bch-splitter {
+  /* Hit area (~6px, §4.3); the visual line is a pseudo-element token-colored. */
+  inline-size: var(--bch-splitter-hit, 6px);
+  block-size: 100%;
+  position: relative;
+  flex: 0 0 auto;
+  align-self: stretch;
+  touch-action: none;
+  user-select: none;
+  background: transparent;
+}
+.bch-splitter.is-horizontal {
+  cursor: col-resize;
+}
+.bch-splitter.is-vertical {
+  inline-size: 100%;
+  block-size: var(--bch-splitter-hit, 6px);
+  cursor: row-resize;
+}
+
+/* Visible line: 1px, border color. Hover/drag: thickens to 2px and takes
+   the primary color (§4.3) — feedback is always visible, never silent. */
+.bch-splitter::before {
+  content: '';
+  position: absolute;
+  background: var(--bch-color-border-micro);
+}
+.bch-splitter.is-horizontal::before {
+  inset-block: 0;
+  inset-inline-start: calc(50% - 0.5px);
+  inline-size: 1px;
+}
+.bch-splitter.is-vertical::before {
+  inset-inline: 0;
+  inset-block-start: calc(50% - 0.5px);
+  block-size: 1px;
+}
+
+.bch-splitter:hover::before,
+.bch-splitter:active::before {
+  background: var(--bch-color-primary);
+}
+.bch-splitter.is-horizontal:hover::before,
+.bch-splitter.is-horizontal:active::before {
+  inline-size: 2px;
+  inset-inline-start: calc(50% - 1px);
+}
+.bch-splitter.is-vertical:hover::before,
+.bch-splitter.is-vertical:active::before {
+  block-size: 2px;
+  inset-block-start: calc(50% - 1px);
+}
+
+.bch-splitter:focus-visible {
+  outline: 2px solid var(--bch-focus-color);
+  outline-offset: -2px;
+}
