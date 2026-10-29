@@ -21,7 +21,7 @@ Bench parte de una premisa distinta: **el usuario no es un visitante, es un resi
 | Repite la misma tarea cientos de veces al día — cualquier fricción se multiplica                                         | Reglas 1-2, Omnibar (4.1), Macros (4.5)                     |
 | Su memoria muscular es su activo más valioso, y una interfaz inconsistente la destruye                                   | Regla 4, Tokens de borde y línea (2.2-2.3)                  |
 | No puede permitirse perder trabajo por un error de la app, del navegador, o suyo propio                                  | Regla 3, Historial visible y persistencia (4.6)             |
-| Trabaja con datos financieros/operativos donde un error de lectura cuesta dinero real                                    | Extensión financiera (2.9)                                  |
+| Trabaja con datos financieros/operativos donde un error de lectura cuesta dinero real                                    | Extensión financiera (2.10)                                 |
 | Pasa la vista por cientos de filas por hora — cualquier animación decorativa es fricción acumulada                       | Movimiento con propósito (2.4), densidad configurable (2.8) |
 | Su entorno de trabajo (mouse, teclado, resolución, segundo monitor) es suyo, no genérico                                 | Regla 6, Layout y multitarea (4.3)                          |
 | Necesita confiar en que el sistema no le va a sorprender nunca                                                           | Regla 5, Regla 2                                            |
@@ -528,13 +528,22 @@ Los seis dominios anteriores (4.1-4.6) son patrones específicos de Bench. Estos
 
 ---
 
+## 4.8 Nota de numeración
+
+No existe un patrón 4.8. El catálogo pasa de los componentes de estructura
+genérica (4.7) al dominio de autenticación y sesiones (4.9); el hueco se
+conserva porque 4.9 ya está citado en ADR-009, en la matriz de trazabilidad
+(4.10) y en las guías de aplicación.
+
+---
+
 ## 4.9 Autenticación y sesiones de larga duración
 
 Un dominio que ningún demo anterior había tocado, y que conecta más directo que ningún otro con la tabla de la sección 0.1 — la fila "no puede permitirse perder trabajo por un error de la app" es, casi literalmente, la razón de ser de este patrón.
 
 **Indicador de Bloq Mayús** — reaplicación directa del patrón "indicador de modo persistente" (4.4, herencia Word Insert/Overtype) al campo de contraseña: el estado del teclado no es visible por sí mismo, y un power user escribiendo su contraseña sin mirar el teclado es exactamente el escenario que ese patrón ya cubría. Mismo componente, contexto distinto — otra vez la Regla 4 en la práctica.
 
-**Selector de organización/workspace a nivel de cuenta** — el mismo componente que el selector de espacio de trabajo de la barra superior (3.3.4), reutilizado en el flujo de login para elegir entre organizaciones/tenants. No se construye un segundo selector "para login" — es el mismo patrón, en otro punto del recorrido.
+**Selector de organización/workspace a nivel de cuenta** — el mismo componente que el selector de espacio de trabajo de la barra superior (4.3), reutilizado en el flujo de login para elegir entre organizaciones/tenants. No se construye un segundo selector "para login" — es el mismo patrón, en otro punto del recorrido.
 
 **Aviso de expiración de sesión — patrón nuevo, específico de Bench.** Ninguna aplicación de consumo necesita esto con la misma urgencia que una herramienta abierta 8 horas seguidas: cerrar sesión sin avisar, en medio de un turno de trabajo, es exactamente el tipo de sorpresa que la Regla 2 prohíbe. Especificación:
 
@@ -557,7 +566,7 @@ Bench se valida con demos ejecutables, no solo con prosa — esta tabla evita qu
 | Tiling con separadores arrastrables — 4.3           | —         | ✅     | —             | —       | —                        | —                         |
 | Throttling con cadencia diferenciada — 4.3          | —         | ✅     | —             | —       | —                        | —                         |
 | Multi-monitor, degradación silenciosa — 4.3         | parcial   | ✅     | —             | —       | —                        | —                         |
-| Selector de workspace (3.3.4)                       | ✅ (tabs) | —      | —             | —       | —                        | ✅ (a nivel de cuenta)    |
+| Selector de workspace (4.3)                         | ✅ (tabs) | —      | —             | —       | —                        | ✅ (a nivel de cuenta)    |
 | Modos sin modificador (`v`/`Esc`) — 4.4             | ✅        | —      | —             | —       | —                        | —                         |
 | Leader key (`g`+letra) — 4.1/4.4                    | —         | ✅     | —             | —       | —                        | —                         |
 | Balloon Help — 4.4                                  | —         | ✅     | —             | —       | —                        | —                         |

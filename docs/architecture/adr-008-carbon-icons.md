@@ -1,5 +1,7 @@
 # ADR-008: Icon set migrates from Tabler to Carbon, with a documented interim coverage gap
 
+Estado: aceptado
+
 ## Context
 
 Bench's design system (`bench-design-system.md` §2.8) standardizes on **Carbon

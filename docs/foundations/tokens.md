@@ -202,13 +202,32 @@ tokens for row height/padding (grid, list, table-like components) is tracked
 per-component, not blocked on the token layer being ready — the tokens are
 the contract those components should read from as they adopt density.
 
-## Financial extension (§2.10, opt-in)
+## Spec ↔ code token equivalence
 
-`--bch-color-risk` / `--bch-color-risk-soft` and `--bch-color-security` /
-`--bch-color-security-soft` exist as tokens everywhere, but are a
-**by-convention opt-in** — a module wires them in only if it shows a
-persisted balance that changes state, writes to a real ledger/transaction, or
-needs two-step confirmation because a misread number has direct monetary
-consequence. Reporting/read-only screens don't reach for these even if they
-display numbers — see `bench-design-system.md` §2.10 for the exact
-qualification test.
+The specification uses unprefixed CSS names; the implementation prefixes every
+public custom property with `bch-` and keeps only tokens that are actually
+consumed (or part of the documented contract). Single source of truth remains
+`packages/tokens/src/tokens.css`.
+
+| Spec (§2)                                                               | Code                                                                            | Notes                                                                |
+| ----------------------------------------------------------------------- | ------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| `--primary`                                                             | `--bch-color-primary`                                                           | also `--bch-color-action`                                            |
+| `--primary-strong`                                                      | `--bch-color-primary-strong`                                                    | contract token, no component consumer yet                            |
+| `--primary-soft`                                                        | `--bch-color-primary-soft`                                                      | also `--bch-color-action-soft`                                       |
+| `--success` / `--warning` / `--error` / `--pending`                     | `--bch-color-success` / `-warning` / `-danger` / `-pending`                     | spec `error` is implementation `danger`                              |
+| `--success-soft` / `--warning-soft` / `--error-soft` / `--pending-soft` | `--bch-color-success-soft` / `-warning-soft` / `-danger-soft` / `-pending-soft` |                                                                      |
+| `--risk` / `--risk-soft`                                                | `--bch-color-risk` / `--bch-color-risk-soft`                                    | financial extension, opt-in                                          |
+| `--security` / `--security-soft`                                        | `--bch-color-security` / `--bch-color-security-soft`                            | financial extension, opt-in                                          |
+| `--bg-light` / `--surface-light`                                        | `--bch-color-background` / `--bch-color-surface`                                | themed via `[data-bch-theme]`                                        |
+| `--text-light` / `--muted-light`                                        | `--bch-color-text` / `--bch-color-text-muted`                                   |                                                                      |
+| `--state-hover-*` / `--state-active-*`                                  | `--bch-state-hover` / `--bch-state-active`                                      | theme-aware aliases                                                  |
+| `--state-focus-ring`                                                    | `--bch-focus-color`                                                             | plus `--bch-focus-width`                                             |
+| border scale (§2.2)                                                     | `--bch-color-border-micro                                                       | control                                                              | container                                                 | floating`+`--bch-border-width-*`+`--bch-radius-sm   | md   | lg                     | xl`       | 4 levels, no fifth value             |
+| line semantics (§2.3)                                                   | `--bch-line-default                                                             | provisional                                                          | total`, `--bch-line-total-width`, `--bch-line-critical-*` | triple is a composition, not `border-style: triple` |
+| elevation (§2.4)                                                        | `--bch-elev-0                                                                   | 1                                                                    | 2                                                         | 3`, `--bch-shadow-sm                                | md   | lg                     | critical` | shadow aliases map to real elevation |
+| motion (§2.5)                                                           | `--bch-motion-fast                                                              | normal                                                               | panel                                                     | badge                                               | slow | loop`, `--bch-ease-out | in-out    | standard`                            | `loop` is the documented extension for infinite animations |
+| material (§2.6)                                                         | `--bch-material-acento-bg` / `--bch-material-acento-blur`                       | maximum two materials                                                |
+| typography (§2.7)                                                       | `--bch-font-family-sans                                                         | mono`, `--bch-font-weight-_`, `--bch-tracking-_`, `--bch-type-*`     | two-layer scale per ADR-010                               |
+| density (§2.9)                                                          | `--bch-density-*`                                                               | comfortable default, terminal requires `[data-bch-panel="raw-data"]` |
+| breakpoints (§2.9)                                                      | `--bch-breakpoint-*` and `breakpoints.ts`                                       | numeric values duplicated intentionally                              |
+| z-index                                                                 | `--bch-z-*`                                                                     | one layer per stacking context                                       |

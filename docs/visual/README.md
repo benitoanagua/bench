@@ -35,11 +35,13 @@ Baselines are generated from BENCH Storybook stories. They are deterministic art
 El Showcase es la superficie de referencia de BENCH. Las comparaciones visuales se generan desde BENCH.
 
 ### Estados
+
 - light / dark
 - default / hover / active / focus-visible / disabled / loading / error
 - reduced motion cuando aplique
 
 ### Criterios
+
 1. Ningún contenido debe provocar overflow horizontal en los viewports soportados.
 2. Los controles interactivos deben conservar un área táctil cómoda y foco visible.
 3. Los tokens semánticos son la única fuente de color, tipografía, spacing, radius y motion.

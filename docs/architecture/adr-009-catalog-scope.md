@@ -1,5 +1,7 @@
 # ADR-009: Scope classification of the spec §4 catalog (library vs helper vs guide)
 
+Estado: aceptado
+
 ## Context
 
 `bench-design-system.md` §4 defines a catalog of patterns for a dense,
