@@ -25,8 +25,7 @@ Each §4 pattern is classified into exactly one of three tiers:
   lives in `@bench/components`, exported as a `bch-*` web component, documented
   and tested like any other component.
 - **(b) Helper / utility** — pure, domain-free function or module (typically in
-  `@bench/foundation` or `@bench/primitives`), unit-tested, no rendering of
-  domain data itself.
+  `@bench/foundation`), unit-tested, no rendering of domain data itself.
 - **(c) Application guide with demo** — the pattern is _documented_ in the docs
   tree as an integration guide (how an application composes Bench pieces to
   build it) and validated by a demo in `apps/showcase`; no library code owns
@@ -39,7 +38,7 @@ Classification:
 | Omnibar / command bar — **UI part** (input + results list + keyboard nav)                   | (a)  | `@bench/components` (`bch-omnibar`)                                                                                                                                          |
 | Omnibar — `campo:valor` parser (AND implicit, `or`, `:> :< :>= :<=`, unknown-field message) | (b)  | `@bench/foundation` (pure function + tests)                                                                                                                                  |
 | Alias table, function ranking (frecuency/recents), fuzzy scoring                            | (b)  | `@bench/foundation` — pure ranking over manifest data; apps own the manifest                                                                                                 |
-| Function manifest (`bench.functions.json`) schema + CI validator                            | (b)  | `@bench/validation` (tooling)                                                                                                                                                |
+| Function manifest (`bench.functions.json`) schema + CI validator                            | (b)  | `tooling/validation/validate-functions-manifest.mjs` (repo tooling)                                                                                                          |
 | Leader-key sequences / armed state, Command Palette (Ctrl+K)                                | (c)  | guide + demo (keyboard-event orchestration is app-level)                                                                                                                     |
 | Context menus (8–10 relevant actions)                                                       | (c)  | composition of existing `bch-menu`, guide                                                                                                                                    |
 | Grid editable in-place / density                                                            | (a)  | `bch-data-table` (showcase package, spec-level behaviors added in phases 2–3)                                                                                                |

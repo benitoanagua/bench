@@ -42,8 +42,8 @@ Full text, rationale, and token values: `docs/bench-design-system.md` §1–2.
 
 - `@bench/tokens` — design tokens and themes.
 - `@bench/foundation` — shared DOM, focus and accessibility utilities.
-- `@bench/primitives` — small layout/surface primitives.
 - `@bench/icons` — the Carbon icon data used by `bch-icon`.
+- `@bench/fonts` — self-hosted IBM Plex assets generated at build time.
 - `@bench/components` — canonical Web Components.
 - `@bench/testing` — visual and accessibility test infrastructure.
 

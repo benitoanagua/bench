@@ -130,7 +130,7 @@ Two layers, one token source:
 - **Product content** (opt-in: onboarding, empty/error heroes, editorial
   pages): the `--bch-type-*` roles, incl. `display` / `h1` / `h2`.
 
-Self-hosted fonts ship through the `@bench/fonts` build step:
+Self-hosted fonts ship through the `@bench/fonts` package:
 `pnpm fonts:build` copies the official IBM Plex woff2 files from the
 `@ibm/plex-sans` / `@ibm/plex-mono` packages (the published npm builds are
 static today — Regular 400 + SemiBold 600, the two weights the spec defines,

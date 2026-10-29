@@ -4,7 +4,7 @@ BENCH is an independent design system.
 
 ## Layers
 
-`tokens → foundation → primitives → components`
+`tokens → foundation → components`
 
 Dependencies must point downward in this diagram only. Application/domain code does not belong in BENCH.
 
@@ -19,7 +19,7 @@ Dependencies must point downward in this diagram only. Application/domain code d
 
 ## Icon boundary
 
-`@bench/icons` owns the icon registry. `@bench/primitives` owns the `bch-icon` Web Component. Public consumers should use `bch-icon` and must not couple application code to the icon registry internals.
+`@bench/icons` owns the icon registry. `@bench/components` owns the `bch-icon` Web Component. Public consumers should use `bch-icon` and must not couple application code to the icon registry internals.
 
 Carbon Icons are rendered as inline SVG nodes so BENCH does not require a runtime icon web-component dependency.
 
