@@ -31,6 +31,13 @@ tiempo y la fuente de verdad de cada comprobación es el propio `pnpm check`.
   de la API pública del adaptador, no código muerto.
 - **Guía `docs/guides/dates-and-time.md`** creada para `date-picker` y
   `time-picker`.
+- **Reproducibilidad del `pnpm check` en clon limpio** (`turbo.json`):
+  `typecheck` pasa a `dependsOn: ["^build"]` y `test` a `dependsOn: ["build"]`.
+  Ambos fallos eran latentes y preexistentes, ocultos por la caché de Turbo:
+  el `typecheck` de `@bench/foundation` y los `node --test` de foundation
+  importan el `dist` construido de sus dependencias/proPIO, que no existía aún
+  en un checkout limpio. Se elimina además un `import` duplicado e inutilizado
+  en `packages/foundation/src/density.ts`.
 - **Baselines visuales no versionados**: `.gitignore` excluye imágenes y
   `*-snapshots/`. La estrategia oficial (generar en CI) queda como trabajo
   abierto (§ abajo).

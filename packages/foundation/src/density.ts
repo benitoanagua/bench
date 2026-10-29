@@ -24,7 +24,6 @@
  * plain, dependency-free module.
  */
 import { breakpoints as BREAKPOINTS } from '@bench/tokens/breakpoints';
-import { breakpoints } from '@bench/tokens/breakpoints';
 
 export type BchDensity = 'compact' | 'comfortable' | 'spacious';
 export type BchDensityPreference = 'auto' | BchDensity;
