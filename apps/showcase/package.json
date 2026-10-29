@@ -13,7 +13,7 @@
     "@bench/tokens": "workspace:*"
   },
   "devDependencies": {
-    "@playwright/test": "^1.54.2",
+    "@playwright/test": "^1.55.0",
     "vite": "^7.1.3"
   }
 }
