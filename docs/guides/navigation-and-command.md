@@ -31,8 +31,8 @@ node tooling/validation/validate-functions-manifest.mjs apps/showcase/bench.func
 ```
 
 The validator rejects duplicate ids/aliases, missing `path`, unknown `tipo`
-values and negative `frecuenciaUso`. See the example manifest at
-[`apps/showcase/bench.functions.json`](../../apps/showcase/bench.functions.json).
+values and negative `frecuenciaUso`. The example manifest will be created in
+`apps/showcase/bench.functions.json` (Fase 4).
 
 ## Omnibar
 
