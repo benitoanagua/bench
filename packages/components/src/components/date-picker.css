@@ -65,7 +65,7 @@
   background: var(--bch-color-surface);
 }
 .bch-date-picker__day:focus-visible {
-  outline: 2px solid var(--bch-focus-color);
+  outline: var(--bch-focus-width) solid var(--bch-focus-color);
   outline-offset: 1px;
 }
 .bch-date-picker__day.is-today {

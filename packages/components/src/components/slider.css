@@ -33,7 +33,7 @@
 }
 .bch-slider__input:focus-visible {
   /* §3 — outline nativo; nunca `outline: none` sin sustituto igual o más visible. */
-  outline: 2px solid var(--bch-focus-color);
+  outline: var(--bch-focus-width) solid var(--bch-focus-color);
   outline-offset: 1px;
 }
 

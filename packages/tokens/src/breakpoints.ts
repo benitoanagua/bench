@@ -18,8 +18,7 @@ export const breakpoints = {
   '2xl': 1536,
 } as const;
 
-/** UPPER_CASE alias — same object, imported by $bench/foundation etc. */
- // BREAKPOINTS alias removed as unused; consumers import `breakpoints`
+/** Consumers import `breakpoints`; a former UPPER_CASE alias was removed as unused. */
 
 export type BreakpointKey = keyof typeof breakpoints;
 

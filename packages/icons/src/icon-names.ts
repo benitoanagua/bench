@@ -57,5 +57,3 @@ export type CarbonIconName =
   | 'user'
   | 'workspace'
   | 'x';
-
-

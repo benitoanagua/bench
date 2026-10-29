@@ -35,7 +35,7 @@
   font: inherit;
 }
 :where(button, input, textarea, select):focus-visible {
-  outline: 2px solid var(--bch-focus-color);
+  outline: var(--bch-focus-width) solid var(--bch-focus-color);
   outline-offset: 1px;
 }
 :where(bch-icon) {
