@@ -7,7 +7,8 @@
   "scripts": {
     "test": "playwright test",
     "test:visual": "playwright test visual",
-    "test:a11y": "playwright test visual/a11y.spec.ts",
+    "test:contracts": "playwright test -c playwright.local.config.ts src/contracts.spec.ts",
+    "test:a11y": "playwright test -c playwright.local.config.ts visual/a11y.spec.ts",
     "lint": "node ../../tooling/lint/package-rules.mjs testing"
   },
   "devDependencies": {
