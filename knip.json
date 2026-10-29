@@ -9,6 +9,9 @@
       "entry": ["src/index.ts", "stencil.config.ts"],
       "ignoreDependencies": ["jest", "jest-cli"]
     },
+    "packages/react": {
+      "ignoreDependencies": ["@types/react-dom"]
+    },
     "packages/fonts": { "ignoreDependencies": ["@ibm/plex-mono", "@ibm/plex-sans"] },
     "packages/icons": { "ignoreDependencies": ["@carbon/icons"] }
   },

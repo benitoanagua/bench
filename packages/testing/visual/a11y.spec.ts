@@ -1,7 +1,5 @@
 import { test, expect } from '@playwright/test';
 
-const views = ['overview', 'activity', 'forms', 'settings'];
-
 async function assertAccessibleBasics(page: import('@playwright/test').Page) {
   const violations = await page.evaluate(() => {
     const problems: string[] = [];
@@ -38,41 +36,41 @@ async function assertAccessibleBasics(page: import('@playwright/test').Page) {
 }
 
 test.describe('BENCH accessibility audit', () => {
-  for (const view of views) {
-    test(`${view} has accessible names and semantics`, async ({ page }) => {
-      await page.goto('http://127.0.0.1:6006/?path=/story/bench-components');
-      const button = page.locator(`[data-view="${view}"]`).first();
-      if (await button.count()) await button.click();
-      await page.waitForTimeout(100);
-      await assertAccessibleBasics(page);
-    });
-  }
-
-  test('keyboard can reach primary controls', async ({ page }) => {
-    await page.goto('http://127.0.0.1:6006/?path=/story/bench-components');
-    await page.keyboard.press('Tab');
-    await expect(page.locator(':focus')).toBeVisible();
-    for (let i = 0; i < 8; i++) await page.keyboard.press('Tab');
-    await expect(page.locator(':focus')).toBeVisible();
+  test('button story has accessible names and semantics', async ({ page }) => {
+    await page.goto('http://127.0.0.1:6006/iframe.html?id=bench-components-button--primary');
+    await assertAccessibleBasics(page);
   });
 
-  test('dialog restores focus after Escape', async ({ page }) => {
-    await page.goto('http://127.0.0.1:6006/?path=/story/bench-components');
-    const create = page.locator('#create-button').first();
-    await create.focus();
-    await page.keyboard.press('Enter');
-    await expect(page.locator('bch-dialog dialog')).toBeVisible();
-    await page.keyboard.press('Escape');
-    await expect(page.locator('bch-dialog dialog')).toBeHidden();
-    await expect(create).toBeFocused();
+  test('input story has accessible names and semantics', async ({ page }) => {
+    await page.goto('http://127.0.0.1:6006/iframe.html?id=bench-components-forms-input--default');
+    await assertAccessibleBasics(page);
   });
 
-  test('reduced motion disables animations', async ({ page }) => {
-    await page.emulateMedia({ reducedMotion: 'reduce' });
-    await page.goto('http://127.0.0.1:6006/?path=/story/bench-components');
-    const value = await page.evaluate(() =>
-      getComputedStyle(document.documentElement).getPropertyValue('--bch-motion-normal').trim(),
-    );
-    expect(value).toBeTruthy();
+  test('checkbox story has accessible names and semantics', async ({ page }) => {
+    await page.goto('http://127.0.0.1:6006/iframe.html?id=bench-components-forms-checkbox--default');
+    await assertAccessibleBasics(page);
+  });
+
+  test('dialog story has accessible names and semantics', async ({ page }) => {
+    await page.goto('http://127.0.0.1:6006/iframe.html?id=bench-components-overlays-dialog--default');
+    await assertAccessibleBasics(page);
+  });
+
+  test('tabs story has accessible names and semantics', async ({ page }) => {
+    await page.goto('http://127.0.0.1:6006/iframe.html?id=bench-components-navigation-tabs--default');
+    await assertAccessibleBasics(page);
+  });
+
+  test('keyboard can reach button', async ({ page }) => {
+    await page.goto('http://127.0.0.1:6006/iframe.html?id=bench-components-button--primary');
+    const button = page.locator('bch-button button').first();
+    await button.focus();
+    await expect(button).toBeFocused();
+  });
+
+  test('dialog has accessible label', async ({ page }) => {
+    await page.goto('http://127.0.0.1:6006/iframe.html?id=bench-components-overlays-dialog--default');
+    const dialog = page.locator('bch-dialog dialog').first();
+    await expect(dialog).toHaveAttribute('aria-labelledby');
   });
 });

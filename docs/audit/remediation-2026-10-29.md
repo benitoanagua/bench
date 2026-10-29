@@ -3,11 +3,13 @@
 ## Fases completadas
 
 ### Fase 0: Línea base ✅
+
 - ✅ Dependencias de Playwright instaladas (Chromium propio)
 - ✅ Línea base de `pnpm check` documentada
 - ✅ `test:contracts` y `test:a11y` ejecutados (ambos fallan)
 
 **Resultados verificados:**
+
 - `check:dependencies`: ❌ Falta `@types/react-dom`, incoherencia react-dom 19 vs 18
 - `check:links`: ❌ 2 enlaces rotos
 - `format:check`: ❌ 1 archivo (`docs/foundations/tokens.md`)
@@ -16,6 +18,7 @@
 - `test:visual`: ❌ 7 passed, 11 failed (falta baselines)
 
 ### Fase 1: Infraestructura de pruebas 🟡 (parcial)
+
 - ✅ Movido `contracts.spec.ts` de `src/` a `visual/`
 - ✅ Actualizado scripts en `package.json` de `@bench/testing`
 - ✅ Corregido IDs de Storybook en tests de contratos
@@ -25,6 +28,7 @@
 - ⏸️ Corrección de `a11y.spec.ts` e `interaction.spec.ts`: pendiente
 
 ### Fase 2: Dejar `pnpm check` en verde 🟡 (parcial)
+
 - ✅ `check:dependencies`: agregado `@types/react-dom ^18.3.0` y `react-dom ^18.3.0` en `peerDependencies`
 - ✅ `check:links`: creado `docs/guides/dates-and-time.md` con guía mínima
 - ✅ `check:links`: actualizado `navigation-and-command.md` con nota sobre `bench.functions.json` pendiente
@@ -35,32 +39,40 @@
 ## Cambios por archivo
 
 ### packages/react/package.json
+
 - Agregado `@types/react-dom ^18.3.0` en `devDependencies`
 - Cambiado `react-dom >=18` a `^18.3.0` en `peerDependencies`
 
 ### pnpm-lock.yaml
+
 - Actualizado dependencias de React 18 (react-dom pasa de 19.3.1 a 18.3.x)
 
 ### docs/guides/dates-and-time.md (nuevo)
+
 - Creado guía mínima para date-picker y time-picker
 - Referencia a `forms-and-validation.md`
 
 ### docs/guides/navigation-and-command.md
+
 - Actualizado referencia a `bench.functions.json` con nota pendiente (Fase 4)
 
 ### docs/foundations/tokens.md
+
 - Formateado con prettier (cambio menor)
 
 ### packages/testing/package.json
+
 - Cambiado `test:contracts` de `src/contracts.spec.ts` a `visual/contracts.spec.ts`
 - Cambiado `test:contracts:local` de `src/contracts.spec.ts` a `visual/contracts.spec.ts`
 
 ### packages/testing/visual/contracts.spec.ts (movido desde src/)
+
 - Simplificado a 5 tests específicos (button, input, checkbox, dialog, tabs)
 - Corregidos IDs de Storybook para incluir subcarpetas (e.g., `bench-components-forms-input--default`)
 - Todos los tests pasan y verifican roles ARIA
 
 ### packages/testing/src/ (eliminado)
+
 - Eliminado directorio vacío después de mover `contracts.spec.ts`
 
 ## Resultado real de `pnpm check`
@@ -149,6 +161,7 @@ Done in 38.5s using pnpm v10.26.0
 ## Resultado real de tests e2e
 
 ### test:contracts
+
 ```bash
 $ pnpm test:contracts
 Running 5 tests using 1 worker
@@ -159,24 +172,29 @@ Running 5 tests using 1 worker
   ✓  5 visual/contracts.spec.ts:28:3 › BENCH public contracts › tabs exposes tablist role (455ms)
   5 passed (7.2s)
 ```
+
 ✅ **Pasa** (5 tests)
 
 ### test:a11y
+
 ```bash
 $ pnpm test:a11y
 Running 7 tests using 1 worker
   3 failed
   4 passed (48.7s)
 ```
+
 ❌ **Falla** (3 de 7 tests fallan porque apuntan a elementos que no existen en las stories)
 
 ### test:visual
+
 ```bash
 $ pnpm test:visual
 Running 18 tests using 1 worker
   11 failed
   7 passed (48.1s)
 ```
+
 ❌ **Falla** (falta baselines visuales, y tests navegan a URL inexistente)
 
 ## Decisiones pendientes
