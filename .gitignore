@@ -46,6 +46,7 @@ coverage/
 .idea/
 *.swp
 *.swo
+.qoder/
 
 # SO
 .DS_Store

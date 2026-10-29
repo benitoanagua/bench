@@ -4,6 +4,9 @@ dist/
 www/
 coverage/
 
+# Agente / IDE settings locales (no forman parte del producto)
+.qoder/
+
 # Stencil auto-generated type bundles (regenerated on every build)
 packages/*/src/components.d.ts
 
