@@ -2,7 +2,9 @@ import { expect, test } from '@playwright/test';
 
 test.describe('BENCH interactions', () => {
   test('tabs use roving tabindex and keyboard arrows', async ({ page }) => {
-    await page.goto('http://127.0.0.1:6006/iframe.html?id=bench-components-navigation-tabs--default');
+    await page.goto(
+      'http://127.0.0.1:6006/iframe.html?id=bench-components-navigation-tabs--default',
+    );
     const tab = page.locator('bch-tab button').first();
     await expect(tab).toBeVisible();
     await tab.focus();
@@ -11,7 +13,9 @@ test.describe('BENCH interactions', () => {
   });
 
   test('drawer closes with Escape', async ({ page }) => {
-    await page.goto('http://127.0.0.1:6006/iframe.html?id=bench-components-overlays-drawer--default');
+    await page.goto(
+      'http://127.0.0.1:6006/iframe.html?id=bench-components-overlays-drawer--default',
+    );
     await page.evaluate(() => {
       const d = document.querySelector('bch-drawer');
       if (d) (d as any).show();

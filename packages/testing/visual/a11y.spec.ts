@@ -50,17 +50,23 @@ test.describe('BENCH accessibility audit', () => {
   });
 
   test('checkbox story has accessible names and semantics', async ({ page }) => {
-    await page.goto('http://127.0.0.1:6006/iframe.html?id=bench-components-forms-checkbox--default');
+    await page.goto(
+      'http://127.0.0.1:6006/iframe.html?id=bench-components-forms-checkbox--default',
+    );
     await assertAccessibleBasics(page);
   });
 
   test('dialog story has accessible names and semantics', async ({ page }) => {
-    await page.goto('http://127.0.0.1:6006/iframe.html?id=bench-components-overlays-dialog--default');
+    await page.goto(
+      'http://127.0.0.1:6006/iframe.html?id=bench-components-overlays-dialog--default',
+    );
     await assertAccessibleBasics(page);
   });
 
   test('tabs story has accessible names and semantics', async ({ page }) => {
-    await page.goto('http://127.0.0.1:6006/iframe.html?id=bench-components-navigation-tabs--default');
+    await page.goto(
+      'http://127.0.0.1:6006/iframe.html?id=bench-components-navigation-tabs--default',
+    );
     await assertAccessibleBasics(page);
   });
 
@@ -72,7 +78,9 @@ test.describe('BENCH accessibility audit', () => {
   });
 
   test('dialog has accessible label', async ({ page }) => {
-    await page.goto('http://127.0.0.1:6006/iframe.html?id=bench-components-overlays-dialog--default');
+    await page.goto(
+      'http://127.0.0.1:6006/iframe.html?id=bench-components-overlays-dialog--default',
+    );
     const dialog = page.locator('bch-dialog dialog').first();
     await expect(dialog).toHaveAttribute('aria-labelledby');
   });
