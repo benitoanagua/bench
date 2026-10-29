@@ -43,7 +43,7 @@ under space pressure.
 
 Interactive components must define default, hover, active, focus-visible,
 disabled, and loading/error states where applicable. Hover/active change
-luminosity ±6–8% (`--bch-state-hover` / `--bch-state-active`) — never a
+luminosity ±6–8% (`--bch-state-active`) — never a
 different color family.
 
 ## Focus
