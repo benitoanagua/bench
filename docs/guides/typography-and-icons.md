@@ -54,8 +54,7 @@ Use `bch-icon` with a Carbon name. The icon component renders inline SVG and
 defaults to `currentColor`:
 
 ```html
-<bch-icon name="search"></bch-icon>
-<bch-icon name="warning" aria-label="Warning"></bch-icon>
+<bch-icon name="search"></bch-icon> <bch-icon name="warning" aria-label="Warning"></bch-icon>
 ```
 
 - Decorative icons are `aria-hidden` automatically. Pass `aria-label` only when

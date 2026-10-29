@@ -3,13 +3,13 @@
 Bench separates modal from non-modal surfaces. Choosing the wrong one is an
 accessibility bug, not a style preference.
 
-| Surface         | Component      | Focus behavior                          | Use when                                  |
-| --------------- | -------------- | --------------------------------------- | ----------------------------------------- |
-| Modal task      | `bch-dialog`   | Native `<dialog>`, trap, restores focus | The page behind must not be used          |
-| Offcanvas panel | `bch-drawer`   | No trap, restores focus, Escape closes  | Navigation, filters, secondary context    |
-| Menu            | `bch-menu`     | Arrow/Home/End/Escape, restores focus   | A short list of actions                   |
-| Tooltip         | `bch-tooltip`  | Hover/focus, `role="tooltip"`           | One sentence of clarification             |
-| Toast           | `bch-toast-region` | Queue, no focus steal               | Background result of an action            |
+| Surface         | Component          | Focus behavior                          | Use when                               |
+| --------------- | ------------------ | --------------------------------------- | -------------------------------------- |
+| Modal task      | `bch-dialog`       | Native `<dialog>`, trap, restores focus | The page behind must not be used       |
+| Offcanvas panel | `bch-drawer`       | No trap, restores focus, Escape closes  | Navigation, filters, secondary context |
+| Menu            | `bch-menu`         | Arrow/Home/End/Escape, restores focus   | A short list of actions                |
+| Tooltip         | `bch-tooltip`      | Hover/focus, `role="tooltip"`           | One sentence of clarification          |
+| Toast           | `bch-toast-region` | Queue, no focus steal                   | Background result of an action         |
 
 ## Dialog
 
