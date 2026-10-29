@@ -9,7 +9,7 @@
   color: var(--bch-color-action);
   font: inherit;
   font-size: var(--bch-density-fs-ui);
-  letter-spacing: var(--bch-tracking-ui, normal);
+  letter-spacing: var(--bch-letter-spacing-wide);
   text-transform: uppercase;
   user-select: none;
 }

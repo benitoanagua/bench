@@ -13,7 +13,7 @@
   background: var(--bch-color-surface);
 }
 .bch-data-table:focus-visible {
-  outline: 2px solid var(--bch-focus-color);
+  outline: var(--bch-focus-width) solid var(--bch-focus-color);
   /* §3 — dentro de grids densos el offset va hacia adentro, nunca hacia afuera. */
   outline-offset: -2px;
 }
@@ -82,7 +82,7 @@
   color: var(--bch-color-text);
 }
 .bch-data-table__sort:focus-visible {
-  outline: 2px solid var(--bch-focus-color);
+  outline: var(--bch-focus-width) solid var(--bch-focus-color);
   /* §3 — dentro de grids densos el offset va hacia adentro, nunca hacia afuera. */
   outline-offset: -2px;
 }
@@ -96,7 +96,7 @@
   cursor: cell;
 }
 .bch-data-table td:focus-visible {
-  outline: 2px solid var(--bch-focus-color);
+  outline: var(--bch-focus-width) solid var(--bch-focus-color);
   /* §3 — dentro de grids densos el offset va hacia adentro, nunca hacia afuera. */
   outline-offset: -2px;
   position: relative;

@@ -1,10 +1,8 @@
 import '@bench/tokens/tokens.css';
 import '@bench/tokens/themes.css';
-import { defineCustomElements as defineComponents } from '@bench/components/loader';
-import { defineCustomElements as definePrimitives } from '@bench/primitives/loader';
+import { defineCustomElements } from '@bench/components/loader';
 
-definePrimitives();
-defineComponents();
+defineCustomElements();
 
 export const parameters = {
   controls: { expanded: true },

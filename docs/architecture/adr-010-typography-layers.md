@@ -1,5 +1,7 @@
 # ADR-010: Two-layer type scale (product-content vs dense chrome) and self-hosted IBM Plex through `@bench/fonts`
 
+Estado: aceptado
+
 ## Context
 
 `bench-design-system.md` §2.7 says nothing above 14–16px unless the content is

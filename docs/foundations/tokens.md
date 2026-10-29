@@ -130,7 +130,7 @@ Two layers, one token source:
 - **Product content** (opt-in: onboarding, empty/error heroes, editorial
   pages): the `--bch-type-*` roles, incl. `display` / `h1` / `h2`.
 
-Self-hosted fonts ship through the `@bench/fonts` build step:
+Self-hosted fonts ship through the `@bench/fonts` package:
 `pnpm fonts:build` copies the official IBM Plex woff2 files from the
 `@ibm/plex-sans` / `@ibm/plex-mono` packages (the published npm builds are
 static today — Regular 400 + SemiBold 600, the two weights the spec defines,
@@ -202,13 +202,58 @@ tokens for row height/padding (grid, list, table-like components) is tracked
 per-component, not blocked on the token layer being ready — the tokens are
 the contract those components should read from as they adopt density.
 
-## Financial extension (§2.10, opt-in)
+## Token inventory — contract vs. pending adoption
 
-`--bch-color-risk` / `--bch-color-risk-soft` and `--bch-color-security` /
-`--bch-color-security-soft` exist as tokens everywhere, but are a
-**by-convention opt-in** — a module wires them in only if it shows a
-persisted balance that changes state, writes to a real ledger/transaction, or
-needs two-step confirmation because a misread number has direct monetary
-consequence. Reporting/read-only screens don't reach for these even if they
-display numbers — see `bench-design-system.md` §2.10 for the exact
-qualification test.
+`node tooling/validation/token-references.mjs` (part of `pnpm check:tokens`)
+fails on any `var(--bch-*)` reference with no definition. It also reports,
+without failing, public tokens that have no consumer _inside this repository_.
+That distinction is intentional: Bench publishes its token layer, so deleting
+an unconsumed token would break downstream applications that adopted it.
+
+The 42 tokens in that report fall into two groups:
+
+| Group                        | Tokens                                                                                                                                                                                                                                                                | Why they stay                                                                                 |
+| ---------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| Contract — layout & stacking | `--bch-breakpoint-xs/sm/md/lg/xl/2xl`, `--bch-grid-columns`, `--bch-grid-gutter`, `--bch-grid-margin-sm/lg`, `--bch-container-max-width`, `--bch-size-control-md`, `--bch-z-base/raised/sticky/overlay/modal`                                                         | Consumed by app shells and `breakpoints.ts`; components must not invent their own values.     |
+| Contract — scales            | `--bch-space-0/10/12/16`, `--bch-font-size-md/xl/2xl`, `--bch-radius-xl`, `--bch-elev-0`, `--bch-color-border-floating`, `--bch-motion-panel/badge/slow`, `--bch-ease-in-out`                                                                                         | Bounded scales: a component uses the step it needs, not every step in the same release.       |
+| Pending adoption — semantics | `--bch-color-primary-strong`, `--bch-color-success-soft`, `--bch-color-danger-soft`, `--bch-color-pending`, `--bch-color-pending-soft`, `--bch-color-risk-soft`, `--bch-color-security-soft`, `--bch-color-neutral-200/300`, `--bch-state-active`, `--bch-focus-ring` | Opt-in variants (§2.10 risk/security, pending state) and the box-shadow focus-ring technique. |
+
+Rules for this list:
+
+- A token is deleted only together with a documented breaking change; "no
+  in-repo grep hit" is not a reason to delete it.
+- New component CSS should prefer the semantic token over a raw primitive. If
+  the needed semantic slot does not exist yet, add it to this inventory first.
+- `focus-ring` is currently complemented by the outline-based
+  `--bch-focus-width` + `--bch-focus-color` pair used by components; keep both
+  names in sync when the focus architecture changes.
+
+## Spec ↔ code token equivalence
+
+The specification uses unprefixed CSS names; the implementation prefixes every
+public custom property with `bch-` and keeps only tokens that are actually
+consumed (or part of the documented contract). Single source of truth remains
+`packages/tokens/src/tokens.css`.
+
+| Spec (§2)                                                               | Code                                                                                                            | Notes                                                                |
+| ----------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| `--primary`                                                             | `--bch-color-primary`                                                                                           | also `--bch-color-action`                                            |
+| `--primary-strong`                                                      | `--bch-color-primary-strong`                                                                                    | contract token, no component consumer yet                            |
+| `--primary-soft`                                                        | `--bch-color-primary-soft`                                                                                      | also `--bch-color-action-soft`                                       |
+| `--success` / `--warning` / `--error` / `--pending`                     | `--bch-color-success` / `-warning` / `-danger` / `-pending`                                                     | spec `error` is implementation `danger`                              |
+| `--success-soft` / `--warning-soft` / `--error-soft` / `--pending-soft` | `--bch-color-success-soft` / `-warning-soft` / `-danger-soft` / `-pending-soft`                                 |                                                                      |
+| `--risk` / `--risk-soft`                                                | `--bch-color-risk` / `--bch-color-risk-soft`                                                                    | financial extension, opt-in                                          |
+| `--security` / `--security-soft`                                        | `--bch-color-security` / `--bch-color-security-soft`                                                            | financial extension, opt-in                                          |
+| `--bg-light` / `--surface-light`                                        | `--bch-color-background` / `--bch-color-surface`                                                                | themed via `[data-bch-theme]`                                        |
+| `--text-light` / `--muted-light`                                        | `--bch-color-text` / `--bch-color-text-muted`                                                                   |                                                                      |
+| `--state-hover-*` / `--state-active-*`                                  | `--bch-state-active`                                                                      | theme-aware aliases                                                  |
+| `--state-focus-ring`                                                    | `--bch-focus-color`                                                                                             | plus `--bch-focus-width`                                             |
+| border scale (§2.2)                                                     | `--bch-color-border-micro\|control\|container\|floating`, `--bch-border-width-*`, `--bch-radius-sm\|md\|lg\|xl` | 4 levels, no fifth value                                             |
+| line semantics (§2.3)                                                   | `--bch-line-default\|provisional\|total`, `--bch-line-total-width`, `--bch-line-critical-*`                     | triple is a composition, not `border-style: triple`                  |
+| elevation (§2.4)                                                        | `--bch-elev-0\|1\|2\|3`, `--bch-shadow-sm\|md\|lg\|critical`                                                    | shadow aliases map to real elevation                                 |
+| motion (§2.5)                                                           | `--bch-motion-fast\|normal\|panel\|badge\|slow\|loop`, `--bch-ease-out\|in-out\|standard`                       | `loop` is the documented extension for infinite animations           |
+| material (§2.6)                                                         | `--bch-material-acento-bg` / `--bch-material-acento-blur`                                                       | maximum two materials                                                |
+| typography (§2.7)                                                       | `--bch-font-family-sans                                                                                         | mono`, `--bch-font-weight-_`, `--bch-tracking-_`, `--bch-type-*`     | two-layer scale per ADR-010 |
+| density (§2.9)                                                          | `--bch-density-*`                                                                                               | comfortable default, terminal requires `[data-bch-panel="raw-data"]` |
+| breakpoints (§2.9)                                                      | `--bch-breakpoint-*` and `breakpoints.ts`                                                                       | numeric values duplicated intentionally                              |
+| z-index                                                                 | `--bch-z-*`                                                                                                     | one layer per stacking context                                       |

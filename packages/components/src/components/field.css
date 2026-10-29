@@ -29,7 +29,7 @@
 .field textarea:focus,
 .field select:focus {
   border-color: var(--bch-color-action);
-  outline: 2px solid var(--bch-focus-color);
+  outline: var(--bch-focus-width) solid var(--bch-focus-color);
   outline-offset: 1px;
 }
 .message {

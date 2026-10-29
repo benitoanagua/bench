@@ -1,0 +1,23 @@
+{
+  "name": "@bench/fonts",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Self-hosted IBM Plex assets (fonts.css + woff2) generated from the official IBM packages.",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    "./fonts.css": "./dist/fonts.css",
+    "./*": "./dist/*"
+  },
+  "scripts": {
+    "build": "node ../../tooling/typography/build.mjs",
+    "typecheck": "node -e \"process.exit(0)\"",
+    "lint": "node ../../tooling/lint/package-rules.mjs fonts"
+  },
+  "devDependencies": {
+    "@ibm/plex-mono": "^2.5.0",
+    "@ibm/plex-sans": "^1.1.0"
+  }
+}

@@ -1,5 +1,7 @@
 # ADR-007: Icon set resolves against the full Tabler outline data, not a hand-authored subset
 
+Estado: superado por ADR-008
+
 ## Context
 
 `@bench/icons` hand-authored ~20 icons as inline SVG node arrays in `tabler.ts`,

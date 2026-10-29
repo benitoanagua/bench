@@ -26,7 +26,7 @@ Examples: `bch-tree`, `bch-drawer` (non-modal), `bch-splitter`,
 `bch-data-table` (grid editing + virtualization; values and persistence are
 props/events owned by the app).
 
-### (b) Helpers — allowed in `@bench/foundation`, `@bench/primitives`, `@bench/validation`
+### (b) Helpers — allowed in `@bench/foundation` and `tooling/validation`
 
 Pure, domain-free, unit-tested functions or schema validators. No DOM writes,
 no rendering, no hidden app state.
@@ -34,7 +34,7 @@ no rendering, no hidden app state.
 Examples: the `campo:valor` Omnibar parser (implicit AND, explicit `or`,
 `:>`/`:<`/`:>=`/`:<=`, explicit unknown-field error), the throttled batch
 renderer (a factory the app wires its own render callbacks into), the
-`bench.functions.json` manifest validator.
+`bench.functions.json` manifest validator (`tooling/validation/`).
 
 ### (c) Application guides — documented, demo-validated, never library code
 

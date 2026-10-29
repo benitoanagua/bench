@@ -1,1 +1,16 @@
-{"$schema":"https://unpkg.com/knip@5/schema.json","entry":["apps/storybook/src/main.ts","apps/storybook/.storybook/main.ts","packages/*/src/index.ts"],"project":["packages/*/src/**/*.ts","packages/*/src/**/*.tsx","apps/*/src/**/*.ts","apps/*/src/**/*.tsx"],"ignore":["**/*.stories.ts","**/.storybook/**","apps/storybook/src/story-helpers.ts","packages/testing/src/contracts.spec.ts","tooling/validation/validate-functions-manifest.mjs"],"ignoreBinaries":["node","pnpm"],"ignoreExportsUsedInFile":true}
+{
+  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "workspaces": {
+    ".": { "entry": ["tooling/**/*.mjs"] },
+    "apps/storybook": {
+      "entry": ["src/**/*.stories.ts", "src/story-helpers.ts", ".storybook/*.ts"]
+    },
+    "packages/components": {
+      "entry": ["src/index.ts", "stencil.config.ts"],
+      "ignoreDependencies": ["jest", "jest-cli"]
+    },
+    "packages/fonts": { "ignoreDependencies": ["@ibm/plex-mono", "@ibm/plex-sans"] },
+    "packages/icons": { "ignoreDependencies": ["@carbon/icons"] }
+  },
+  "ignoreExportsUsedInFile": true
+}

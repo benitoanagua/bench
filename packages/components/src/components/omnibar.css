@@ -18,7 +18,7 @@
   font-size: var(--bch-density-fs-ui);
 }
 .omnibar-input:focus-visible {
-  outline: 2px solid var(--bch-focus-color);
+  outline: var(--bch-focus-width) solid var(--bch-focus-color);
   outline-offset: -2px;
 }
 
@@ -65,7 +65,7 @@
   cursor: pointer;
 }
 .omnibar-result.is-active {
-  background: var(--bch-color-state-hover);
+  background: var(--bch-state-hover);
 }
 .omnibar-result__breadcrumb {
   flex: 1;

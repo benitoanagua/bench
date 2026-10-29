@@ -7,7 +7,8 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
-    "@bench/components": "workspace:*"
+    "@bench/components": "workspace:*",
+    "@bench/tokens": "workspace:*"
   },
   "devDependencies": {
     "storybook": "^10.5.10",
