@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
 async function assertAccessibleBasics(page: import('@playwright/test').Page) {
   const violations = await page.evaluate(() => {
@@ -11,8 +11,9 @@ async function assertAccessibleBasics(page: import('@playwright/test').Page) {
         !el.textContent?.trim() &&
         !el.getAttribute('aria-label') &&
         !el.getAttribute('aria-labelledby')
-      )
+      ) {
         problems.push('button without accessible name');
+      }
     });
     document.querySelectorAll('input, textarea, select').forEach((el) => {
       const labelled =
@@ -22,13 +23,15 @@ async function assertAccessibleBasics(page: import('@playwright/test').Page) {
       if (!labelled) problems.push(`${el.tagName.toLowerCase()} without accessible name`);
     });
     document.querySelectorAll('[role="dialog"]').forEach((el) => {
-      if (!el.getAttribute('aria-label') && !el.getAttribute('aria-labelledby'))
+      if (!el.getAttribute('aria-label') && !el.getAttribute('aria-labelledby')) {
         problems.push('dialog without accessible name');
+      }
     });
     document.querySelectorAll('[aria-invalid="true"]').forEach((el) => {
       const described = el.getAttribute('aria-describedby');
-      if (!described || !described.split(/\s+/).some((id) => document.getElementById(id)))
+      if (!described || !described.split(/\s+/).some((id) => document.getElementById(id))) {
         problems.push('invalid control without described error/hint');
+      }
     });
     return problems;
   });

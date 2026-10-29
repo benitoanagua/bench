@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
 test.describe('BENCH interactions', () => {
   test('tabs use roving tabindex and keyboard arrows', async ({ page }) => {
