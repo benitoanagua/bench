@@ -12,3 +12,4 @@ A component is production-ready only when all applicable gates pass:
 8. Public export and documentation.
 9. Dependency-rule validation.
 10. No legacy icon provider references.
+11. Function manifest schema validation (`bench.functions.json`, ADR-009 tier b).

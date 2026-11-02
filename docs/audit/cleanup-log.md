@@ -119,8 +119,9 @@ tiempo y la fuente de verdad de cada comprobación es el propio `pnpm check`.
 - **`.changeset/*`**: metadatos de release pendientes, necesarios para el
   changelog.
 - **`tooling/validation/validate-functions-manifest.mjs`**: validador del
-  manifiesto `bench.functions.json` (ADR-009 tier b, Fase 4). Referenciado por
-  la documentación; ver trabajo abierto antes de cablearlo o retirarlo.
+  manifiesto `bench.functions.json` (ADR-009 tier b). Cableado en `pnpm check`
+  como `check:functions`; el manifiesto de referencia vive en
+  `apps/showcase/bench.functions.json`.
 
 ## Trabajos abiertos (requieren decisión humana)
 
@@ -130,9 +131,11 @@ tiempo y la fuente de verdad de cada comprobación es el propio `pnpm check`.
    determinismo en Ubuntu.
 2. **Soporte React 19**: ¿ampliar el contrato peer de `@bench/react` más allá
    de React 18?
-3. **ADR-009 Fase 4**: helpers de tier (b) en `@bench/foundation`, crear
-   `apps/showcase/bench.functions.json` y decidir si
-   `validate-functions-manifest.mjs` entra en `pnpm check`.
+3. **ADR-009 Fase 4 (cerrado)**: los helpers de tier (b) viven en
+   `@bench/foundation` (`rankFunctions`, `buildAliasTable`, `fuzzyScore`,
+   `createThrottledRenderer`), el manifiesto de referencia es
+   `apps/showcase/bench.functions.json` y `validate-functions-manifest.mjs`
+   entra en `pnpm check` como `check:functions`.
 4. **Specs unitarias de componentes**: tree, tabs, menu, dialog, drawer,
    splitter y slider ya están cubiertos; quedan data-table y los tags sin spec
    propia.

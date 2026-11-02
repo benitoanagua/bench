@@ -1,0 +1,84 @@
+{
+  "functions": [
+    {
+      "id": "panel-facturacion",
+      "nombre": "Panel de facturación",
+      "path": ["Finanzas", "Facturación"],
+      "sinonimos": ["facturacion", "cobros", "invoices"],
+      "alias": "fb",
+      "permisos": ["finanzas"],
+      "tipo": "pantalla",
+      "frecuenciaUso": 240
+    },
+    {
+      "id": "factura-nueva",
+      "nombre": "Nueva factura",
+      "path": ["Finanzas", "Facturación", "Nueva factura"],
+      "sinonimos": ["factura", "invoice", "crear factura"],
+      "alias": "nf",
+      "permisos": ["finanzas"],
+      "tipo": "accion",
+      "frecuenciaUso": 180
+    },
+    {
+      "id": "nota-credito-nueva",
+      "nombre": "Nueva nota de crédito",
+      "path": ["Finanzas", "Facturación", "Nueva nota de crédito"],
+      "sinonimos": ["nota", "credit note", "nc"],
+      "alias": "nc",
+      "permisos": ["finanzas"],
+      "tipo": "accion",
+      "frecuenciaUso": 64
+    },
+    {
+      "id": "clientes",
+      "nombre": "Clientes",
+      "path": ["Comercial", "Clientes"],
+      "sinonimos": ["customers", "cartera"],
+      "alias": "cl",
+      "permisos": ["comercial"],
+      "tipo": "pantalla",
+      "frecuenciaUso": 152
+    },
+    {
+      "id": "reporte-ventas",
+      "nombre": "Reporte de ventas",
+      "path": ["Reportes", "Ventas"],
+      "sinonimos": ["reporte", "sales report"],
+      "alias": "rv",
+      "permisos": ["reportes"],
+      "tipo": "reporte",
+      "frecuenciaUso": 97
+    },
+    {
+      "id": "inventario",
+      "nombre": "Inventario",
+      "path": ["Operación", "Inventario"],
+      "sinonimos": ["stock", "almacen"],
+      "alias": "inv",
+      "permisos": ["operacion"],
+      "tipo": "pantalla",
+      "frecuenciaUso": 88
+    },
+    {
+      "id": "macro-totales-dia",
+      "nombre": "Macro: totales del día",
+      "path": ["Macros", "Finanzas"],
+      "sinonimos": ["macro", "totales"],
+      "alias": "m1",
+      "permisos": ["finanzas"],
+      "tipo": "macro",
+      "frecuenciaUso": 41
+    },
+    {
+      "id": "configuracion-general",
+      "nombre": "Configuración general",
+      "path": ["Administración", "Configuración"],
+      "sinonimos": ["ajustes", "settings"],
+      "alias": "cfg",
+      "permisos": ["administracion"],
+      "tipo": "pantalla",
+      "frecuenciaUso": 12
+    }
+  ]
+}
