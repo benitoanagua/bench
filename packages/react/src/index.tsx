@@ -1,14 +1,24 @@
 import * as React from 'react';
 import '@bench/components';
+import type {
+  BchCellChangeDetail,
+  BchFunctionEntry,
+  BchOmnibarResult,
+  BchPasteDetail,
+  BchTableColumn,
+  BchTableRow,
+  BchTreeNode,
+} from '@bench/components';
 import { createWrapper } from './create-wrapper';
 
 /**
- * Coverage: every component in packages/components/src/components/*.tsx now
- * has a typed React wrapper below (accordion/accordion-item, dialog, drawer,
- * form-field, nav/nav-item, spinner, tab/tab-panel/tabs, tooltip were the
- * last 12 added — `toast.tsx` implements the `bch-toast-region` tag, already
- * covered by `BchToastRegion`, so it was never actually a 13th gap). The
- * same 12 are still missing from @bench/vue — see that package's index.ts.
+ * Coverage: all 52 tags exported by `@bench/components` have a typed React
+ * wrapper below, including the six composite showcase components
+ * (`bch-alert`, `bch-data-table`, `bch-empty-state`, `bch-metric-card`,
+ * `bch-status`, `bch-toolbar`). `toast.tsx` implements the
+ * `bch-toast-region` tag, exposed as `BchToastRegion`. Event handlers are
+ * typed as `onBch*` and bridged to `addEventListener` by `createWrapper`
+ * (React 18 does not bind unknown custom-element event props itself).
  */
 
 export type BchButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
@@ -229,6 +239,69 @@ export type BchTooltipProps = React.HTMLAttributes<HTMLElement> & {
   text?: string;
   placement?: 'top' | 'bottom';
 };
+export type BchTreeProps = React.HTMLAttributes<HTMLElement> & {
+  /** Data-driven API; slotted `bch-tree-item` children win when both are present. */
+  items?: BchTreeNode[];
+  onBchSelect?: (e: CustomEvent<string>) => void;
+};
+export type BchTreeItemProps = React.HTMLAttributes<HTMLElement> & {
+  value?: string;
+  label?: string;
+  expanded?: boolean;
+  onBchSelect?: (e: CustomEvent<string>) => void;
+};
+export type BchSplitterProps = React.HTMLAttributes<HTMLElement> & {
+  /** `horizontal` = the divider splits columns (vertical line, col-resize). */
+  orientation?: 'horizontal' | 'vertical';
+  onBchDrag?: (e: CustomEvent<{ deltaPx: number }>) => void;
+};
+export type BchStatusBarProps = React.HTMLAttributes<HTMLElement>;
+export type BchModeBadgeProps = React.HTMLAttributes<HTMLElement> & {
+  mode?: 'normal' | 'select' | 'edit' | 'custom';
+  label?: string;
+};
+export type BchOmnibarProps = React.HTMLAttributes<HTMLElement> & {
+  entries?: BchFunctionEntry[];
+  placeholder?: string;
+  onBchRun?: (e: CustomEvent<BchOmnibarResult>) => void;
+  onBchInput?: (e: CustomEvent<string>) => void;
+};
+export type BchAlertProps = React.HTMLAttributes<HTMLElement> & {
+  tone?: 'info' | 'success' | 'warning' | 'danger';
+  heading?: string;
+  dismissible?: boolean;
+  onBchDismiss?: (e: CustomEvent<void>) => void;
+};
+export type BchStatusProps = React.HTMLAttributes<HTMLElement> & {
+  tone?: 'neutral' | 'success' | 'warning' | 'danger' | 'info' | 'risk' | 'security';
+  label?: string;
+};
+export type BchMetricCardProps = React.HTMLAttributes<HTMLElement> & {
+  label?: string;
+  value?: string;
+  trend?: string;
+  tone?: 'neutral' | 'positive' | 'negative';
+};
+export type BchEmptyStateProps = React.HTMLAttributes<HTMLElement> & {
+  heading?: string;
+  description?: string;
+  provisional?: boolean;
+};
+export type BchDataTableProps = React.HTMLAttributes<HTMLElement> & {
+  columns?: BchTableColumn[];
+  rows?: BchTableRow[];
+  caption?: string;
+  filterable?: boolean;
+  filterPlaceholder?: string;
+  pageSize?: number;
+  showTotals?: boolean;
+  onBchSortChange?: (e: CustomEvent<{ key: string; direction: 'asc' | 'desc' | 'none' }>) => void;
+  onBchFilterChange?: (e: CustomEvent<string>) => void;
+  onBchPageChange?: (e: CustomEvent<number>) => void;
+  onBchCellChange?: (e: CustomEvent<BchCellChangeDetail>) => void;
+  onBchPaste?: (e: CustomEvent<BchPasteDetail>) => void;
+};
+export type BchToolbarProps = React.HTMLAttributes<HTMLElement>;
 
 export const BchButton = createWrapper<BchButtonProps>('bch-button');
 export const BchIcon = createWrapper<BchIconProps>('bch-icon');
@@ -282,6 +355,18 @@ export const BchTab = createWrapper<BchTabProps>('bch-tab');
 export const BchTabPanel = createWrapper<BchTabPanelProps>('bch-tab-panel');
 export const BchTabs = createWrapper<BchTabsProps>('bch-tabs');
 export const BchTooltip = createWrapper<BchTooltipProps>('bch-tooltip');
+export const BchTree = createWrapper<BchTreeProps>('bch-tree');
+export const BchTreeItem = createWrapper<BchTreeItemProps>('bch-tree-item');
+export const BchSplitter = createWrapper<BchSplitterProps>('bch-splitter');
+export const BchStatusBar = createWrapper<BchStatusBarProps>('bch-status-bar');
+export const BchModeBadge = createWrapper<BchModeBadgeProps>('bch-mode-badge');
+export const BchOmnibar = createWrapper<BchOmnibarProps>('bch-omnibar');
+export const BchAlert = createWrapper<BchAlertProps>('bch-alert');
+export const BchStatus = createWrapper<BchStatusProps>('bch-status');
+export const BchMetricCard = createWrapper<BchMetricCardProps>('bch-metric-card');
+export const BchEmptyState = createWrapper<BchEmptyStateProps>('bch-empty-state');
+export const BchDataTable = createWrapper<BchDataTableProps>('bch-data-table');
+export const BchToolbar = createWrapper<BchToolbarProps>('bch-toolbar');
 
 declare global {
   namespace JSX {
@@ -392,6 +477,30 @@ declare global {
         BchTabsProps;
       'bch-tooltip': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> &
         BchTooltipProps;
+      'bch-tree': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> &
+        BchTreeProps;
+      'bch-tree-item': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> &
+        BchTreeItemProps;
+      'bch-splitter': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> &
+        BchSplitterProps;
+      'bch-status-bar': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> &
+        BchStatusBarProps;
+      'bch-mode-badge': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> &
+        BchModeBadgeProps;
+      'bch-omnibar': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> &
+        BchOmnibarProps;
+      'bch-alert': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> &
+        BchAlertProps;
+      'bch-status': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> &
+        BchStatusProps;
+      'bch-metric-card': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> &
+        BchMetricCardProps;
+      'bch-empty-state': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> &
+        BchEmptyStateProps;
+      'bch-data-table': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> &
+        BchDataTableProps;
+      'bch-toolbar': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> &
+        BchToolbarProps;
     }
   }
 }
