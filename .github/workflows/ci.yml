@@ -47,3 +47,33 @@ jobs:
       - run: pnpm build
       - run: pnpm test:contracts
       - run: pnpm test:a11y
+
+  visual:
+    name: visual (story × viewport × theme)
+    needs: check
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.26.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm build
+      - run: pnpm build:storybook
+      # Ubuntu is the reference environment: snapshots generated on Arch/WSL
+      # differ at the pixel level, so CI produces the baselines and publishes
+      # them as an artifact. Cross-commit comparison is not wired yet; this job
+      # proves the matrix renders deterministically on the reference OS.
+      - run: pnpm test:visual:update
+      - uses: actions/upload-artifact@v4
+        with:
+          name: visual-baselines
+          path: packages/testing/visual/visual-matrix.spec.ts-snapshots/
+          if-no-files-found: error
+          retention-days: 14
