@@ -2,16 +2,16 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 16px;
-  padding: 14px 16px;
-  border: 1px solid var(--bch-color-border);
+  gap: var(--bch-space-4);
+  padding: 0.875rem var(--bch-space-4);
+  border: var(--bch-border-width-micro) solid var(--bch-color-border);
   border-radius: var(--bch-radius-md);
   background: var(--bch-color-surface);
   color: var(--bch-color-text);
 }
 .bch-alert__content {
   display: grid;
-  gap: 4px;
+  gap: var(--bch-space-1);
   min-width: 0;
 }
 .bch-alert--success {

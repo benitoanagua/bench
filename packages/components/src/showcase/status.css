@@ -1,19 +1,19 @@
 .bch-status {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  min-height: 28px;
-  padding: 4px 10px;
-  border: 1px solid var(--bch-color-border);
-  border-radius: 999px;
+  gap: 0.4375rem;
+  min-height: 1.75rem;
+  padding: var(--bch-space-1) 0.625rem;
+  border: var(--bch-border-width-micro) solid var(--bch-color-border);
+  border-radius: var(--bch-radius-pill);
   font-size: 0.8125rem;
   font-weight: var(--bch-font-weight-medium);
   background: var(--bch-color-surface);
   color: var(--bch-color-text);
 }
 .bch-status__dot {
-  width: 7px;
-  height: 7px;
+  width: 0.4375rem;
+  height: 0.4375rem;
   border-radius: 50%;
   background: currentColor;
 }

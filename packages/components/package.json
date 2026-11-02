@@ -16,7 +16,7 @@
   },
   "scripts": {
     "build": "stencil build --docs-readme false",
-    "typecheck": "stencil build --dev --docs-readme false",
+    "typecheck": "stencil build --dev --docs-readme false --config stencil.typecheck.config.ts",
     "test": "stencil test --spec",
     "lint": "node ../../tooling/lint/package-rules.mjs components"
   },

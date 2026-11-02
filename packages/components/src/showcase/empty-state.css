@@ -1,12 +1,12 @@
 .bch-empty-state {
   display: grid;
   justify-items: center;
-  gap: 10px;
-  padding: 40px 24px;
+  gap: 0.625rem;
+  padding: var(--bch-space-10) var(--bch-space-6);
   text-align: center;
   /* Regla 8 (§2.3): sólido = default; el dashed queda reservado a la variante
      provisional explícita más abajo. */
-  border: 1px solid var(--bch-color-border-micro);
+  border: var(--bch-border-width-micro) solid var(--bch-color-border-micro);
   border-style: var(--bch-line-default);
   border-radius: var(--bch-radius-lg);
   background: var(--bch-color-surface);
@@ -18,12 +18,12 @@
 .bch-empty-state__icon {
   display: grid;
   place-items: center;
-  width: 48px;
-  height: 48px;
+  width: var(--bch-space-12);
+  height: var(--bch-space-12);
   border-radius: 50%;
   background: var(--bch-color-background);
   color: var(--bch-color-text-muted);
-  font-size: 24px;
+  font-size: var(--bch-font-size-xl);
 }
 .bch-empty-state h3,
 .bch-empty-state p {
@@ -35,8 +35,8 @@
 }
 .bch-empty-state__actions {
   display: flex;
-  gap: 8px;
+  gap: var(--bch-space-2);
   flex-wrap: wrap;
   justify-content: center;
-  margin-top: 6px;
+  margin-top: 0.375rem;
 }

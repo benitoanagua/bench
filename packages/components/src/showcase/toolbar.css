@@ -2,8 +2,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  padding: 12px 0;
+  gap: var(--bch-space-3);
+  padding: var(--bch-space-3) 0;
   flex-wrap: wrap;
 }
 .bch-toolbar__start,
@@ -11,13 +11,13 @@
 .bch-toolbar__end {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--bch-space-2);
   flex-wrap: wrap;
 }
 .bch-toolbar__main {
-  flex: 1 1 240px;
+  flex: 1 1 15rem;
 }
-@media (max-width: 560px) {
+@media (max-width: 35rem) {
   .bch-toolbar__main {
     order: 3;
     flex-basis: 100%;

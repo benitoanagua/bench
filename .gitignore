@@ -4,6 +4,7 @@ node_modules/
 
 # Salidas de build (Stencil, tsc, Storybook, Vite)
 dist/
+.typecheck/
 www/
 loader/
 .stencil/

@@ -6,7 +6,7 @@
       "entry": ["src/**/*.stories.ts", "src/story-helpers.ts", ".storybook/*.ts"]
     },
     "packages/components": {
-      "entry": ["src/index.ts", "stencil.config.ts"],
+      "entry": ["src/index.ts", "stencil.config.ts", "stencil.typecheck.config.ts"],
       "ignoreDependencies": ["jest", "jest-cli"]
     },
     "packages/react": {

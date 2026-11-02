@@ -1,8 +1,8 @@
 .bch-metric-card {
   display: grid;
-  gap: 8px;
-  padding: 20px;
-  border: 1px solid var(--bch-color-border);
+  gap: var(--bch-space-2);
+  padding: var(--bch-space-5);
+  border: var(--bch-border-width-micro) solid var(--bch-color-border);
   border-radius: var(--bch-radius-lg);
   background: var(--bch-color-surface);
   color: var(--bch-color-text);
@@ -12,7 +12,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: var(--bch-space-3);
 }
 .bch-metric-card__label {
   color: var(--bch-color-text-muted);
