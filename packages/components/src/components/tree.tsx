@@ -15,6 +15,19 @@ function itemsOf(host: HTMLElement): HTMLElement[] {
   return getDirectChildrenForBench(host, 'bch-tree-item');
 }
 
+/**
+ * Root nodes never carry `slot="children"`; nested nodes always do. Filtering
+ * by slot keeps the mock-doc fallback (which returns every descendant) from
+ * treating collapsed grandchildren as visible roots.
+ */
+function rootItemsOf(host: HTMLElement): HTMLElement[] {
+  return itemsOf(host).filter((item) => item.getAttribute('slot') !== 'children');
+}
+
+function childItemsOf(item: HTMLElement): HTMLElement[] {
+  return itemsOf(item).filter((child) => child.getAttribute('slot') === 'children');
+}
+
 function rowOf(item: HTMLElement): HTMLElement | undefined {
   return Array.from(item.childNodes ?? []).find(
     (node): node is HTMLElement =>
@@ -24,7 +37,10 @@ function rowOf(item: HTMLElement): HTMLElement | undefined {
 }
 
 function isExpanded(item: HTMLElement): boolean {
-  return item.getAttribute('expanded') === 'true';
+  // Stencil reflects boolean props as `expanded=""`, so presence (not the
+  // literal string "true") is the reliable signal. An explicit "false" from
+  // markup still means collapsed.
+  return item.hasAttribute('expanded') && item.getAttribute('expanded') !== 'false';
 }
 
 /**
@@ -88,7 +104,7 @@ export class BchTree {
           index: rows.length,
           depth,
         });
-        if (isExpanded(item)) visit(itemsOf(item), depth + 1, item);
+        if (isExpanded(item)) visit(childItemsOf(item), depth + 1, item);
       }
     };
     // Data-driven items render inside the tree body; slotted items remain
@@ -96,7 +112,7 @@ export class BchTree {
     // mock-doc projects them into the body's slot. Scan both.
     const body = this.root?.querySelector('.bch-tree__body') ?? this.host;
     for (const container of [body, this.host] as HTMLElement[]) {
-      const roots = itemsOf(container);
+      const roots = rootItemsOf(container);
       if (roots.length > 0) {
         visit(roots, 0, null);
         break;
@@ -166,7 +182,7 @@ export class BchTree {
 
   /** `→` expands, or enters the first child when already expanded. */
   private expandRight(rows: FlatRow[], current: FlatRow) {
-    if (itemsOf(current.item).length === 0) return;
+    if (childItemsOf(current.item).length === 0) return;
     if (!isExpanded(current.item)) {
       current.item.setAttribute('expanded', 'true');
       this.syncRoving();
@@ -178,7 +194,7 @@ export class BchTree {
 
   /** `←` collapses, or climbs to the parent node's exact row. */
   private collapseLeft(rows: FlatRow[], current: FlatRow) {
-    if (itemsOf(current.item).length > 0 && isExpanded(current.item)) {
+    if (childItemsOf(current.item).length > 0 && isExpanded(current.item)) {
       current.item.setAttribute('expanded', 'false');
       this.focusRow(rows, current.index);
       return;

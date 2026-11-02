@@ -10,6 +10,11 @@ export class BchTab {
   @Event({ bubbles: true, composed: true }) bchPress!: EventEmitter<string>;
   private id = `bch-tab-${Math.random().toString(36).slice(2)}`;
 
+  private onClick = () => {
+    if (this.disabled) return;
+    this.bchPress.emit(this.value);
+  };
+
   private handleKeyDown = (event: KeyboardEvent) => {
     if (this.disabled || !['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
     const tabs = Array.from(
@@ -24,7 +29,8 @@ export class BchTab {
           ? enabled.length - 1
           : (current + (event.key === 'ArrowRight' ? 1 : -1) + enabled.length) % enabled.length;
     event.preventDefault();
-    enabled[nextIndex]?.focus();
+    // The focusable element is the inner button, not the custom-element host.
+    enabled[nextIndex]?.querySelector<HTMLButtonElement>('button')?.focus();
   };
 
   render() {
@@ -38,7 +44,7 @@ export class BchTab {
         aria-controls={panelId}
         tabIndex={this.active ? 0 : -1}
         disabled={this.disabled}
-        onClick={() => this.bchPress.emit(this.value)}
+        onClick={this.onClick}
         onKeyDown={this.handleKeyDown}
       >
         <slot />
