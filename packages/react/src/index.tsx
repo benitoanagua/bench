@@ -1,5 +1,6 @@
 import * as React from 'react';
 import '@bench/components';
+import { createWrapper } from './create-wrapper';
 
 /**
  * Coverage: every component in packages/components/src/components/*.tsx now
@@ -229,135 +230,58 @@ export type BchTooltipProps = React.HTMLAttributes<HTMLElement> & {
   placement?: 'top' | 'bottom';
 };
 
-export const BchButton = React.forwardRef<HTMLElement, BchButtonProps>((props, ref) => (
-  <bch-button ref={ref as React.Ref<any>} {...props} />
-));
-export const BchIcon = React.forwardRef<HTMLElement, BchIconProps>((props, ref) => (
-  <bch-icon ref={ref} {...props} />
-));
-export const BchIconButton = React.forwardRef<HTMLElement, BchIconButtonProps>((props, ref) => (
-  <bch-icon-button ref={ref as React.Ref<any>} {...props} />
-));
-export const BchInput = React.forwardRef<HTMLElement, BchInputProps>((props, ref) => (
-  <bch-input ref={ref as React.Ref<any>} {...props} />
-));
-export const BchTextarea = React.forwardRef<HTMLElement, BchTextareaProps>((props, ref) => (
-  <bch-textarea ref={ref as React.Ref<any>} {...props} />
-));
-export const BchCheckbox = React.forwardRef<
-  HTMLElement,
+export const BchButton = createWrapper<BchButtonProps>('bch-button');
+export const BchIcon = createWrapper<BchIconProps>('bch-icon');
+export const BchIconButton = createWrapper<BchIconButtonProps>('bch-icon-button');
+export const BchInput = createWrapper<BchInputProps>('bch-input');
+export const BchTextarea = createWrapper<BchTextareaProps>('bch-textarea');
+export const BchCheckbox = createWrapper<
   React.HTMLAttributes<HTMLElement> & { label?: string; checked?: boolean }
->((props, ref) => <bch-checkbox ref={ref} {...props} />);
-export const BchRadio = React.forwardRef<
-  HTMLElement,
+>('bch-checkbox');
+export const BchRadio = createWrapper<
   React.HTMLAttributes<HTMLElement> & { label?: string; checked?: boolean }
->((props, ref) => <bch-radio ref={ref} {...props} />);
-export const BchSwitch = React.forwardRef<
-  HTMLElement,
+>('bch-radio');
+export const BchSwitch = createWrapper<
   React.HTMLAttributes<HTMLElement> & { label?: string; checked?: boolean }
->((props, ref) => <bch-switch ref={ref} {...props} />);
+>('bch-switch');
 export type BchSelectProps = Omit<React.SelectHTMLAttributes<HTMLSelectElement>, 'value'> & {
   label?: string;
   hint?: string;
   error?: string;
   value?: string;
 };
-export const BchSelect = React.forwardRef<HTMLElement, BchSelectProps>((props, ref) => (
-  <bch-select ref={ref as React.Ref<any>} {...props} />
-));
-export const BchCard = React.forwardRef<HTMLElement, BchCardProps>((props, ref) => (
-  <bch-card ref={ref} {...props} />
-));
-export const BchBadge = React.forwardRef<HTMLElement, BchBadgeProps>((props, ref) => (
-  <bch-badge ref={ref} {...props} />
-));
-export const BchAvatar = React.forwardRef<HTMLElement, BchAvatarProps>((props, ref) => (
-  <bch-avatar ref={ref} {...props} />
-));
-export const BchProgress = React.forwardRef<HTMLElement, BchProgressProps>((props, ref) => (
-  <bch-progress ref={ref} {...props} />
-));
-export const BchSkeleton = React.forwardRef<HTMLElement, BchSkeletonProps>((props, ref) => (
-  <bch-skeleton ref={ref} {...props} />
-));
-export const BchSlider = React.forwardRef<HTMLElement, BchSliderProps>((props, ref) => (
-  <bch-slider ref={ref as React.Ref<any>} {...props} />
-));
-export const BchPagination = React.forwardRef<HTMLElement, BchPaginationProps>((props, ref) => (
-  <bch-pagination ref={ref} {...props} />
-));
-export const BchBreadcrumbs = React.forwardRef<HTMLElement, BchBreadcrumbsProps>((props, ref) => (
-  <bch-breadcrumbs ref={ref} {...props} />
-));
-export const BchBreadcrumbItem = React.forwardRef<HTMLElement, BchBreadcrumbItemProps>(
-  (props, ref) => <bch-breadcrumb-item ref={ref} {...props} />,
-);
-export const BchMenu = React.forwardRef<HTMLElement, BchMenuProps>((props, ref) => (
-  <bch-menu ref={ref} {...props} />
-));
-export const BchMenuItem = React.forwardRef<HTMLElement, BchMenuItemProps>((props, ref) => (
-  <bch-menu-item ref={ref} {...props} />
-));
-export const BchSegmentedControl = React.forwardRef<HTMLElement, BchSegmentedControlProps>(
-  (props, ref) => <bch-segmented-control ref={ref} {...props} />,
-);
-export const BchSegmentedItem = React.forwardRef<HTMLElement, BchSegmentedItemProps>(
-  (props, ref) => <bch-segmented-item ref={ref} {...props} />,
-);
-export const BchToastRegion = React.forwardRef<HTMLElement, BchToastRegionProps>((props, ref) => (
-  <bch-toast-region ref={ref} {...props} />
-));
-export const BchCombobox = React.forwardRef<HTMLElement, BchComboboxProps>((props, ref) => (
-  <bch-combobox ref={ref} {...props} />
-));
-export const BchComboboxOption = React.forwardRef<HTMLElement, BchComboboxOptionProps>(
-  (props, ref) => <bch-combobox-option ref={ref} {...props} />,
-);
-export const BchDatePicker = React.forwardRef<HTMLElement, BchDatePickerProps>((props, ref) => (
-  <bch-date-picker ref={ref} {...props} />
-));
-export const BchTimePicker = React.forwardRef<HTMLElement, BchTimePickerProps>((props, ref) => (
-  <bch-time-picker ref={ref} {...props} />
-));
-export const BchFileUpload = React.forwardRef<HTMLElement, BchFileUploadProps>((props, ref) => (
-  <bch-file-upload ref={ref} {...props} />
-));
-export const BchAccordion = React.forwardRef<HTMLElement, BchAccordionProps>((props, ref) => (
-  <bch-accordion ref={ref} {...props} />
-));
-export const BchAccordionItem = React.forwardRef<HTMLElement, BchAccordionItemProps>(
-  (props, ref) => <bch-accordion-item ref={ref} {...props} />,
-);
-export const BchDialog = React.forwardRef<HTMLElement, BchDialogProps>((props, ref) => (
-  <bch-dialog ref={ref} {...props} />
-));
-export const BchDrawer = React.forwardRef<HTMLElement, BchDrawerProps>((props, ref) => (
-  <bch-drawer ref={ref} {...props} />
-));
-export const BchFormField = React.forwardRef<HTMLElement, BchFormFieldProps>((props, ref) => (
-  <bch-form-field ref={ref} {...props} />
-));
-export const BchNav = React.forwardRef<HTMLElement, BchNavProps>((props, ref) => (
-  <bch-nav ref={ref} {...props} />
-));
-export const BchNavItem = React.forwardRef<HTMLElement, BchNavItemProps>((props, ref) => (
-  <bch-nav-item ref={ref} {...props} />
-));
-export const BchSpinner = React.forwardRef<HTMLElement, BchSpinnerProps>((props, ref) => (
-  <bch-spinner ref={ref} {...props} />
-));
-export const BchTab = React.forwardRef<HTMLElement, BchTabProps>((props, ref) => (
-  <bch-tab ref={ref} {...props} />
-));
-export const BchTabPanel = React.forwardRef<HTMLElement, BchTabPanelProps>((props, ref) => (
-  <bch-tab-panel ref={ref} {...props} />
-));
-export const BchTabs = React.forwardRef<HTMLElement, BchTabsProps>((props, ref) => (
-  <bch-tabs ref={ref} {...props} />
-));
-export const BchTooltip = React.forwardRef<HTMLElement, BchTooltipProps>((props, ref) => (
-  <bch-tooltip ref={ref} {...props} />
-));
+export const BchSelect = createWrapper<BchSelectProps>('bch-select');
+export const BchCard = createWrapper<BchCardProps>('bch-card');
+export const BchBadge = createWrapper<BchBadgeProps>('bch-badge');
+export const BchAvatar = createWrapper<BchAvatarProps>('bch-avatar');
+export const BchProgress = createWrapper<BchProgressProps>('bch-progress');
+export const BchSkeleton = createWrapper<BchSkeletonProps>('bch-skeleton');
+export const BchSlider = createWrapper<BchSliderProps>('bch-slider');
+export const BchPagination = createWrapper<BchPaginationProps>('bch-pagination');
+export const BchBreadcrumbs = createWrapper<BchBreadcrumbsProps>('bch-breadcrumbs');
+export const BchBreadcrumbItem = createWrapper<BchBreadcrumbItemProps>('bch-breadcrumb-item');
+export const BchMenu = createWrapper<BchMenuProps>('bch-menu');
+export const BchMenuItem = createWrapper<BchMenuItemProps>('bch-menu-item');
+export const BchSegmentedControl = createWrapper<BchSegmentedControlProps>('bch-segmented-control');
+export const BchSegmentedItem = createWrapper<BchSegmentedItemProps>('bch-segmented-item');
+export const BchToastRegion = createWrapper<BchToastRegionProps>('bch-toast-region');
+export const BchCombobox = createWrapper<BchComboboxProps>('bch-combobox');
+export const BchComboboxOption = createWrapper<BchComboboxOptionProps>('bch-combobox-option');
+export const BchDatePicker = createWrapper<BchDatePickerProps>('bch-date-picker');
+export const BchTimePicker = createWrapper<BchTimePickerProps>('bch-time-picker');
+export const BchFileUpload = createWrapper<BchFileUploadProps>('bch-file-upload');
+export const BchAccordion = createWrapper<BchAccordionProps>('bch-accordion');
+export const BchAccordionItem = createWrapper<BchAccordionItemProps>('bch-accordion-item');
+export const BchDialog = createWrapper<BchDialogProps>('bch-dialog');
+export const BchDrawer = createWrapper<BchDrawerProps>('bch-drawer');
+export const BchFormField = createWrapper<BchFormFieldProps>('bch-form-field');
+export const BchNav = createWrapper<BchNavProps>('bch-nav');
+export const BchNavItem = createWrapper<BchNavItemProps>('bch-nav-item');
+export const BchSpinner = createWrapper<BchSpinnerProps>('bch-spinner');
+export const BchTab = createWrapper<BchTabProps>('bch-tab');
+export const BchTabPanel = createWrapper<BchTabPanelProps>('bch-tab-panel');
+export const BchTabs = createWrapper<BchTabsProps>('bch-tabs');
+export const BchTooltip = createWrapper<BchTooltipProps>('bch-tooltip');
 
 declare global {
   namespace JSX {
