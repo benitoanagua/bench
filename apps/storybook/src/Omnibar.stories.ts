@@ -1,6 +1,7 @@
 import type { Meta } from '@stencil/storybook-plugin';
 import { h } from '@stencil/core';
-import { BchOmnibar, BchFunctionEntry } from '@bench/components';
+import { BchOmnibar } from '@bench/components';
+import type { BchFunctionEntry } from '@bench/components';
 
 const meta = {
   title: 'BENCH/Components/Navigation/Omnibar',

@@ -1,78 +1,43 @@
 import { expect, test } from '@playwright/test';
-import { readdirSync, readFileSync, statSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
-import { join } from 'node:path';
+import type { APIRequestContext } from '@playwright/test';
+import { exportedTags, storyCatalog, storyForTag } from './story-catalog';
 
 const STORY_BASE = 'http://127.0.0.1:6006/iframe.html?id=';
 
-/**
- * Fuente de verdad de los tags exportados: se extraen del código fuente de
- * `@bench/components` con el mismo criterio que `tooling/validation/
- * component-matrix.mjs`. Así el contrato de registro cubre automáticamente
- * los 52 tags sin mantener una lista paralela.
- */
-function exportedTags(): string[] {
-  const root = fileURLToPath(new URL('../../../', import.meta.url));
-  const srcRoot = join(root, 'packages', 'components', 'src');
-  const tags = new Set<string>();
-  const walk = (dir: string): void => {
-    for (const entry of readdirSync(dir)) {
-      const path = join(dir, entry);
-      if (statSync(path).isDirectory()) walk(path);
-      else if (entry.endsWith('.tsx')) {
-        for (const m of readFileSync(path, 'utf8').matchAll(
-          /@Component\(\{[^}]*tag:\s*'([^']+)'/gs,
-        )) {
-          tags.add(m[1]);
-        }
-      }
-    }
-  };
-  walk(srcRoot);
-  return [...tags].sort();
+let catalogPromise: ReturnType<typeof storyCatalog> | undefined;
+function catalog(request: APIRequestContext) {
+  catalogPromise ??= storyCatalog(request);
+  return catalogPromise;
 }
 
 test.describe('BENCH public contracts', () => {
-  test('every exported tag ships as an upgradeable custom element', async ({ page }) => {
-    const tags = exportedTags();
-    expect(tags.length).toBeGreaterThan(50);
-
-    await page.goto(`${STORY_BASE}bench-contracts--registry`);
-
-    const results = await page.evaluate(async (list: string[]) => {
-      const out: { tag: string; defined: boolean; upgraded: boolean }[] = [];
-      for (const tag of list) {
-        const ctor = customElements.get(tag) as CustomElementConstructor | undefined;
-        const defined = Boolean(ctor);
-        let upgraded = false;
-        if (ctor) {
-          const el = document.createElement(tag);
-          document.body.appendChild(el);
-          await customElements.whenDefined(tag);
-          const ready = (el as unknown as { componentOnReady?: () => Promise<unknown> })
-            .componentOnReady;
-          if (ready) {
-            try {
-              await ready.call(el);
-            } catch {
-              /* el registro no depende de que el render esté libre de errores */
-            }
-          } else {
-            await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
-          }
-          upgraded = el.isConnected && el instanceof ctor;
-          el.remove();
-        }
-        out.push({ tag, defined, upgraded });
-      }
-      return out;
-    }, tags);
-
-    const notDefined = results.filter((r) => !r.defined).map((r) => r.tag);
-    const notUpgraded = results.filter((r) => !r.upgraded).map((r) => r.tag);
-    expect(notDefined, `tags sin custom element: ${notDefined.join(', ')}`).toEqual([]);
-    expect(notUpgraded, `tags que no se actualizaron: ${notUpgraded.join(', ')}`).toEqual([]);
+  test('cada tag exportado tiene una story en el índice de Storybook', async ({ request }) => {
+    const entries = await catalog(request);
+    expect(entries.map((entry) => entry.tag).sort()).toEqual(exportedTags());
+    expect(entries.every((entry) => entry.storyId.length > 0)).toBe(true);
   });
+
+  // Una story por tag: la lista se genera desde los decoradores de
+  // @bench/components y se resuelve contra apps/storybook/src + index.json.
+  for (const tag of exportedTags()) {
+    test(`${tag} se registra y actualiza en su story`, async ({ page, request }) => {
+      const story = await storyForTag(request, tag);
+      await page.goto(`${STORY_BASE}${story.storyId}`);
+      await page.waitForSelector(`${tag}.hydrated`, { state: 'attached' });
+
+      const result = await page.evaluate((name) => {
+        const ctor = customElements.get(name) as CustomElementConstructor | undefined;
+        const element = document.querySelector(name);
+        return {
+          defined: Boolean(ctor),
+          upgraded: Boolean(element && ctor && element instanceof ctor),
+          connected: Boolean(element?.isConnected),
+        };
+      }, tag);
+
+      expect(result).toEqual({ defined: true, upgraded: true, connected: true });
+    });
+  }
 
   const semantics = [
     {
