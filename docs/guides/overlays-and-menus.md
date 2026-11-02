@@ -36,7 +36,10 @@ dialog feels important."
 
 Use `bch-drawer` for the non-modal case. It closes on Escape, restores focus to
 the trigger, and deliberately does not trap focus — the user may keep working
-behind it.
+behind it. The rule is explicit in
+[ADR-011](../architecture/adr-011-drawer-non-modal.md): a _decision_ (confirm,
+discard, irreversible) is always `bch-dialog`; a _destination_ (navigation,
+filters, inspector) is `bch-drawer`.
 
 ## Menu
 
