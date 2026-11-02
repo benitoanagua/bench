@@ -14,7 +14,7 @@ export const WrappingCustomControl = {
     h(
       'bch-form-field',
       { label: 'Search radius', hint: 'Distance in kilometers' },
-      h('bch-slider', { min: 0, max: 50, value: 10 }),
+      h('bch-slider', { label: 'Radius', min: 0, max: 50, value: 10 }),
     ),
 };
 export const WithError = {

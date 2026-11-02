@@ -118,10 +118,10 @@ export class BchFileUpload {
     return (
       <div class="field bch-file-upload">
         {this.label ? (
-          <span class="label">
+          <label class="label" htmlFor={id}>
             {this.label}
             {this.required ? ' *' : ''}
-          </span>
+          </label>
         ) : null}
         <div
           class={{
@@ -149,20 +149,23 @@ export class BchFileUpload {
             {this.dropzoneText}
             <span class="bch-file-upload__browse">{this.browseText}</span>
           </p>
-          <input
-            ref={(el) => (this.inputEl = el as HTMLInputElement)}
-            id={id}
-            type="file"
-            class="bch-file-upload__input"
-            name={this.name || undefined}
-            accept={this.accept || undefined}
-            multiple={this.multiple}
-            disabled={this.disabled}
-            required={this.required && this.files.length === 0}
-            onChange={this.onInputChange}
-            tabIndex={-1}
-          />
         </div>
+        {/* The native input stays outside the role="button" dropzone: nesting
+            a focusable form control inside an interactive widget is invalid
+            even when it is visually hidden. */}
+        <input
+          ref={(el) => (this.inputEl = el as HTMLInputElement)}
+          id={id}
+          type="file"
+          class="bch-file-upload__input"
+          name={this.name || undefined}
+          accept={this.accept || undefined}
+          multiple={this.multiple}
+          disabled={this.disabled}
+          required={this.required && this.files.length === 0}
+          onChange={this.onInputChange}
+          tabIndex={-1}
+        />
 
         {this.files.length > 0 ? (
           <ul class="bch-file-upload__list">

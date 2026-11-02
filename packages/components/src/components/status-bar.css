@@ -9,7 +9,7 @@
   ); /* bottom-left stays free — browser link-preview zone */
   border-block-start: var(--bch-border-width-control) solid var(--bch-color-border-container);
   background: var(--bch-color-surface);
-  color: var(--bch-color-text-disabled);
+  color: var(--bch-color-text-muted);
   font: inherit;
   font-size: var(--bch-density-fs-data);
 }

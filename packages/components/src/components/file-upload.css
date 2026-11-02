@@ -1,3 +1,6 @@
+.bch-file-upload {
+  position: relative;
+}
 .bch-file-upload__dropzone {
   display: flex;
   flex-direction: column;
