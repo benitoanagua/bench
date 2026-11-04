@@ -44,10 +44,14 @@ arrow/Home/End navigation:
 <bch-tabs>
   <bch-tab value="overview" active>Overview</bch-tab>
   <bch-tab value="activity">Activity</bch-tab>
-  <bch-tab-panel value="overview">...</bch-tab-panel>
-  <bch-tab-panel value="activity">...</bch-tab-panel>
+  <bch-tab-panel slot="panel" value="overview">...</bch-tab-panel>
+  <bch-tab-panel slot="panel" value="activity">...</bch-tab-panel>
 </bch-tabs>
 ```
+
+`bch-tab` va como hijo directo de `bch-tabs` (el componente proyecta los hijos
+en su propia `tablist`) y los paneles necesitan `slot="panel"`: sin ese slot
+caen en el slot por defecto y acaban dentro de la `tablist`.
 
 `bchChange` emits the selected value. Keep the selected value in application
 state if it must survive reloads.

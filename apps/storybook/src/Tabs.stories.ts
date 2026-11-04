@@ -9,20 +9,22 @@ const meta = {
 
 export default meta;
 
+/**
+ * `bch-tab` va como hijo directo de `bch-tabs`: el componente proyecta los
+ * hijos en su propia `tablist`. Envolverlos en un `div slot="tablist"` los
+ * deja fuera de cualquier slot con ese nombre y desaparecen de la vista.
+ * Los paneles, en cambio, van con `slot="panel"`.
+ */
 export const Default = {
   render: () =>
     h(
       'bch-tabs',
       { value: 'overview' },
-      h(
-        'div',
-        { slot: 'tablist', style: { display: 'flex', gap: '4px' } },
-        h('bch-tab', { value: 'overview', active: true }, 'Overview'),
-        h('bch-tab', { value: 'activity' }, 'Activity'),
-        h('bch-tab', { value: 'settings', disabled: true }, 'Settings'),
-      ),
-      h('bch-tab-panel', { value: 'overview' }, 'Overview content.'),
-      h('bch-tab-panel', { value: 'activity' }, 'Activity content.'),
-      h('bch-tab-panel', { value: 'settings' }, 'Settings content.'),
+      h('bch-tab', { value: 'overview' }, 'Overview'),
+      h('bch-tab', { value: 'activity' }, 'Activity'),
+      h('bch-tab', { value: 'settings', disabled: true }, 'Settings'),
+      h('bch-tab-panel', { slot: 'panel', value: 'overview' }, 'Overview content.'),
+      h('bch-tab-panel', { slot: 'panel', value: 'activity' }, 'Activity content.'),
+      h('bch-tab-panel', { slot: 'panel', value: 'settings' }, 'Settings content.'),
     ),
 };
