@@ -8,7 +8,28 @@ export class BchTab {
   @Prop() active = false;
   @Prop() disabled = false;
   @Event({ bubbles: true, composed: true }) bchPress!: EventEmitter<string>;
-  private id = `bch-tab-${Math.random().toString(36).slice(2)}`;
+
+  /**
+   * Id of the focusable button and id of the panel it controls.
+   *
+   * Both are derived from the owning group (`bch-tabs`) and the tab value, so
+   * `bch-tab` and `bch-tab-panel` agree on them without any runtime
+   * coordination: `aria-controls` and `aria-labelledby` always point at real
+   * elements. A group with an `id` namespaces them (`my-tabs-tab-invoices`),
+   * which is what keeps two groups with the same values apart; without a group
+   * id the fallback is `bch-tab-<value>` / `bch-tab-panel-<value>`.
+   */
+  private get tabId(): string {
+    const group = this.host.closest<HTMLElement>('bch-tabs');
+    const value = this.value || 'tab';
+    return group?.id ? `${group.id}-tab-${value}` : `bch-tab-${value}`;
+  }
+
+  private get panelId(): string {
+    const group = this.host.closest<HTMLElement>('bch-tabs');
+    const value = this.value || 'tab';
+    return group?.id ? `${group.id}-panel-${value}` : `bch-tab-panel-${value}`;
+  }
 
   private onClick = () => {
     if (this.disabled) return;
@@ -34,14 +55,13 @@ export class BchTab {
   };
 
   render() {
-    const panelId = `${this.id}-panel`;
     return (
       <button
-        id={this.id}
+        id={this.tabId}
         class={{ tab: true, active: this.active }}
         role="tab"
         aria-selected={this.active ? 'true' : 'false'}
-        aria-controls={panelId}
+        aria-controls={this.panelId}
         tabIndex={this.active ? 0 : -1}
         disabled={this.disabled}
         onClick={this.onClick}

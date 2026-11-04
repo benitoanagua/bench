@@ -80,4 +80,37 @@ describe('bch-tabs', () => {
     await page.waitForChanges();
     expect(firstFocus).toHaveBeenCalled();
   });
+
+  it('el tab y su panel se referencian por id real', async () => {
+    const { tabs } = await setup();
+    const button = tabs.querySelector('bch-tab[value="a"] button') as HTMLButtonElement;
+    const section = tabs.querySelector(
+      'bch-tab-panel[value="a"] [role="tabpanel"]',
+    ) as HTMLElement;
+
+    expect(button.getAttribute('aria-controls')).toBe(section.id);
+    expect(section.getAttribute('aria-labelledby')).toBe(button.id);
+  });
+
+  it('un grupo con id namespacia los ids de sus tabs y paneles', async () => {
+    const page = await newSpecPage({
+      components: [BchTabs, BchTab, BchTabPanel],
+      html: `
+        <bch-tabs id="grupo" value="a">
+          <bch-tab value="a">Overview</bch-tab>
+          <bch-tab-panel value="a">Overview content</bch-tab-panel>
+        </bch-tabs>
+      `,
+    });
+    const tabs = page.root as HTMLElement & BchTabs;
+    const button = tabs.querySelector('bch-tab[value="a"] button') as HTMLButtonElement;
+    const section = tabs.querySelector(
+      'bch-tab-panel[value="a"] [role="tabpanel"]',
+    ) as HTMLElement;
+
+    expect(button.id).toBe('grupo-tab-a');
+    expect(section.id).toBe('grupo-panel-a');
+    expect(button.getAttribute('aria-controls')).toBe('grupo-panel-a');
+    expect(section.getAttribute('aria-labelledby')).toBe('grupo-tab-a');
+  });
 });
