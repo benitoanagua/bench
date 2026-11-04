@@ -106,8 +106,22 @@ function collectReferencedNames() {
 /**
  * Parse the official `source` SVG string into the [tag, attributes] node
  * format. Keeps shape/content elements, drops <title>/<defs>/<style>.
+ *
+ * Carbon draws the 32x32 transparent bounding rectangle of every icon with a
+ * class hook (`.cls-1`, `.st0`) whose `fill:none` lives in a <style> block.
+ * The style block is dropped, so the rule has to be resolved into an explicit
+ * `fill="none"` attribute: otherwise the rectangle inherits the icon colour
+ * and every glyph renders as a solid square.
  */
 function parseSvg(source) {
+  const classFills = new Map();
+  for (const style of source.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/g)) {
+    for (const rule of style[1].matchAll(/\.([\w-]+)\s*\{([^}]*)\}/g)) {
+      const fill = rule[2].match(/fill\s*:\s*([^;]+)/);
+      if (fill) classFills.set(rule[1], fill[1].trim());
+    }
+  }
+
   const nodes = [];
   const tagRe = /<(\/)?(path|polygon|polyline|circle|ellipse|rect|line|g|use)\b([^>]*?)\/?>/g;
   for (const match of source.matchAll(tagRe)) {
@@ -119,6 +133,15 @@ function parseSvg(source) {
       // inline .cls-1 {fill:none} conventions in Carbon assets resolve to
       // explicit fills: drop style blocks' side effects, keep attributes.
       delete attrs.style;
+    }
+    if (attrs.class && !attrs.fill) {
+      const classes = attrs.class.split(/\s+/).filter(Boolean);
+      const resolved = classes.map((name) => classFills.get(name)).find(Boolean);
+      if (resolved) {
+        attrs.fill = resolved;
+        // The class was only a hook for the dropped style block.
+        delete attrs.class;
+      }
     }
     nodes.push([tag, attrs]);
   }
@@ -174,12 +197,6 @@ export type CarbonIconName =
 ${Object.keys(out)
   .map((n) => `  | '${n}'`)
   .join('\n')};
-
-export const carbonIconNames: readonly CarbonIconName[] = [
-${Object.keys(out)
-  .map((n) => `  '${n}',`)
-  .join('\n')}
-] as const;
 `,
   );
 

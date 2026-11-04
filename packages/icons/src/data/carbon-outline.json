@@ -11,9 +11,9 @@
       {
         "id": "_Transparent_Rectangle_",
         "data-name": "&lt;Transparent Rectangle&gt;",
-        "class": "cls-1",
         "width": "32",
-        "height": "32"
+        "height": "32",
+        "fill": "none"
       }
     ]
   ],
@@ -27,9 +27,9 @@
     [
       "rect",
       {
-        "class": "st0",
         "width": "32",
-        "height": "32"
+        "height": "32",
+        "fill": "none"
       }
     ]
   ],
@@ -45,9 +45,9 @@
       {
         "id": "_Transparent_Rectangle_",
         "data-name": "&lt;Transparent Rectangle&gt;",
-        "class": "cls-1",
         "width": "32",
-        "height": "32"
+        "height": "32",
+        "fill": "none"
       }
     ]
   ],
@@ -72,9 +72,9 @@
       {
         "id": "_Transparent_Rectangle_",
         "data-name": "&lt;Transparent Rectangle&gt;",
-        "class": "cls-1",
         "width": "32",
-        "height": "32"
+        "height": "32",
+        "fill": "none"
       }
     ]
   ],
@@ -90,9 +90,9 @@
       {
         "id": "_Transparent_Rectangle_",
         "data-name": "&lt;Transparent Rectangle&gt;",
-        "class": "cls-1",
         "width": "32",
-        "height": "32"
+        "height": "32",
+        "fill": "none"
       }
     ]
   ],
@@ -113,9 +113,9 @@
       "rect",
       {
         "id": "_Transparent_Rectangle_",
-        "class": "st0",
         "width": "32",
-        "height": "32"
+        "height": "32",
+        "fill": "none"
       }
     ]
   ],
@@ -131,9 +131,9 @@
       {
         "id": "_Transparent_Rectangle_",
         "data-name": "&lt;Transparent Rectangle&gt;",
-        "class": "cls-1",
         "width": "32",
-        "height": "32"
+        "height": "32",
+        "fill": "none"
       }
     ]
   ],
@@ -203,9 +203,9 @@
       {
         "id": "_Transparent_Rectangle_",
         "data-name": "&lt;Transparent Rectangle&gt;",
-        "class": "cls-1",
         "width": "32",
-        "height": "32"
+        "height": "32",
+        "fill": "none"
       }
     ]
   ],
@@ -220,9 +220,9 @@
       "rect",
       {
         "id": "_Transparent_Rectangle_",
-        "class": "st0",
         "width": "32",
-        "height": "32"
+        "height": "32",
+        "fill": "none"
       }
     ]
   ],
@@ -238,9 +238,9 @@
       {
         "id": "_Transparent_Rectangle_",
         "data-name": "&lt;Transparent Rectangle&gt;",
-        "class": "cls-1",
         "width": "32",
-        "height": "32"
+        "height": "32",
+        "fill": "none"
       }
     ]
   ],
@@ -256,9 +256,9 @@
       {
         "id": "_Transparent_Rectangle_",
         "data-name": "&lt;Transparent Rectangle&gt;",
-        "class": "cls-1",
         "width": "32",
-        "height": "32"
+        "height": "32",
+        "fill": "none"
       }
     ]
   ],
@@ -273,9 +273,9 @@
       "rect",
       {
         "id": "_x3C_Transparent_Rectangle_x3E_",
-        "class": "st0",
         "width": "32",
-        "height": "32"
+        "height": "32",
+        "fill": "none"
       }
     ]
   ],
@@ -290,9 +290,9 @@
       "rect",
       {
         "id": "_x3C_Transparent_Rectangle_x3E_",
-        "class": "st0",
         "width": "32",
-        "height": "32"
+        "height": "32",
+        "fill": "none"
       }
     ]
   ],
@@ -307,9 +307,9 @@
       "rect",
       {
         "id": "_x3C_Transparent_Rectangle_x3E_",
-        "class": "st0",
         "width": "32",
-        "height": "32"
+        "height": "32",
+        "fill": "none"
       }
     ]
   ],
@@ -324,9 +324,9 @@
       "rect",
       {
         "id": "_x3C_Transparent_Rectangle_x3E_",
-        "class": "st0",
         "width": "32",
-        "height": "32"
+        "height": "32",
+        "fill": "none"
       }
     ]
   ],
@@ -341,9 +341,9 @@
       "rect",
       {
         "id": "_x3C_Transparent_Rectangle_x3E_",
-        "class": "st0",
         "width": "32",
-        "height": "32"
+        "height": "32",
+        "fill": "none"
       }
     ]
   ],
@@ -361,9 +361,9 @@
       {
         "id": "_Transparent_Rectangle_",
         "data-name": "&lt;Transparent Rectangle&gt;",
-        "class": "cls-1",
         "width": "32",
-        "height": "32"
+        "height": "32",
+        "fill": "none"
       }
     ]
   ],
@@ -385,9 +385,9 @@
       {
         "id": "_Transparent_Rectangle_",
         "data-name": "&lt;Transparent Rectangle&gt;",
-        "class": "cls-1",
         "width": "32",
-        "height": "32"
+        "height": "32",
+        "fill": "none"
       }
     ]
   ],
@@ -409,9 +409,9 @@
       {
         "id": "_Transparent_Rectangle_",
         "data-name": "&lt;Transparent Rectangle&gt;",
-        "class": "cls-1",
         "width": "32",
-        "height": "32"
+        "height": "32",
+        "fill": "none"
       }
     ]
   ],
@@ -432,9 +432,9 @@
     [
       "rect",
       {
-        "class": "cls-1",
         "width": "32",
-        "height": "32"
+        "height": "32",
+        "fill": "none"
       }
     ]
   ],
@@ -456,9 +456,9 @@
       {
         "id": "_Transparent_Rectangle_",
         "data-name": "&lt;Transparent Rectangle&gt;",
-        "class": "cls-1",
         "width": "32",
-        "height": "32"
+        "height": "32",
+        "fill": "none"
       }
     ]
   ],
@@ -488,9 +488,9 @@
       {
         "id": "_Transparent_Rectangle_",
         "data-name": "&lt;Transparent Rectangle&gt;",
-        "class": "cls-1",
         "width": "32",
-        "height": "32"
+        "height": "32",
+        "fill": "none"
       }
     ]
   ],
@@ -506,9 +506,9 @@
       {
         "id": "_Transparent_Rectangle_",
         "data-name": "&lt;Transparent Rectangle&gt;",
-        "class": "cls-1",
         "width": "32",
-        "height": "32"
+        "height": "32",
+        "fill": "none"
       }
     ]
   ],
@@ -532,9 +532,9 @@
       {
         "id": "_Transparent_Rectangle_",
         "data-name": "&lt;Transparent Rectangle&gt;",
-        "class": "cls-1",
         "width": "32",
-        "height": "32"
+        "height": "32",
+        "fill": "none"
       }
     ]
   ],
@@ -556,9 +556,9 @@
       {
         "id": "_Transparent_Rectangle_",
         "data-name": "&amp;lt;Transparent Rectangle&amp;gt;",
-        "class": "cls-1",
         "width": "32",
-        "height": "32"
+        "height": "32",
+        "fill": "none"
       }
     ]
   ],
@@ -590,9 +590,9 @@
     [
       "rect",
       {
-        "class": "st0",
         "width": "32",
-        "height": "32"
+        "height": "32",
+        "fill": "none"
       }
     ]
   ],
@@ -609,9 +609,9 @@
       {
         "id": "_Transparent_Rectangle_",
         "data-name": "&lt;Transparent Rectangle&gt;",
-        "class": "cls-1",
         "width": "32",
-        "height": "32"
+        "height": "32",
+        "fill": "none"
       }
     ]
   ],
@@ -635,9 +635,9 @@
       {
         "id": "_Transparent_Rectangle_",
         "data-name": "&lt;Transparent Rectangle&gt;",
-        "class": "cls-1",
         "width": "32",
-        "height": "32"
+        "height": "32",
+        "fill": "none"
       }
     ]
   ],
@@ -669,9 +669,9 @@
     [
       "rect",
       {
-        "class": "st0",
         "width": "32",
-        "height": "32"
+        "height": "32",
+        "fill": "none"
       }
     ]
   ],
@@ -687,9 +687,9 @@
       {
         "id": "_Transparent_Rectangle_",
         "data-name": "&lt;Transparent Rectangle&gt;",
-        "class": "cls-1",
         "width": "32",
-        "height": "32"
+        "height": "32",
+        "fill": "none"
       }
     ]
   ],
@@ -706,9 +706,9 @@
       {
         "id": "_Transparent_Rectangle_",
         "data-name": "&lt;Transparent Rectangle&gt;",
-        "class": "cls-1",
         "width": "32",
-        "height": "32"
+        "height": "32",
+        "fill": "none"
       }
     ]
   ],
@@ -736,9 +736,9 @@
     [
       "rect",
       {
-        "class": "cls-1",
         "width": "32",
-        "height": "32"
+        "height": "32",
+        "fill": "none"
       }
     ]
   ],
@@ -748,9 +748,9 @@
       {
         "id": "_Transparent_Rectangle_",
         "data-name": "&lt;Transparent Rectangle&gt;",
-        "class": "cls-1",
         "width": "32",
-        "height": "32"
+        "height": "32",
+        "fill": "none"
       }
     ],
     [
@@ -774,9 +774,9 @@
       {
         "id": "_Transparent_Rectangle_",
         "data-name": "&lt;Transparent Rectangle&gt;",
-        "class": "cls-1",
         "width": "32",
-        "height": "32"
+        "height": "32",
+        "fill": "none"
       }
     ]
   ],
@@ -804,9 +804,9 @@
       {
         "id": "_Transparent_Rectangle_",
         "data-name": "&lt;Transparent Rectangle&gt;",
-        "class": "cls-1",
         "width": "32",
-        "height": "32"
+        "height": "32",
+        "fill": "none"
       }
     ]
   ],
@@ -834,9 +834,9 @@
       {
         "id": "_Transparent_Rectangle_",
         "data-name": "&lt;Transparent Rectangle&gt;",
-        "class": "cls-1",
         "width": "32",
-        "height": "32"
+        "height": "32",
+        "fill": "none"
       }
     ]
   ],
@@ -858,9 +858,9 @@
       {
         "id": "_Transparent_Rectangle_",
         "data-name": "&lt;Transparent Rectangle&gt;",
-        "class": "cls-1",
         "width": "32",
-        "height": "32"
+        "height": "32",
+        "fill": "none"
       }
     ]
   ],
@@ -906,9 +906,9 @@
       {
         "id": "_Transparent_Rectangle_",
         "data-name": "&lt;Transparent Rectangle&gt;",
-        "class": "cls-1",
         "width": "32",
-        "height": "32"
+        "height": "32",
+        "fill": "none"
       }
     ]
   ],
@@ -951,9 +951,9 @@
       {
         "id": "_Transparent_Rectangle_",
         "data-name": "&lt;Transparent Rectangle&gt;",
-        "class": "cls-1",
         "width": "32",
-        "height": "32"
+        "height": "32",
+        "fill": "none"
       }
     ]
   ],
@@ -970,9 +970,9 @@
       {
         "id": "_Transparent_Rectangle_",
         "data-name": "&lt;Transparent Rectangle&gt;",
-        "class": "cls-1",
         "width": "32",
-        "height": "32"
+        "height": "32",
+        "fill": "none"
       }
     ]
   ],
@@ -989,9 +989,9 @@
       {
         "id": "_Transparent_Rectangle_",
         "data-name": "&lt;Transparent Rectangle&gt;",
-        "class": "cls-1",
         "width": "32",
-        "height": "32"
+        "height": "32",
+        "fill": "none"
       }
     ]
   ],
@@ -1005,9 +1005,9 @@
     [
       "rect",
       {
-        "class": "st0",
         "width": "32",
-        "height": "32"
+        "height": "32",
+        "fill": "none"
       }
     ]
   ],
@@ -1024,9 +1024,9 @@
       {
         "id": "_Transparent_Rectangle_",
         "data-name": "&lt;Transparent Rectangle&gt;",
-        "class": "cls-1",
         "width": "32",
-        "height": "32"
+        "height": "32",
+        "fill": "none"
       }
     ]
   ],
@@ -1042,9 +1042,9 @@
       {
         "id": "_Transparent_Rectangle_",
         "data-name": "&lt;Transparent Rectangle&gt;",
-        "class": "cls-1",
         "width": "32",
-        "height": "32"
+        "height": "32",
+        "fill": "none"
       }
     ]
   ],
@@ -1068,9 +1068,9 @@
       {
         "id": "_Transparent_Rectangle_",
         "data-name": "&lt;Transparent Rectangle&gt;",
-        "class": "cls-1",
         "width": "32",
-        "height": "32"
+        "height": "32",
+        "fill": "none"
       }
     ]
   ],
@@ -1092,9 +1092,9 @@
       {
         "id": "_Transparent_Rectangle_",
         "data-name": "&lt;Transparent Rectangle&gt;",
-        "class": "cls-1",
         "width": "32",
-        "height": "32"
+        "height": "32",
+        "fill": "none"
       }
     ]
   ],
@@ -1110,9 +1110,9 @@
       {
         "id": "_Transparent_Rectangle_",
         "data-name": "&lt;Transparent Rectangle&gt;",
-        "class": "cls-1",
         "width": "32",
-        "height": "32"
+        "height": "32",
+        "fill": "none"
       }
     ]
   ],
@@ -1135,9 +1135,9 @@
       {
         "id": "_Transparent_Rectangle_",
         "data-name": "&lt;Transparent Rectangle&gt;",
-        "class": "cls-1",
         "width": "32",
-        "height": "32"
+        "height": "32",
+        "fill": "none"
       }
     ]
   ],
@@ -1180,9 +1180,9 @@
       {
         "id": "_Transparent_Rectangle_",
         "data-name": "&lt;Transparent Rectangle&gt;",
-        "class": "cls-1",
         "width": "32",
-        "height": "32"
+        "height": "32",
+        "fill": "none"
       }
     ]
   ],
@@ -1210,9 +1210,9 @@
       {
         "id": "_Transparent_Rectangle_",
         "data-name": "&lt;Transparent Rectangle&gt;",
-        "class": "cls-1",
         "width": "32",
-        "height": "32"
+        "height": "32",
+        "fill": "none"
       }
     ]
   ],
@@ -1228,9 +1228,9 @@
       {
         "id": "_Transparent_Rectangle_",
         "data-name": "&lt;Transparent Rectangle&gt;",
-        "class": "cls-1",
         "width": "32",
-        "height": "32"
+        "height": "32",
+        "fill": "none"
       }
     ]
   ],
@@ -1252,9 +1252,9 @@
       {
         "id": "_Transparent_Rectangle_",
         "data-name": "&lt;Transparent Rectangle&gt;",
-        "class": "cls-1",
         "width": "32",
-        "height": "32"
+        "height": "32",
+        "fill": "none"
       }
     ]
   ],
@@ -1293,9 +1293,9 @@
     [
       "rect",
       {
-        "class": "cls-1",
         "width": "32",
-        "height": "32"
+        "height": "32",
+        "fill": "none"
       }
     ]
   ],
@@ -1309,9 +1309,9 @@
     [
       "rect",
       {
-        "class": "cls-1",
         "width": "32",
-        "height": "32"
+        "height": "32",
+        "fill": "none"
       }
     ]
   ]
