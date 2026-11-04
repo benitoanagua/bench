@@ -84,9 +84,7 @@ describe('bch-tabs', () => {
   it('el tab y su panel se referencian por id real', async () => {
     const { tabs } = await setup();
     const button = tabs.querySelector('bch-tab[value="a"] button') as HTMLButtonElement;
-    const section = tabs.querySelector(
-      'bch-tab-panel[value="a"] [role="tabpanel"]',
-    ) as HTMLElement;
+    const section = tabs.querySelector('bch-tab-panel[value="a"] [role="tabpanel"]') as HTMLElement;
 
     expect(button.getAttribute('aria-controls')).toBe(section.id);
     expect(section.getAttribute('aria-labelledby')).toBe(button.id);
@@ -104,13 +102,38 @@ describe('bch-tabs', () => {
     });
     const tabs = page.root as HTMLElement & BchTabs;
     const button = tabs.querySelector('bch-tab[value="a"] button') as HTMLButtonElement;
-    const section = tabs.querySelector(
-      'bch-tab-panel[value="a"] [role="tabpanel"]',
-    ) as HTMLElement;
+    const section = tabs.querySelector('bch-tab-panel[value="a"] [role="tabpanel"]') as HTMLElement;
 
     expect(button.id).toBe('grupo-tab-a');
     expect(section.id).toBe('grupo-panel-a');
     expect(button.getAttribute('aria-controls')).toBe('grupo-panel-a');
     expect(section.getAttribute('aria-labelledby')).toBe('grupo-tab-a');
+  });
+
+  it('el valor del hijo manda sobre el atributo', async () => {
+    const { page, tabs } = await setup();
+    const tab = tabs.querySelector('bch-tab[value="b"]') as HTMLElement & { value: string };
+    const panel = tabs.querySelector('bch-tab-panel[value="b"]') as HTMLElement & { value: string };
+    // Desde JSX (Stencil, Storybook) o React 19 el valor llega como propiedad
+    // del elemento, no como atributo.
+    tab.value = 'b2';
+    panel.value = 'b2';
+
+    tabs.value = 'b2';
+    await page.waitForChanges();
+
+    expect(tab.getAttribute('active')).toBe('true');
+    expect(panel.hidden).toBe(false);
+  });
+
+  it('cambiar el value desde fuera reordena el grupo', async () => {
+    const { page, tabs } = await setup();
+    tabs.value = 'b';
+    await page.waitForChanges();
+
+    expect(tabs.querySelector('bch-tab[value="b"]')!.getAttribute('active')).toBe('true');
+    expect(tabs.querySelector('bch-tab[value="a"]')!.getAttribute('active')).toBe('false');
+    expect((tabs.querySelector('bch-tab-panel[value="b"]') as HTMLElement).hidden).toBe(false);
+    expect((tabs.querySelector('bch-tab-panel[value="a"]') as HTMLElement).hidden).toBe(true);
   });
 });

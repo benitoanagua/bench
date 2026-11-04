@@ -1,6 +1,12 @@
 :host {
   display: block;
 }
+/* El panel se oculta con el atributo `hidden` del host: la regla `:host`
+   anterior gana al `[hidden]` del user agent (las hojas de autor mandan sobre
+   las del navegador), así que el estado "oculto" se declara aquí. */
+:host([hidden]) {
+  display: none;
+}
 .tab-list {
   display: flex;
   gap: var(--bch-space-1);
