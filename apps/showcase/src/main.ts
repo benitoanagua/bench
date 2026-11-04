@@ -1,6 +1,12 @@
 import '@bench/tokens/tokens.css';
-import '@bench/components';
+// The canonical way to consume @bench/components outside Storybook: the lazy
+// loader registers every `bch-*` custom element (see docs/guides/getting-started.md).
+// Importing the package alone only pulls the component classes — nothing is
+// registered, and the app renders inert markup.
+import { defineCustomElements } from '@bench/components/loader';
 import './styles.css';
+
+defineCustomElements();
 
 type View = 'overview' | 'activity' | 'forms' | 'settings';
 
@@ -14,10 +20,10 @@ app.innerHTML = `
         <div><strong>BENCH</strong><span>Showcase</span></div>
       </div>
       <nav class="sidebar-nav">
-        <button type="button" class="nav-link is-active" data-view="overview"><bch-icon name="activity"></bch-icon><span>Overview</span></button>
-        <button type="button" class="nav-link" data-view="activity"><bch-icon name="activity"></bch-icon><span>Activity</span></button>
-        <button type="button" class="nav-link" data-view="forms"><bch-icon name="clipboard"></bch-icon><span>Forms</span></button>
-        <button type="button" class="nav-link" data-view="settings"><bch-icon name="settings"></bch-icon><span>Settings</span></button>
+        <button type="button" class="nav-link is-active" data-view="overview" aria-label="Overview"><bch-icon name="activity"></bch-icon><span>Overview</span></button>
+        <button type="button" class="nav-link" data-view="activity" aria-label="Activity"><bch-icon name="activity"></bch-icon><span>Activity</span></button>
+        <button type="button" class="nav-link" data-view="forms" aria-label="Forms"><bch-icon name="clipboard"></bch-icon><span>Forms</span></button>
+        <button type="button" class="nav-link" data-view="settings" aria-label="Settings"><bch-icon name="settings"></bch-icon><span>Settings</span></button>
       </nav>
       <div class="sidebar-bottom">
         <bch-status tone="success" label="System ready"></bch-status>

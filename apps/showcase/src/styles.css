@@ -193,6 +193,12 @@ a:focus-visible,
   display: grid;
   gap: 24px;
 }
+/* `hidden` must win over the `display: grid` above: the author rule would
+   otherwise beat the user-agent `[hidden] { display: none }` and every view
+   would stay visible at the same time. */
+.view[hidden] {
+  display: none;
+}
 .hero-grid {
   display: grid;
   grid-template-columns: minmax(0, 1.55fr) minmax(280px, 0.75fr);
