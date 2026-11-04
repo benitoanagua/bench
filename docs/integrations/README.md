@@ -8,7 +8,7 @@ BENCH is framework-agnostic. `@bench/components` is the canonical Web Components
 
 ## Patrones de aplicación (tier c)
 
-Los patrones que son *composición*, no biblioteca, tienen su guía y su demo en
+Los patrones que son _composición_, no biblioteca, tienen su guía y su demo en
 [`patterns/`](./patterns/README.md): leader keys y paleta de comandos, menús
 contextuales, persistencia de layout, panel inspector, workspaces, window
 placement multi-monitor, record cards, modos y cursores, balloon help,

@@ -13,8 +13,8 @@ tiempo y la fuente de verdad de cada comprobación es el propio `pnpm check`.
 - Segunda pasada de limpieza profunda: `chore/deep-cleanup`.
 - Herramientas de control vigentes: `knip` (`check:dead-code`),
   `check:api`, `check:dependencies`, `check:tokens`, `check:matrix`,
-  `check:links`, `check:icons-consistency`, `lint`, `typecheck`, `test`,
-  `build`, `build:storybook`.
+  `check:functions`, `check:links`, `check:icons-consistency`, `lint`,
+  `typecheck`, `test`, `test:showcase`, `build`, `build:storybook`.
 
 ## Decisiones consolidadas (tomadas y fusionadas)
 
@@ -82,6 +82,67 @@ tiempo y la fuente de verdad de cada comprobación es el propio `pnpm check`.
   `@bench/react` fallaban al resolver `@bench/components`. Ahora el typecheck
   emite en `.typecheck/` (`stencil.typecheck.config.ts`) y `dist/` solo lo
   escribe un build real.
+- **Helpers de tier (b) en `@bench/foundation`** (ADR-009): `fuzzyScore` y
+  `normalizeText` (scoring difuso sin acentos ni mayúsculas), `rankFunctions`,
+  `buildAliasTable` y `resolveAlias` (ranking del índice de funciones con
+  prioridad de alias, nombre, subcadena y fuzzy; desempatado por frecuencia y
+  recencia) y `createThrottledRenderer` (batching por intervalo con
+  temporizadores inyectables). Son puros: sin DOM, sin red, sin estado de
+  dominio. `bch-omnibar` conserva su ranking local: la biblioteca no depende
+  del helper en runtime.
+- **Manifiesto de funciones validado en `pnpm check`**: el manifiesto de
+  referencia es `apps/showcase/bench.functions.json` y
+  `tooling/validation/validate-functions-manifest.mjs` entra como
+  `check:functions` con la ruta explícita (un manifiesto ausente falla en vez
+  de pasar en silencio).
+- **Patrones de aplicación de tier (c) documentados y ejecutables** (ADR-009):
+  15 guías en [`docs/integrations/patterns/`](../integrations/patterns/README.md)
+  (una por patrón del §4) con tabla de trazabilidad patrón ↔ guía ↔ demo, y
+  una demo mínima por patrón en la vista _Patterns_ del showcase
+  (`apps/showcase/src/patterns.ts`), cubierta por 16 tests de Playwright. Las
+  guías y las dejan explícito: el estado, el almacenamiento, los permisos y el
+  teclado son de la aplicación; BENCH solo aporta las piezas.
+- **`bch-drawer` es offcanvas no modal** (ADR-011): no declara `role="dialog"`
+  ni `aria-modal`, no atrapa el foco y cierra con Escape, scrim y botón. La
+  variante modal es `bch-dialog` (`<dialog>` nativo con trampa de foco de la
+  plataforma). La decisión está protegida por la spec del drawer.
+- **Showcase como aplicación real**: el showcase importaba el paquete con
+  `import '@bench/components'`, que solo trae las clases: ningún custom
+  element quedaba registrado y la app renderizaba marcado inerte. Ahora usa el
+  loader lazy canónico (`@bench/components/loader`, el mismo patrón que
+  Storybook y `docs/guides/getting-started.md`). Con los componentes vivos
+  aparecieron y se corrigieron tres defectos: `.view { display: grid }` ganaba
+  al `[hidden]` del user agent (las cuatro vistas se veían a la vez), la barra
+  lateral colapsada a iconos se quedaba sin nombre accesible (ahora lleva
+  `aria-label`) y los tests apuntaban a hosts `display: contents` sin caja.
+- **Enlace ARIA de tabs y paneles**: `bch-tab` usaba un id aleatorio y
+  `bch-tab-panel` apuntaba a `bch-tab-<valor>`, de modo que `aria-controls` y
+  `aria-labelledby` quedaban colgando (axe lo reportaba como _incomplete_, no
+  como violación). Ambos componentes derivan ahora el id del grupo y del valor
+  (`<grupo>-tab-<valor>` / `<grupo>-panel-<valor>`).
+- **Iconos de Carbon: `fill:none` resuelto**: el generador descartaba el bloque
+  `<style>` de los SVG oficiales sin trasladar su regla, y el rectángulo
+  transparente de encuadre heredaba el color del icono: **cada glifo se
+  pintaba como un cuadrado sólido**. Las reglas `fill` de los `<style>` se
+  resuelven ahora a atributos explícitos. Además, el generador deja de
+  escribir el array `carbonIconNames`, eliminado como código muerto en
+  `81aa765`: regenerar los datos ya no reintroduce un export sin consumidores.
+- **`bch-tabs` sincroniza con sus hijos por propiedad o atributo**: el grupo
+  leía el valor de cada `bch-tab` y `bch-tab-panel` solo del atributo. Desde
+  HTML plano funciona, pero desde JSX (Stencil, Storybook) o React 19 el valor
+  se escribe como propiedad del elemento: la comparación fallaba y el grupo se
+  quedaba sin pestaña activa y con todos los paneles ocultos. Ahora la
+  propiedad manda sobre el atributo. Además, cambiar `value` desde fuera
+  reordena el grupo (antes solo lo reconfiguraba un clic) y el panel inactivo
+  **se oculta de verdad**: `bch-tab-panel` heredaba `:host { display: block }`,
+  que gana al `[hidden]` del user agent.
+- **Story de tabs corregido**: la story envolvía los `bch-tab` en un
+  `div slot="tablist"` que no corresponde a ningún slot del componente: la
+  envoltura quedaba oculta, las pestañas no se veían y **la auditoría de a11y
+  de `bch-tabs`/`bch-tab` era vacía** (no había nada que auditar). Ahora los
+  tabs son hijos directos de `bch-tabs` y los paneles llevan `slot="panel"`,
+  como en la guía `docs/guides/layout-and-multitasking.md` (que también se
+  corrigió: sin ese slot los paneles caen dentro de la `tablist`).
 
 ## Estado de verificación tras la limpieza
 
@@ -91,6 +152,13 @@ tiempo y la fuente de verdad de cada comprobación es el propio `pnpm check`.
 - CI `e2e`: `test:contracts` 58/58 y `test:a11y` 54/54 en verde (data-driven
   sobre los 52 tags). Los conteos de fallo que aparecían en los informes
   fechados estaban obsoletos.
+- `test:showcase`: 21/21 en verde (5 tests del shell del showcase + 16 de las
+  demos de tier (c)). El suite estaba en rojo (3 de 4) desde antes de la Fase 4
+  porque el showcase nunca registraba los custom elements.
+- La auditoría de a11y de `bch-tabs`/`bch-tab` ya no es vacía: la story
+  corregida muestra las pestañas y el panel activo, así que axe evalúa la
+  estructura real (`role="tablist"` + `role="tab"` + `role="tabpanel"`) en vez
+  de un subtree invisible.
 - `test:visual`: fuera de `pnpm check` y del job `e2e`; requiere baselines
   generados explícitamente (§ trabajos abiertos).
 
@@ -130,16 +198,14 @@ tiempo y la fuente de verdad de cada comprobación es el propio `pnpm check`.
    de `main` antes de ejecutar). Mientras tanto, el job solo prueba
    determinismo en Ubuntu.
 2. **Soporte React 19**: ¿ampliar el contrato peer de `@bench/react` más allá
-   de React 18?
-3. **ADR-009 Fase 4 (cerrado)**: los helpers de tier (b) viven en
-   `@bench/foundation` (`rankFunctions`, `buildAliasTable`, `fuzzyScore`,
-   `createThrottledRenderer`), el manifiesto de referencia es
-   `apps/showcase/bench.functions.json` y `validate-functions-manifest.mjs`
-   entra en `pnpm check` como `check:functions`.
-4. **Specs unitarias de componentes**: tree, tabs, menu, dialog, drawer,
+   de React 18? El contrato actual es React 18 (`^18.3.0`), y React 19 escribe
+   las props de los custom elements como **propiedad** en vez de como
+   atributo: es el motivo del arreglo de `bch-tabs` por propiedad/atributo, y
+   queda por decidir si el adaptador se declara compatible con React 19.
+3. **Specs unitarias de componentes**: tree, tabs, menu, dialog, drawer,
    splitter y slider ya están cubiertos; quedan data-table y los tags sin spec
    propia.
-5. **Licencia y gobernanza**: elegir licencia y crear `LICENSE`,
+4. **Licencia y gobernanza**: elegir licencia y crear `LICENSE`,
    `SECURITY.md` y `CONTRIBUTING.md`.
 
 ## Limitaciones conocidas
