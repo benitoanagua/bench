@@ -4,11 +4,12 @@ import '@bench/tokens/tokens.css';
 // Importing the package alone only pulls the component classes — nothing is
 // registered, and the app renders inert markup.
 import { defineCustomElements } from '@bench/components/loader';
+import { mountPatterns } from './patterns';
 import './styles.css';
 
 defineCustomElements();
 
-type View = 'overview' | 'activity' | 'forms' | 'settings';
+type View = 'overview' | 'activity' | 'forms' | 'settings' | 'patterns';
 
 const app = document.querySelector<HTMLDivElement>('#app')!;
 
@@ -24,6 +25,7 @@ app.innerHTML = `
         <button type="button" class="nav-link" data-view="activity" aria-label="Activity"><bch-icon name="activity"></bch-icon><span>Activity</span></button>
         <button type="button" class="nav-link" data-view="forms" aria-label="Forms"><bch-icon name="clipboard"></bch-icon><span>Forms</span></button>
         <button type="button" class="nav-link" data-view="settings" aria-label="Settings"><bch-icon name="settings"></bch-icon><span>Settings</span></button>
+        <button type="button" class="nav-link" data-view="patterns" aria-label="Patterns"><bch-icon name="workspace"></bch-icon><span>Patterns</span></button>
       </nav>
       <div class="sidebar-bottom">
         <bch-status tone="success" label="System ready"></bch-status>
@@ -140,11 +142,16 @@ app.innerHTML = `
             <bch-tab-panel slot="panel" value="behavior"><div class="settings-panel"><bch-alert tone="info" heading="Keyboard first">Try Tab, Enter, Space and Escape across the surface.</bch-alert><bch-button id="open-drawer">Open drawer</bch-button></div></bch-tab-panel>
           </bch-tabs>
         </section>
+
+        <section class="view" data-panel="patterns" hidden>
+          <div id="patterns-mount"></div>
+        </section>
       </div>
     </main>
   </div>
   <bch-dialog id="create-dialog" label="Create item"><p>This dialog demonstrates native dialog semantics, focus restoration and composable footer actions.</p><div slot="footer"><bch-button variant="secondary" id="cancel-dialog">Cancel</bch-button><bch-button id="confirm-dialog">Create item</bch-button></div></bch-dialog>
-  <bch-drawer id="mobile-drawer" label="Navigation"><div class="drawer-nav"><button type="button" data-view="overview">Overview</button><button type="button" data-view="activity">Activity</button><button type="button" data-view="forms">Forms</button><button type="button" data-view="settings">Settings</button></div></bch-drawer>
+  <bch-drawer id="mobile-drawer" label="Navigation"><div class="drawer-nav"><button type="button" data-view="overview">Overview</button><button type="button" data-view="activity">Activity</button><button type="button" data-view="forms">Forms</button><button type="button" data-view="settings">Settings</button><button type="button" data-view="patterns">Patterns</button></div></bch-drawer>
+  <div id="pattern-overlays"></div>
 `;
 
 const table = document.createElement('bch-data-table') as HTMLElement & {
@@ -164,6 +171,15 @@ table.rows = [
   { name: 'Token update', status: 'Ready', owner: 'Owen', amount: '$540' },
 ];
 document.querySelector('#table-mount')!.appendChild(table);
+
+/* Tier (c) application patterns (ADR-009): one minimal demo per guide in
+ * docs/integrations/patterns/. The overlays (dialogs and drawers) are mounted
+ * outside the views so a modal opened from the patterns surface is never
+ * rendered inside a hidden subtree. */
+mountPatterns(
+  document.querySelector<HTMLElement>('#patterns-mount')!,
+  document.querySelector<HTMLElement>('#pattern-overlays')!,
+);
 
 const dialog = document.querySelector('#create-dialog') as HTMLElement & {
   show: () => Promise<void>;

@@ -1,0 +1,182 @@
+/* Styles of the tier (c) pattern demos (ADR-009).
+ *
+ * The showcase is an application, not a component package: it composes the
+ * BENCH pieces with the same tokens the components use. No raw colours, no
+ * raw pixels — spacing, radii and surfaces come from the token layer. */
+
+/* `hidden` has to beat the component layer: `bch-tabs`, `bch-card` and other
+ * components set `display` on `:host`, which outranks the user-agent
+ * `[hidden] { display: none }` rule. */
+[hidden] {
+  display: none !important;
+}
+
+.patterns {
+  display: grid;
+  gap: 24px;
+}
+.pattern {
+  display: grid;
+  gap: 16px;
+  padding: var(--bch-space-6);
+  border: var(--bch-border-width-container) solid var(--bch-color-border-container);
+  border-radius: var(--bch-radius-lg);
+  background: var(--bch-color-surface);
+}
+.pattern__head {
+  display: grid;
+  gap: var(--bch-space-2);
+}
+.pattern__head h3 {
+  margin: 0;
+  font-size: var(--bch-type-h3-size);
+  line-height: var(--bch-type-h3-line-height);
+  letter-spacing: var(--bch-type-h3-letter-spacing);
+}
+.pattern__head p {
+  margin: 0;
+  max-width: 72ch;
+}
+.pattern__body {
+  display: grid;
+  gap: var(--bch-space-4);
+}
+.pattern__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--bch-space-3);
+}
+.pattern kbd {
+  padding: 0 var(--bch-space-1);
+  border: var(--bch-border-width-micro) solid var(--bch-color-border);
+  border-radius: var(--bch-radius-sm);
+  background: var(--bch-color-background);
+  font-family: var(--bch-font-family-mono);
+  font-size: 0.8em;
+}
+
+/* §4.3 layout persistence */
+.layout-demo {
+  display: flex;
+  align-items: stretch;
+  min-height: 140px;
+  border: var(--bch-border-width-micro) solid var(--bch-color-border);
+  border-radius: var(--bch-radius-md);
+  overflow: hidden;
+}
+.layout-pane {
+  flex: 0 0 320px;
+  min-width: 0;
+  padding: var(--bch-space-4);
+  background: var(--bch-color-surface-raised);
+}
+.layout-pane p {
+  margin: var(--bch-space-3) 0 0;
+}
+.layout-pane:last-child {
+  flex: 1 1 auto;
+}
+
+/* §4.3 inspector */
+.inspector-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--bch-space-5);
+  align-items: start;
+}
+.inspector-grid p {
+  margin: var(--bch-space-3) 0 0;
+}
+
+/* §4.3 workspaces */
+.workspace-group {
+  margin-top: var(--bch-space-4);
+}
+
+/* §4.3 record cards */
+.record-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: var(--bch-space-4);
+}
+.record-card {
+  height: 100%;
+}
+.record-card .card-heading {
+  flex: 1 1 auto;
+}
+
+/* §4.4 modes */
+.mode-surface {
+  display: grid;
+  place-items: center;
+  min-height: 120px;
+  padding: var(--bch-space-5);
+  border: var(--bch-border-width-micro) solid var(--bch-color-border);
+  border-radius: var(--bch-radius-md);
+  background: var(--bch-color-surface-raised);
+}
+.mode-surface[data-mode='select'] {
+  cursor: crosshair;
+}
+.mode-surface[data-mode='edit'] {
+  cursor: text;
+}
+.mode-surface p {
+  margin: 0;
+}
+
+/* §4.4 balloon help */
+.balloon-card {
+  max-width: 60ch;
+}
+
+/* §4.5 macros */
+.macro-steps {
+  display: grid;
+  gap: var(--bch-space-2);
+  margin: 0;
+  padding-inline-start: var(--bch-space-5);
+  color: var(--bch-color-text-muted);
+}
+
+/* §4.5 undo */
+.undo-list {
+  display: grid;
+  gap: var(--bch-space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.undo-list:empty::after {
+  content: 'No actions yet.';
+  color: var(--bch-color-text-muted);
+}
+
+/* §4.5 templates */
+.template-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--bch-space-4);
+}
+
+/* §4.6 secure fields */
+.secure-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--bch-space-5);
+  align-items: start;
+}
+.secure-grid p {
+  margin: var(--bch-space-3) 0 0;
+}
+
+@media (max-width: 720px) {
+  .pattern {
+    padding: var(--bch-space-4);
+  }
+  .inspector-grid {
+    grid-template-columns: 1fr;
+  }
+}
