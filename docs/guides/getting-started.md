@@ -21,19 +21,28 @@ formatting, lint, typecheck, unit tests, builds and the Storybook build.
 pnpm add @bench/components @bench/tokens
 ```
 
-Inside this monorepo the fonts package is also available as a workspace
-dependency:
+Fonts are not bundled in a Bench package: the type system is IBM Plex, so
+install IBM's packaged webfonts and import them yourself (self-hosted,
+OFL-licensed; no CDN at runtime). Bench's own generated assets (`@bench/fonts`
+inside this monorepo, [typography guide](./typography-and-icons.md)) wrap the
+same sources:
 
 ```bash
-pnpm add @bench/fonts
+pnpm add @ibm/plex-sans @ibm/plex-mono
 ```
 
-Load the tokens once, then register the custom elements:
+```ts
+import '@ibm/plex-sans/css/ibm-plex-sans-default.min.css';
+import '@ibm/plex-mono/css/ibm-plex-mono-default.min.css';
+```
+
+Load the three token stylesheets once (primitives, themes and type scale), then
+register the custom elements:
 
 ```ts
 import '@bench/tokens/tokens.css';
 import '@bench/tokens/themes.css';
-import '@bench/fonts/fonts.css';
+import '@bench/tokens/type-scale.css';
 import { defineCustomElements } from '@bench/components/loader';
 
 defineCustomElements();

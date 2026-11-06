@@ -4,22 +4,40 @@
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "LICENSE"
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
-    "./tokens.css": "./src/tokens.css",
-    "./themes.css": "./src/themes.css",
     "./breakpoints": {
       "types": "./dist/breakpoints.d.ts",
       "import": "./dist/breakpoints.js"
-    }
+    },
+    "./tokens.css": "./dist/tokens.css",
+    "./themes.css": "./dist/themes.css",
+    "./type-scale.css": "./dist/type-scale.css"
   },
+  "sideEffects": [
+    "**/*.css"
+  ],
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && node -e \"require('node:fs').cpSync('src/tokens.css','dist/tokens.css');require('node:fs').cpSync('src/themes.css','dist/themes.css');require('node:fs').cpSync('src/type-scale.css','dist/type-scale.css')\"",
     "typecheck": "tsc --noEmit",
     "test": "node --test",
     "lint": "node ../../tooling/lint/package-rules.mjs tokens"
+  },
+  "repository": "github:benitoanagua/bench",
+  "license": "MIT",
+  "bugs": "https://github.com/benitoanagua/bench/issues",
+  "homepage": "https://github.com/benitoanagua/bench#readme",
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }

@@ -5,6 +5,17 @@
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "LICENSE"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "sideEffects": true,
   "peerDependencies": {
     "react": "^18.3.0",
     "react-dom": "^18.3.0"
@@ -24,5 +35,15 @@
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run",
     "lint": "node ../../tooling/lint/package-rules.mjs react"
+  },
+  "repository": "github:benitoanagua/bench",
+  "license": "MIT",
+  "bugs": "https://github.com/benitoanagua/bench/issues",
+  "homepage": "https://github.com/benitoanagua/bench#readme",
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }

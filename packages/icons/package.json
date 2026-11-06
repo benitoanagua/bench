@@ -4,6 +4,17 @@
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "LICENSE"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "sideEffects": false,
   "scripts": {
     "build": "tsc -p tsconfig.json && node -e \"require('node:fs').cpSync('src/data','dist/data',{recursive:true})\"",
     "typecheck": "tsc -p tsconfig.json --noEmit",
@@ -14,5 +25,15 @@
   "devDependencies": {
     "@carbon/icons": "^11.55.0",
     "typescript": "^5.7.0"
+  },
+  "repository": "github:benitoanagua/bench",
+  "license": "MIT",
+  "bugs": "https://github.com/benitoanagua/bench/issues",
+  "homepage": "https://github.com/benitoanagua/bench#readme",
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }
