@@ -1,16 +1,35 @@
 name: Release
 
-# Publica a npm vía Changesets: en main, el action `version` consume los
-# changesets pendientes (abre un PR "Version Packages" con los bumps y
-# CHANGELOGs); cuando ese PR se mergea, `publish` corre `pnpm release`
-# (changeset publish) y sube los tarballs firmados (provenance).
+# Ensayo de publicación a npm vía Changesets.
+#
+# Este workflow NO publica nada por defecto: corre todo el gate (check +
+# e2e + build) y un publish dry-run en cada ejecución de `workflow_dispatch`.
+# La publicación real queda detrás de dos barreras:
+#
+#   1. Input `publish: true` al disparar el workflow.
+#      Cuando `publish` sea true, el paso real corre
+#      `changeset publish` para los 7 paquetes publicables (0.2.0 en
+#      adelante; los changesets ya versionados quedan en main).
+#   2. Environment `npm-release` requiere aprobación manual
+#      (Settings → Environments → npm-release → Required reviewers).
+#
+# Cómo habilitar la publicación real en el futuro:
+#   - Crear el environment `npm-release` en el repo de GitHub y marcar los
+#     reviewers que deben aprobar.
+#   - Guardar el token de automatización de npm como secret `NPM_TOKEN`.
+#   - Verificar en npmjs.com que la organización `@bench` exista y que el
+#     repo sea público (provenance exige componentes públicos).
+#   - Disparar el workflow con input `publish = true`; si el gate falla no
+#     hay publicación.
 
 on:
   workflow_dispatch:
-  workflow_run:
-    workflows: [CI]
-    types: [completed]
-    branches: [main]
+    inputs:
+      publish:
+        description: 'Publicar a npm (requiere environment npm-release)'
+        required: false
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -24,10 +43,9 @@ concurrency:
 jobs:
   release:
     name: release (changesets)
-    # Solo desde main tras un CI en verde.
-    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     timeout-minutes: 45
+    environment: npm-release
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -40,24 +58,34 @@ jobs:
           registry-url: https://registry.npmjs.org
       - run: pnpm install --frozen-lockfile
 
-      # Gate: el release corre después de check y e2e (contracts + a11y).
+      # Gate: el ensayo/publicación corre después de check y e2e (contracts
+      # + a11y), y de un build fresco.
       - run: pnpm check
       - run: pnpm exec playwright install --with-deps chromium
       - run: pnpm build
       - run: pnpm test:contracts
       - run: pnpm test:a11y
 
-      - name: Changesets (version + publish)
-        uses: changesets/action@v1
-        with:
-          version: pnpm exec changeset version && pnpm format
-          publish: pnpm build && pnpm release
+      # Ensayo: valida el contenido de los tarballs de los 7 paquetes
+      # publicables sin tocar el registry. `pnpm publish -r --dry-run`
+      # salta los paquetes marcados private (fonts/showcase/testing).
+      - name: publish dry-run (7 paquetes previstos)
+        run: pnpm publish -r --dry-run --no-git-checks --access public
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # `registry-url` en setup-node escribe el token en el .npmrc del
-          # proyecto (via NODE_AUTH_TOKEN); changesets/action también acepta
-          # NPM_TOKEN. id-token: write + NPM_CONFIG_PROVENANCE activan el
-          # provenance.
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
+
+      # Publicación real: solo con input publish=true. `pnpm release` es
+      # `changeset publish` (package.json). Proyectos públicos + CI con
+      # `id-token: write` + NPM_CONFIG_PROVENANCE firman con provenance.
+      - name: publish real (changeset publish)
+        if: inputs.publish
+        run: pnpm release
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_CONFIG_PROVENANCE: true
+        # `registry-url` en setup-node escribe el token en el .npmrc del
+        # proyecto vía NODE_AUTH_TOKEN; changeset publish también puede
+        # leer NPM_TOKEN.
