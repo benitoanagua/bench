@@ -12,6 +12,7 @@
     "lint": "node tooling/lint/design-rules.mjs && turbo lint",
     "storybook": "pnpm --filter @bench/storybook storybook",
     "build:storybook": "pnpm --filter @bench/storybook build-storybook",
+    "build:storybook:ci": "pnpm build && pnpm build:storybook",
     "showcase": "pnpm --filter @bench/showcase dev",
     "build:showcase": "pnpm --filter @bench/showcase build",
     "test:showcase": "pnpm --filter @bench/showcase test",

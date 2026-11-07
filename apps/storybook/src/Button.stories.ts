@@ -21,6 +21,7 @@ const meta = {
     loading: { control: 'boolean' },
     fullWidth: { control: 'boolean' },
   },
+  tags: ['autodocs'],
 } satisfies Meta<BchButton>;
 
 export default meta;

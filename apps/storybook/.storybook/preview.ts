@@ -8,6 +8,12 @@ defineCustomElements();
 
 export const parameters = {
   controls: { expanded: true },
+  // Orden del catálogo en el sidebar de Storybook: Welcome → Foundations →
+  // Components → Patterns → Showcase. Dentro de cada grupo, alfabético.
+  storySort: {
+    order: ['Welcome', 'Foundations', 'Components', 'Patterns', 'Showcase'],
+    method: 'alphabetical',
+  },
   // Deliberadamente desactivado: la auditoría normativa de accesibilidad es la
   // suite axe data-driven de packages/testing/visual/a11y.spec.ts (todos los
   // tags exportados, wcag2a+wcag2aa, cableada en el job `e2e` de CI). El

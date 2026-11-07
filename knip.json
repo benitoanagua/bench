@@ -1,7 +1,7 @@
 {
   "$schema": "https://unpkg.com/knip@5/schema.json",
   "workspaces": {
-    ".": { "entry": ["tooling/**/*.mjs"] },
+    ".": { "entry": ["tooling/**/*.mjs", "scripts/storybook-pages-smoke.mjs"] },
     "apps/storybook": {
       "entry": ["src/**/*.stories.ts", "src/story-helpers.ts", ".storybook/*.ts"]
     },
