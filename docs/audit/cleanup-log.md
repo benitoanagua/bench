@@ -268,3 +268,70 @@ del cierre y estados resultantes:
 - **Comparación de baselines visuales entre commits**: sigue abierta la
   referencia estable entre runs; el resto de la estrategia visual queda como
   está.
+
+## Cierre de la etapa Storybook + GitHub Pages (Fases 1-5)
+
+Este cierre consolida el objetivo B: `apps/storybook` como artefacto principal,
+pulido y listo para desplegar en GitHub Pages vía GitHub Actions.
+
+### Commits por fase (en `main`, en orden)
+
+| Fase     | Commit    | Resumen                                                                                                                                                                                                                  |
+| -------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 1        | `108c60a` | build(release): bloqueantes de CI y publicación (release.yml seguro workflow_dispatch, private:true en @bench/testing, 7 publicables verificado con pack --dry-run, smoke consumidor 6/6).                               |
+| 2        | `9d0c21e` | feat(storybook): preview SB10, tipografía y args interactivos (initialGlobals + decorators tema/densidad, @bench/fonts devDep, 11 stories args+argTypes).                                                                |
+| 3        | `9d0c21e` | — (compartido con Fase 2 en este checkout; ver historial).                                                                                                                                                               |
+| 3 (docs) | `3ef9251` | feat(storybook): docs, fundamentos y preparación GitHub Pages (Welcome + Foundations, storySort, addon-docs/autodocs, 5 entradas tipo docs, telemetría off, favicon propio, .nojekyll, noindex en preview/manager-head). |
+| 4        | `3ef9251` | feat(storybook): ... preparación GitHub Pages (build:storybook:ci, subruta /bench-main/, storybook-pages.yml, smoke test, docs/contributing/storybook-deploy.md).                                                        |
+| 5        | —         | Esta entrega: README sección Storybook, releasing.md actualizado, cleanup-log.md cierre, lista NO hecho abajo.                                                                                                           |
+
+> Las fases 2 y 3 comparten commit `9d0c21e` en este checkout porque la
+> reescritura de Fase 4 del usuario reordenó el plan; el contenido de cada
+> fase está documentado en los mensajes de commit respectivos.
+
+### Resultado de `pnpm check` (salida final)
+
+`pnpm check`: **verde** (exit 0). Cubre check:icons, check:icons-consistency,
+check:framework, check:api, check:adapters, check:dependencies, check:tokens,
+check:dead-code (knip), check:matrix, check:functions, check:links,
+format:check (prettier), lint, typecheck, test, build y build:storybook.
+
+### Tamaño y número de archivos de `storybook-static`
+
+- Tamaño: **8.3 MB** (muy por debajo del límite de 1 GB de GitHub Pages).
+- Archivos: **141** (`find apps/storybook/storybook-static -type f | wc -l`).
+- Archivo más grande: `sb-manager/globals-runtime.js` (~3.3 MB).
+
+### Resultado del smoke test bajo subruta
+
+`node scripts/storybook-pages-smoke.mjs apps/storybook/storybook-static`: **13/13 PASS**
+
+- index.html / iframe.html / index.json → 200 bajo `/bench-main/`.
+- index.json: 139 entradas (≥126), 5 de tipo docs.
+- Sin 404 de assets ni errores de consola en Button/Primary y una story por
+  categoría (Components, Foundations, Patterns, Showcase, Welcome).
+- Tema dark cambia `--bch-color-surface` (#ffffff → #171c21).
+
+### No hecho (pendiente, con comandos/pasos exactos)
+
+1. **Publicar a npm** — no se publicó ni se publicará en esta etapa. Para
+   habilitarlo en el futuro:
+   - Crear el environment `npm-release` en GitHub (required reviewers).
+   - Guardar `NPM_TOKEN` como secret del repo.
+   - Confirmar la organización `@bench` en npmjs.com y que el repo sea
+     público (provenance).
+   - Lanzar `.github/workflows/release.yml` con input `publish = true`.
+   - Paso real: `pnpm release` (es `changeset publish`); con `publish = false`
+     (default) solo corre `pnpm publish -r --dry-run --access public
+--no-git-checks` (ensayo, sin publicar).
+2. **Desplegar a GitHub Pages** — no se desplegó. Para desplegar cuando se
+   decida:
+   - Settings → Pages → Source: **GitHub Actions** (una sola vez).
+   - Actions → "Storybook Pages" → Run workflow → `deploy = true` (rama main).
+   - El workflow construye y sube el artifact en cada push/PR, pero el deploy
+     solo ocurre con `workflow_dispatch` + `inputs.deploy == true`; nunca desde
+     pull_request ni forks.
+3. **Menciones Cloudflare / wrangler / _headers / CLOUDFLARE_\*** — eliminadas
+   del repo y la documentación (verificación: `rg -i "cloudflare|wrangler|_headers|CLOUDFLARE_" .` → sin coincidencias).
+4. **SECURITY.md / CONTRIBUTING.md raíz** — pendientes de gobernanza (ya
+   abiertos antes de esta etapa).

@@ -98,3 +98,27 @@ system without introducing business logic.
   pattern, tiling layout, data-at-scale + persistence, generic components
   (tree/accordion/offcanvas/modal), a second domain context (wallet/ledger),
   and authentication/long-session handling.
+
+## Storybook
+
+Bench publica su catálogo de componentes como artefacto principal en
+[GitHub Pages](docs/contributing/storybook-deploy.md) (sitio bajo
+`/<repo>/`, listo para dominio propio).
+
+```bash
+# Construir paquetes + sitio estático (salida en apps/storybook/storybook-static)
+pnpm build:storybook:ci
+
+# Servir bajo la subruta /bench-main/ y ejecutar el smoke test de despliegue:
+node scripts/storybook-pages-smoke.mjs
+```
+
+El sitio se construye en cada `push` a `main` y en cada `pull_request` (job
+`build` del workflow `storybook-pages.yml`), pero el despliegue a GitHub Pages
+**no ocurre por defecto**: hay que lanzar el workflow manualmente con
+`deploy = true` (ver `docs/contributing/storybook-deploy.md`).
+
+El catálogo ordena las historias como Welcome → Foundations → Components →
+Patterns → Showcase, con páginas de fundamentos (Tokens, Accesibilidad,
+Integraciones) y stories interactivas (args + Controls) de Button, Input,
+Select, Checkbox, Switch, Tabs, Dialog, Drawer, Tooltip, Badge y Progress.

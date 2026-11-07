@@ -17,30 +17,53 @@ y describe el cambio por paquete con el tipo de bump correcto
 (`patch` para fixes internos, `minor` para API nueva, `major` para breaking).
 No hay release sin changeset: es la única vía por la que entra una versión.
 
-## 2. Versionar (PR Version Packages)
+## 2. Versionar (PR Version Packages — manual)
 
-CI (`ci.yml`) corre `pnpm check` y las suites e2e en cada push a `main`.
-Con el CI en verde, `release.yml` (disparado por `workflow_run` sobre main, o
-manualmente con `workflow_dispatch`) corre `changesets/action`:
-
-1. Si hay changesets pendientes, el action abre/mantiene el PR **Version
-   Packages** con los bumps de versión y los `CHANGELOG.md`.
-2. El PR se revisa y se mergea.
+Con el CI en verde (`pnpm check`), ejecute `changeset version` en local o
+abra el PR **Version Packages** con los bumps de versión y los
+`CHANGELOG.md`. Revise y mergee a `main`.
 
 El mismo paso en local es `pnpm exec changeset version` (los manifests y
 CHANGELOGs quedan versionados; después, `pnpm format`).
 
-## 3. Publicar
+> Nota: esta repo no usa `changesets/action` para versionar ni publicar; el
+> versionado es manual y deliberado para evitar releases automáticos no
+> revisados.
 
-Al mergear el PR Version Packages ya no hay changesets pendientes: el mismo
-workflow corre el paso `publish` (`pnpm build && pnpm release`, es decir
-`changeset publish` después de un build fresco). El job:
+## 3. Publicar (workflow `release.yml`, seguro por defecto)
 
-- corre **después de `pnpm check`, `test:contracts` y `test:a11y`**, y de
-  `pnpm build`;
-- exige el secret `NPM_TOKEN` (token de automatización npm con permisos de
-  publish de `@bench`);
-- publica con **provenance** (`id-token: write` + `NPM_CONFIG_PROVENANCE`).
+La publicación se dispara únicamente con `workflow_dispatch` y requiere dos
+barreras antes de tocar el registry:
+
+1. **Input `publish: true`** al lanzar el workflow (Settings → Actions →
+   "Release" → Run workflow → `publish = true`). Con `publish = false`
+   (valor por defecto) el workflow corre el gate completo
+   (`pnpm check`, contratos, a11y, build) y un
+   `pnpm publish -r --dry-run --access public --no-git-checks` sin publicar
+   nada: es un ensayo que valida el contenido de los tarballs de los 7
+   paquetes publicables.
+2. **Environment `npm-release`** requiere aprobación manual
+   (Settings → Environments → npm-release → Required reviewers).
+
+Solo con `publish = true` **y** aprobación del environment se corre
+`pnpm release` (es decir, `changeset publish` para los 7 paquetes
+publicables, versión `0.2.0` en adelante).
+
+### Cómo habilitar la publicación real en el futuro
+
+- Crear el environment `npm-release` en el repo de GitHub y marcar los
+  reviewers que deben aprobar.
+- Guardar el token de automatización de npm como secret `NPM_TOKEN`.
+- Verificar en npmjs.com que la organización **`@bench`** exista y que el
+  repo sea público (provenance exige componentes públicos).
+- Lanzar el workflow con `publish = true`; si el gate falla no hay
+  publicación.
+
+### Scope de npm
+
+El scope a publicar es `@bench` (pendiente de confirmar con la cuenta de
+npm de la organización). Mientras no se confirme, el workflow permanece en
+modo dry-run.
 
 ## 4. Verificación post-release
 
