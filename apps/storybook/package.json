@@ -11,6 +11,7 @@
     "@bench/tokens": "workspace:*"
   },
   "devDependencies": {
+    "@bench/fonts": "workspace:*",
     "storybook": "^10.5.10",
     "@stencil/storybook-plugin": "^0.7.0",
     "@stencil/core": "^4.44.2"

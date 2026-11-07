@@ -1,13 +1,18 @@
-import type { Meta } from '@stencil/storybook-plugin';
+import type { Meta, StoryObj } from '@stencil/storybook-plugin';
 import { h } from '@stencil/core';
 import { BchTabs } from '@bench/components';
 
 const meta = {
   title: 'BENCH/Components/Navigation/Tabs',
   component: BchTabs,
+  args: { value: 'overview' },
+  argTypes: {
+    value: { control: 'select', options: ['overview', 'activity', 'settings'] },
+  },
 } satisfies Meta<BchTabs>;
 
 export default meta;
+type Story = StoryObj;
 
 /**
  * `bch-tab` va como hijo directo de `bch-tabs`: el componente proyecta los
@@ -15,11 +20,11 @@ export default meta;
  * deja fuera de cualquier slot con ese nombre y desaparecen de la vista.
  * Los paneles, en cambio, van con `slot="panel"`.
  */
-export const Default = {
-  render: () =>
+export const Default: Story = {
+  render: (args) =>
     h(
       'bch-tabs',
-      { value: 'overview' },
+      args,
       h('bch-tab', { value: 'overview' }, 'Overview'),
       h('bch-tab', { value: 'activity' }, 'Activity'),
       h('bch-tab', { value: 'settings', disabled: true }, 'Settings'),

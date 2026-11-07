@@ -55,6 +55,9 @@ importers:
         specifier: workspace:*
         version: link:../../packages/tokens
     devDependencies:
+      '@bench/fonts':
+        specifier: workspace:*
+        version: link:../../packages/fonts
       '@stencil/core':
         specifier: ^4.44.2
         version: 4.45.2
