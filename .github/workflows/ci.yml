@@ -48,6 +48,25 @@ jobs:
       - run: pnpm test:contracts
       - run: pnpm test:a11y
 
+  showcase:
+    name: showcase (demos ejecutables)
+    needs: check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.26.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install --with-deps chromium
+      # El config del showcase levanta el server (rebuild de components +
+      # showcase + preview) y sirve el dist construido.
+      - run: pnpm test:showcase
+
   visual:
     name: visual (story × viewport × theme)
     needs: check

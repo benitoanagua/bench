@@ -4,6 +4,12 @@ import { exportedTags, storyForTag } from './story-catalog';
 
 const STORY_BASE = 'http://127.0.0.1:6006/iframe.html?id=';
 
+/* Estado de validación: esta suite es la auditoría normativa de accesibilidad
+ * y corre en CI (job `e2e`). Las decisiones sobre el tooling a11y — incluyendo
+ * por qué el addon-a11y de Storybook está desactivado — están documentadas en
+ * docs/quality/a11y.md ("Herramienta de auditoría"). Las excepciones de axe
+ * llevan su justificación junto al tag (abajo). */
+
 // `disableRules` solo se usa donde axe no modela bien la relación ARIA a través
 // del projection de slots de Stencil (ver tabs). Cualquier otra excepción debe
 // llevar su justificación junto al tag.

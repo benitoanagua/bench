@@ -19,8 +19,8 @@
  * - `installDensityObserver` keeps the attribute in sync on viewport changes.
  */
 /**
- * Deep import (not @bench/tokens): the tokens' index pulls the CSS files with
- * bare specifiers that Node (node --test) cannot resolve. breakpoints.js is a
+ * Deep import (not @bench/tokens): the tokens' JS entry stays tree-shakeable
+ * and Node-loadable; breakpoints.js is a granular unit of that surface.
  * plain, dependency-free module.
  */
 import { breakpoints as BREAKPOINTS } from '@bench/tokens/breakpoints';

@@ -1,9 +1,12 @@
-import './tokens.css';
-import './themes.css';
-import './type-scale.css';
+/**
+ * The JavaScript entry is side-effect-free and must stay loadable from Node
+ * (tests and SSR): the stylesheets are explicit imports — tokens.css,
+ * themes.css and type-scale.css, all three documented in
+ * docs/guides/getting-started.md.
+ */
 
-export { breakpoints, minWidthQuery, watchBreakpoint } from './breakpoints';
-export type { BreakpointKey } from './breakpoints';
+export { breakpoints, minWidthQuery, watchBreakpoint } from './breakpoints.js';
+export type { BreakpointKey } from './breakpoints.js';
 
 export const benchTokens = {
   prefix: 'bch',

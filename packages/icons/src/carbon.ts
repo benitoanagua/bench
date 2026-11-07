@@ -1,4 +1,4 @@
-import iconData from './data/carbon-outline.json';
+import iconData from './data/carbon-outline.json' with { type: 'json' };
 import type { CarbonIconName } from './icon-names';
 
 export type { CarbonIconName } from './icon-names';
