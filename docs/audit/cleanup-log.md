@@ -196,17 +196,21 @@ tiempo y la fuente de verdad de cada comprobación es el propio `pnpm check`.
 1. **Baselines visuales**: la generación en CI ya existe, pero falta comparar
    contra una referencia estable entre commits (p. ej. descargar el artefacto
    de `main` antes de ejecutar). Mientras tanto, el job solo prueba
-   determinismo en Ubuntu.
-2. **Soporte React 19**: ¿ampliar el contrato peer de `@bench/react` más allá
-   de React 18? El contrato actual es React 18 (`^18.3.0`), y React 19 escribe
-   las props de los custom elements como **propiedad** en vez de como
-   atributo: es el motivo del arreglo de `bch-tabs` por propiedad/atributo, y
-   queda por decidir si el adaptador se declara compatible con React 19.
+   determinismo en Ubuntu. _Cerrado en el cierre del primer release: se
+   mantiene la estrategia existente — baselines generadas en CI Ubuntu, no
+   versionadas (`*-snapshots/` sigue ignorado en git); ver § cierre 0.2.0._
+2. **Soporte React 19**: _Cerrado en el cierre del primer release._ El peer de
+   `@bench/react` es `^18.3.0 || ^19.0.0`; los props no primitivos se asignan
+   como propiedad del elemento en ambos majors (tests `non-primitive-props`
+   en jsdom documentan el repro de React 18.3.1).
 3. **Specs unitarias de componentes**: tree, tabs, menu, dialog, drawer,
    splitter y slider ya están cubiertos; quedan data-table y los tags sin spec
    propia.
-4. **Licencia y gobernanza**: elegir licencia y crear `LICENSE`,
-   `SECURITY.md` y `CONTRIBUTING.md`.
+4. **Licencia y gobernanza**: _Parcialmente cerrado en el cierre del primer
+   release._ Licencia MIT elegida y `LICENSE` presente en la raíz y en los 7
+   paquetes publicables; siguen pendientes `SECURITY.md` y `CONTRIBUTING.md`
+   raíz (el proceso de release está documentado en
+   [`docs/contributing/releasing.md`](../contributing/releasing.md)).
 
 ## Limitaciones conocidas
 
@@ -215,3 +219,52 @@ tiempo y la fuente de verdad de cada comprobación es el propio `pnpm check`.
 - `dependency-consistency.mjs` valida hoy solo la mayor versión de Storybook y
   de los tipos de React; no comprueba consistencia de Playwright ni Stencil
   (existe una horquilla `@playwright/test` `^1.54`/`^1.55` sin resolver).
+
+## Cierre del primer release público (0.2.0)
+
+Release preparado por changesets con versión alineada en los 7 paquetes
+publicables (`@bench/tokens`, `@bench/foundation`, `@bench/icons`,
+`@bench/components`, `@bench/react`, `@bench/vue`, `@bench/angular` a 0.2.0,
+changeset consumido con `changeset version` y CHANGELOGs generados). Decisiones
+del cierre y estados resultantes:
+
+- **Publicación automatizada**: `.github/workflows/release.yml` corre
+  `changesets/action` solo desde `main`, disparado por `workflow_run` de CI
+  (o `workflow_dispatch`), con `pnpm check`, `test:contracts` y `test:a11y`
+  como gates, y publica con provenance (`id-token: write`,
+  `NPM_CONFIG_PROVENANCE`, `NPM_TOKEN` en secrets). El proceso completo está
+  documentado en `docs/contributing/releasing.md`.
+- **Verificación del tarball y del consumidor**: `pnpm pack --dry-run` en los
+  7 paquetes públicos a 0.2.0: ningún `src/`, specs ni configs dentro de los
+  tarballs (components: 761 archivos, todo `dist/` + manifest + LICENSE +
+  README). Smoke test consumidor en un proyecto Vite temporal (React 18 +
+  tarballs de tokens/components/react/icons via `file:` + overrides): registro
+  de `bch-button`/`bch-dialog` por importar `@bench/react`, evento `bchPress`
+  disparado por click real y recibido por `onBchPress` como `CustomEvent`, y
+  `bch-dialog` abierto con `open` controlado — 6/6 checks en chromium con las
+  tres hojas de estilo de tokens aplicadas.
+- **Peer de React**: `^18.3.0 || ^19.0.0` en `@bench/react` (decisión del item
+  2 de § trabajos abiertos); los dev types quedan fijados en React 18 para
+  construir los wrappers, y el test de props no primitivas cubre el contrato
+  documentado de ambos majors.
+- **Auditoría a11y**: la suite axe data-driven de
+  `packages/testing/visual/a11y.spec.ts` es la herramienta normativa (job
+  `e2e`); el addon-a11y de Storybook queda en `a11y: { test: 'off' }`
+  deliberadamente, con la justificación en `docs/quality/a11y.md`.
+- **@bench/fonts no publicable**: queda privado (dependencia de las fuentes
+  @ibm/plex-* documentada en `docs/guides/getting-started.md`).
+- **Adaptador Angular**: sin runner de tests propio (no hay karma/jasmine en
+  el monorepo); su alcance está documentado en `docs/integrations/angular.md`
+  (schema + registro) y el ciclo de vida de los custom elements es la propia
+  máquina de estados de Stencil probada por las suites de @bench/components.
+
+### Omitidos con motivo
+
+- **Specs unitarias de `bch-data-table` y tags sin spec propia**: no
+  bloqueantes del release (la cobertura interactiva viene de contracts +
+  a11y + showcase); siguen en § trabajos abiertos.
+- **SECURITY.md / CONTRIBUTING.md raíz**: pendientes de gobernanza; el
+  documento de release sí existe (`docs/contributing/releasing.md`).
+- **Comparación de baselines visuales entre commits**: sigue abierta la
+  referencia estable entre runs; el resto de la estrategia visual queda como
+  está.

@@ -62,3 +62,6 @@ pnpm-debug.log*
 *.temp
 *.bak
 *.orig
+
+# Tarballs de paquetes (salida de pnpm pack)
+*.tgz

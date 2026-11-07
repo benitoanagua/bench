@@ -1,0 +1,64 @@
+name: Release
+
+# Publica a npm vía Changesets: en main, el action `version` consume los
+# changesets pendientes (abre un PR "Version Packages" con los bumps y
+# CHANGELOGs); cuando ese PR se mergea, `publish` corre `pnpm release`
+# (changeset publish) y sube los tarballs firmados (provenance).
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [main]
+
+permissions:
+  contents: write
+  id-token: write
+  pull-requests: write
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: release (changesets)
+    # Solo desde main tras un CI en verde.
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.26.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          registry-url: https://registry.npmjs.org
+      - run: pnpm install --frozen-lockfile
+
+      # Gate: el release corre después de check y e2e (contracts + a11y).
+      - run: pnpm check
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm build
+      - run: pnpm test:contracts
+      - run: pnpm test:a11y
+
+      - name: Changesets (version + publish)
+        uses: changesets/action@v1
+        with:
+          version: pnpm exec changeset version && pnpm format
+          publish: pnpm build && pnpm release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # `registry-url` en setup-node escribe el token en el .npmrc del
+          # proyecto (via NODE_AUTH_TOKEN); changesets/action también acepta
+          # NPM_TOKEN. id-token: write + NPM_CONFIG_PROVENANCE activan el
+          # provenance.
+          # id-token: write + NPM_CONFIG_PROVENANCE activan el provenance.
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_CONFIG_PROVENANCE: true
