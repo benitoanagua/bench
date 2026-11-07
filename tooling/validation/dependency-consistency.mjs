@@ -20,7 +20,7 @@ if (
   major(react.devDependencies['@types/react-dom']) !== 18
 ) {
   errors.push(
-    'React adapter development types must remain on React 18 to match the package peer contract.',
+    'React adapter development types must remain on React 18 — the build/test contract of the adapter (the peer range accepts React 18 and 19).',
   );
 }
 

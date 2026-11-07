@@ -17,7 +17,7 @@
     "test:showcase": "pnpm --filter @bench/showcase test",
     "test:visual": "pnpm --filter @bench/testing test:visual",
     "test:visual:update": "pnpm --filter @bench/testing test:visual -- --update-snapshots",
-    "check": "pnpm check:icons && pnpm check:icons-consistency && pnpm check:framework && pnpm check:api && pnpm check:dependencies && pnpm check:tokens && pnpm check:dead-code && pnpm check:matrix && pnpm check:functions && pnpm check:links && pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && pnpm build && pnpm build:storybook",
+    "check": "pnpm check:icons && pnpm check:icons-consistency && pnpm check:framework && pnpm check:api && pnpm check:adapters && pnpm check:dependencies && pnpm check:tokens && pnpm check:dead-code && pnpm check:matrix && pnpm check:functions && pnpm check:links && pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && pnpm build && pnpm build:storybook",
     "release": "changeset publish",
     "format:check": "prettier --check .",
     "format": "prettier --write .",
@@ -33,6 +33,7 @@
     "check:functions": "node tooling/validation/validate-functions-manifest.mjs apps/showcase/bench.functions.json",
     "check:links": "node tooling/validation/links.mjs",
     "check:api": "node tooling/validation/public-api.mjs",
+    "check:adapters": "node tooling/validation/adapter-parity.mjs",
     "fonts:build": "pnpm --filter @bench/fonts build",
     "icons:generate": "node tooling/icons/generate.mjs",
     "check:icons-consistency": "node tooling/validation/icon-consistency.mjs"

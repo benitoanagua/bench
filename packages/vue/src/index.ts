@@ -1,5 +1,5 @@
 import type { App, Plugin } from 'vue';
-import '@bench/components';
+import { defineCustomElements } from '@bench/components/loader';
 import type {
   BchAccordionItemProps,
   BchAccordionProps,
@@ -57,11 +57,26 @@ import type {
 } from './types';
 
 /**
+ * Registering the custom elements is a module side effect of the adapter:
+ * importing `@bench/vue` is enough to make every `bch-*` tag usable without
+ * separately touching the loader. Idempotent per process; the loader no-ops
+ * without `window`, so this is safe in SSR (Nuxt) builds.
+ */
+let registered = false;
+function registerElements(): void {
+  if (registered || typeof window === 'undefined') return;
+  registered = true;
+  void defineCustomElements(window);
+}
+registerElements();
+
+/**
  * Coverage: all 52 tags exported by `@bench/components` are declared in
  * `GlobalComponents` with their real `@Prop` surface and `onBch*` event
  * handlers. The Vue compiler is configured to treat `bch-*` as native custom
- * elements; the declarations exist for template prop checking, not runtime
- * registration (Stencil registers the elements on import).
+ * elements; the declarations exist for template prop checking, while the
+ * registry is written by `@bench/components/loader` (see `registerElements`
+ * above).
  */
 export const BenchVue: Plugin = {
   install(app: App) {

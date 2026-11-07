@@ -5,6 +5,17 @@ Usa `BenchVue` con `app.use(BenchVue)` para que el compilador trate los tags
 en `GlobalComponents` con sus props y eventos reales, para que las plantillas
 tengan comprobación de tipos.
 
+## Instalación y registro
+
+```sh
+pnpm add @bench/vue @bench/components @bench/tokens
+```
+
+Importar `@bench/vue` ya registra los custom elements: el adaptador llama a
+`defineCustomElements()` de `@bench/components/loader` como efecto de módulo,
+idempotente y sin efecto en SSR (Nuxt corre sin `window`). El `app.use` aporta
+la configuración del compilador:
+
 ```ts
 import { createApp } from 'vue';
 import { BenchVue } from '@bench/vue';

@@ -27,6 +27,7 @@ export function createWrapper<P extends object>(
     const handlersRef = React.useRef<Record<string, BchEventHandler | undefined>>({});
 
     const elementProps: Record<string, unknown> = {};
+    const elementProperties: Record<string, unknown> = {};
     const bindings: Array<{ prop: string; event: string }> = [];
     const handlers: Record<string, BchEventHandler | undefined> = {};
 
@@ -35,6 +36,13 @@ export function createWrapper<P extends object>(
         const handler = value as BchEventHandler;
         handlers[key] = handler;
         bindings.push({ prop: key, event: eventNameFromProp(key) });
+      } else if (value !== null && (typeof value === 'object' || typeof value === 'function')) {
+        // React 18 writes unknown props of a custom element as *attributes*,
+        // so an array/object prop would be stringified (`[object Object]`)
+        // and never reach the component. Assign such values as element
+        // properties below. Works verbatim on React 19, which already
+        // prefers properties for custom elements.
+        elementProperties[key] = value;
       } else {
         elementProps[key] = value;
       }
@@ -77,6 +85,20 @@ export function createWrapper<P extends object>(
       },
       [forwardedRef],
     );
+
+    // Runs after the ref is attached on every commit: primitives were already
+    // written as attributes by React itself, and objects/arrays/functions are
+    // assigned here as live element properties, which is what Stencil `Prop()`
+    // descriptors without an attribute observer expect. Returns without
+    // touching the DOM while still on the server (no node).
+    React.useLayoutEffect(() => {
+      const element = elementRef.current;
+      if (!element) return;
+      const host = element as HTMLElement & Record<string, unknown>;
+      for (const [key, value] of Object.entries(elementProperties)) {
+        host[key] = value;
+      }
+    });
 
     return React.createElement(tagName, { ...elementProps, ref: setRef });
   });

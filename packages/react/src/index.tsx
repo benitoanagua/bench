@@ -1,5 +1,5 @@
 import * as React from 'react';
-import '@bench/components';
+import { defineCustomElements } from '@bench/components/loader';
 import type {
   BchCellChangeDetail,
   BchFunctionEntry,
@@ -10,6 +10,20 @@ import type {
   BchTreeNode,
 } from '@bench/components';
 import { createWrapper } from './create-wrapper';
+
+/**
+ * Registering the custom elements is a module side effect of the adapter:
+ * importing `@bench/react` is enough to make every `bch-*` tag usable.
+ * Defined once per process: the loader itself no-ops without `window`
+ * (SSR-safe) and the flag keeps repeated imports cheap.
+ */
+let registered = false;
+function registerElements(): void {
+  if (registered || typeof window === 'undefined') return;
+  registered = true;
+  void defineCustomElements(window);
+}
+registerElements();
 
 /**
  * Coverage: all 52 tags exported by `@bench/components` have a typed React
