@@ -58,7 +58,6 @@ jobs:
           # proyecto (via NODE_AUTH_TOKEN); changesets/action también acepta
           # NPM_TOKEN. id-token: write + NPM_CONFIG_PROVENANCE activan el
           # provenance.
-          # id-token: write + NPM_CONFIG_PROVENANCE activan el provenance.
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
