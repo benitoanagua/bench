@@ -1,0 +1,30 @@
+{
+  "name": "@bench/histoire",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Sitio de documentación y catálogo de componentes de Bench, construido con Histoire.",
+  "scripts": {
+    "story:dev": "histoire dev",
+    "build": "histoire build",
+    "typecheck": "vue-tsc --noEmit",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "@bench/components": "workspace:*",
+    "@bench/tokens": "workspace:*",
+    "@bench/fonts": "workspace:*",
+    "vue": "^3.5.26"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
+    "@histoire/plugin-vue": "1.0.0-beta.1",
+    "@playwright/test": "^1.55.0",
+    "@types/node": "^22.0.0",
+    "@vitejs/plugin-vue": "^6.0.0",
+    "histoire": "1.0.0-beta.1",
+    "typescript": "^5.7.0",
+    "vite": "^7.3.0",
+    "vue-tsc": "^2.2.0"
+  }
+}

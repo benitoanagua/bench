@@ -1,5 +1,5 @@
 import '@bench/tokens/tokens.css';
-// The canonical way to consume @bench/components outside Storybook: the lazy
+// The canonical way to consume @bench/components: the lazy
 // loader registers every `bch-*` custom element (see docs/guides/getting-started.md).
 // Importing the package alone only pulls the component classes — nothing is
 // registered, and the app renders inert markup.

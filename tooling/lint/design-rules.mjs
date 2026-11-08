@@ -3,15 +3,7 @@ import { join, relative } from 'node:path';
 
 const root = new URL('../..', import.meta.url).pathname;
 const forbidden = [/from\s+['"]lit(?:\/|['"])/, /from\s+['"]lit-html['"]/, /LitElement/];
-const ignored = new Set([
-  'node_modules',
-  'dist',
-  '.typecheck',
-  '.git',
-  '.turbo',
-  'storybook-static',
-  'coverage',
-]);
+const ignored = new Set(['node_modules', 'dist', '.typecheck', '.git', '.turbo', 'coverage']);
 
 function walk(dir, predicate) {
   const files = [];

@@ -11,7 +11,6 @@ const forbidden = [
   /\bBchBadgeTone\b/,
   /\bbenchTestingContract\b/,
   /@bench\/patterns/,
-  /@storybook\/web-components(?:-vite)?/,
   /\bLitElement\b/,
 ];
 

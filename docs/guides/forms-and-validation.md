@@ -84,5 +84,4 @@ form.addEventListener('submit', (event) => {
 
 See the dedicated [dates and time guide](./dates-and-time.md).
 
-Related: [API guidelines](../components/api-guidelines.md),
-[forms demo](../demos/bench-demo-auth-sesiones.html).
+Related: [API guidelines](../components/api-guidelines.md).

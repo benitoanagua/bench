@@ -45,7 +45,6 @@ Full text, rationale, and token values: `docs/bench-design-system.md` §1–2.
 - `@bench/icons` — the Carbon icon data used by `bch-icon`.
 - `@bench/fonts` — self-hosted IBM Plex assets generated at build time.
 - `@bench/components` — canonical Web Components.
-- `@bench/testing` — visual and accessibility test infrastructure.
 
 ## Icon usage
 
@@ -67,10 +66,7 @@ not Carbon's full catalog — see `docs/architecture/adr-008-carbon-icons.md`.
 ```bash
 pnpm install
 pnpm check
-pnpm test:visual
 ```
-
-Visual baselines cover 320×800, 375×812, 768×1024 and 1440×900.
 
 ## Showcase
 
@@ -93,32 +89,23 @@ system without introducing business logic.
 
 - [`docs/bench-design-system.md`](./docs/bench-design-system.md) — the full
   specification (unchanged, cited as-is).
-- [`docs/demos/`](./docs/demos/) — six executable HTML reference demos (open
-  directly in a browser, no build step) covering the omnibar/command
-  pattern, tiling layout, data-at-scale + persistence, generic components
-  (tree/accordion/offcanvas/modal), a second domain context (wallet/ledger),
-  and authentication/long-session handling.
 
-## Storybook
+## Catálogo de componentes (Histoire)
 
-Bench publica su catálogo de componentes como artefacto principal en
-[GitHub Pages](docs/contributing/storybook-deploy.md) (sitio bajo
-`/<repo>/`, listo para dominio propio).
+Bench publica su catálogo de componentes construido con
+[Histoire](https://histoire.dev) en GitHub Pages (sitio bajo `/bench/`).
 
 ```bash
-# Construir paquetes + sitio estático (salida en apps/storybook/storybook-static)
-pnpm build:storybook:ci
+# Levantar Histoire en desarrollo
+pnpm story:dev
 
-# Servir bajo la subruta /bench-main/ y ejecutar el smoke test de despliegue:
-node scripts/storybook-pages-smoke.mjs
+# Construir el sitio estático (salida en apps/histoire/.histoire/dist)
+pnpm --filter @bench/histoire build
 ```
 
-El sitio se construye en cada `push` a `main` y en cada `pull_request` (job
-`build` del workflow `storybook-pages.yml`), pero el despliegue a GitHub Pages
-**no ocurre por defecto**: hay que lanzar el workflow manualmente con
-`deploy = true` (ver `docs/contributing/storybook-deploy.md`).
-
-El catálogo ordena las historias como Welcome → Foundations → Components →
-Patterns → Showcase, con páginas de fundamentos (Tokens, Accesibilidad,
-Integraciones) y stories interactivas (args + Controls) de Button, Input,
-Select, Checkbox, Switch, Tabs, Dialog, Drawer, Tooltip, Badge y Progress.
+El sitio se construye bajo la subruta `/bench/` mediante la variable de
+entorno `BASE_PATH`, lista para desplegar en GitHub Pages en
+`https://benitoanagua.github.io/bench/`. El catálogo ordena las historias como
+Welcome → Foundations → Components → Patterns → Showcase, con stories
+interactivas de Button, Input, Select, Checkbox, Switch, Tabs, Dialog, Drawer,
+Tooltip, Badge y Progress.

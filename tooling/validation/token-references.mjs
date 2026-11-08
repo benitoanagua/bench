@@ -25,7 +25,6 @@ const ignoredDirs = new Set([
   'dist',
   '.turbo',
   '.stencil',
-  'storybook-static',
   'test-results',
   'coverage',
 ]);

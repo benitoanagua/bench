@@ -6,7 +6,7 @@
 4. Prefer slots over stringly-typed content APIs.
 5. Add typed custom events only for application-observable behavior.
 6. Test keyboard and accessibility behavior.
-7. Add Storybook stories for variants and states.
+7. Add Histoire stories for variants and states.
 8. Add visual coverage for stable states.
 9. Document the public API.
 10. Add a Changeset when the public package changes.

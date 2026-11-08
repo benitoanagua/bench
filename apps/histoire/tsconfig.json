@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "strict": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "verbatimModuleSyntax": true,
+    "isolatedModules": true
+  },
+  "include": [
+    "src/**/*.vue",
+    "src/**/*.ts",
+    "histoire.setup.ts",
+    "histoire.config.ts",
+    "vite.config.ts",
+    "env.d.ts"
+  ],
+  "exclude": ["node_modules", "dist", ".histoire"]
+}

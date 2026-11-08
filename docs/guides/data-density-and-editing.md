@@ -81,5 +81,4 @@ Wrap the table in a container that can scroll; keep the header and totals row
 visible in the application shell if needed. Use `bch-empty-state` when a filter
 returns no rows, and keep the filter text visible so the user can undo it.
 
-Related: [component matrix](../components/component-matrix.md),
-[data demo](../demos/bench-demo-datos-persistencia.html).
+Related: [component matrix](../components/component-matrix.md).

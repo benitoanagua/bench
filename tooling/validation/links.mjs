@@ -12,14 +12,7 @@ import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 
 const root = resolve(new URL('../..', import.meta.url).pathname);
-const ignoredDirs = new Set([
-  'node_modules',
-  '.git',
-  'dist',
-  '.turbo',
-  '.stencil',
-  'storybook-static',
-]);
+const ignoredDirs = new Set(['node_modules', '.git', 'dist', '.turbo', '.stencil']);
 const markdownFiles = [];
 
 function walk(dir) {

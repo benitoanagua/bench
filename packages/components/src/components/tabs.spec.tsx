@@ -114,7 +114,7 @@ describe('bch-tabs', () => {
     const { page, tabs } = await setup();
     const tab = tabs.querySelector('bch-tab[value="b"]') as HTMLElement & { value: string };
     const panel = tabs.querySelector('bch-tab-panel[value="b"]') as HTMLElement & { value: string };
-    // Desde JSX (Stencil, Storybook) o React 19 el valor llega como propiedad
+    // Desde JSX (Stencil) o React 19 el valor llega como propiedad
     // del elemento, no como atributo.
     tab.value = 'b2';
     panel.value = 'b2';
