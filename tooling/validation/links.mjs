@@ -18,7 +18,6 @@ const ignoredDirs = new Set([
   'dist',
   '.turbo',
   '.stencil',
-  'storybook-static',
 ]);
 const markdownFiles = [];
 

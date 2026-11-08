@@ -1,9 +1,9 @@
 # Release y publicación
 
 El versionado y la publicación van por **Changesets**. Los paquetes privados
-(`@bench/fonts`, `@bench/showcase`, `@bench/storybook`, `@bench/testing`) están
-en `ignore` de `.changeset/config.json`; los 7 paquetes públicos se publican a
-npm con `access: public` y provenance.
+(`@bench/fonts`, `@bench/showcase`) están en `ignore` de
+`.changeset/config.json`; los 7 paquetes públicos se publican a npm con
+`access: public` y provenance.
 
 ## 1. Agregar un changeset
 
@@ -69,8 +69,8 @@ modo dry-run.
 
 - Comprobar en npmjs.com que la versión figure con el badge Provenance.
 - `pnpm pack --dry-run` en cada paquete ya se valida localmente antes del
-  release (ver docs/audit/cleanup-log.md); el contenido publicado del tarball
-  no cambia respecto de ese chequeo.
+  release; el contenido publicado del tarball no cambia respecto de ese
+  chequeo.
 - Bump final: los cambios de versión quedan en `main`; el tag lo agrega
   `changeset publish` por paquete (`@bench/tokens@0.2.0`, etc.).
 

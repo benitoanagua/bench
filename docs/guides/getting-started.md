@@ -9,11 +9,11 @@ elements (`bch-*`), so they work with any framework or with plain HTML.
 pnpm install
 pnpm build        # tokens, icons, fonts, components, integrations, showcase
 pnpm showcase     # reference application at :5173
-pnpm storybook    # component catalogue and a11y harness at :6006
+pnpm story:dev    # component catalogue (Histoire) at :5173
 ```
 
 `pnpm check` is the full gate: icon/matrix/link/token/dead-code validators,
-formatting, lint, typecheck, unit tests, builds and the Storybook build.
+formatting, lint, typecheck, unit tests, builds and the Histoire build.
 
 ## Consume Bench in an application
 

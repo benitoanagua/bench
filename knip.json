@@ -1,9 +1,9 @@
 {
   "$schema": "https://unpkg.com/knip@5/schema.json",
   "workspaces": {
-    ".": { "entry": ["tooling/**/*.mjs", "scripts/storybook-pages-smoke.mjs"] },
-    "apps/storybook": {
-      "entry": ["src/**/*.stories.ts", "src/story-helpers.ts", ".storybook/*.ts"]
+    ".": { "entry": ["tooling/**/*.mjs"] },
+    "apps/histoire": {
+      "entry": ["src/**/*.story.vue", "histoire.setup.ts", "histoire.config.ts", "vite.config.ts"]
     },
     "packages/components": {
       "entry": ["src/index.ts", "stencil.config.ts", "stencil.typecheck.config.ts"],

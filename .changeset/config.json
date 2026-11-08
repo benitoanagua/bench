@@ -7,5 +7,5 @@
   "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
-  "ignore": ["@bench/showcase", "@bench/storybook", "@bench/fonts", "@bench/testing"]
+  "ignore": ["@bench/showcase", "@bench/fonts"]
 }

@@ -5,6 +5,13 @@
       "dependsOn": ["^build"],
       "outputs": ["dist/**"]
     },
+    "@bench/histoire#build": {
+      "dependsOn": ["^build"],
+      "outputs": [".histoire/dist/**"]
+    },
+    "@bench/histoire#typecheck": {
+      "dependsOn": ["^build"]
+    },
     "typecheck": {
       "dependsOn": ["^build"]
     },

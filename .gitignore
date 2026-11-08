@@ -2,13 +2,13 @@
 node_modules/
 .pnpm-store/
 
-# Salidas de build (Stencil, tsc, Storybook, Vite)
+# Salidas de build (Stencil, tsc, Vite, Histoire)
 dist/
 .typecheck/
 www/
 loader/
 .stencil/
-storybook-static/
+.histoire/
 *.tsbuildinfo
 packages/*/src/components.d.ts
 

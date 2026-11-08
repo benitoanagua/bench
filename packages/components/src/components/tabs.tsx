@@ -5,7 +5,7 @@ import { getDirectChildrenForBench } from '../util/direct-children';
  * Valor de un hijo (`bch-tab` / `bch-tab-panel`).
  *
  * La propiedad manda sobre el atributo. En HTML el valor llega como atributo,
- * pero desde JSX (Stencil, Storybook) o React 19 se escribe como propiedad
+ * pero desde JSX (Stencil) o React 19 se escribe como propiedad
  * del elemento: leer solo `getAttribute` devolvía `null` y el grupo se
  * quedaba sin pestaña activa y con todos los paneles ocultos.
  */

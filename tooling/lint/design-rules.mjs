@@ -9,7 +9,6 @@ const ignored = new Set([
   '.typecheck',
   '.git',
   '.turbo',
-  'storybook-static',
   'coverage',
 ]);
 
