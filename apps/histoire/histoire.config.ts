@@ -8,7 +8,7 @@ export default defineConfig({
   setupFile: './histoire.setup.ts',
   routerMode: 'hash',
   vite: {
-    base: process.env.BASE_PATH ?? '/',
+    base: process.env.BASE_PATH ?? '/bench/',
     plugins: [
       vue({
         template: {
