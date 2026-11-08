@@ -1,0 +1,84 @@
+name: Histoire Pages
+
+# Publica el catálogo de componentes de Bench (Histoire) en GitHub Pages
+# (sitio bajo /bench/).
+#
+# - pull_request / push a main: JOB `build` construye y sube el artifact
+#   (sólo construye; NO despliega). Sirve para verificar que el sitio
+#   compila bajo la subruta.
+# - workflow_dispatch con input `deploy = true`: JOB `deploy` despliega el
+#   artifact en GitHub Pages. Nunca corre en pull_request ni desde forks.
+#
+# El despliegue NO se ejecuta por defecto: hay que lanzar el workflow
+# manualmente con `deploy = true`.
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      deploy:
+        description: 'Desplegar artifact en GitHub Pages (requiere environment github-pages)'
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: build histoire
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.26.0
+
+      - name: setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: build histoire (sitio estático bajo /bench/)
+        run: BASE_PATH=/bench/ pnpm --filter @bench/histoire build
+
+      - name: configure pages
+        uses: actions/configure-pages@v5
+
+      - name: upload histoire artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: apps/histoire/.histoire/dist
+
+  deploy:
+    name: deploy histoire
+    if: github.event_name == 'workflow_dispatch' && inputs.deploy == true
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      pages: write
+      id-token: write
+    steps:
+      - name: deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
