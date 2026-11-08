@@ -1,12 +1,6 @@
 import { expect, test } from '@playwright/test';
 import type { APIRequestContext } from '@playwright/test';
-import {
-  exportedTags,
-  histoireIndex,
-  storyForTag,
-  storyUrl,
-  type StoryRef,
-} from './helpers';
+import { exportedTags, histoireIndex, storyForTag, storyUrl, type StoryRef } from './helpers';
 
 let catalogPromise: ReturnType<typeof histoireIndex> | undefined;
 function index(request: APIRequestContext) {
@@ -16,8 +10,8 @@ function index(request: APIRequestContext) {
 
 /**
  * Cada tag exportado por @bench/components tiene una Historia en
- * .histoire/dist/histoire.json (el índice que sustituye al index.json de
- * Storybook).
+ * .histoire/dist/histoire.json (el índice que sustituye al de la herramienta
+ * previa de catálogo).
  */
 test.describe('BENCH public contracts (Histoire)', () => {
   test('cada tag exportado tiene una story en el índice de Histoire', async ({ request }) => {

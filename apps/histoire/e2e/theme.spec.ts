@@ -3,10 +3,13 @@ import { histoireIndex, storyUrl } from './helpers';
 
 /**
  * Tema: cambiar data-bch-theme modifica --bch-color-surface (aserción
- * rescatada del script de smoke de Storybook).
+ * rescatada del script de smoke de la herramienta previa de catálogo).
  */
 test.describe('BENCH theming', () => {
-  test('cambiar el tema modifica --bch-color-surface dentro del sandbox', async ({ page, request }) => {
+  test('cambiar el tema modifica --bch-color-surface dentro del sandbox', async ({
+    page,
+    request,
+  }) => {
     const url = await storyUrl('bch-button');
     await page.goto(url, { waitUntil: 'networkidle' });
     const sandbox = page.frames().find((f) => f.url().includes('__sandbox'));

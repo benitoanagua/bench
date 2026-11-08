@@ -4,12 +4,7 @@ import { join } from 'node:path';
 const root = new URL('../..', import.meta.url).pathname;
 const scanRoots = ['apps', 'packages'];
 const excludedDirs = new Set(['node_modules', 'dist', '.git']);
-const forbidden = [
-  /from\s+['"]lit(?:\/|['"])/,
-  /from\s+['"]lit-html['"]/,
-  /@lit\//,
-  /LitElement/,
-];
+const forbidden = [/from\s+['"]lit(?:\/|['"])/, /from\s+['"]lit-html['"]/, /@lit\//, /LitElement/];
 const extensions = new Set(['.ts', '.tsx', '.js', '.mjs', '.json', '.yaml', '.yml']);
 const hits = [];
 

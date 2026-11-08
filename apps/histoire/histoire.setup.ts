@@ -26,10 +26,7 @@ if (typeof document !== 'undefined' && typeof document.documentElement !== 'unde
   // Puente de tema: Histoire escribe la clase `dark` en <html> del sandbox
   // al cambiar el tema desde su UI; Bench lee `data-bch-theme`.
   function syncTheme() {
-    html.setAttribute(
-      'data-bch-theme',
-      html.classList.contains('dark') ? 'dark' : 'light',
-    );
+    html.setAttribute('data-bch-theme', html.classList.contains('dark') ? 'dark' : 'light');
   }
 
   syncTheme();

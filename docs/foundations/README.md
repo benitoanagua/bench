@@ -46,5 +46,3 @@ preference (`bench-design-system.md` §0.1):
 
 - [`docs/bench-design-system.md`](../bench-design-system.md) — the full
   normative specification.
-- [`docs/demos/`](../demos/) — the six executable HTML reference demos this
-  design system was validated against, kept exactly as delivered.

@@ -15,7 +15,12 @@
       </bch-combobox>
     </Variant>
     <Variant name="Valor personalizado permitido">
-      <bch-combobox label="Etiquetas" name="tags" allow-custom-value placeholder="Escribe una etiqueta…">
+      <bch-combobox
+        label="Etiquetas"
+        name="tags"
+        allow-custom-value
+        placeholder="Escribe una etiqueta…"
+      >
         <bch-combobox-option value="urgente">Urgente</bch-combobox-option>
         <bch-combobox-option value="revisar">Revisar</bch-combobox-option>
       </bch-combobox>

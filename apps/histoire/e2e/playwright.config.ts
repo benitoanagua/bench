@@ -11,7 +11,8 @@ export default defineConfig({
     },
   },
   webServer: {
-    command: 'node ./static-server.js /home/mamaya/Code/bench/apps/histoire/.histoire/dist /bench 5179',
+    command:
+      'node ./static-server.js /home/mamaya/Code/bench/apps/histoire/.histoire/dist /bench 5179',
     url: 'http://127.0.0.1:5179',
     reuseExistingServer: true,
     timeout: 120_000,

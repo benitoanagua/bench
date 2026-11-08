@@ -23,9 +23,7 @@ import { readFileSync, existsSync } from 'node:fs';
 import path from 'node:path';
 import process from 'node:process';
 
-const DEFAULT_CANDIDATES = [
-  'apps/showcase/bench.functions.json',
-];
+const DEFAULT_CANDIDATES = ['apps/showcase/bench.functions.json'];
 const TIPOS = new Set(['pantalla', 'accion', 'macro', 'reporte']);
 
 function collectErrors(manifest) {

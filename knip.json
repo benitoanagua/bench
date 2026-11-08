@@ -3,7 +3,13 @@
   "workspaces": {
     ".": { "entry": ["tooling/**/*.mjs"] },
     "apps/histoire": {
-      "entry": ["src/**/*.story.vue", "histoire.setup.ts", "histoire.config.ts", "vite.config.ts"]
+      "entry": [
+        "src/**/*.story.vue",
+        "histoire.setup.ts",
+        "histoire.config.ts",
+        "e2e/**/*.ts",
+        "e2e/static-server.js"
+      ]
     },
     "packages/components": {
       "entry": ["src/index.ts", "stencil.config.ts", "stencil.typecheck.config.ts"],

@@ -109,5 +109,4 @@ the route mapping.
   long trails.
 - `bch-tree` — treeview for the same function index when hierarchy matters.
 
-Related: [ADR-009](../architecture/adr-009-catalog-scope.md),
-[omnibar demo](../demos/bench-demo-layout-interaccion.html).
+Related: [ADR-009](../architecture/adr-009-catalog-scope.md).

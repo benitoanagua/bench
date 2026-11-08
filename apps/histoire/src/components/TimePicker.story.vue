@@ -10,7 +10,11 @@
       <bch-time-picker label="Intervalo" name="interval" step="15"></bch-time-picker>
     </Variant>
     <Variant name="Con error">
-      <bch-time-picker label="Cita" name="appointment" error="Hora fuera de rango"></bch-time-picker>
+      <bch-time-picker
+        label="Cita"
+        name="appointment"
+        error="Hora fuera de rango"
+      ></bch-time-picker>
     </Variant>
     <Variant name="Deshabilitado">
       <bch-time-picker label="Bloqueada" name="locked" disabled></bch-time-picker>

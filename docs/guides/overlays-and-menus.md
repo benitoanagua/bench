@@ -83,5 +83,4 @@ Mount one region per app and call it imperatively:
 existing toast instead of stacking duplicates. Do not use toasts for errors
 that require a decision; use a dialog.
 
-Related: [accessibility contracts](../accessibility/component-contracts.md),
-[overlays demo](../demos/bench-demo-definitiva.html).
+Related: [accessibility contracts](../accessibility/component-contracts.md).

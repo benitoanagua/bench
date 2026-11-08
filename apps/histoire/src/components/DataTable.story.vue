@@ -11,8 +11,16 @@
             </tr>
           </thead>
           <tbody>
-            <tr><td>Elemento A</td><td>Activo</td><td>2026-01-10</td></tr>
-            <tr><td>Elemento B</td><td>Inactivo</td><td>2026-01-11</td></tr>
+            <tr>
+              <td>Elemento A</td>
+              <td>Activo</td>
+              <td>2026-01-10</td>
+            </tr>
+            <tr>
+              <td>Elemento B</td>
+              <td>Inactivo</td>
+              <td>2026-01-11</td>
+            </tr>
           </tbody>
         </table>
       </bch-data-table>

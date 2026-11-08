@@ -87,5 +87,4 @@ Tier (c) patterns from
 Keep this state in the application (or a small app-level store). Bench
 components only expose the interaction surface. The
 [showcase](../showcase.md) demonstrates the visual composition, and the
-[layout demo](../demos/bench-demo-layout-interaccion.html) shows the intended
-behavior without a framework.
+intended behavior works without a framework.

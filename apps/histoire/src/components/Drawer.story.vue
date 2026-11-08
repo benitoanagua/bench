@@ -6,9 +6,7 @@
       </bch-drawer>
     </Variant>
     <Variant name="Lado izquierdo">
-      <bch-drawer label="Menú" open side="left">
-        Opciones de navegación.
-      </bch-drawer>
+      <bch-drawer label="Menú" open side="left"> Opciones de navegación. </bch-drawer>
     </Variant>
     <Variant name="Sin cerrar con Escape">
       <bch-drawer label="Forzado" open close-on-escape="false">

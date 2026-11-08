@@ -46,9 +46,7 @@ test.describe('BENCH accessibility audit (Histoire)', () => {
 
       await sandbox!.waitForSelector(tag, { state: 'attached', timeout: 15000 });
 
-      let axe = new AxeBuilder({ page })
-        .withTags(['wcag2a', 'wcag2aa'])
-        .include(tag);
+      let axe = new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa']).include(tag);
       const disabled = DISABLED_RULES[tag];
       if (disabled) axe = axe.disableRules(disabled);
       const results = await axe.analyze();

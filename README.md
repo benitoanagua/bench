@@ -89,11 +89,6 @@ system without introducing business logic.
 
 - [`docs/bench-design-system.md`](./docs/bench-design-system.md) — the full
   specification (unchanged, cited as-is).
-- [`docs/demos/`](./docs/demos/) — six executable HTML reference demos (open
-  directly in a browser, no build step) covering the omnibar/command
-  pattern, tiling layout, data-at-scale + persistence, generic components
-  (tree/accordion/offcanvas/modal), a second domain context (wallet/ledger),
-  and authentication/long-session handling.
 
 ## Catálogo de componentes (Histoire)
 

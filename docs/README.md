@@ -10,10 +10,6 @@ Components.
   the complete pattern catalog, and the research this all traces back to
   (Solaris CDE, Mac OS Classic, NeXTSTEP, HyperCard, Oracle EBS, SAP, AS/400).
   Kept exactly as delivered — reference material, not adapted per-package.
-- [`demos/`](./demos/) — the six executable HTML demos that document was
-  validated against. Open any of them directly in a browser; no build step.
-  See the spec's own trazabilidad table (§4.10) for which demo exercises
-  which pattern.
 
 ## Documentation areas
 

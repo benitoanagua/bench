@@ -15,7 +15,11 @@
         </bch-select>
       </bch-form-field>
       <bch-form-field label="Mensaje" name="message">
-        <bch-textarea name="message" rows="4" placeholder="¿En qué podemos ayudarte?"></bch-textarea>
+        <bch-textarea
+          name="message"
+          rows="4"
+          placeholder="¿En qué podemos ayudarte?"
+        ></bch-textarea>
       </bch-form-field>
       <bch-form-field label="Aceptar términos" name="terms">
         <bch-checkbox name="terms" required>Acepto los términos y condiciones</bch-checkbox>
