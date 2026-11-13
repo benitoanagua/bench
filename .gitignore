@@ -26,6 +26,14 @@ playwright/.cache/
 coverage/
 .nyc_output/
 
+# Screenshots y baselines visual (sólo en Linux/WSL, no versionar)
+!apps/histoire/e2e/__screenshots__/**
+e2e/__screenshots__/**
+
+# Resultados de tests e2e de Histoire
+apps/histoire/test-results/
+apps/histoire/playwright-report/
+
 # Imágenes (no se versionan; incluye los baselines de snapshots visuales)
 *.png
 *.jpg
