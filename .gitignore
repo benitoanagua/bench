@@ -35,6 +35,7 @@ coverage/
 *.avif
 *.bmp
 *.ico
+!apps/histoire/e2e/__screenshots__/**
 *-snapshots/
 
 # Entorno

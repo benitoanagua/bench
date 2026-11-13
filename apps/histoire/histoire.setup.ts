@@ -31,8 +31,33 @@ if (typeof document !== 'undefined' && typeof document.documentElement !== 'unde
 
   syncTheme();
 
+  // El lienzo del catálogo sigue el tema (las superficies de los componentes
+  // tienen su propio color; el fondo vacío no debe quedarse blanco en modo
+  // oscuro, donde contrasta mal con el texto).
+  function syncCanvas() {
+    if (typeof document.head === 'undefined') return;
+    const computed = getComputedStyle(html);
+    const bg =
+      computed.getPropertyValue('--bch-color-background').trim() ||
+      (html.classList.contains('dark') ? '#0f1417' : '#e7eaee');
+    // Una regla de hoja de estilos (no un estilo en línea) para que el
+    // cálculo de color de fondo de herramientas como axe sea correcto.
+    let style = document.getElementById('bch-canvas-style') as HTMLStyleElement | null;
+    if (!style) {
+      style = document.createElement('style');
+      style.id = 'bch-canvas-style';
+      document.head.appendChild(style);
+    }
+    style.textContent = `html, body { background-color: ${bg}; }`;
+  }
+
+  syncCanvas();
+
   if (typeof MutationObserver !== 'undefined') {
-    const observer = new MutationObserver(syncTheme);
+    const observer = new MutationObserver(() => {
+      syncTheme();
+      syncCanvas();
+    });
     observer.observe(html, { attributes: true, attributeFilter: ['class'] });
   }
 

@@ -1,6 +1,6 @@
 <template>
   <Story title="Patterns/Showcase">
-    <Variant name="Superficie de producto">
+    <Variant title="Superficie de producto">
       <div style="padding: 24px; display: grid; gap: 16px">
         <bch-metric-card
           label="Ingresos hoy"
@@ -8,16 +8,16 @@
           trend="+8%"
           tone="success"
         ></bch-metric-card>
-        <bch-metric-card label="Pedidos" value="84" trend="-2%" tone="neutral"></bch-metric-card>
+        <bch-metric-card label="Pedidos" value="84" trend="-2%" tone="negative"></bch-metric-card>
         <bch-metric-card
           label="Tasa de conversión"
           value="3.4%"
           trend="+0.4%"
-          tone="success"
+          tone="positive"
         ></bch-metric-card>
       </div>
     </Variant>
-    <Variant name="Responsive">
+    <Variant title="Responsive">
       <bch-card style="max-width: 400px">
         <div style="padding: 16px">
           <bch-input label="Buscar" name="search" placeholder="Buscar productos…"></bch-input>
@@ -27,3 +27,9 @@
     </Variant>
   </Story>
 </template>
+
+<docs lang="md">
+# Showcase (patrón)
+
+Superficies de producto con tarjetas de métrica y formularios reducidos.
+</docs>

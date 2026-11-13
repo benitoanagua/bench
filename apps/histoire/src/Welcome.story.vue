@@ -1,6 +1,6 @@
 <template>
   <Story title="Welcome">
-    <Variant name="Bienvenida">
+    <Variant title="Bienvenida">
       <div style="padding: 24px; max-width: 720px">
         <h1 style="font-size: 1.875rem; font-weight: 600; margin: 0 0 1rem 0">
           Bench Design System

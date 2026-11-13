@@ -1,10 +1,11 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from '@playwright/test';
-import { exportedTags, histoireIndex, storyForTag } from './helpers';
+import { exportedTags, histoireIndex, storyForTag, storyUrl, sandboxOf, setTheme } from './helpers';
 
 /**
  * Excepciones de axe justificadas por tag. Las justificaciones se mantienen
  * íntegras (migradas de packages/testing/visual/a11y.spec.ts).
+ * NO ampliar este objeto sin justificación escrita y verificada.
  */
 const DISABLED_RULES: Record<string, string[]> = {
   'bch-tabs': [
@@ -38,23 +39,31 @@ const DISABLED_RULES: Record<string, string[]> = {
 
 test.describe('BENCH accessibility audit (Histoire)', () => {
   for (const tag of exportedTags()) {
-    test(`${tag} historia sin violaciones WCAG 2 A/AA`, async ({ page, request }) => {
-      const ref = storyForTag(tag, histoireIndex(request));
-      await page.goto(ref, { waitUntil: 'networkidle' });
-      const sandbox = page.frames().find((f) => f.url().includes('__sandbox'));
-      expect(sandbox).toBeTruthy();
+    test(`${tag} historia sin violaciones WCAG 2 A/AA`, async ({ page }) => {
+      const url = await storyUrl(tag);
+      await page.goto(url, { waitUntil: 'networkidle' });
 
-      await sandbox!.waitForSelector(tag, { state: 'attached', timeout: 15000 });
+      const sandbox = sandboxOf(page);
+      await sandbox.waitForSelector(tag, { state: 'attached', timeout: 15000 });
 
-      let axe = new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa']).include(tag);
       const disabled = DISABLED_RULES[tag];
-      if (disabled) axe = axe.disableRules(disabled);
-      const results = await axe.analyze();
 
-      expect(
-        results.violations,
-        `${tag} (${ref.storyId}):\n${JSON.stringify(results.violations, null, 2)}`,
-      ).toEqual([]);
+      const runAxe = async (theme: 'light' | 'dark') => {
+        await setTheme(sandbox, theme === 'dark');
+        const results = await new AxeBuilder({ page })
+          .withTags(['wcag2a', 'wcag2aa'])
+          .include(['iframe[src*="__sandbox"]', tag])
+          .disableRules(disabled ?? [])
+          .analyze();
+        expect(
+          results.violations,
+          `${tag} (${theme}):\n${JSON.stringify(results.violations, null, 2)}`,
+        ).toEqual([]);
+      };
+
+      await runAxe('light');
+      await runAxe('dark');
+      await setTheme(sandbox, false);
     });
   }
 });

@@ -1,7 +1,7 @@
 <template>
   <Story title="Patterns/Forms">
-    <Variant name="Formulario de contacto">
-      <bch-form-field label="Nombre completo" name="fullname" hint="Nombre y apellidos">
+    <Variant title="Formulario de contacto">
+      <bch-form-field label="Nombre completo" hint="Nombre y apellidos">
         <bch-input name="fullname" placeholder="María García López"></bch-input>
       </bch-form-field>
       <bch-form-field label="Correo electrónico" name="email" hint="Dirección de correo">
@@ -9,9 +9,9 @@
       </bch-form-field>
       <bch-form-field label="Asunto" name="subject">
         <bch-select name="subject">
-          <bch-combobox-option value="consulta">Consulta</bch-combobox-option>
-          <bch-combobox-option value="soporte">Soporte técnico</bch-combobox-option>
-          <bch-combobox-option value="facturacion">Facturación</bch-combobox-option>
+          <option value="consulta">Consulta</option>
+          <option value="soporte">Soporte técnico</option>
+          <option value="facturacion">Facturación</option>
         </bch-select>
       </bch-form-field>
       <bch-form-field label="Mensaje" name="message">
@@ -28,3 +28,10 @@
     </Variant>
   </Story>
 </template>
+
+<docs lang="md">
+# Formulario (patrón)
+
+Combinación de `bch-form-field`, `bch-input`, `bch-select`, `bch-textarea`,
+`bch-checkbox` y `bch-button` para un formulario de contacto.
+</docs>

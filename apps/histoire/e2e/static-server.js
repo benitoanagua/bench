@@ -4,9 +4,9 @@
 //
 // Uso: node static-server.js <dir> <prefix> <port>
 // Ej:  node static-server.js ./dist /bench 5179
-const http = require('node:http');
-const fs = require('node:fs');
-const path = require('node:path');
+import { createServer } from 'node:http';
+import { statSync, createReadStream } from 'node:fs';
+import { resolve, extname, sep } from 'node:path';
 
 const [dir, prefix, port] = process.argv.slice(2);
 if (!dir || !prefix || !port) {
@@ -14,7 +14,7 @@ if (!dir || !prefix || !port) {
   process.exit(1);
 }
 
-const root = path.resolve(dir);
+const root = resolve(dir);
 const base = prefix === '/' ? '' : prefix.replace(/\/$/, '');
 
 const mime = {
@@ -35,28 +35,34 @@ function resolveUrl(reqUrl) {
   if (!pathname.startsWith(base + '/') && pathname !== base) return null;
   let rel = pathname.slice(base.length);
   if (!rel || rel === '/') rel = '/index.html';
-  const resolved = path.resolve(root, rel.slice(1));
-  if (!resolved.startsWith(root + path.sep) && resolved !== root) return null;
+  const resolved = resolve(root, rel.slice(1));
+  if (!resolved.startsWith(root + sep) && resolved !== root) return null;
   return resolved;
 }
 
-const server = http.createServer((req, res) => {
+const server = createServer((req, res) => {
   const file = resolveUrl(req.url);
   if (!file) {
     res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
     res.end('404 Not Found\n');
     return;
   }
-  fs.stat(file, (err, st) => {
-    if (err || !st.isFile()) {
-      res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
-      res.end('404 Not Found\n');
-      return;
-    }
-    const ext = path.extname(file).toLowerCase();
-    res.writeHead(200, { 'Content-Type': mime[ext] || 'application/octet-stream' });
-    fs.createReadStream(file).pipe(res);
-  });
+  let st;
+  try {
+    st = statSync(file);
+  } catch {
+    res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
+    res.end('404 Not Found\n');
+    return;
+  }
+  if (!st.isFile()) {
+    res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
+    res.end('404 Not Found\n');
+    return;
+  }
+  const ext = extname(file).toLowerCase();
+  res.writeHead(200, { 'Content-Type': mime[ext] || 'application/octet-stream' });
+  createReadStream(file).pipe(res);
 });
 
 server.listen(parseInt(port, 10), () => {

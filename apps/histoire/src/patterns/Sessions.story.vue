@@ -1,6 +1,6 @@
 <template>
   <Story title="Patterns/Sessions">
-    <Variant name="Vista de sesión">
+    <Variant title="Vista de sesión">
       <div style="padding: 24px; display: flex; gap: 24px">
         <bch-nav orientation="vertical" style="width: 200px">
           <bch-nav-item href="/sesiones" active>Sesiones</bch-nav-item>
@@ -23,3 +23,10 @@
     </Variant>
   </Story>
 </template>
+
+<docs lang="md">
+# Sesión (patrón)
+
+Navegación lateral + barra de estado + tarjeta de actividad: superficie
+típica de una pantalla de trabajo de Bench.
+</docs>

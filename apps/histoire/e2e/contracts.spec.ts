@@ -1,6 +1,13 @@
 import { expect, test } from '@playwright/test';
 import type { APIRequestContext } from '@playwright/test';
-import { exportedTags, histoireIndex, storyForTag, storyUrl, type StoryRef } from './helpers';
+import {
+  exportedTags,
+  histoireIndex,
+  storyForTag,
+  storyUrl,
+  kebabCase,
+  type StoryRef,
+} from './helpers';
 
 let catalogPromise: ReturnType<typeof histoireIndex> | undefined;
 function index(request: APIRequestContext) {
@@ -16,14 +23,32 @@ function index(request: APIRequestContext) {
 test.describe('BENCH public contracts (Histoire)', () => {
   test('cada tag exportado tiene una story en el índice de Histoire', async ({ request }) => {
     const idx = index(request);
-    const tagsInIndex = new Set(
-      idx.stories.map((s) => {
-        const path = s.treePath ?? [];
-        return path[path.length - 1] ? `bch-${path[path.length - 1].toLowerCase()}` : '';
-      }),
-    );
+    const tagsInIndex = new Set<string>();
+    const CHILD_ALIASES: Record<string, string> = {
+      'bch-accordion-item': 'accordion',
+      'bch-breadcrumb-item': 'breadcrumbs',
+      'bch-combobox-option': 'combobox',
+      'bch-menu-item': 'menu',
+      'bch-segmented-item': 'segmented-control',
+      'bch-tab': 'tabs',
+      'bch-tab-panel': 'tabs',
+      'bch-tree-item': 'tree',
+    };
+    for (const story of idx.stories) {
+      const path = story.treePath ?? [];
+      const last = path[path.length - 1];
+      if (last) tagsInIndex.add(`bch-${kebabCase(last)}`);
+    }
+    // Los hijos sin historia propia se cubren con la story de su padre (alias),
+    // y los tags compuestos (toast-region, nav-item) con la story del padre
+    // por prefijo (bch-toast → cubre bch-toast-region).
     for (const tag of exportedTags()) {
-      expect(tagsInIndex.has(tag), `Falta story para ${tag}`).toBe(true);
+      const component = kebabCase(tag.slice(4));
+      const storyKeys = [...tagsInIndex].map((k) => kebabCase(k.slice(4)));
+      const covered =
+        storyKeys.some((k) => component === k || component.startsWith(`${k}-`)) ||
+        (CHILD_ALIASES[tag] && storyKeys.includes(kebabCase(CHILD_ALIASES[tag])));
+      expect(covered, `Falta story para ${tag}`).toBe(true);
     }
   });
 
