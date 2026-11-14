@@ -15,7 +15,8 @@ import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import type { APIRequestContext, Page } from '@playwright/test';
 
-const root = resolve(process.cwd(), '../../');
+const HISTOIRE_ROOT = process.env.HISTOIRE_ROOT || '/home/mamaya/Code/bench';
+const root = HISTOIRE_ROOT;
 const componentsDir = join(root, 'packages', 'components', 'src', 'components');
 
 // Prefijo bajo el que se sirve el build de Histoire (GitHub Pages: /bench/).
