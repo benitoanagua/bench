@@ -22,7 +22,7 @@ test.describe('BENCH interacciones — overlays', () => {
   test('Dialog: se abre y cierra con botón y Escape; el foco vuelve al disparador', async ({
     page,
   }) => {
-    await gotoStory(page, 'Components/Dialog');
+    await gotoStory(page, 'Dialog');
     const sandbox = sandboxOf(page);
 
     const abrir = sandbox.getByRole('button', { name: 'Abrir diálogo' }).first();
@@ -45,7 +45,7 @@ test.describe('BENCH interacciones — overlays', () => {
   });
 
   test('Dialog: close-on-escape="false" no se cierra con Escape', async ({ page }) => {
-    await gotoStory(page, 'Components/Dialog', 'Sin cerrar con Escape');
+    await gotoStory(page, 'Dialog', 'Sin cerrar con Escape');
     const sandbox = sandboxOf(page);
     await sandbox.getByRole('button', { name: 'Abrir diálogo' }).first().click();
     const dialog = sandbox.locator('bch-dialog[open]');
@@ -57,7 +57,7 @@ test.describe('BENCH interacciones — overlays', () => {
   });
 
   test('Drawer: se abre y cierra con botón y Escape', async ({ page }) => {
-    await gotoStory(page, 'Components/Drawer');
+    await gotoStory(page, 'Drawer');
     const sandbox = sandboxOf(page);
     await sandbox.getByRole('button', { name: 'Abrir cajón' }).first().click();
     const drawer = sandbox.locator('bch-drawer[open]');
@@ -69,7 +69,7 @@ test.describe('BENCH interacciones — overlays', () => {
   test('Menu: se abre con el disparador, navega con teclado y se cierra con Escape', async ({
     page,
   }) => {
-    await gotoStory(page, 'Components/Menu');
+    await gotoStory(page, 'Menu');
     const sandbox = sandboxOf(page);
 
     await sandbox.getByRole('button', { name: 'Acciones' }).first().click();
@@ -88,7 +88,7 @@ test.describe('BENCH interacciones — overlays', () => {
   });
 
   test('Tooltip: aparece al pasar el ratón y al recibir el foco', async ({ page }) => {
-    await gotoStory(page, 'Components/Tooltip');
+    await gotoStory(page, 'Tooltip');
     const sandbox = sandboxOf(page);
     const trigger = sandbox.getByRole('button', { name: 'Pasa el ratón' }).first();
 
@@ -104,7 +104,7 @@ test.describe('BENCH interacciones — overlays', () => {
   });
 
   test('Toast: aparece al mostrarlo y se descarta', async ({ page }) => {
-    await gotoStory(page, 'Components/Toast');
+    await gotoStory(page, 'Toast');
     const sandbox = sandboxOf(page);
 
     await sandbox.getByRole('button', { name: 'Mostrar toast' }).first().click();
@@ -117,7 +117,7 @@ test.describe('BENCH interacciones — overlays', () => {
 
 test.describe('BENCH interacciones — formularios y navegación', () => {
   test('Tabs: cambia de pestaña con clic y teclado', async ({ page }) => {
-    await gotoStory(page, 'Components/Tabs');
+    await gotoStory(page, 'Tabs');
     const sandbox = sandboxOf(page);
 
     const segunda = sandbox.getByRole('tab', { name: 'Segunda' }).first();
@@ -134,7 +134,7 @@ test.describe('BENCH interacciones — formularios y navegación', () => {
   });
 
   test('Accordion: abre y cierra ítems', async ({ page }) => {
-    await gotoStory(page, 'Components/Accordion');
+    await gotoStory(page, 'Accordion');
     const sandbox = sandboxOf(page);
 
     await sandbox.getByRole('button', { name: 'Primera' }).first().click();
@@ -144,7 +144,7 @@ test.describe('BENCH interacciones — formularios y navegación', () => {
   });
 
   test('SegmentedControl: cambia el valor seleccionado', async ({ page }) => {
-    await gotoStory(page, 'Components/SegmentedControl');
+    await gotoStory(page, 'SegmentedControl');
     const sandbox = sandboxOf(page);
 
     await sandbox.getByRole('button', { name: 'Semana' }).first().click();
@@ -152,7 +152,7 @@ test.describe('BENCH interacciones — formularios y navegación', () => {
   });
 
   test('Tree: expande y colapsa nodos', async ({ page }) => {
-    await gotoStory(page, 'Components/Tree');
+    await gotoStory(page, 'Tree');
     const sandbox = sandboxOf(page);
 
     await sandbox.getByRole('button', { name: 'Facturación' }).first().click();
@@ -160,7 +160,7 @@ test.describe('BENCH interacciones — formularios y navegación', () => {
   });
 
   test('Splitter: mover el divisor cambia los paneles', async ({ page }) => {
-    await gotoStory(page, 'Components/Splitter');
+    await gotoStory(page, 'Splitter');
     const sandbox = sandboxOf(page);
 
     const divider = sandbox.getByRole('separator').first();
@@ -172,7 +172,7 @@ test.describe('BENCH interacciones — formularios y navegación', () => {
   });
 
   test('Combobox: escribe, navega con flechas y confirma con Enter', async ({ page }) => {
-    await gotoStory(page, 'Components/Combobox');
+    await gotoStory(page, 'Combobox');
     const sandbox = sandboxOf(page);
 
     const input = sandbox.getByRole('combobox').first();
@@ -184,7 +184,7 @@ test.describe('BENCH interacciones — formularios y navegación', () => {
   });
 
   test('Select: abre y elige una opción', async ({ page }) => {
-    await gotoStory(page, 'Components/Select');
+    await gotoStory(page, 'Select');
     const sandbox = sandboxOf(page);
 
     await sandbox.getByRole('listbox').first(); // asegura que el render lo monta
@@ -197,7 +197,7 @@ test.describe('BENCH interacciones — formularios y navegación', () => {
   });
 
   test('Omnibar: escribe y ejecuta con Enter', async ({ page }) => {
-    await gotoStory(page, 'Components/Omnibar');
+    await gotoStory(page, 'Omnibar');
     const sandbox = sandboxOf(page);
 
     const input = sandbox.getByRole('searchbox').first();
@@ -208,7 +208,7 @@ test.describe('BENCH interacciones — formularios y navegación', () => {
   });
 
   test('DatePicker: abre el calendario y selecciona una fecha', async ({ page }) => {
-    await gotoStory(page, 'Components/DatePicker');
+    await gotoStory(page, 'DatePicker');
     const sandbox = sandboxOf(page);
 
     await sandbox
@@ -219,7 +219,7 @@ test.describe('BENCH interacciones — formularios y navegación', () => {
   });
 
   test('TimePicker: responde al cambio de valor', async ({ page }) => {
-    await gotoStory(page, 'Components/TimePicker');
+    await gotoStory(page, 'TimePicker');
     const sandbox = sandboxOf(page);
 
     await sandbox.getByRole('spinbutton', { name: /hora/i }).first().fill('14:30');
@@ -227,7 +227,7 @@ test.describe('BENCH interacciones — formularios y navegación', () => {
   });
 
   test('Pagination: avanza de página', async ({ page }) => {
-    await gotoStory(page, 'Components/Pagination');
+    await gotoStory(page, 'Pagination');
     const sandbox = sandboxOf(page);
 
     await sandbox
@@ -238,7 +238,7 @@ test.describe('BENCH interacciones — formularios y navegación', () => {
   });
 
   test('DataTable: ordena, filtra y pagina', async ({ page }) => {
-    await gotoStory(page, 'Components/DataTable');
+    await gotoStory(page, 'DataTable');
     const sandbox = sandboxOf(page);
 
     const filas = sandbox.getByRole('row');
@@ -257,7 +257,7 @@ test.describe('BENCH interacciones — formularios y navegación', () => {
   });
 
   test('Slider: mover el pulgar cambia el valor', async ({ page }) => {
-    await gotoStory(page, 'Components/Slider');
+    await gotoStory(page, 'Slider');
     const sandbox = sandboxOf(page);
 
     const thumb = sandbox.getByRole('slider').first();
@@ -266,20 +266,20 @@ test.describe('BENCH interacciones — formularios y navegación', () => {
   });
 
   test('Switch / Checkbox / Radio: cambian de estado', async ({ page }) => {
-    await gotoStory(page, 'Components/Switch');
+    await gotoStory(page, 'Switch');
     const sandbox = sandboxOf(page);
     const sw = sandbox.getByRole('switch').first();
     await sw.click();
     await expect(sw).toBeChecked();
 
-    await gotoStory(page, 'Components/Checkbox');
+    await gotoStory(page, 'Checkbox');
     await sandbox
       .getByRole('checkbox', { name: /acepto/i })
       .first()
       .click();
     await expect(sandbox.getByRole('checkbox', { name: /acepto/i }).first()).toBeChecked();
 
-    await gotoStory(page, 'Components/Radio');
+    await gotoStory(page, 'Radio');
     await sandbox
       .getByRole('radio', { name: /opción a/i })
       .first()
@@ -288,7 +288,7 @@ test.describe('BENCH interacciones — formularios y navegación', () => {
   });
 
   test('Input y Textarea: escriben valor', async ({ page }) => {
-    await gotoStory(page, 'Components/Input');
+    await gotoStory(page, 'Input');
     const sandbox = sandboxOf(page);
 
     await sandbox
@@ -297,7 +297,7 @@ test.describe('BENCH interacciones — formularios y navegación', () => {
       .fill('Bench');
     await expect(sandbox.getByRole('textbox', { name: /nombre/i }).first()).toHaveValue('Bench');
 
-    await gotoStory(page, 'Components/Textarea');
+    await gotoStory(page, 'Textarea');
     await sandbox
       .getByRole('textbox', { name: /observaciones/i })
       .first()

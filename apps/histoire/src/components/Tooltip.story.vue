@@ -32,17 +32,20 @@
       >
         <bch-button variant="secondary" ref="trigger">Información</bch-button>
       </bch-tooltip>
-      <script>
-        onMounted(() => {
-          // Forzar foco para mostrar el tooltip en estado visible
-          if (trigger.value) {
-            trigger.value.focus();
-          }
-        });
-      </script>
     </Variant>
   </Story>
 </template>
+
+<script setup>
+import { ref, onMounted } from 'vue';
+const trigger = ref();
+onMounted(() => {
+  // Forzar foco para mostrar el tooltip en estado visible
+  if (trigger.value) {
+    trigger.value.focus();
+  }
+});
+</script>
 
 <docs lang="md">
 # Tooltip (`bch-tooltip`)

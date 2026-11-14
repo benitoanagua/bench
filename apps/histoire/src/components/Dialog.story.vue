@@ -29,37 +29,14 @@
         <HstCheckbox v-model="state.closeOnEscape" title="Cerrar con Escape" />
       </template>
     </Variant>
-    <Variant title="Por defecto / Abierto">
-      <bch-dialog
-        :open="true"
-        label="Confirmar acción"
-        tone="standard"
-        :close-on-escape="false"
-      >
-        ¿Está seguro de que desea continuar?
-        <div style="margin-top: 16px; display: flex; gap: 8px; justify-content: flex-end">
-          <bch-button variant="primary">Cerrar</bch-button>
-        </div>
-      </bch-dialog>
-    </Variant>
     <Variant title="Por defecto">
       <bch-dialog label="Confirmar acción" tone="standard">
-        <template #default>
-          <p>El diálogo está cerrado. Haz clic en un botón para abrirlo.</p>
-        </template>
+        <p>El diálogo está cerrado. Haz clic en un botón para abrirlo.</p>
       </bch-dialog>
     </Variant>
     <Variant title="Crítico">
       <bch-dialog label="Eliminar elemento" tone="critical">
         Esta acción no se puede deshacer.
-      </bch-dialog>
-    </Variant>
-    <Variant title="Sin cerrar con Escape">
-      <bch-dialog label="Diálogo forzado" close-on-escape="false">
-        Debe usar un botón para cerrar este diálogo.
-        <div style="margin-top: 16px; display: flex; gap: 8px; justify-content: flex-end">
-          <bch-button variant="primary">Cerrar diálogo</bch-button>
-        </div>
       </bch-dialog>
     </Variant>
   </Story>

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
 const region = ref();
 const showSuccess = () => {
   void region.value.show({ tone: 'success', message: 'Operación completada', duration: 3000 });
@@ -7,12 +7,6 @@ const showSuccess = () => {
 const showError = () => {
   void region.value.show({ tone: 'danger', message: 'Algo salió mal', duration: 3000 });
 };
-
-// Mostrar toasts de ejemplo al montar la variant "Por defecto / Visible"
-onMounted(() => {
-  region.value.show({ tone: 'success', message: 'Guardado con éxito', duration: 3000 });
-  region.value.show({ tone: 'info', message: 'Cambios guardados', duration: 3000 });
-});
 </script>
 
 <template>
