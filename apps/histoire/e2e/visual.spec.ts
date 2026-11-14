@@ -9,11 +9,11 @@ const KEY_STORIES = [
   { title: 'Welcome', variant: '(sin título)' },
   { title: 'Tokens', variant: '(sin título)' },
   { title: 'Button', variant: 'Primario' },
-  { title: 'Dialog', variant: 'Por defecto' },
-  { title: 'Drawer', variant: 'Por defecto' },
-  { title: 'Menu', variant: 'Por defecto' },
-  { title: 'Toast', variant: 'Por defecto' },
-  { title: 'Tooltip', variant: 'Arriba' },
+  { title: 'Dialog', variant: 'Por defecto / Abierto' },
+  { title: 'Drawer', variant: 'Por defecto / Abierto' },
+  { title: 'Menu', variant: 'Por defecto / Abierto' },
+  { title: 'Toast', variant: 'Por defecto / Visible' },
+  { title: 'Tooltip', variant: 'Por defecto / Visible' },
   { title: 'Tabs', variant: 'Por defecto' },
   { title: 'DataTable', variant: 'Por defecto' },
   { title: 'Combobox', variant: 'Por defecto' },
@@ -26,7 +26,7 @@ function sanitizeName(name: string) {
 
 function storyByTitle(title: string) {
   const index = histoireIndex();
-  const story = index.stories.find((s) => s.title === title);
+  const story = index.stories.find((s: any) => s.title === title);
   if (!story) throw new Error(`No se encontró la story "${title}"`);
   return story;
 }

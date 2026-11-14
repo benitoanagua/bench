@@ -142,5 +142,22 @@ pnpm --filter @bench/histoire build
 ```
 
 Los tests validan smoke, contracts, a11y, visual regression y más. Las rutas son
-portables (sin paths absolutos de máquina) gracias a la variable de entorno
-`BASE_PATH` y la resolución relativa de paths.
+portables (sin paths absolutos de máquina): la configuración usa variables de
+entorno y paths relativos, por lo que los tests se pueden ejecutar en cualquier
+máquina sin editar files.
+
+Prerequisito: asegúrate de haber construido el sitio antes:
+
+```bash
+pnpm --filter @bench/histoire build
+```
+
+```bash
+# Levantar Histoire en desarrollo
+pnpm story:dev
+```
+
+Las stories de los componentes de overlay (Dialog, Drawer, Toast, Menu, Tooltip)
+muestran el componente en estado abierto y con contenido de ejemplo al instante,
+sin requerir interacción previa del usuario.
+```

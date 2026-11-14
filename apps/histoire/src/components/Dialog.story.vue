@@ -38,14 +38,15 @@
       >
         ¿Está seguro de que desea continuar?
         <div style="margin-top: 16px; display: flex; gap: 8px; justify-content: flex-end">
-          <bch-button variant="primary" @click="state.open = false">Cerrar</bch-button>
+          <bch-button variant="primary">Cerrar</bch-button>
         </div>
       </bch-dialog>
     </Variant>
-
     <Variant title="Por defecto">
       <bch-dialog label="Confirmar acción" tone="standard">
-        ¿Está seguro de que desea continuar?
+        <template #default>
+          <p>El diálogo está cerrado. Haz clic en un botón para abrirlo.</p>
+        </template>
       </bch-dialog>
     </Variant>
     <Variant title="Crítico">

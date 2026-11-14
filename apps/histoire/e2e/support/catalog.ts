@@ -10,8 +10,10 @@
 import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
-// --- Ruta base: HISTOIRE_ROOT desde entorno o ruta por defecto ---
-const HISTOIRE_ROOT = process.env.HISTOIRE_ROOT || '/home/mamaya/Code/bench';
+// --- Ruta base: HISTOIRE_ROOT desde entorno o cwd ---
+// Se prefiere una variable de entorno HISTOIRE_ROOT, pero si no está definida
+// se usa process.cwd() para que los tests sean portables entre máquinas.
+const HISTOIRE_ROOT = process.env.HISTOIRE_ROOT || process.cwd();
 
 const componentsDir = join(HISTOIRE_ROOT, 'packages', 'components', 'src', 'components');
 const historieDist = join(HISTOIRE_ROOT, 'apps', 'histoire', '.histoire', 'dist');

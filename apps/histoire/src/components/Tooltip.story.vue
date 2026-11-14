@@ -56,4 +56,17 @@ foco el elemento envuelto.
 | ----------- | ------------------- | ------- | ---------------------------------- |
 | `text`      | `string`            | `''`    | Texto del tooltip.                 |
 | `placement` | `'top' \| 'bottom'` | `'top'` | Colocación respecto al disparador. |
+
+## Comportamiento
+
+La variant **"Por defecto / Visible"** abre el tooltip inmediatamente con el
+elemento en foco. Las variants "Arriba" y "Abajo" requieren pasar el ratón o
+mover el foco al elemento para que aparezcan.
+
+## Métodos
+
+| Método    | Descripción      |
+| --------- | ---------------- |
+| `show()`  | Abre el tooltip. |
+| `close()` | Cierra el tooltip. |
 </docs>

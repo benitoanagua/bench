@@ -14,8 +14,9 @@
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import type { APIRequestContext, Page } from '@playwright/test';
+import { BASE_URL } from './support/env';
 
-const HISTOIRE_ROOT = process.env.HISTOIRE_ROOT || '/home/mamaya/Code/bench';
+const HISTOIRE_ROOT = process.env.HISTOIRE_ROOT || process.cwd();
 const root = HISTOIRE_ROOT;
 const componentsDir = join(root, 'packages', 'components', 'src', 'components');
 
@@ -130,7 +131,7 @@ export async function storyUrl(tag: string, variantId?: string, density?: string
   const search = new URLSearchParams();
   if (density) search.set('density', density);
   const qs = search.toString() ? `?${search.toString()}` : '';
-  return `http://127.0.0.1:5179${basePath()}/#/story/${ref.storyId}?variantId=${id}${qs}`;
+  return `${BASE_URL}/#/story/${ref.storyId}?variantId=${id}${qs}`;
 }
 
 /** URL de una story/variant por títulos (legible, sin hardcodear ids). */
@@ -152,7 +153,7 @@ export function variantUrl(story: any, variant: any, density?: string): string {
   const search = new URLSearchParams();
   if (density) search.set('density', density);
   const qs = search.toString() ? `?${search.toString()}` : '';
-  return `http://127.0.0.1:5179${basePath()}/#/story/${story.id}?variantId=${variant.id}${qs}`;
+  return `${BASE_URL}/#/story/${story.id}?variantId=${variant.id}${qs}`;
 }
 
 export function sandboxOf(page: Page) {

@@ -64,7 +64,7 @@ Panel lateral deslizable. `start`/`end` son lógicos (espejan con `dir`);
 | `side`          | `'left' \| 'right' \| 'start' \| 'end'` | `'end'` | Lado de anclaje.       |
 | `closeOnEscape` | `boolean`                               | `true`  | Cierra con `Escape`.   |
 
-## Métodos
+## Método
 
 | Método    | Descripción      |
 | --------- | ---------------- |
