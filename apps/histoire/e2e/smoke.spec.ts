@@ -27,7 +27,7 @@ test.describe('BENCH smoke', () => {
   });
 
   test('sandbox renderiza contenido en la variant por defecto', async ({ page }) => {
-    await page.goto(`${env.BASE_URL}/bench/`, { waitUntil: 'networkidle' });
+    await page.goto(env.BASE_URL, { waitUntil: 'networkidle' });
 
     // Navegar a la first variant de Button
     await page.click('text=Components');

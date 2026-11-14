@@ -28,6 +28,10 @@
         <HstCheckbox v-model="state.closeOnEscape" title="Cerrar con Escape" />
       </template>
     </Variant>
+    <Variant title="Por defecto / Abierto">
+      <bch-drawer :open="true" label="Panel lateral" side="right"> Contenido del cajón lateral. </bch-drawer>
+    </Variant>
+
     <Variant title="Por defecto">
       <bch-drawer label="Panel lateral" side="right"> Contenido del cajón lateral. </bch-drawer>
     </Variant>

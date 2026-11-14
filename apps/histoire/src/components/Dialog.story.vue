@@ -29,6 +29,20 @@
         <HstCheckbox v-model="state.closeOnEscape" title="Cerrar con Escape" />
       </template>
     </Variant>
+    <Variant title="Por defecto / Abierto">
+      <bch-dialog
+        :open="true"
+        label="Confirmar acción"
+        tone="standard"
+        :close-on-escape="false"
+      >
+        ¿Está seguro de que desea continuar?
+        <div style="margin-top: 16px; display: flex; gap: 8px; justify-content: flex-end">
+          <bch-button variant="primary" @click="state.open = false">Cerrar</bch-button>
+        </div>
+      </bch-dialog>
+    </Variant>
+
     <Variant title="Por defecto">
       <bch-dialog label="Confirmar acción" tone="standard">
         ¿Está seguro de que desea continuar?

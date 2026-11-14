@@ -5,7 +5,7 @@
  * y provee helpers para tema, densidad y verificaciones dentro del sandbox.
  */
 import { Page } from '@playwright/test';
-import { historiaIndex, variantUrl } from './catalog';
+import { histoireIndex, variantUrl } from './catalog';
 
 /** Encuentra el iframe __sandbox en la page. */
 export function sandboxOf(page: Page) {

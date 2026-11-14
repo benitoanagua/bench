@@ -24,6 +24,23 @@
         <bch-button variant="secondary">Pasa el ratón</bch-button>
       </bch-tooltip>
     </Variant>
+    <Variant title="Por defecto / Visible">
+      <bch-tooltip
+        text="Información adicional"
+        placement="top"
+        :open="true"
+      >
+        <bch-button variant="secondary" ref="trigger">Información</bch-button>
+      </bch-tooltip>
+      <script>
+        onMounted(() => {
+          // Forzar foco para mostrar el tooltip en estado visible
+          if (trigger.value) {
+            trigger.value.focus();
+          }
+        });
+      </script>
+    </Variant>
   </Story>
 </template>
 

@@ -106,6 +106,41 @@ pnpm --filter @bench/histoire build
 El sitio se construye bajo la subruta `/bench/` mediante la variable de
 entorno `BASE_PATH`, lista para desplegar en GitHub Pages en
 `https://benitoanagua.github.io/bench/`. El catálogo ordena las historias como
-Welcome → Foundations → Components → Patterns → Showcase, con stories
-interactivas de Button, Input, Select, Checkbox, Switch, Tabs, Dialog, Drawer,
-Tooltip, Badge y Progress.
+Welcome → Foundations → Components → Patterns → Showcase.
+
+### Stories de overlays — estado visible por defecto
+
+A partir de la Fase 2, las variantes "Por defecto" de los componentes de overlay
+ahora muestran el componente en estado abierto y con contenido de ejemplo realista,
+para que al abrir la story el usuario vea un ejemplo útil sin necesidad de interactuar:
+
+- **Dialog** — diálogo abierto con acción "Aceptar/Cancelar"
+- **Drawer** — cajón lateral abierto a la derecha
+- **Toast** — región de toasts con mensajes de ejemplo al montar
+- **Menu** — menú de acciones visible
+- **Tooltip** — tooltip mostrado al recibir el foco
+
+### LevantarHistoire
+
+```bash
+pnpm story:dev
+```
+
+El sitio se servirá en `http://127.0.0.1:5179` (o el puerto configurado). Las stories
+de los componentes de overlay deben mostrar contenido visible al instante.
+
+### Correr tests e2E
+
+```bash
+pnpm --filter @bench/histoire test:e2e
+```
+
+Prerequisito: asegúrate de haber construido el sitio antes:
+
+```bash
+pnpm --filter @bench/histoire build
+```
+
+Los tests validan smoke, contracts, a11y, visual regression y más. Las rutas son
+portables (sin paths absolutos de máquina) gracias a la variable de entorno
+`BASE_PATH` y la resolución relativa de paths.
