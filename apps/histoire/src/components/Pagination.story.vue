@@ -7,7 +7,7 @@
           :page="state.page"
           :page-count="state.pageCount"
           :sibling-count="state.siblingCount"
-          @bch-change="state.page = $event.detail"
+          @bchChange="state.page = $event.detail"
         ></bch-pagination>
         <p style="margin-top: 8px; font-size: 0.875rem; color: var(--bch-color-text-muted)">
           Página actual: {{ state.page }}

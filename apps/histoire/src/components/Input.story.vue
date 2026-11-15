@@ -27,7 +27,7 @@
           :disabled="state.disabled"
           :readonly="state.readonly"
           :required="state.required"
-          @bch-input="state.value = $event.detail"
+          @bchInput="state.value = $event.detail"
         ></bch-input>
         <p style="margin-top: 8px; font-size: 0.875rem; color: var(--bch-color-text-muted)">
           Valor: {{ state.value || '(vacío)' }}

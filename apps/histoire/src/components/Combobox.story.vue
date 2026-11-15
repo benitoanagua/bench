@@ -21,8 +21,8 @@
           :error="state.error"
           :placeholder="state.placeholder"
           :allow-custom-value="state.allowCustomValue"
-          @bch-input="state.value = $event.detail"
-          @bch-change="state.value = $event.detail"
+          @bchInput="state.value = $event.detail"
+          @bchChange="state.value = $event.detail"
         >
           <bch-combobox-option value="es">España</bch-combobox-option>
           <bch-combobox-option value="mx">México</bch-combobox-option>

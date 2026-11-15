@@ -7,7 +7,7 @@
             value="a"
             label="Primera"
             :open="state.openValue === 'a'"
-            @bch-toggle="state.openValue = state.multiple ? state.openValue : 'a'"
+            @bchToggle="state.openValue = state.multiple ? state.openValue : 'a'"
           >
             Contenido de la primera.
           </bch-accordion-item>
@@ -15,7 +15,7 @@
             value="b"
             label="Segunda"
             :open="state.openValue === 'b'"
-            @bch-toggle="state.openValue = state.multiple ? state.openValue : 'b'"
+            @bchToggle="state.openValue = state.multiple ? state.openValue : 'b'"
           >
             Contenido de la segunda.
           </bch-accordion-item>

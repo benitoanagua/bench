@@ -2,7 +2,7 @@
   <Story title="Components/Tabs">
     <Variant title="Playground" :initState="() => ({ value: 'tab1' })">
       <template #default="{ state }">
-        <bch-tabs :value="state.value" @bch-change="state.value = $event.detail">
+        <bch-tabs :value="state.value" @bchChange="state.value = $event.detail">
           <bch-tab value="tab1">Primera</bch-tab>
           <bch-tab value="tab2">Segunda</bch-tab>
           <bch-tab value="tab3">Tercera</bch-tab>

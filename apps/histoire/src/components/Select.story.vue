@@ -21,7 +21,7 @@
           :disabled="state.disabled"
           :error="state.error"
           :hint="state.hint"
-          @bch-change="state.value = $event.detail"
+          @bchChange="state.value = $event.detail"
         >
           <option value="es">España</option>
           <option value="mx">México</option>

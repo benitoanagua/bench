@@ -23,8 +23,8 @@
           :label="state.label"
           :show-value="state.showValue"
           :disabled="state.disabled"
-          @bch-input="state.value = Number($event.detail)"
-          @bch-change="state.value = Number($event.detail)"
+          @bchInput="state.value = Number($event.detail)"
+          @bchChange="state.value = Number($event.detail)"
         ></bch-slider>
         <p style="margin-top: 8px; font-size: 0.875rem; color: var(--bch-color-text-muted)">
           Valor: {{ state.value }}

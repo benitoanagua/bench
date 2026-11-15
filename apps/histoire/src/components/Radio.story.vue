@@ -12,7 +12,7 @@
             :checked="state.value === 'a'"
             :disabled="state.disabled"
             :required="state.required"
-            @bch-change="state.value = 'a'"
+            @bchChange="state.value = 'a'"
             >Opción A</bch-radio
           >
           <bch-radio
@@ -21,7 +21,7 @@
             :checked="state.value === 'b'"
             :disabled="state.disabled"
             :required="state.required"
-            @bch-change="state.value = 'b'"
+            @bchChange="state.value = 'b'"
             >Opción B</bch-radio
           >
           <bch-radio
@@ -30,7 +30,7 @@
             :checked="state.value === 'c'"
             :disabled="state.disabled"
             :required="state.required"
-            @bch-change="state.value = 'c'"
+            @bchChange="state.value = 'c'"
             >Opción C</bch-radio
           >
         </div>

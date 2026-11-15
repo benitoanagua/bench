@@ -11,6 +11,7 @@
           :page-size="state.pageSize"
           :filterable="state.filterable"
           :show-totals="state.showTotals"
+          filter-placeholder="Filtrar registros…"
           caption="Registros"
         ></bch-data-table>
       </template>

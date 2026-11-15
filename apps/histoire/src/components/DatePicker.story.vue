@@ -16,7 +16,7 @@
           :locale="state.locale || undefined"
           :first-day-of-week="state.firstDayOfWeek"
           placeholder="Selecciona…"
-          @bch-change="state.value = $event.detail"
+          @bchChange="state.value = $event.detail"
         ></bch-date-picker>
         <p style="margin-top: 8px; font-size: 0.875rem; color: var(--bch-color-text-muted)">
           Valor: {{ state.value || '(vacío)' }}

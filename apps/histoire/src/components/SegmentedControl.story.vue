@@ -5,7 +5,7 @@
         <bch-segmented-control
           :label="state.label"
           :value="state.value"
-          @bch-change="state.value = $event.detail"
+          @bchChange="state.value = $event.detail"
         >
           <bch-segmented-item value="day">Día</bch-segmented-item>
           <bch-segmented-item value="week">Semana</bch-segmented-item>

@@ -29,6 +29,17 @@
         <HstCheckbox v-model="state.closeOnEscape" title="Cerrar con Escape" />
       </template>
     </Variant>
+    <!-- Variante abierta: el usuario ve el diálogo con contenido real al
+         abrir la story, sin interactuar (mismo criterio que Drawer). -->
+    <Variant title="Por defecto / Abierto">
+      <bch-dialog :open="true" label="Confirmar acción" tone="standard">
+        ¿Está seguro de que desea continuar?
+        <div style="margin-top: 16px; display: flex; gap: 8px; justify-content: flex-end">
+          <bch-button variant="secondary">Cancelar</bch-button>
+          <bch-button variant="primary">Aceptar</bch-button>
+        </div>
+      </bch-dialog>
+    </Variant>
     <Variant title="Por defecto">
       <bch-dialog label="Confirmar acción" tone="standard">
         <p>El diálogo está cerrado. Haz clic en un botón para abrirlo.</p>
