@@ -11,20 +11,32 @@
  *   espera a que data-bch-theme se sincronice (puente de histoire.setup.ts).
  * - setDensity(page, density): navega a la misma variant con ?density=...
  */
-import { readFileSync, readdirSync, statSync } from 'node:fs';
-import { join, resolve } from 'node:path';
-import type { APIRequestContext, Page } from '@playwright/test';
+import { readFileSync, readdirSync } from 'node:fs';
+import { dirname, join, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import type { Page } from '@playwright/test';
 import { BASE_URL } from './support/env';
 
-const HISTOIRE_ROOT = process.env.HISTOIRE_ROOT || process.cwd();
+// Marcadores de espera escritos desde los tests y leídos en waitForFunction.
+declare global {
+  interface Window {
+    __expectedTheme?: string;
+    __expectedDensity?: string;
+  }
+}
+
+// La raíz se resuelve desde la ubicación de ESTE archivo
+// (apps/histoire/e2e → tres niveles arriba = raíz del monorepo),
+// no de process.cwd(): pnpm corre los scripts del paquete con cwd =
+// apps/histoire, lo que duplicaba la ruta y rompía la resolución.
+// HISTOIRE_ROOT permite apuntar a otro checkout (CI/contenedores).
+// El paquete es ESM ("type": "module"): la ruta viene de import.meta.url.
+const e2eDir = dirname(fileURLToPath(import.meta.url));
+export const HISTOIRE_ROOT = process.env.HISTOIRE_ROOT
+  ? resolve(process.env.HISTOIRE_ROOT)
+  : resolve(e2eDir, '..', '..', '..');
 const root = HISTOIRE_ROOT;
 const componentsDir = join(root, 'packages', 'components', 'src', 'components');
-
-// Prefijo bajo el que se sirve el build de Histoire (GitHub Pages: /bench/).
-// Debe coincidir con e2e/playwright.config.ts y histoire.config.ts (vite.base).
-export function basePath(): string {
-  return (process.env.BASE_PATH ?? '/bench/').replace(/\/+$/, '') || '';
-}
 
 export type StoryRef = {
   tag: string;
@@ -131,7 +143,7 @@ export async function storyUrl(tag: string, variantId?: string, density?: string
   const search = new URLSearchParams();
   if (density) search.set('density', density);
   const qs = search.toString() ? `?${search.toString()}` : '';
-  return `${BASE_URL}/#/story/${ref.storyId}?variantId=${id}${qs}`;
+  return `${BASE_URL}#/story/${ref.storyId}?variantId=${id}${qs}`;
 }
 
 /** URL de una story/variant por títulos (legible, sin hardcodear ids). */
@@ -153,7 +165,18 @@ export function variantUrl(story: any, variant: any, density?: string): string {
   const search = new URLSearchParams();
   if (density) search.set('density', density);
   const qs = search.toString() ? `?${search.toString()}` : '';
-  return `${BASE_URL}/#/story/${story.id}?variantId=${variant.id}${qs}`;
+  return `${BASE_URL}#/story/${story.id}?variantId=${variant.id}${qs}`;
+}
+
+/** Todas las parejas story/variant del índice (barrido automatizado). */
+export function allVariants(): Array<{ story: any; variant: any }> {
+  const result: Array<{ story: any; variant: any }> = [];
+  for (const story of histoireIndex().stories) {
+    for (const variant of story.variants ?? []) {
+      result.push({ story, variant });
+    }
+  }
+  return result;
 }
 
 export function sandboxOf(page: Page) {

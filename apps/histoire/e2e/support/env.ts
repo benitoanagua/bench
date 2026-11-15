@@ -1,20 +1,12 @@
 /**
  * Entorno y configuración única para tests e2e de Histoire.
  *
- * Una única fuente de verdad para BASE_PATH, puerto y bridge de tema.
- * Importado por global-setup.ts y todos los specs.
+ * Fuente única de verdad para BASE_PATH, puerto y BASE_URL.
+ * Importado por playwright.config.ts, helpers.ts y los specs.
+ * La construcción de URLs de story/variant vive en helpers.ts.
  */
 export const BASE_PATH = (process.env.BASE_PATH ?? '/bench/').replace(/\/+$/, '') || '';
 export const PORT = 5179;
-export const BASE_URL = `http://127.0.0.1:${PORT}${BASE_PATH}`;
-
-export function historyPath(...segments: string[]): string {
-  return `${BASE_URL}/#/story/${segments.join('/')}`;
-}
-
-export function variantUrl(story: any, variant: any, density?: string): string {
-  const search = new URLSearchParams();
-  if (density) search.set('density', density);
-  const qs = search.toString() ? `?${search.toString()}` : '';
-  return `${BASE_URL}/#/story/${story.id}?variantId=${variant.id}${qs}`;
-}
+// Con slash final: los assets del build son relativos y el HTML servido en
+// `/bench` (sin slash) resolvería `assets/*` contra la raíz del servidor.
+export const BASE_URL = `http://127.0.0.1:${PORT}${BASE_PATH}/`;

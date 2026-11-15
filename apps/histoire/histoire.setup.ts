@@ -48,7 +48,23 @@ if (typeof document !== 'undefined' && typeof document.documentElement !== 'unde
       style.id = 'bch-canvas-style';
       document.head.appendChild(style);
     }
-    style.textContent = `html, body { background-color: ${bg}; }`;
+    // `!important` + especificidad: la hoja del sandbox de Histoire fuerza
+    // `html, body { background: transparent !important }`, así que la regla
+    // normal pierde la cascada. Con !important y html:root ganamos sobre esa
+    // hoja, y un preset de fondo elegido desde la toolbar (estilo inline
+    // important) sigue ganando sobre nosotros por origen.
+    const fg = computed.getPropertyValue('--bch-color-text').trim();
+    // Solo en el sandbox: la app de Histoire pinta el color de su propio
+    // texto y no debe sobreescribírselo. En el sandbox el texto plano de las
+    // stories hereda de <html>, que si no queda negro por defecto (ilegible
+    // en modo oscuro). El !important gana al `color: unset` inline que Histoire
+    // deja en <html>; las declaraciones propias de cada componente siempre
+    // ganan a la herencia, así que esto solo afecta al texto suelto.
+    const colorRule =
+      fg && /__sandbox/.test(location.href)
+        ? `\nhtml:root { color: ${fg} !important; }`
+        : '';
+    style.textContent = `html:root, html:root body { background-color: ${bg} !important; }${colorRule}`;
   }
 
   syncCanvas();

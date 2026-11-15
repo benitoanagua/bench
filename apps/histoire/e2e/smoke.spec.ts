@@ -5,7 +5,7 @@
  * que no haya requests de red críticos y que el sandbox sea accesible.
  */
 import { expect, test } from '@playwright/test';
-import { storyUrl } from './support/urls';
+import { storyUrl } from './helpers';
 import * as env from './support/env';
 
 test.describe('BENCH smoke', () => {
@@ -27,18 +27,15 @@ test.describe('BENCH smoke', () => {
   });
 
   test('sandbox renderiza contenido en la variant por defecto', async ({ page }) => {
-    await page.goto(env.BASE_URL, { waitUntil: 'networkidle' });
-
-    // Navegar a la first variant de Button
-    await page.click('text=Components');
-    await page.click('text=Button');
-    await page.click('text=Primario');
+    // Cargar la primera variant de Button directamente por URL (navegar por
+    // el árbol de la UI es frágil y se cubre en ui.spec.ts).
+    await page.goto(await storyUrl('bch-button'), { waitUntil: 'networkidle' });
 
     const sandbox = page.frames().find((f) => f.url().includes('__sandbox'));
     expect(sandbox).toBeTruthy();
 
     // El sandbox debe tener contenido visible
-    const body = sandbox.locator('body');
+    const body = sandbox!.locator('body');
     await expect(body).toBeVisible();
   });
 });

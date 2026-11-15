@@ -12,7 +12,7 @@
 import { expect, test } from '@playwright/test';
 import { sandboxOf, storyUrlByTitle } from './helpers';
 
-function gotoStory(page, storyTitle: string, variantTitle = 'Playground') {
+function gotoStory(page: import('@playwright/test').Page, storyTitle: string, variantTitle = 'Playground') {
   return page.goto(storyUrlByTitle(storyTitle, variantTitle), {
     waitUntil: 'networkidle',
   });
@@ -32,22 +32,12 @@ test.describe('BENCH interacciones — overlays', () => {
     await expect(sandbox.getByRole('button', { name: 'Abrir diálogo' })).toBeVisible();
   });
 
-  test('Dialog: toast y tooltip tienen interacciones estables en E2E', async ({
-    page,
-  }) => {
-    // Estas interacciones sí son automatizables desde E2E:
-    // - Toast: show/descarta funciona (test topassa en interactions.spec.ts)
-    // - Tooltip: hover y focus funcionan (test topassa en interactions.spec.ts)
-    // - Menu: apertura/teclado/selección funciona (test topassa en interactions.spec.ts)
-    await expect(page).toBeVisible();
-  });
-});
-
   test('Drawer: se abre y cierra con botón y Escape', async ({ page }) => {
     await gotoStory(page, 'Drawer');
     const sandbox = sandboxOf(page);
     await sandbox.getByRole('button', { name: 'Abrir cajón' }).first().click();
-    const drawer = sandbox.locator('bch-drawer[open]');
+    // `open` no es prop reflect: el estado visible se lee del <aside> interno.
+    const drawer = sandbox.locator('bch-drawer aside.drawer');
     await expect(drawer).toBeVisible();
     await page.keyboard.press('Escape');
     await expect(drawer).toBeHidden();
@@ -81,7 +71,7 @@ test.describe('BENCH interacciones — overlays', () => {
 
     await trigger.hover();
     await expect(sandbox.getByText('Información adicional')).toBeVisible();
-    await trigger.unhover();
+    await page.mouse.move(5, 5); // fuera del disparador
     await expect(sandbox.getByText('Información adicional')).toBeHidden();
 
     await trigger.focus();
@@ -103,7 +93,7 @@ test.describe('BENCH interacciones — overlays', () => {
 });
 
 test.describe('BENCH interacciones — formularios y navegación', () => {
-  test('Tabs: cambia de pestaña con clic y teclado', async ({ page }) => {
+  test('Tabs: cambia de pestaña con clic y navega el foco con teclado', async ({ page }) => {
     await gotoStory(page, 'Tabs');
     const sandbox = sandboxOf(page);
 
@@ -112,11 +102,11 @@ test.describe('BENCH interacciones — formularios y navegación', () => {
     await expect(segunda).toHaveAttribute('aria-selected', 'true');
     await expect(sandbox.getByText('Panel de la segunda pestaña')).toBeVisible();
 
+    // El componente mueve el FOCO con las flechas (selección por clic).
     await page.keyboard.press('ArrowRight');
-    await expect(sandbox.getByRole('tab', { name: 'Tercera' }).first()).toHaveAttribute(
-      'aria-selected',
-      'true',
-    );
+    await expect(sandbox.getByRole('tab', { name: 'Tercera' }).first()).toBeFocused();
+
+    await sandbox.getByRole('tab', { name: 'Tercera' }).first().click();
     await expect(sandbox.getByText('Panel de la tercera pestaña')).toBeVisible();
   });
 
@@ -124,38 +114,66 @@ test.describe('BENCH interacciones — formularios y navegación', () => {
     await gotoStory(page, 'Accordion');
     const sandbox = sandboxOf(page);
 
-    await sandbox.getByRole('button', { name: 'Primera' }).first().click();
+    // La story arranca con "Primera" abierta (openValue: 'a').
+    const primera = sandbox.getByRole('button', { name: 'Primera' }).first();
     await expect(sandbox.getByText('Contenido de la primera')).toBeVisible();
-    await sandbox.getByRole('button', { name: 'Primera' }).first().click();
+
+    // Clic cierra (acordeón exclusivo: un panel abierto a la vez).
+    await primera.click();
     await expect(sandbox.getByText('Contenido de la primera')).toBeHidden();
+
+    // Clic reabre, y abrir "Segunda" cierra "Primera".
+    await primera.click();
+    await expect(sandbox.getByText('Contenido de la primera')).toBeVisible();
+    await sandbox.getByRole('button', { name: 'Segunda' }).first().click();
+    await expect(sandbox.getByText('Contenido de la primera')).toBeHidden();
+    await expect(sandbox.getByText('Contenido de la segunda')).toBeVisible();
   });
 
   test('SegmentedControl: cambia el valor seleccionado', async ({ page }) => {
     await gotoStory(page, 'SegmentedControl');
     const sandbox = sandboxOf(page);
 
-    await sandbox.getByRole('button', { name: 'Semana' }).first().click();
-    await expect(sandbox.locator('bch-segmented-control')).toHaveAttribute('value', 'week');
+    // bch-segmented-control expone role="radiogroup" con items role="radio".
+    await sandbox.getByRole('radio', { name: 'Semana' }).first().click();
+    // `value` no es prop reflect: el estado se lee del texto de la story.
+    await expect(sandbox.getByText('Seleccionado: week')).toBeVisible();
   });
 
   test('Tree: expande y colapsa nodos', async ({ page }) => {
     await gotoStory(page, 'Tree');
     const sandbox = sandboxOf(page);
 
-    await sandbox.getByRole('button', { name: 'Facturación' }).first().click();
+    // La expansión de ramas es por teclado (→ expande, ← colapsa).
+    const facturacion = sandbox.getByRole('treeitem', { name: 'Facturación' }).first();
+    await facturacion.focus();
+    await page.keyboard.press('ArrowRight');
     await expect(sandbox.getByRole('treeitem', { name: 'Nueva factura' }).first()).toBeVisible();
+    await page.keyboard.press('ArrowLeft');
+    await expect(sandbox.getByRole('treeitem', { name: 'Nueva factura' }).first()).toBeHidden();
   });
 
   test('Splitter: mover el divisor cambia los paneles', async ({ page }) => {
     await gotoStory(page, 'Splitter');
     const sandbox = sandboxOf(page);
 
+    // El divisor ES el componente (role="separator"); el panel izquierdo
+    // crece según el delta de bchDrag (ver Splitter.story.vue).
     const divider = sandbox.getByRole('separator').first();
-    const before = await sandbox.locator('bch-splitter [slot="start"]').first().boundingBox();
-    await divider.dragTo(divider, { target: { x: divider.boundingBox()!.x + 100, y: 0 } });
-    await expect(sandbox.locator('bch-splitter [slot="start"]').first()).not.toHaveBoundingBox(
-      before,
-    );
+    const panelStart = sandbox.getByText('Panel izquierdo').first();
+    const before = await panelStart.boundingBox();
+    // Arrastre manual: el puntero sale del divisor de ~6px hacia el panel,
+    // así que dragTo (que exige que el destino siga sobre el elemento)
+    // no vale aquí. El componente captura el puntero en pointerdown.
+    const box = (await divider.boundingBox())!;
+    const y = box.y + box.height / 2;
+    const startX = box.x + box.width / 2;
+    await page.mouse.move(startX, y);
+    await page.mouse.down();
+    await page.mouse.move(startX + 60, y, { steps: 5 });
+    await page.mouse.up();
+    const after = await panelStart.boundingBox();
+    expect(after).not.toEqual(before);
   });
 
   test('Combobox: escribe, navega con flechas y confirma con Enter', async ({ page }) => {
@@ -174,32 +192,30 @@ test.describe('BENCH interacciones — formularios y navegación', () => {
     await gotoStory(page, 'Select');
     const sandbox = sandboxOf(page);
 
-    await sandbox.getByRole('listbox').first(); // asegura que el render lo monta
-    await sandbox
-      .getByRole('button', { name: /seleccionar/i })
-      .first()
-      .click();
-    await sandbox.getByRole('option', { name: 'Opción dos' }).first().click();
-    await expect(sandbox.locator('bch-select')).toHaveAttribute('value', 'dos');
+    // bch-select renderiza un <select> nativo (role="combobox").
+    await sandbox.locator('bch-select select').first().selectOption({ label: 'México' });
+    await expect(sandbox.getByText('Valor: mx')).toBeVisible();
   });
 
-  test('Omnibar: escribe y ejecuta con Enter', async ({ page }) => {
+  test('Omnibar: escribe, ve resultados y ejecuta con Enter', async ({ page }) => {
     await gotoStory(page, 'Omnibar');
     const sandbox = sandboxOf(page);
 
-    const input = sandbox.getByRole('searchbox').first();
+    const input = sandbox.getByRole('combobox').first();
     await input.click();
-    await input.type('nueva factura');
+    await input.fill('factura');
+    await expect(sandbox.getByRole('option', { name: 'Nueva factura' }).first()).toBeVisible();
     await page.keyboard.press('Enter');
-    await expect(sandbox.getByText('Nueva factura')).toBeVisible();
+    // Al ejecutar la entrada el listbox se cierra.
+    await expect(sandbox.locator('.omnibar-results')).toBeHidden();
   });
 
-  test('DatePicker: abre el calendario y selecciona una fecha', async ({ page }) => {
+  test('DatePicker: abre el calendario y muestra la grilla', async ({ page }) => {
     await gotoStory(page, 'DatePicker');
     const sandbox = sandboxOf(page);
 
     await sandbox
-      .getByRole('button', { name: /abrir calendario/i })
+      .getByRole('button', { name: 'Abrir calendario' })
       .first()
       .click();
     await expect(sandbox.getByRole('grid')).toBeVisible();
@@ -209,8 +225,9 @@ test.describe('BENCH interacciones — formularios y navegación', () => {
     await gotoStory(page, 'TimePicker');
     const sandbox = sandboxOf(page);
 
-    await sandbox.getByRole('spinbutton', { name: /hora/i }).first().fill('14:30');
-    await expect(sandbox.locator('bch-time-picker')).toHaveAttribute('value', '14:30');
+    // El control es un <input type="time"> nativo con label "Hora de inicio".
+    await sandbox.locator('bch-time-picker input').first().fill('14:30');
+    await expect(sandbox.getByText('Valor: 14:30')).toBeVisible();
   });
 
   test('Pagination: avanza de página', async ({ page }) => {
@@ -218,29 +235,30 @@ test.describe('BENCH interacciones — formularios y navegación', () => {
     const sandbox = sandboxOf(page);
 
     await sandbox
-      .getByRole('button', { name: /siguiente/i })
+      .getByRole('button', { name: 'Página siguiente' })
       .first()
       .click();
-    await expect(sandbox.locator('bch-pagination')).toHaveAttribute('page', '2');
+    await expect(sandbox.getByText('Página actual: 2')).toBeVisible();
   });
 
-  test('DataTable: ordena, filtra y pagina', async ({ page }) => {
+  test('DataTable: ordena y filtra', async ({ page }) => {
     await gotoStory(page, 'DataTable');
     const sandbox = sandboxOf(page);
 
-    const filas = sandbox.getByRole('row');
-    const antes = await filas.count();
+    // pageSize: 5 → 5 filas de datos (sin contar la cabecera).
+    const filas = sandbox.locator('bch-data-table tbody tr');
+    await expect(filas).toHaveCount(5);
+
+    // Clic en una cabecera ordenable: no cambia el número de filas.
     await sandbox
       .getByRole('columnheader', { name: /nombre/i })
       .first()
       .click();
-    await expect(await filas.count()).toBe(antes);
+    await expect(filas).toHaveCount(5);
 
-    await sandbox
-      .getByRole('textbox', { name: /filtro/i })
-      .first()
-      .fill('aaaaaaaaaa');
-    await expect(await filas.count()).toBeLessThan(antes);
+    // Filtrar sin coincidencias deja sólo la fila de estado vacío.
+    await sandbox.locator('bch-data-table .bch-data-table__toolbar input').first().fill('zzzz');
+    await expect(filas).toHaveCount(1);
   });
 
   test('Slider: mover el pulgar cambia el valor', async ({ page }) => {
@@ -248,30 +266,37 @@ test.describe('BENCH interacciones — formularios y navegación', () => {
     const sandbox = sandboxOf(page);
 
     const thumb = sandbox.getByRole('slider').first();
-    await thumb.dragTo(thumb, { target: { x: thumb.boundingBox()!.x + 40, y: 0 } });
+    const box = await thumb.boundingBox();
+    // Arrastre manual: el slider puede consumir el pointer.
+    const cx = (box?.x ?? 0) + (box?.width ?? 0) / 2;
+    const cy = (box?.y ?? 0) + (box?.height ?? 0) / 2;
+    await page.mouse.move(cx, cy);
+    await page.mouse.down();
+    await page.mouse.move(cx + 40, cy, { steps: 5 });
+    await page.mouse.up();
     await expect(sandbox.locator('bch-slider')).not.toHaveAttribute('value', '0');
   });
 
   test('Switch / Checkbox / Radio: cambian de estado', async ({ page }) => {
     await gotoStory(page, 'Switch');
     const sandbox = sandboxOf(page);
-    const sw = sandbox.getByRole('switch').first();
+    const sw = sandbox.getByRole('switch', { name: 'Notificaciones' }).first();
     await sw.click();
     await expect(sw).toBeChecked();
 
     await gotoStory(page, 'Checkbox');
     await sandbox
-      .getByRole('checkbox', { name: /acepto/i })
+      .getByRole('checkbox', { name: /aceptar/i })
       .first()
       .click();
-    await expect(sandbox.getByRole('checkbox', { name: /acepto/i }).first()).toBeChecked();
+    await expect(sandbox.getByRole('checkbox', { name: /aceptar/i }).first()).toBeChecked();
 
     await gotoStory(page, 'Radio');
     await sandbox
       .getByRole('radio', { name: /opción a/i })
       .first()
       .click();
-    await expect(sandbox.getByRole('radio', { name: /opción a/i }).first()).toBeChecked();
+    await expect(sandbox.getByText('Seleccionado: a')).toBeVisible();
   });
 
   test('Input y Textarea: escriben valor', async ({ page }) => {
@@ -279,18 +304,16 @@ test.describe('BENCH interacciones — formularios y navegación', () => {
     const sandbox = sandboxOf(page);
 
     await sandbox
-      .getByRole('textbox', { name: /nombre/i })
+      .getByRole('textbox', { name: 'Correo electrónico' })
       .first()
       .fill('Bench');
-    await expect(sandbox.getByRole('textbox', { name: /nombre/i }).first()).toHaveValue('Bench');
+    await expect(sandbox.getByText('Valor: Bench')).toBeVisible();
 
     await gotoStory(page, 'Textarea');
     await sandbox
-      .getByRole('textbox', { name: /observaciones/i })
+      .getByRole('textbox', { name: 'Comentarios' })
       .first()
       .fill('Texto largo');
-    await expect(sandbox.getByRole('textbox', { name: /observaciones/i }).first()).toHaveValue(
-      'Texto largo',
-    );
+    await expect(sandbox.getByText('Valor: Texto largo')).toBeVisible();
   });
 });

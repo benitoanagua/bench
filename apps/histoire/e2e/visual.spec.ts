@@ -6,8 +6,8 @@ const VIEWPORTS = [
   { name: 'desktop', width: 1280, height: 800 },
 ];
 const KEY_STORIES = [
-  { title: 'Welcome', variant: '(sin título)' },
-  { title: 'Tokens', variant: '(sin título)' },
+  { title: 'Welcome', variant: 'Bienvenida' },
+  { title: 'Tokens', variant: 'Paleta de colores' },
   { title: 'Button', variant: 'Primario' },
   { title: 'Dialog', variant: 'Por defecto / Abierto' },
   { title: 'Drawer', variant: 'Por defecto / Abierto' },
@@ -34,7 +34,16 @@ function storyByTitle(title: string) {
 test.describe('BENCH regresión visual (histoire snapshots)', () => {
   for (const storyRef of KEY_STORIES) {
     const story = storyByTitle(storyRef.title);
-    const variant = story.variants.find((v: any) => v.title === storyRef.variant) ?? story.variants[0];
+    // Título de variant esperado: si no existe es un desfase story↔E2E, no un
+    // fallback silencioso (antes Dialog apuntaba a una variant inexistente y
+    // terminaba fotografiando el Playground cerrado).
+    const variant = story.variants.find((v: any) => v.title === storyRef.variant);
+    if (!variant) {
+      throw new Error(
+        `La story "${story.title}" no tiene la variant "${storyRef.variant}". ` +
+          `Variantes reales: ${story.variants.map((v: any) => v.title).join(' | ')}`,
+      );
+    }
     for (const theme of ['light', 'dark'] as const) {
       for (const viewport of VIEWPORTS) {
         test(
@@ -47,7 +56,7 @@ test.describe('BENCH regresión visual (histoire snapshots)', () => {
             const sandboxBody = sandbox.locator('body');
             await expect(sandboxBody).toHaveScreenshot(
               `${sanitizeName(story.title)}-${sanitizeName(variant.title)}-${theme}-${viewport.name}.png`,
-              { animations: 'disabled', caret: 'hide', clip: sandboxBody, maxDiffPixelRatio: 0.002 },
+              { animations: 'disabled', caret: 'hide', maxDiffPixelRatio: 0.002 },
             );
           },
           { tag: 'visual-regression' },

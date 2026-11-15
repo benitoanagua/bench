@@ -2,28 +2,32 @@
  * Configuración de Playwright para tests e2e de Bench Histoire.
  *
  * Rutas relativas: funciona desde cualquier máquina sin hardcodeo.
- * Los paths se resolven contra el directorio del proyecto (process.cwd()).
+ * Los paths se resuelven contra el directorio de ESTE archivo (__dirname),
+ * nunca contra process.cwd(): pnpm ejecuta los scripts del paquete con
+ * cwd = apps/histoire, por lo que basarse en cwd duplicaba la ruta
+ * (apps/histoire/apps/histoire/...) y rompía la carga de la config.
  * Para correr: pnpm --filter @bench/histoire test:e2e
  */
+import { fileURLToPath } from 'node:url';
 import { defineConfig, devices } from '@playwright/test';
 import * as path from 'node:path';
 import * as env from './support/env';
 
-// --- Rutas relativas al directorio del proyecto ---
-const PROJECT_ROOT = process.cwd();
-const HISTOIRE_DIR = path.join(PROJECT_ROOT, 'apps', 'histoire');
-const E2E_DIR = path.join(HISTOIRE_DIR, 'e2e');
+// Este archivo vive en apps/histoire/e2e/. El paquete es ESM ("type":
+// "module"), así que la ruta se resuelve con import.meta.url.
+const E2E_DIR = path.dirname(fileURLToPath(import.meta.url));
+const HISTOIRE_DIR = path.resolve(E2E_DIR, '..');
+const PROJECT_ROOT = path.resolve(HISTOIRE_DIR, '..'); // raíz del monorepo
 const HISTOIRE_DIST = path.join(HISTOIRE_DIR, '.histoire', 'dist');
 const STATIC_SERVER_JS = path.join(E2E_DIR, 'static-server.js');
 const GLOBAL_SETUP_TS = path.join(E2E_DIR, 'global-setup.ts');
 
 // --- webServer: sirve .histoire/dist bajo BASE_PATH ---
 const webServer = {
-  command: `node ${STATIC_SERVER_JS} "${HISTOIRE_DIST}" "${env.BASE_PATH.replace(/\/+$/, '') || ''}" ${env.PORT}`,
+  command: `node ${JSON.stringify(STATIC_SERVER_JS)} "${HISTOIRE_DIST}" "${env.BASE_PATH.replace(/\/+$/, '') || ''}" ${env.PORT}`,
   url: env.BASE_URL,
   reuseExistingServer: true,
   timeout: 120_000,
-  maxExistingServerRetries: 3,
 };
 
 // --- globalSetup: path relativo ---
