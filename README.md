@@ -110,54 +110,44 @@ Welcome → Foundations → Components → Patterns → Showcase.
 
 ### Stories de overlays — estado visible por defecto
 
-A partir de la Fase 2, las variantes "Por defecto" de los componentes de overlay
-ahora muestran el componente en estado abierto y con contenido de ejemplo realista,
-para que al abrir la story el usuario vea un ejemplo útil sin necesidad de interactuar:
+Las variantes "Por defecto" de los componentes de overlay muestran contenido
+realista al abrir la story, sin interacción previa:
 
-- **Dialog** — diálogo abierto con acción "Aceptar/Cancelar"
-- **Drawer** — cajón lateral abierto a la derecha
-- **Toast** — región de toasts con mensajes de ejemplo al montar
-- **Menu** — menú de acciones visible
-- **Tooltip** — tooltip mostrado al recibir el foco
+- **Dialog** — "Por defecto / Abierto": diálogo abierto con "Aceptar/Cancelar"
+- **Drawer** — "Por defecto / Abierto": cajón lateral abierto a la derecha
+- **Toast** — "Por defecto / Visible": región con toasts de ejemplo al montar
+- **Menu** — "Por defecto / Abierto": menú abierto con su disparador
+- **Tooltip** — "Por defecto / Visible": tooltip mostrado al recibir el foco
 
-### LevantarHistoire
+### Correr tests e2e
 
-```bash
-pnpm story:dev
-```
-
-El sitio se servirá en `http://127.0.0.1:5179` (o el puerto configurado). Las stories
-de los componentes de overlay deben mostrar contenido visible al instante.
-
-### Correr tests e2E
+Prerequisito: construir el sitio antes (los tests sirven `.histoire/dist`
+con un servidor estático bajo `BASE_PATH`):
 
 ```bash
+pnpm --filter @bench/histoire build
 pnpm --filter @bench/histoire test:e2e
 ```
 
-Prerequisito: asegúrate de haber construido el sitio antes:
+Las rutas son portables (sin paths absolutos de máquina): la configuración
+resuelve todo desde la ubicación de sus propios archivos y respeta las
+variables `BASE_PATH` y `HISTOIRE_ROOT`, así que los tests se pueden ejecutar
+en cualquier máquina sin editar código.
+
+Subconjuntos útiles:
 
 ```bash
-pnpm --filter @bench/histoire build
+pnpm --filter @bench/histoire test:contracts   # contratos públicos tag → story
+pnpm --filter @bench/histoire test:a11y        # auditoría axe por tag (light + dark)
+
+# Matriz completa de perceptibilidad P1–P11 (≈ todas las variantes ×
+# densidad × tema × viewport). Es cara: se ejecuta sólo si se pide.
+PERCEPTIBILITY_MATRIX=1 pnpm --filter @bench/histoire test:e2e perceptibility-matrix.spec.ts
 ```
 
-Los tests validan smoke, contracts, a11y, visual regression y más. Las rutas son
-portables (sin paths absolutos de máquina): la configuración usa variables de
-entorno y paths relativos, por lo que los tests se pueden ejecutar en cualquier
-máquina sin editar files.
-
-Prerequisito: asegúrate de haber construido el sitio antes:
+Los snapshots visuales (`visual.spec.ts`) se regeneran ante cambios
+intencionales de las stories con:
 
 ```bash
-pnpm --filter @bench/histoire build
-```
-
-```bash
-# Levantar Histoire en desarrollo
-pnpm story:dev
-```
-
-Las stories de los componentes de overlay (Dialog, Drawer, Toast, Menu, Tooltip)
-muestran el componente en estado abierto y con contenido de ejemplo al instante,
-sin requerir interacción previa del usuario.
+pnpm --filter @bench/histoire test:e2e visual.spec.ts --update-snapshots
 ```
