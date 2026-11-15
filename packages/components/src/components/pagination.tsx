@@ -39,7 +39,7 @@ export class BchPagination {
       <nav class="bch-pagination" aria-label={this.label}>
         <bch-icon-button
           name="chevron-left"
-          label="Previous page"
+          label="Página anterior"
           size="small"
           disabled={this.page <= 1}
           onBchPress={() => this.goTo(this.page - 1)}
@@ -56,7 +56,7 @@ export class BchPagination {
                   type="button"
                   class={{ 'bch-pagination__page': true, 'is-current': token === this.page }}
                   aria-current={token === this.page ? 'page' : undefined}
-                  aria-label={`Page ${token}`}
+                  aria-label={`Página ${token}`}
                   onClick={() => this.goTo(token)}
                 >
                   {token}
@@ -67,7 +67,7 @@ export class BchPagination {
         </ul>
         <bch-icon-button
           name="chevron-right"
-          label="Next page"
+          label="Página siguiente"
           size="small"
           disabled={this.page >= this.pageCount}
           onBchPress={() => this.goTo(this.page + 1)}

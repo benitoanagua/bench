@@ -1,3 +1,10 @@
+/* El host es inline por defecto: sin esto el hit-area no tiene caja
+   visible (§4.3, el divisor son ~6px de zona de arrastre). */
+bch-splitter,
+:host {
+  display: block;
+}
+
 .bch-splitter {
   /* Hit area (~6px, §4.3); the visual line is a pseudo-element token-colored. */
   inline-size: var(--bch-splitter-hit, 6px);

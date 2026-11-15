@@ -35,6 +35,7 @@
   --bch-color-text: #e8ebee;
   --bch-color-text-muted: #8a94a0;
   --bch-color-text-disabled: color-mix(in srgb, #8a94a0 55%, #0f1417);
+  --bch-color-action-soft-contrast: #8fc0ae;
 
   --bch-color-border-micro: #2a3138;
   --bch-color-border-control: #3d4650;

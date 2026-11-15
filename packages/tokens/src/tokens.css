@@ -6,7 +6,7 @@
   --bch-color-neutral-200: #dfe3e6;
   --bch-color-neutral-300: #c3c9d1;
   --bch-color-neutral-500: #9aa3af;
-  --bch-color-neutral-700: #626c7a;
+  --bch-color-neutral-700: #5d6673;
   --bch-color-neutral-900: #1b2430;
   --bch-color-primary-600: #1f5c4e;
   --bch-color-red-600: #a23b2e;
@@ -49,6 +49,9 @@
   --bch-color-primary-soft: #e3eeea;
   --bch-color-action: var(--bch-color-primary);
   --bch-color-action-soft: var(--bch-color-primary-soft);
+  /* Texto sobre fondo soft: en claro coincide con el color de acento, en
+     oscuro necesita un tono claro para pasar 4.5:1 sobre primary-soft dark. */
+  --bch-color-action-soft-contrast: var(--bch-color-action);
   --bch-color-danger: var(--bch-color-red-600);
   --bch-color-danger-soft: #f5e7e4;
   --bch-color-success: var(--bch-color-green-600);
@@ -276,6 +279,7 @@
 :root {
   --bch-color-action-contrast: #ffffff;
   --bch-color-danger-contrast: #ffffff;
+  --bch-color-success-contrast: #ffffff;
   --bch-focus-ring: 0 0 0 1px var(--bch-color-surface), 0 0 0 3px var(--bch-focus-color);
 }
 

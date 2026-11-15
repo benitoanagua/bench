@@ -115,7 +115,7 @@ export class BchToastRegion {
             </div>
             <bch-icon-button
               name="x"
-              label="Dismiss"
+              label="Descartar"
               size="small"
               onBchPress={() => this.dismiss(t.id)}
             />

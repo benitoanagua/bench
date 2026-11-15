@@ -49,6 +49,7 @@
 }
 .bch-toast--success {
   background: var(--bch-color-success);
+  color: var(--bch-color-success-contrast);
 }
 .bch-toast--warning {
   background: var(--bch-color-warning);
@@ -56,6 +57,7 @@
 }
 .bch-toast--danger {
   background: var(--bch-color-danger);
+  color: var(--bch-color-danger-contrast);
 }
 .bch-toast bch-icon-button {
   flex-shrink: 0;

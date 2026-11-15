@@ -55,7 +55,14 @@
   white-space: nowrap;
 }
 
+/* Visibilidad de los hijos de un nodo: por clase, no por [hidden]. El
+   runtime scoped de Stencil oculta con [hidden] los nodos sloteados al
+   recolocarlos, así que el display se controla aquí para poder reabrirlos. */
 .bch-tree-item__children {
+  display: block;
+}
+
+.bch-tree-item.is-open > bch-tree-item[slot='children'] {
   display: block;
 }
 

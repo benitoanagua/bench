@@ -36,9 +36,26 @@ export class BchTreeItem {
     this.bchSelect.emit(this.value);
   };
 
+  /** Reafirma la visibilidad de los hijos sloteados (ver render). */
+  private syncChildrenVisibility() {
+    const isExpanded = this.hasChildren && this.expanded;
+    for (const child of getDirectChildrenForBench(this.host, 'bch-tree-item')) {
+      child.hidden = !isExpanded;
+    }
+  }
+
+  componentDidUpdate() {
+    this.syncChildrenVisibility();
+  }
+
   render() {
     const hasChildren = this.hasChildren;
     const isExpanded = hasChildren && this.expanded;
+    // El runtime scoped de Stencil oculta con [hidden] los nodos sloteados
+    // al recolocarlos; la visibilidad real de los hijos se reafirma aquí
+    // (los ítems anidados son hijos directos del host, no del contenedor).
+    this.host.classList.toggle('is-open', isExpanded);
+    this.syncChildrenVisibility();
     return (
       <>
         <span
@@ -56,9 +73,8 @@ export class BchTreeItem {
           <span class="bch-tree-item__label">{this.label ? this.label : <slot />}</span>
         </span>
         <div
-          class="bch-tree-item__children"
+          class={{ 'bch-tree-item__children': true, 'is-open': isExpanded }}
           role={hasChildren ? 'group' : undefined}
-          hidden={!isExpanded}
         >
           <slot />
         </div>

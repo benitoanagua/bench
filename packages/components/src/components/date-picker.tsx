@@ -253,7 +253,7 @@ export class BchDatePicker {
           />
           <bch-icon-button
             name="calendar"
-            label="Open calendar"
+            label="Abrir calendario"
             size="small"
             disabled={this.disabled}
             onBchPress={this.toggleCalendar}
@@ -263,7 +263,7 @@ export class BchDatePicker {
           class="bch-date-picker__popup"
           hidden={!this.open}
           role="dialog"
-          aria-label="Choose date"
+          aria-label="Elegir fecha"
           aria-modal="false"
         >
           <div class="bch-date-picker__nav">

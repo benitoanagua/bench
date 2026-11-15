@@ -28,7 +28,7 @@ export class BchAlert {
           </div>
         </div>
         {this.dismissible ? (
-          <bch-icon-button name="x" label="Dismiss" size="small" onBchPress={this.dismiss} />
+          <bch-icon-button name="x" label="Descartar" size="small" onBchPress={this.dismiss} />
         ) : null}
       </section>
     );

@@ -4,7 +4,7 @@
   place-items: center;
   overflow: hidden;
   background: var(--bch-color-action-soft);
-  color: var(--bch-color-action);
+  color: var(--bch-color-action-soft-contrast);
   font-weight: var(--bch-font-weight-semibold);
   flex-shrink: 0;
 }

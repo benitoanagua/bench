@@ -54,6 +54,12 @@
   gap: 1px;
 }
 
+/* `hidden` debe ganar al display:flex de arriba (el runtime alterna el
+   atributo; sin esta regla el listbox "cerrado" sigue ocupando caja). */
+.omnibar-results[hidden] {
+  display: none;
+}
+
 .omnibar-result {
   display: flex;
   align-items: center;
