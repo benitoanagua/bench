@@ -29,7 +29,7 @@
   font-size: var(--bch-type-body-sm-size);
 }
 .bch-file-upload__browse {
-  color: var(--bch-color-action);
+  color: var(--bch-color-action-inline);
   text-decoration: underline;
   font-weight: var(--bch-font-weight-medium);
 }

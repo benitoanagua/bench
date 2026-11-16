@@ -38,7 +38,7 @@
   color: var(--bch-color-text);
 }
 .tab.active {
-  color: var(--bch-color-action);
+  color: var(--bch-color-action-inline);
 }
 .tab.active::after {
   background: var(--bch-color-action);

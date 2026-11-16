@@ -52,6 +52,10 @@
   /* Texto sobre fondo soft: en claro coincide con el color de acento, en
      oscuro necesita un tono claro para pasar 4.5:1 sobre primary-soft dark. */
   --bch-color-action-soft-contrast: var(--bch-color-action);
+  /* Acento usado como texto/contenido (no como relleno de botón): en dark el
+     primario #1f5c4e es ilegible sobre superficies oscuras (~2:1), así que se
+     remapea a un tono claro del mismo matiz (≥7:1 en dark). */
+  --bch-color-action-inline: var(--bch-color-action);
   --bch-color-danger: var(--bch-color-red-600);
   --bch-color-danger-soft: #f5e7e4;
   --bch-color-success: var(--bch-color-green-600);
